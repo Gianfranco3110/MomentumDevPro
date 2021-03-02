@@ -52,6 +52,8 @@ const Page404 = () => import('@/views/pages/Page404')
 const Page500 = () => import('@/views/pages/Page500')
 const Login = () => import('@/views/pages/Login')
 const Register = () => import('@/views/pages/Register')
+const Articulo = () =>import('@/views/pages/Articulo/index')
+
 
 // Users
 const Users = () => import('@/views/users/Users')
@@ -103,6 +105,8 @@ const ShowMenuElement = () => import('@/views/menuElements/ShowMenuElement')
 const DeleteMenuElement = () => import('@/views/menuElements/DeleteMenuElement')
 
 const Media = () => import('@/views/media/Media')
+
+
 
 
 Vue.use(Router)
@@ -826,6 +830,21 @@ function configRoutes () {
     },
     {
       path: '/',
+      redirect: '/Articulo',
+      name: 'Articulo',
+      component: {
+        render (c) { return c('router-view') }
+      },
+      children: [
+        {
+          path: 'Articulo',
+          name: 'Articulo',
+          component: Articulo
+        }
+      ]
+    },
+    {
+      path: '/',
       redirect: '/login',
       name: 'Auth',
       component: {
@@ -848,6 +867,6 @@ function configRoutes () {
       path: '*',
       name: '404',
       component: Page404
-    }
+    },
   ]
 }
