@@ -3,10 +3,8 @@
     <CCol col="12" xl="12">
       <transition name="slide">
       <CCard>
-        <CCardHeader>
-          Products
-          <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="createNote()" class="mb-3">
-            <CIcon :content="$options.freeSet.cilPlus"/> Create Note</CButton>
+        <CCardBody>
+            <CButton color="primary" @click="createNote()">Create Note</CButton>
             <CAlert
               :show.sync="dismissCountDown"
               color="primary"
@@ -14,13 +12,11 @@
             >
               ({{dismissCountDown}}) {{ message }}
             </CAlert>
-        </CCardHeader>
-        <CCardBody>            
             <CDataTable
               hover
               :items="items"
               :fields="fields"
-              :items-per-page="5"
+              :items-per-page="10"
               pagination
             >
               <template #author="{item}">
@@ -55,17 +51,17 @@
               </template>
               <template #show="{item}">
                 <td>
-                  <CButton v-bind:style="{background:'#00909e',color:'#ebedef'}" @click="showNote( item.id )">Show</CButton>
+                  <CButton color="primary" @click="showNote( item.id )">Show</CButton>
                 </td>
               </template>
               <template #edit="{item}">
                 <td>
-                  <CButton v-bind:style="{background:'#dae1e7',color:'#000000'}" @click="editNote( item.id )">Edit</CButton>
+                  <CButton color="primary" @click="editNote( item.id )">Edit</CButton>
                 </td>
               </template>
               <template #delete="{item}">
                 <td>
-                  <CButton v-if="you!=item.id" v-bind:style="{background:'#E01A1A',color:'#ebedef'}" @click="deleteNote( item.id )">Delete</CButton>
+                  <CButton v-if="you!=item.id" color="danger" @click="deleteNote( item.id )">Delete</CButton>
                 </td>
               </template>
             </CDataTable>
@@ -78,11 +74,9 @@
 
 <script>
 import axios from 'axios'
-import { freeSet } from '@coreui/icons'
 
 export default {
   name: 'Notes',
-  freeSet,
   data: () => {
     return {
       items: [],
