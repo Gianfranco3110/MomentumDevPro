@@ -9,7 +9,8 @@ import store from './store'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'sweetalert2/src/sweetalert2.scss'
 import Vuelidate from 'vuelidate';
-
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 Vue.prototype.$apiAdress = 'http://127.0.0.1:8000'
 Vue.config.performance = true
@@ -18,7 +19,7 @@ Vue.use(VueSweetalert2)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(Vuelidate);
-
+Vue.component('loading-overlay', Loading);
 
 new Vue({
   el: '#app',
