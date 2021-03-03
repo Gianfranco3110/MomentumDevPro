@@ -1,88 +1,58 @@
 <template>
   <div>
-    <WidgetsDropdown/>
-    <CCard>
-      <CCardBody>
-        <CRow>
-          <CCol sm="5">
-            <h4 id="traffic" class="card-title mb-0">Traffic</h4>
-            <div class="small text-muted">November 2017</div>
-          </CCol>
-          <CCol sm="7" class="d-none d-md-block">
-            <CButton color="primary" class="float-right">
-              <CIcon name="cil-cloud-download"/>
-            </CButton>
-            <CButtonGroup class="float-right mr-3">
-              <CButton
-                color="outline-secondary"
-                v-for="(value, key) in ['Day', 'Month', 'Year']"
-                :key="key"
-                class="mx-0"
-                :pressed="value === selected ? true : false"
-                @click="selected = value"
-              >
-                {{value}}
-              </CButton>
-            </CButtonGroup>
-          </CCol>
-        </CRow>
-        <MainChartExample style="height:300px;margin-top:40px;"/>
-      </CCardBody>
-      <CCardFooter>
-        <CRow class="text-center">
-          <CCol md sm="12" class="mb-sm-2 mb-0">
-            <div class="text-muted">Visits</div>
-            <strong>29.703 Users (40%)</strong>
-            <CProgress
-              class="progress-xs mt-2"
-              :precision="1"
-              color="success"
-              :value="40"
-            />
-          </CCol>
-          <CCol md sm="12" class="mb-sm-2 mb-0 d-md-down-none">
-            <div class="text-muted">Unique</div>
-            <strong>24.093 Users (20%)</strong>
-            <CProgress
-              class="progress-xs mt-2"
-              :precision="1"
-              color="info"
-              :value="20"
-            />
-          </CCol>
-          <CCol md sm="12" class="mb-sm-2 mb-0">
-            <div class="text-muted">Pageviews</div>
-            <strong>78.706 Views (60%)</strong>
-            <CProgress
-              class="progress-xs mt-2"
-              :precision="1"
-              color="warning"
-              :value="60"
-            />
-          </CCol>
-          <CCol md sm="12" class="mb-sm-2 mb-0">
-            <div class="text-muted">New Users</div>
-            <strong>22.123 Users (80%)</strong>
-            <CProgress
-              class="progress-xs mt-2"
-              :precision="1"
-              color="danger"
-              :value="80"
-            />
-          </CCol>
-          <CCol md sm="12" class="mb-sm-2 mb-0 d-md-down-none">
-            <div class="text-muted">Bounce Rate</div>
-            <strong>Average Rate (40.15%)</strong>
-            <CProgress
-              class="progress-xs mt-2"
-              :precision="1"
-              :value="40"
-            />
-          </CCol>
-        </CRow>
-      </CCardFooter>
-    </CCard>
+        
+      <CCardGroup class="mb-4">
+        <CRow lg="12" style="width:100%">
+        <CCol sm="6" lg="3">
+      <CWidgetProgressIcon
+        header="87.500"
+        text="Visitors"
+        color="info"
+        inverse
+      >
+        <CIcon name="cil-people" height="36"/>
+      </CWidgetProgressIcon>
+      </CCol>
+      <CCol sm="6" lg="3">
+      <CWidgetProgressIcon
+        header="385"
+        text="New Clients"
+        color="success"
+        inverse
+      >
+        <CIcon name="cil-userFollow" height="36"/>
+      </CWidgetProgressIcon>
+      </CCol>
+      <CCol sm="6" lg="3">
+      <CWidgetProgressIcon
+        header="1238"
+        text="Products sold"
+        color="warning"
+        inverse
+      >
+        <CIcon name="cil-basket" height="36"/>
+      </CWidgetProgressIcon>
+      </CCol>
+      <CCol sm="6" lg="3">
+      <CWidgetProgressIcon
+        header="28%"
+        text="Returning Visitors"
+        color="primary"
+        inverse
+      >
+        <CIcon name="cil-chartPie" height="36"/>
+      </CWidgetProgressIcon>
+      </CCol>   
+      </CRow>   
+      </CCardGroup>    
+     
+   <!-- Widget para las notas --> 
+    <Notes/>
+  <!-- Widget para las redes sociales -->
     <WidgetsBrand/>
+  <!-- -------------------------- -->
+<!--
+
     <CRow>
       <CCol md="12">
         <CCard>
@@ -450,6 +420,7 @@
         </CCard>
       </CCol>
     </CRow>
+    -->
   </div>
 </template>
 
@@ -457,13 +428,15 @@
 import MainChartExample from './charts/MainChartExample'
 import WidgetsDropdown from './widgets/WidgetsDropdown'
 import WidgetsBrand from './widgets/WidgetsBrand'
+import Notes from './notes/Notes'
 
 export default {
   name: 'Dashboard',
   components: {
     MainChartExample,
     WidgetsDropdown,
-    WidgetsBrand
+    WidgetsBrand,
+    Notes
   },
   data () {
     return {
