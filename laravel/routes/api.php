@@ -23,6 +23,9 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     Route::resource('notes', 'NotesController');
 
+    Route::get('products/myproducts', 'productsController@showPerUser');
+    Route::resource('products', 'productsController');
+
     Route::resource('resource/{table}/resource', 'ResourceController');
     
     Route::group(['middleware' => 'admin'], function ($router) {

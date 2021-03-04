@@ -4,7 +4,7 @@
       <transition name="slide">
       <CCard>
         <CCardHeader>
-          Products
+          Productsas
           <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="createNote()" class="mb-3">
             <CIcon :content="$options.freeSet.cilPlus"/> Create Note</CButton>
             <CAlert

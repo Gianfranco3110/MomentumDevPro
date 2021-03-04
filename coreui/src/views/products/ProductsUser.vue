@@ -5,7 +5,7 @@
       <CCard>
         <CCardHeader>
           Products of 
-          <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="createNote()" class="mb-3">
+          <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="createProduct()" class="mb-3">
             <CIcon :content="$options.freeSet.cilPlus"/> Create Product</CButton>
             <CAlert
               :show.sync="dismissCountDown"
@@ -23,9 +23,9 @@
               :items-per-page="5"
               pagination
             >
-              <template #author="{item}">
+              <template #image="{item}">
                 <td>
-                  <strong>{{item.author}}</strong>
+                  <strong>{{item.image}}</strong>
                 </td>
               </template>
               <template #title="{item}">
@@ -33,9 +33,9 @@
                   <strong>{{item.title}}</strong>
                 </td>
               </template>
-              <template #content="{item}">
+              <template #description="{item}">
                 <td>
-                  {{item.content}}
+                  {{item.description}}
                 </td>  
               </template>
               <template #applies_to_date="{item}">
@@ -48,24 +48,24 @@
                   <CBadge :color="item.status_class">{{item.status}}</CBadge>
                 </td>
               </template>
-              <template #note_type="{item}">
+              <template #product_type="{item}">
                 <td>
-                  <strong>{{item.note_type}}</strong>
+                  <strong>{{item.product_type}}</strong>
                 </td>
               </template>
               <template #show="{item}">
                 <td>
-                  <CButton v-bind:style="{background:'#00909e',color:'#ebedef'}" @click="showNote( item.id )">Show</CButton>
+                  <CButton v-bind:style="{background:'#00909e',color:'#ebedef'}" @click="showProduct( item.id )">Show</CButton>
                 </td>
               </template>
               <template #edit="{item}">
                 <td>
-                  <CButton v-bind:style="{background:'#dae1e7',color:'#000000'}" @click="editNote( item.id )">Edit</CButton>
+                  <CButton v-bind:style="{background:'#dae1e7',color:'#000000'}" @click="editProduct( item.id )">Edit</CButton>
                 </td>
               </template>
               <template #delete="{item}">
                 <td>
-                  <CButton v-if="you!=item.id" v-bind:style="{background:'#E01A1A',color:'#ebedef'}" @click="deleteNote( item.id )">Delete</CButton>
+                  <CButton v-if="you!=item.id" v-bind:style="{background:'#E01A1A',color:'#ebedef'}" @click="deleteProduct( item.id )">Delete</CButton>
                 </td>
               </template>
             </CDataTable>
@@ -81,7 +81,7 @@ import axios from 'axios'
 import { freeSet } from '@coreui/icons'
 
 export default {
-  name: 'Products',
+  name: 'ProductsUser',
   freeSet,
   data: () => {
     return {
@@ -93,13 +93,13 @@ export default {
         {key: 'content'},
         {key: 'applies_to_date'},
         {key: 'status'},
-        {key: 'note_type'},
+        {key: 'product_type'},
         {key: 'show'},
         {key: 'edit'},
         {key: 'delete'}
       ],
       */
-      fields: ['author', 'title', 'content', 'applies_to_date', 'status', 'note_type', 'show', 'edit', 'delete'],
+      fields: ['title', 'description', 'image', 'applies_to_date', 'status', 'product_type', 'show', 'edit', 'delete'],
       currentPage: 1,
       perPage: 5,
       totalRows: 0,
@@ -117,37 +117,37 @@ export default {
     getRowCount (items) {
       return items.length
     },
-    noteLink (id) {
-      return `notes/${id.toString()}`
+    productLink (id) {
+      return `products/${id.toString()}`
     },
     editLink (id) {
-      return `notes/${id.toString()}/edit`
+      return `products/${id.toString()}/edit`
     },
-    showNote ( id ) {
-      const noteLink = this.noteLink( id );
-      this.$router.push({path: noteLink});
+    showProduct ( id ) {
+      const productLink = this.productLink( id );
+      this.$router.push({path: productLink});
     },
-    editNote ( id ) {
+    editProduct ( id ) {
       const editLink = this.editLink( id );
       this.$router.push({path: editLink});
     },
-    deleteNote ( id ) {
+    deleteProduct ( id ) {
       let self = this;
-      let noteId = id;
-      axios.post(  this.$apiAdress + '/api/notes/' + id + '?token=' + localStorage.getItem("api_token"), {
+      let ProductId = id;
+      axios.post(  this.$apiAdress + '/api/products/' + id + '?token=' + localStorage.getItem("api_token"), {
         _method: 'DELETE'
       })
       .then(function (response) {
-          self.message = 'Successfully deleted note.';
+          self.message = 'Successfully deleted product.';
           self.showAlert();
-          self.getNotes();
+          self.getProducts();
       }).catch(function (error) {
         console.log(error);
         self.$router.push({ path: '/login' });
       });
     },
-    createNote () {
-      this.$router.push({path: 'notes/create'});
+    createProduct () {
+      this.$router.push({path: 'products/create'});
     },
     countDownChanged (dismissCountDown) {
       this.dismissCountDown = dismissCountDown
@@ -155,19 +155,20 @@ export default {
     showAlert () {
       this.dismissCountDown = this.dismissSecs
     },
-    getNotes (){
+    getProducts (){
       let self = this;
-      axios.get(  this.$apiAdress + '/api/notes?token=' + localStorage.getItem("api_token") )
+      axios.get(  this.$apiAdress + '/api/products/myproducts?token=' + localStorage.getItem("api_token") )
       .then(function (response) {
         self.items = response.data;
       }).catch(function (error) {
         console.log(error);
+        console.log('Hubo un error en getProducts()');
         self.$router.push({ path: '/login' });
       });
     }
   },
   mounted: function(){
-    this.getNotes();
+    this.getProducts();
   }
 }
 </script>

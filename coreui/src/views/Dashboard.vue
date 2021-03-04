@@ -47,11 +47,11 @@
       </CCardGroup>    
      
    <!-- Widget para las notas --> 
-    <Notes/>
+    <ProductsUser/>
   <!-- Widget para las redes sociales -->
     <WidgetsBrand/>
   <!-- -------------------------- -->
-<!--
+
 
     <CRow>
       <CCol md="12">
@@ -60,6 +60,7 @@
             Traffic &amp; Sales
           </CCardHeader>
           <CCardBody>
+            <!--
             <CRow>
               <CCol sm="12" lg="6">
                 <CRow>
@@ -350,6 +351,7 @@
               </CCol>
             </CRow>
             <br/>
+            -->
             <CDataTable
               class="mb-0 table-outline"
               hover
@@ -420,23 +422,23 @@
         </CCard>
       </CCol>
     </CRow>
-    -->
+    
   </div>
 </template>
 
 <script>
 import MainChartExample from './charts/MainChartExample'
-import WidgetsDropdown from './widgets/WidgetsDropdown'
 import WidgetsBrand from './widgets/WidgetsBrand'
-import Notes from './notes/Notes'
+import ProductsUser from './products/ProductsUser'
+import Products from './products/Products'
 
 export default {
   name: 'Dashboard',
   components: {
     MainChartExample,
-    WidgetsDropdown,
     WidgetsBrand,
-    Notes
+    ProductsUser,
+    Products
   },
   data () {
     return {
@@ -480,14 +482,6 @@ export default {
           country: { name: 'Spain', flag: 'cif-es' },
           usage: { value: 22, period: 'Jun 11, 2015 - Jul 10, 2015' },
           payment: { name: 'Google Wallet', icon: 'cib-google-pay' },
-          activity: 'Last week'
-        },
-        {
-          avatar: { url: 'img/avatars/6.jpg', status: 'danger' },
-          user: { name: 'Friderik Dávid', new: true, registered: 'Jan 1, 2015' },
-          country: { name: 'Poland', flag: 'cif-pl' },
-          usage: { value: 43, period: 'Jun 11, 2015 - Jul 10, 2015' },
-          payment: { name: 'Amex', icon: 'cib-cc-amex' },
           activity: 'Last week'
         }
       ],
