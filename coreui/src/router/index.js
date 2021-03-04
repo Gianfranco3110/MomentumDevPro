@@ -66,6 +66,13 @@ const Note = () => import('@/views/notes/Note')
 const EditNote = () => import('@/views/notes/EditNote')
 const CreateNote = () => import('@/views/notes/CreateNote')
 
+//Products
+const Products = () => import('@/views/products/Products')
+const ProductsUser = () => import('@/views/products/ProductsUser');
+const Product = () => import('@/views/products/Product')
+const EditProduct = () => import('@/views/products/EditProduct')
+const CreateProduct = () => import('@/views/products/CreateProduct')
+
 //Roles
 const Roles = () => import('@/views/roles/Roles')
 const Role = () => import('@/views/roles/Role')
@@ -368,6 +375,92 @@ function configRoutes () {
               meta: { label: 'Edit Note' },
               name: 'Edit Note',
               component: EditNote,
+              meta:{
+                requiresUser: true
+              }
+            },
+          ]
+        },
+        {
+          path: 'products/myproducts',
+          meta: { label: 'Products'},
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: '',
+              component: ProductsUser,
+              meta:{
+                requiresUser: true
+              }
+            },             
+            {
+              path: 'create',
+              meta: { label: 'Create Product' },
+              name: 'Create Product',
+              component: CreateProduct,
+              meta:{
+                requiresUser: true
+              }
+            },
+            {
+              path: ':id',
+              meta: { label: 'Product Details'},
+              name: 'Product',
+              component: Product,
+              meta:{
+                requiresUser: true
+              }
+            },
+            {
+              path: ':id/edit',
+              meta: { label: 'Edit Product' },
+              name: 'Edit Product',
+              component: EditProduct,
+              meta:{
+                requiresUser: true
+              }
+            },
+          ]
+        },        
+        {
+          path: 'products',
+          meta: { label: 'Products'},
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: '',
+              component: Products,
+              meta:{
+                requiresUser: true
+              }
+            },             
+            {
+              path: 'create',
+              meta: { label: 'Create Product' },
+              name: 'Create Product',
+              component: CreateProduct,
+              meta:{
+                requiresUser: true
+              }
+            },
+            {
+              path: ':id',
+              meta: { label: 'Product Details'},
+              name: 'Product',
+              component: Product,
+              meta:{
+                requiresUser: true
+              }
+            },
+            {
+              path: ':id/edit',
+              meta: { label: 'Edit Product' },
+              name: 'Edit Product',
+              component: EditProduct,
               meta:{
                 requiresUser: true
               }
