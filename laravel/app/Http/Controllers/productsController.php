@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Products;
+use App\Models\Product;
 use App\Models\Status;
 
 class productsController extends Controller
@@ -16,7 +16,7 @@ class productsController extends Controller
      */
     public function index()
     {
-        $products = Products::join('users', 'users.id', '=', 'products.users_id')
+        $products = DB::table('products')->join('users', 'users.id', '=', 'products.users_id')
         ->join('status', 'status.id', '=', 'products.status_id')
         ->select('products.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
         ->get();
@@ -30,7 +30,7 @@ class productsController extends Controller
      */
     public function create()
     {        
-        $statuses = Status::select('status.name as label', 'status.id as value')->get();
+        $statuses = DB::table('status')->select('status.name as label', 'status.id as value')->get();
         return response()->json( $statuses );
     }
 
@@ -45,19 +45,28 @@ class productsController extends Controller
         $validatedData = $request->validate([
             'title'             => 'required|min:1|max:64',
             'description'           => 'required|max:1024',
-            'status_id'         => 'required',
-            'applies_to_date'   => 'required|date_format:Y-m-d',
             'product_type'         => 'required|max:64'
         ]);
         $user = auth()->userOrFail();
-        $product = new Products();
-        $product->title     = $request->input('title');
+        DB::table('products')->insert([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'status_id' => intval($request->input('status_id')),
+            'product_type' => $request->input('product_type'),
+            'users_id' => $user->id,
+            'applies_to_date' => date('d-m-y'),
+            'image' => $request->input('image')
+        ]);
+        
+        /* Comente este codigo porque de esta forma produce un error 500
+         $product = new Product();
+        $product->title= $request->input('title');
         $product->description   = $request->input('description');
-        $product->status_id = $request->input('status_id');
+        $product->status_id = intval($request->input('status_id'));
         $product->product_type = $request->input('product_type');
-        $product->applies_to_date = $request->input('applies_to_date');
+        $product->applies_to_date = date('d-m-y');
         $product->users_id = $user->id;
-        $product->save();
+        $product->save();*/
         return response()->json( ['status' => 'success'] );
     }
 
@@ -69,7 +78,7 @@ class productsController extends Controller
      */
     public function show($id)
     {
-        $product=Products::join('users', 'users.id', '=', 'products.users_id')
+        $product= DB::table('products')->join('users', 'users.id', '=', 'products.users_id')
         ->join('status', 'status.id', '=', 'products.status_id')
         ->select('products.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
         ->where('products.id', '=', $id)
@@ -80,8 +89,21 @@ class productsController extends Controller
     public function showPerUser()
     {
         $user = auth()->userOrFail();
-        $products = DB::table('products')->where('users_id',$user->id)->get();
+        $products = DB::table('products')->join('status','status.id','=','products.status_id')
+        ->select('products.*','status.name as status', 'status.class as status_class')
+        ->where('users_id',$user->id)->where('exist','=',0)->get();
         return response()->json( $products );
+    }
+
+    public function deleteProduct($id){
+
+        $product= DB::table('products')->find($id);
+
+        if($product){
+            $product->exist = 1;
+            $product->save();
+        }
+        return response()->json( ['status' => 'success'] );
     }
 
     /**
@@ -92,8 +114,8 @@ class productsController extends Controller
      */
     public function edit($id)
     {
-        $product=Products::where('id', '=', $id)->first();        
-        $statuses = Status::select('status.name as label', 'status.id as value')->get();
+        $product=DB::table('products')->where('id', '=', $id)->first();        
+        $statuses = DB::table('status')->select('status.name as label', 'status.id as value')->get();
 
         return response()->json( [ 'statuses' => $statuses, 'product' => $product ] );
     }
@@ -114,13 +136,13 @@ class productsController extends Controller
             'applies_to_date'   => 'required|date_format:Y-m-d',
             'product_type'         => 'required|max:64'
         ]);
-        $product = Products::find($id);
-        $product->title     = $request->input('title');
-        $product->description   = $request->input('description');
-        $product->status_id = $request->input('status_id');
-        $product->product_type = $request->input('product_type');
+
+        $product = Product::find($id);
+        $product->title           = $request->input('title');
+        $product->description     = $request->input('description');
+        $product->status_id       = $request->input('status_id');
+        $product->product_type    = $request->input('product_type');
         $product->applies_to_date = $request->input('applies_to_date');
-        $product->users_id = $user->id;
         $product->save();
         return response()->json( ['status' => 'success'] );
     }
@@ -133,7 +155,7 @@ class productsController extends Controller
      */
     public function destroy($id)
     {
-        $product = Products::find($id);
+        $product = DB::table('products')->find($id);
         if($product){
             $product->delete();
         }

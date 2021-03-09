@@ -4,7 +4,7 @@
       <transition name="slide">
       <CCard>
         <CCardHeader>
-          Products of 
+          My products
           <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="createProduct()" class="mb-3">
             <CIcon :content="$options.freeSet.cilPlus"/> Create Product</CButton>
             <CAlert
@@ -134,8 +134,8 @@ export default {
     deleteProduct ( id ) {
       let self = this;
       let ProductId = id;
-      axios.post(  this.$apiAdress + '/api/products/' + id + '?token=' + localStorage.getItem("api_token"), {
-        _method: 'DELETE'
+      axios.post(  this.$apiAdress + '/api/products/eliminate/' + id + '?token=' + localStorage.getItem("api_token"), {
+        _method: 'PUT'
       })
       .then(function (response) {
           self.message = 'Successfully deleted product.';
@@ -143,7 +143,7 @@ export default {
           self.getProducts();
       }).catch(function (error) {
         console.log(error);
-        self.$router.push({ path: '/login' });
+        //self.$router.push({ path: '/login' });
       });
     },
     createProduct () {
@@ -162,7 +162,6 @@ export default {
         self.items = response.data;
       }).catch(function (error) {
         console.log(error);
-        console.log('Hubo un error en getProducts()');
         self.$router.push({ path: '/login' });
       });
     }

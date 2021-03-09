@@ -101,8 +101,7 @@ export default {
     },
     login() {
       this.Loading = true;
-      let self = this;
-      die();
+      let self = this;      
       axios
         .post(this.$apiAdress + "/api/login", {
           email: self.email,
@@ -113,6 +112,8 @@ export default {
           self.password = "";
           localStorage.setItem("api_token", response.data.access_token);
           localStorage.setItem("roles", response.data.roles);
+          localStorage.setItem("email", response.data.email);
+          console.log(response.data);
           self.$router.push({ path: "dashboard" });
         })
         .catch(function(error) {

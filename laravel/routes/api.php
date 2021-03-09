@@ -23,6 +23,7 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     Route::resource('notes', 'NotesController');
 
+    Route::put('products/eliminate/{product}','productsController@deleteProduct');
     Route::get('products/myproducts', 'productsController@showPerUser');
     Route::resource('products', 'productsController');
 

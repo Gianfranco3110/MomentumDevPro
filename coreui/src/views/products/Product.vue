@@ -3,23 +3,12 @@
     <CCol col="12" lg="6">
       <CCard no-header>
         <CCardBody>
-          <h3>Note id:  {{ $route.params.id }}</h3>
+          <h3>{{ product.title }}</h3>
 
-          <h4>Author:</h4>
-          <p>{{ note.author }}</p>
-          <h4>Title:</h4>
-          <p>{{ note.title }}</p>
-          <h4>Content:</h4> 
-          <p>{{ note.content }}</p>
-          <h4>Applies to date:</h4> 
-          <p>{{ note.applies_to_date }}</p>
-          <h4>Status: </h4>
-          <p>
-              <CBadge :color="note.status_class">{{note.status}}</CBadge>
-          </p>
-          <h4>Note type:</h4>
-          <p>{{ note.note_type }}</p>
-
+          <h4>Description: {{ product.description }}</h4>
+          <h4>Applies to date: {{ product.applies_to_date }}</h4>           
+          <h4>Status: <CBadge :color="product.status_class">{{product.status}}</CBadge></h4>          
+          <h4>Product Type: {{ product.product_type }}</h4>
           <CButton color="primary" @click="goBack">Back</CButton>
         </CCardBody>
       </CCard>
@@ -39,7 +28,7 @@ export default {
   },
   data: () => {
     return {
-      note: [],
+      product: [],
     }
   },
   methods: {
@@ -50,9 +39,9 @@ export default {
   },
   mounted: function(){
     let self = this;
-    axios.get(  this.$apiAdress + '/api/notes/' + self.$route.params.id + '?token=' + localStorage.getItem("api_token"))
+    axios.get(  this.$apiAdress + '/api/products/' + self.$route.params.id + '?token=' + localStorage.getItem("api_token"))
     .then(function (response) {
-      self.note = response.data;
+      self.product = response.data;
     }).catch(function (error) {
       console.log(error);
       self.$router.push({ path: '/login' });

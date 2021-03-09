@@ -4,7 +4,7 @@
       <CCard no-header>
         <CCardBody>
           <h3>
-            Create Product
+            Create New Product
           </h3>
           <CAlert
             :show.sync="dismissCountDown"
@@ -14,20 +14,18 @@
             ({{dismissCountDown}}) {{ message }}
           </CAlert>
 
-            <CInput label="Title" type="text" placeholder="Title" v-model="note.title"></CInput>
+            <CInput label="Title" type="text" placeholder="Title" v-model="product.title"></CInput>
 
-            <CInput textarea="true" label="Content" :rows="9" placeholder="Content.." v-model="note.content"></CInput>
-
-            <CInput label="Applies to date" type="date" v-model="note.applies_to_date"></CInput>
+            <CInput textarea="true" label="Description" :rows="9" placeholder="Description.." v-model="product.description"></CInput>
 
             <CSelect
               label="Status" 
-              :value.sync="note.status_id"
+              :value.sync="product.status_id"
               :plain="true"
               :options="statuses"
             >
             </CSelect>
-            <CInput label="Product type" type="text" v-model="note.note_type"></CInput>
+            <CInput label="Product type" type="text" v-model="product.product_type"></CInput>
 
           <CButton color="primary" @click="store()">Create</CButton>
           <CButton color="primary" @click="goBack">Back</CButton>
@@ -40,7 +38,7 @@
 <script>
 import axios from 'axios'
 export default {
-  name: 'EditUser',
+  name: 'CreateProduct',
   props: {
     caption: {
       type: String,
@@ -49,12 +47,12 @@ export default {
   },
   data: () => {
     return {
-        note: {
+        product: {
           title: '',
-          content: '',
-          applies_to_date: '',
-          status_id: null,
-          note_type: '',
+          description: '',
+          status_id: 1,
+          product_type: '',
+          image:'ejemplo.png',
         },
         statuses: [],
         message: '',
@@ -70,18 +68,17 @@ export default {
     },
     store() {
         let self = this;
-        axios.post(  this.$apiAdress + '/api/notes?token=' + localStorage.getItem("api_token"),
-          self.note
-        )
+        axios.post(  this.$apiAdress + '/api/products?token=' + localStorage.getItem("api_token"),
+          self.product)
         .then(function (response) {
-            self.note = {
+            self.product = {
               title: '',
-              content: '',
-              applies_to_date: '',
+              description: '',
               status_id: null,
-              note_type: '',
+              product_type: '',
+              image: '',
             };
-            self.message = 'Successfully created note.';
+            self.message = 'Successfully created product.';
             self.showAlert();
         }).catch(function (error) {
             if(error.response.data.message == 'The given data was invalid.'){
@@ -94,7 +91,7 @@ export default {
               self.showAlert();
             }else{
               console.log(error);
-              self.$router.push({ path: 'login' }); 
+              //self.$router.push({ path: 'login' }); 
             }
         });
     },
@@ -107,12 +104,12 @@ export default {
   },
   mounted: function(){
     let self = this;
-    axios.get(  this.$apiAdress + '/api/notes/create?token=' + localStorage.getItem("api_token"))
+    axios.get(  this.$apiAdress + '/api/products/create?token=' + localStorage.getItem("api_token"))
     .then(function (response) {
         self.statuses = response.data;
     }).catch(function (error) {
         console.log(error);
-        self.$router.push({ path: 'login' });
+        //self.$router.push({ path: 'login' });
     });
   }
 }

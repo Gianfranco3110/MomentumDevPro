@@ -7,7 +7,8 @@
   >
     <template #toggler>
       <CHeaderNavLink>
-        <div class="c-avatar">
+        <p class="mt-3">{{ email }}</p>
+        <div class="c-avatar ml-2">
           <img
             src="img/avatars/6.jpg"
             class="c-avatar-img "
@@ -72,6 +73,7 @@ export default {
   data () {
     return { 
       itemsCount: 42,
+      email:'',
     }
   },
   methods:{
@@ -85,6 +87,11 @@ export default {
         console.log(error); 
       });
     }
+  },
+
+  mounted: function(){
+    let self = this;
+    self.email = localStorage.getItem("email");
   }
 }
 </script>

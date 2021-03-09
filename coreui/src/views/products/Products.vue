@@ -85,20 +85,7 @@ export default {
   freeSet,
   data: () => {
     return {
-      items: [],
-      /*
-      fields: [
-        {key: 'author'},
-        {key: 'title'},
-        {key: 'content'},
-        {key: 'applies_to_date'},
-        {key: 'status'},
-        {key: 'note_type'},
-        {key: 'show'},
-        {key: 'edit'},
-        {key: 'delete'}
-      ],
-      */
+      items: [],      
       fields: ['author', 'title', 'content', 'applies_to_date', 'status', 'note_type', 'show', 'edit', 'delete'],
       currentPage: 1,
       perPage: 5,
@@ -117,21 +104,21 @@ export default {
     getRowCount (items) {
       return items.length
     },
-    noteLink (id) {
-      return `notes/${id.toString()}`
+    ProductLink (id) {
+      return `products/${id.toString()}`
     },
     editLink (id) {
-      return `notes/${id.toString()}/edit`
+      return `products/${id.toString()}/edit`
     },
-    showNote ( id ) {
-      const noteLink = this.noteLink( id );
-      this.$router.push({path: noteLink});
+    showProduct ( id ) {
+      const productLink = this.productLink( id );
+      this.$router.push({path: productLink});
     },
-    editNote ( id ) {
+    editProduct ( id ) {
       const editLink = this.editLink( id );
       this.$router.push({path: editLink});
     },
-    deleteNote ( id ) {
+    deleteProduct ( id ) {
       let self = this;
       let noteId = id;
       axios.post(  this.$apiAdress + '/api/notes/' + id + '?token=' + localStorage.getItem("api_token"), {
@@ -146,8 +133,8 @@ export default {
         self.$router.push({ path: '/login' });
       });
     },
-    createNote () {
-      this.$router.push({path: 'notes/create'});
+    createProduct () {
+      this.$router.push({path: 'products/create'});
     },
     countDownChanged (dismissCountDown) {
       this.dismissCountDown = dismissCountDown
@@ -155,9 +142,9 @@ export default {
     showAlert () {
       this.dismissCountDown = this.dismissSecs
     },
-    getNotes (){
+    getProducts (){
       let self = this;
-      axios.get(  this.$apiAdress + '/api/notes?token=' + localStorage.getItem("api_token") )
+      axios.get(  this.$apiAdress + '/api/products?token=' + localStorage.getItem("api_token") )
       .then(function (response) {
         self.items = response.data;
       }).catch(function (error) {
@@ -167,7 +154,7 @@ export default {
     }
   },
   mounted: function(){
-    this.getNotes();
+    this.getProducts();
   }
 }
 </script>
