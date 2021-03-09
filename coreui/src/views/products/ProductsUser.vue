@@ -4,7 +4,7 @@
       <transition name="slide">
       <CCard>
         <CCardHeader>
-          Products of 
+          My products
           <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="createProduct()" class="mb-3">
             <CIcon :content="$options.freeSet.cilPlus"/> Create Product</CButton>
             <CAlert
@@ -16,18 +16,41 @@
             </CAlert>
         </CCardHeader>
         <CCardBody>
+          <CRow>
+            <template>
+            <CCol md="4" v-for="(item, index) in items" :key="index">
+                <div class="card" style="width: 18rem;">
+                  <img src="#" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+
+                  <div class="card-body">
+                    <h5 class="card-title">{{item.title}} <CBadge :color="item.status_class">{{item.status}}</CBadge></h5>
+                    <p class="card-text">{{item.description}}</p>
+                     <CButton @click="collapse = !collapse" color="primary">
+                      Nivel 2
+                    </CButton>
+                    <CCollapse :show="collapse" class="mt-2">
+                      <CCard body-wrapper>
+                        <CCardText>Description</CCardText>         
+                        
+                      </CCard>
+                    </CCollapse>
+                    <CRow class="mt-2">
+                      <CCol>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                      </CCol>
+                    </CRow>
+                  </div>
+                </div>
+            </CCol>
+            </template>                  
+          </CRow>
             <CDataTable
               hover
               :items="items"
               :fields="fields"
               :items-per-page="5"
               pagination
-            >
-              <template #image="{item}">
-                <td>
-                  <strong>{{item.image}}</strong>
-                </td>
-              </template>
+            >              
               <template #title="{item}">
                 <td>
                   <strong>{{item.title}}</strong>
@@ -37,6 +60,11 @@
                 <td>
                   {{item.description}}
                 </td>  
+              </template>
+              <template #image="{item}">
+                <td>
+                  <strong>{{item.image}}</strong>
+                </td>
               </template>
               <template #applies_to_date="{item}">
                 <td>
@@ -85,20 +113,10 @@ export default {
   freeSet,
   data: () => {
     return {
-      items: [],
-      /*
-      fields: [
-        {key: 'author'},
-        {key: 'title'},
-        {key: 'content'},
-        {key: 'applies_to_date'},
-        {key: 'status'},
-        {key: 'product_type'},
-        {key: 'show'},
-        {key: 'edit'},
-        {key: 'delete'}
-      ],
-      */
+      collapse: false,
+      cardCollapse: true,
+      innerCollapse: false,
+      items: [],      
       fields: ['title', 'description', 'image', 'applies_to_date', 'status', 'product_type', 'show', 'edit', 'delete'],
       currentPage: 1,
       perPage: 5,
@@ -134,8 +152,8 @@ export default {
     deleteProduct ( id ) {
       let self = this;
       let ProductId = id;
-      axios.post(  this.$apiAdress + '/api/products/' + id + '?token=' + localStorage.getItem("api_token"), {
-        _method: 'DELETE'
+      axios.post(  this.$apiAdress + '/api/products/eliminate/' + id + '?token=' + localStorage.getItem("api_token"), {
+        _method: 'PUT'
       })
       .then(function (response) {
           self.message = 'Successfully deleted product.';
@@ -143,7 +161,7 @@ export default {
           self.getProducts();
       }).catch(function (error) {
         console.log(error);
-        self.$router.push({ path: '/login' });
+        //self.$router.push({ path: '/login' });
       });
     },
     createProduct () {
@@ -162,7 +180,6 @@ export default {
         self.items = response.data;
       }).catch(function (error) {
         console.log(error);
-        console.log('Hubo un error en getProducts()');
         self.$router.push({ path: '/login' });
       });
     }

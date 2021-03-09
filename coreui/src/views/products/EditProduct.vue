@@ -4,7 +4,7 @@
       <CCard>
         <CCardBody>
           <h3>
-            Edit Note id:  {{ $route.params.id }}
+            Edit Product:  {{ product.title }}
           </h3>
           <CAlert
             :show.sync="dismissCountDown"
@@ -13,22 +13,22 @@
           >
             ({{dismissCountDown}}) {{ message }}
           </CAlert>
-            <CInput label="Title" type="text" placeholder="Title" v-model="note.title"/>
+            <CInput label="Title" type="text" placeholder="Title" v-model="product.title"/>
             <CInput
               label="Content"
               placeholder="Content.."
               
               textarea="true"
               rows="9"
-              v-model="note.content"
+              v-model="product.description"
             />
-            <CInput label="Applies to date" type="date" v-model="note.applies_to_date"/>
+            <CInput label="Applies to date" type="date" v-model="product.applies_to_date"/>
             <CSelect 
-              :value.sync="note.status_id"
+              :value.sync="product.status_id"
               :options="statuses"
               label="Status"
             />
-            <CInput label="Note type" type="text" v-model="note.note_type"/>
+            <CInput label="Product type" type="text" v-model="product.product_type"/>
           <CButton color="primary" @click="update()">Save</CButton>
           <CButton color="primary" @click="goBack">Back</CButton>
         </CCardBody>
@@ -40,21 +40,21 @@
 <script>
 import axios from 'axios'
 export default {
-  name: 'EditUser',
+  name: 'EditProduct',
   props: {
     caption: {
       type: String,
-      default: 'User id'
+      default: 'Product id'
     },
   },
   data: () => {
     return {
-        note: {
+        product: {
           title: '',
-          content: '',
+          description: '',
           applies_to_date: '',
           status_id: null,
-          note_type: '',
+          product_type: '',
         },
         statuses: [],
         message: '',
@@ -69,17 +69,17 @@ export default {
     },
     update() {
         let self = this;
-        axios.post(  this.$apiAdress + '/api/notes/' + self.$route.params.id + '?token=' + localStorage.getItem("api_token"),
+        axios.post(  this.$apiAdress + '/api/products/' + self.$route.params.id + '?token=' + localStorage.getItem("api_token"),
         {
             _method: 'PUT',
-            title:            self.note.title,
-            content:          self.note.content,
-            applies_to_date:  self.note.applies_to_date,
-            status_id:        self.note.status_id,
-            note_type:        self.note.note_type
+            title:            self.product.title,
+            description:          self.product.description,
+            applies_to_date:  self.product.applies_to_date,
+            status_id:        self.product.status_id,
+            product_type:        self.product.product_type
         })
         .then(function (response) {
-            self.message = 'Successfully updated note.';
+            self.message = 'Successfully updated product.';
             self.showAlert();
         }).catch(function (error) {
             if(error.response.data.message == 'The given data was invalid.'){
@@ -92,7 +92,7 @@ export default {
               self.showAlert();
             }else{
               console.log(error); 
-              self.$router.push({ path: '/login' }); 
+              //self.$router.push({ path: '/login' }); 
             }
         });
     },
@@ -102,13 +102,13 @@ export default {
   },
   mounted: function(){
     let self = this;
-    axios.get(  this.$apiAdress + '/api/notes/' + self.$route.params.id + '/edit?token=' + localStorage.getItem("api_token"))
+    axios.get(  this.$apiAdress + '/api/products/' + self.$route.params.id + '/edit?token=' + localStorage.getItem("api_token"))
     .then(function (response) {
-        self.note = response.data.note;
+        self.product = response.data.product;
         self.statuses = response.data.statuses;
     }).catch(function (error) {
         console.log(error);
-        self.$router.push({ path: '/login' });
+        //self.$router.push({ path: '/login' });
     });
   }
 }

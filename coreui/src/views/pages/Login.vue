@@ -112,6 +112,9 @@ export default {
           self.password = "";
           localStorage.setItem("api_token", response.data.access_token);
           localStorage.setItem("roles", response.data.roles);
+          localStorage.setItem("email", response.data.email);
+          localStorage.setItem("name", response.data.name);
+          console.log(response.data);
           self.$router.push({ path: "dashboard" });
         })
         .catch(function(error) {
