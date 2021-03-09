@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="img">
     <loading-overlay
       :active="Loading"
       :is-full-page="true"
@@ -102,7 +102,6 @@ export default {
     login() {
       this.Loading = true;
       let self = this;
-      die();
       axios
         .post(this.$apiAdress + "/api/login", {
           email: self.email,
@@ -125,3 +124,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.img {
+  background: url("../../../public/Login.jpg");
+}
+</style>
