@@ -92,7 +92,7 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token, $email)
     {
-        $user = User::select('menuroles as roles')->where('email', '=', $email)->first();
+        $user = User::select('users.*','menuroles as roles')->where('email', '=', $email)->first();
 
         return response()->json([
             'access_token' => $token,
@@ -100,6 +100,7 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60,
             'roles' => $user->roles,
             'email' => $email,
+            'name' => $user->name,            
         ]);
     }
 }

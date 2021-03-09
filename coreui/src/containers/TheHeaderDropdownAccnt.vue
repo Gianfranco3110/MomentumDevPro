@@ -7,7 +7,7 @@
   >
     <template #toggler>
       <CHeaderNavLink>
-        <p class="mt-3">{{ email }}</p>
+        <p class="mt-3">{{ userName }}</p>
         <div class="c-avatar ml-2">
           <img
             src="img/avatars/6.jpg"
@@ -73,7 +73,8 @@ export default {
   data () {
     return { 
       itemsCount: 42,
-      email:'',
+      userEmail: '',
+      userName: '',
     }
   },
   methods:{
@@ -82,6 +83,8 @@ export default {
       axios.post(this.$apiAdress + '/api/logout?token=' + localStorage.getItem("api_token"),{})
       .then(function (response) {
         localStorage.setItem('roles', '');
+        localStorage.setItem('email', '');
+        localStorage.setItem("name", '');
         self.$router.push({ path: '/login' });
       }).catch(function (error) {
         console.log(error); 
@@ -91,7 +94,8 @@ export default {
 
   mounted: function(){
     let self = this;
-    self.email = localStorage.getItem("email");
+    self.userEmail = localStorage.getItem("email");
+    self.userName = localStorage.getItem("name");
   }
 }
 </script>
