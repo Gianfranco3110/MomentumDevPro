@@ -4,7 +4,7 @@
       <transition name="slide">
       <CCard>
         <CCardHeader>
-          My products
+          My courses
           <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="createProduct()" class="mb-3">
             <CIcon :content="$options.freeSet.cilPlus"/> Create Product</CButton>
             <CAlert
@@ -157,6 +157,7 @@ export default {
       })
       .then(function (response) {
           self.message = 'Successfully deleted product.';
+          console.log('Producto eliminado')
           self.showAlert();
           self.getProducts();
       }).catch(function (error) {

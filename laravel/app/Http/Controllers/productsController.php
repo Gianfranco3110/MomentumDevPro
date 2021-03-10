@@ -97,7 +97,7 @@ class productsController extends Controller
 
     public function deleteProduct($id){
 
-        $product= DB::table('products')->find($id);
+        $product = Product::find($id);
 
         if($product){
             $product->exist = 1;
