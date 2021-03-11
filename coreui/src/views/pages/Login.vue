@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="img">
     <loading-overlay
       :active="Loading"
       :is-full-page="true"
@@ -101,7 +101,7 @@ export default {
     },
     login() {
       this.Loading = true;
-      let self = this;      
+      let self = this;
       axios
         .post(this.$apiAdress + "/api/login", {
           email: self.email,
@@ -113,7 +113,7 @@ export default {
           localStorage.setItem("api_token", response.data.access_token);
           localStorage.setItem("roles", response.data.roles);
           localStorage.setItem("email", response.data.email);
-          localStorage.setItem("name",response.data.name);
+          localStorage.setItem("name", response.data.name);
           console.log(response.data);
           self.$router.push({ path: "dashboard" });
         })
@@ -127,3 +127,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.img {
+  background: url("../../../public/Login.jpg");
+}
+</style>
