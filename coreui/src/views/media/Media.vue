@@ -19,11 +19,7 @@
 
             <CIcon :content="$options.plusIcon"/>
             <CIcon :content="$options.fileIcon"/>
-            <CInputFile
-                type="file"
-                v-on:change="handleFileUpload"
-                placeholder="New file"
-            />
+            <CInputFile type="file" v-on:change="handleFileUpload" placeholder="New file"/>
 
               <CDataTable
                 hover
@@ -538,21 +534,21 @@ export default {
                 'Content-Type': 'multipart/form-data'
             }}
         ).then(function(){
-            self.getFoldersAndFiles(self.thisFolder)
+            self.getFoldersAndFiles(self.thisFolder);
         })
         .catch(function(error){
-            console.log(error)
-            self.$router.push({ path: '/login' })
+            console.log(error);
+            self.$router.push({ path: '/login' });
         });
     },
     addFolder(){
         let self = this;
         axios.get(  this.$apiAdress + '/api/media/folder/store?thisFolder=' + self.thisFolder + '&token=' + localStorage.getItem("api_token"))
         .then(function (response) {
-            self.getFoldersAndFiles(self.thisFolder)
+            self.getFoldersAndFiles(self.thisFolder);
         }).catch(function (error) {
-            console.log(error)
-            self.$router.push({ path: '/login' })
+            console.log(error);
+            self.$router.push({ path: '/login' });
         });
     },
     buildItems(){
@@ -578,20 +574,20 @@ export default {
         let self = this;
         axios.get(  this.$apiAdress + '/api/media?id=' + folderId + '&token=' + localStorage.getItem("api_token"))
         .then(function (response) {
-            self.medias         = response.data.medias
-            self.mediaFolders   = response.data.mediaFolders
-            self.thisFolder     = response.data.thisFolder
-            self.parentFolder   = response.data.parentFolder
-            self.buildItems()
-            self.rightCard = 'fileInfo'
+            self.medias         = response.data.medias;
+            self.mediaFolders   = response.data.mediaFolders;
+            self.thisFolder     = response.data.thisFolder;
+            self.parentFolder   = response.data.parentFolder;
+            self.buildItems();
+            self.rightCard = 'fileInfo';
         }).catch(function (error) {
-            console.log(error)
-            self.$router.push({ path: '/login' })
+            console.log(error);
+            //self.$router.push({ path: '/login' })
         });
     }
   },
   mounted () {
-    this.getFoldersAndFiles('')
+    this.getFoldersAndFiles('');
     document.getElementById('cropp-img-img').addEventListener('load', this.updateCroppImage );
   }
 }

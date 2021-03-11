@@ -25,10 +25,12 @@
               :options="statuses"
             >
             </CSelect>
-            <CInput label="Product type" type="text" v-model="product.product_type"></CInput>
+            <CInput label="Product type" type="text" v-model="product.product_type"></CInput>            
+            <input type="file" @change="getImage" name="image" id="image" accept="image/*" placeholder="Course picture"/>
 
-          <CButton color="primary" @click="store()">Create</CButton>
+          <CButton color="primary" @click.prevent="uploadImage">Create</CButton>
           <CButton color="primary" @click="goBack">Back</CButton>
+          
         </CCardBody>
       </CCard>
     </CCol>
@@ -37,7 +39,8 @@
 
 <script>
 import axios from 'axios'
-export default {
+
+export default {  
   name: 'CreateProduct',
   props: {
     caption: {
@@ -52,13 +55,14 @@ export default {
           description: '',
           status_id: 1,
           product_type: '',
-          image:'ejemplo.png',
+          imagePath: '',
         },
         statuses: [],
         message: '',
         dismissSecs: 7,
         dismissCountDown: 0,
-        showDismissibleAlert: false
+        showDismissibleAlert: false,
+        image: null,
     }
   },
   methods: {
@@ -66,8 +70,30 @@ export default {
       this.$router.go(-1)
       // this.$router.replace({path: '/users'})
     },
-    store() {
+    getImage(event){
+                //Asignamos la imagen a  nuestra data
+                this.image = event.target.files[0];
+            },
+    uploadImage(){
         let self = this;
+        let formData = new FormData();
+        formData.append('image', self.image);
+        axios.post(   this.$apiAdress + '/api/products/image/store?token=' + localStorage.getItem("api_token"),
+            formData,
+            { headers: {
+                'Content-Type': 'multipart/form-data'
+            }}
+        ).then(function(response){
+            self.product.imagePath = response.data.path;
+            self.createUser();
+        })
+        .catch(function(error){
+            console.log(error);
+            //self.$router.push({ path: '/login' });
+        });
+    },
+    createUser() {
+        let self = this;               
         axios.post(  this.$apiAdress + '/api/products?token=' + localStorage.getItem("api_token"),
           self.product)
         .then(function (response) {
@@ -76,7 +102,7 @@ export default {
               description: '',
               status_id: null,
               product_type: '',
-              image: '',
+              imagePath:'',
             };
             self.message = 'Successfully created product.';
             self.showAlert();

@@ -157,7 +157,7 @@ export default {
       })
       .then(function (response) {
           self.message = 'Successfully deleted product.';
-          console.log('Producto eliminado')
+          console.log('Producto eliminado');
           self.showAlert();
           self.getProducts();
       }).catch(function (error) {

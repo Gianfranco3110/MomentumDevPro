@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use App\Models\Product;
 use App\Models\Status;
 
@@ -40,12 +42,29 @@ class productsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function uploadImage(Request $request){
+       $validate = request()->validate([
+            'image'          => "required"
+        ]);
+
+        if($request->hasFile('image')){
+            $image_path = $request->file('image');
+            $image_path_name = time().$image_path->getClientOriginalName();
+			Storage::disk('local')->put($image_path_name, File::get($image_path));
+            return response()->json(['path' => $image_path_name]); 
+        }
+        return response()->json(['path' => 'error']); 
+
+    }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
             'title'             => 'required|min:1|max:64',
             'description'           => 'required|max:1024',
-            'product_type'         => 'required|max:64'
+            'product_type'         => 'required|max:64',
+            'imagePath'             => 'required|image|mimes:image/jpeg, image/png'
         ]);
         $user = auth()->userOrFail();
         DB::table('products')->insert([
@@ -55,7 +74,7 @@ class productsController extends Controller
             'product_type' => $request->input('product_type'),
             'users_id' => $user->id,
             'applies_to_date' => date('d-m-y'),
-            'image' => $request->input('image')
+            'image' => $request->input('imagePath')
         ]);
         
         /* Comente este codigo porque de esta forma produce un error 500
