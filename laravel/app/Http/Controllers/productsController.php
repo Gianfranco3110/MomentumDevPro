@@ -51,42 +51,51 @@ class productsController extends Controller
         if($request->hasFile('image')){
             $image_path = $request->file('image');
             $image_path_name = time().$image_path->getClientOriginalName();
-			Storage::disk('local')->put($image_path_name, File::get($image_path));
-            return response()->json(['path' => $image_path_name]); 
+			Storage::disk('public')->put($image_path_name, File::get($image_path));
+            return response()->json(['imagePath' => $image_path_name]); 
         }
         return response()->json(['path' => 'error']); 
 
     }
 
+   
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+       $validatedData = $request->validate([
             'title'             => 'required|min:1|max:64',
             'description'           => 'required|max:1024',
             'product_type'         => 'required|max:64',
-            'imagePath'             => 'required|image|mimes:image/jpeg, image/png'
+            'image'          => "required"
         ]);
-        $user = auth()->userOrFail();
-        DB::table('products')->insert([
+
+        if($request->hasFile('image')){
+            $image_path = $request->file('image');
+            $image_path_name = time().$image_path->getClientOriginalName();
+			Storage::disk('public')->put($image_path_name, File::get($image_path));
+
+            $user = auth()->userOrFail();
+        $query=DB::table('products')->insert([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'status_id' => intval($request->input('status_id')),
             'product_type' => $request->input('product_type'),
             'users_id' => $user->id,
-            'applies_to_date' => date('d-m-y'),
-            'image' => $request->input('imagePath')
-        ]);
+            'applies_to_date' => date('Y/m/d'),
+            'image' => $image_path_name
+             ]);
+
+             if($query){
+                return response()->json( ['status' => 'success'] );
+             }
+             return response()->json(['status' => 'Error en la query.']);
+             
+        }else{
+            return response()->json(['message' => 'The given data was invalid.']); 
+        }
+
         
-        /* Comente este codigo porque de esta forma produce un error 500
-         $product = new Product();
-        $product->title= $request->input('title');
-        $product->description   = $request->input('description');
-        $product->status_id = intval($request->input('status_id'));
-        $product->product_type = $request->input('product_type');
-        $product->applies_to_date = date('d-m-y');
-        $product->users_id = $user->id;
-        $product->save();*/
-        return response()->json( ['status' => 'success'] );
+                
+        
     }
 
     /**
@@ -152,16 +161,19 @@ class productsController extends Controller
             'title'             => 'required|min:1|max:64',
             'description'           => 'required|max:1024',
             'status_id'         => 'required',
-            'applies_to_date'   => 'required|date_format:Y-m-d',
             'product_type'         => 'required|max:64'
         ]);
-
         $product = Product::find($id);
+    if($request->input('image')!=''){
+
+            $product->image = $request->input('image');
+    }    
+        
         $product->title           = $request->input('title');
         $product->description     = $request->input('description');
         $product->status_id       = $request->input('status_id');
         $product->product_type    = $request->input('product_type');
-        $product->applies_to_date = $request->input('applies_to_date');
+        $product->applies_to_date = date('Y/m/d');
         $product->save();
         return response()->json( ['status' => 'success'] );
     }

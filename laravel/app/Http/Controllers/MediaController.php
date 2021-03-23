@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Folder;
 use App\Services\RemoveFolderService;
+use Illuminate\Support\Facades\Storage;
 use App\Repositories\FoldersAndFiles\FoldersAndFilesInterface as FoldersAndFilesInterface;
 
 class MediaController extends Controller
@@ -167,6 +168,12 @@ class MediaController extends Controller
             'createdAt' =>  substr($media['created_at'], 0, 10) . ' ' . substr($media['created_at'], 11, 19),
             'updatedAt' =>  substr($media['updated_at'], 0, 10) . ' ' . substr($media['updated_at'], 11, 19),
         ));
+    }
+
+    public function getStoragePath(){
+        $storagePath  = Storage::disk('public')->getDriver()->getAdapter()->getPathPrefix();
+
+        return response()->json( ['storage' => $storagePath] );
     }
 
     public function fileDelete(Request $request){

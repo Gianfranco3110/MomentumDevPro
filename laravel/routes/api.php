@@ -22,13 +22,14 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('register', 'AuthController@register'); 
 
     Route::resource('notes', 'NotesController');
-
+    
     Route::post('products/image/store','productsController@uploadImage');
     Route::put('products/eliminate/{product}','productsController@deleteProduct');
     Route::get('products/myproducts', 'productsController@showPerUser');
     Route::resource('products', 'productsController');
 
     Route::resource('resource/{table}/resource', 'ResourceController');
+    Route::get('media/storage','MediaController@getStoragePath');
     
     Route::group(['middleware' => 'admin'], function ($router) {
 
