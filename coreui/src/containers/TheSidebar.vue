@@ -13,12 +13,13 @@
         :height="35" 
         :viewBox="`0 0 ${minimize ? 110 : 556} 134`"
       />
-    </CSidebarBrand><!--
+    </CSidebarBrand>
     <CRenderFunction flat :content-to-render="nav"/>
-    <CSidebarMinimizer
+    Hola
+    <!--<CSidebarMinimizer
       class="d-md-down-none"
       @click.native="$store.commit('set', ['sidebarMinimize', !minimize])"
-    />-->Hola
+    />-->
   </CSidebar>
 </template>
 

@@ -48,11 +48,9 @@
      
    <!-- Widget para las notas --> 
     <ProductsUser/>
-  <!-- Widget para las redes sociales -->
-    <WidgetsBrand/>
-  <!-- -------------------------- -->
+  
 
-
+<!--
     <CRow>
       <CCol md="12">
         <CCard>
@@ -60,7 +58,7 @@
             Traffic &amp; Sales
           </CCardHeader>
           <CCardBody>
-            <!--
+            
             <CRow>
               <CCol sm="12" lg="6">
                 <CRow>
@@ -351,7 +349,7 @@
               </CCol>
             </CRow>
             <br/>
-            -->
+            
             <CDataTable
               class="mb-0 table-outline"
               hover
@@ -422,13 +420,12 @@
         </CCard>
       </CCol>
     </CRow>
-    
+    -->
   </div>
 </template>
 
 <script>
 import MainChartExample from './charts/MainChartExample'
-import WidgetsBrand from './widgets/WidgetsBrand'
 import ProductsUser from './products/ProductsUser'
 import Products from './products/Products'
 
@@ -436,7 +433,6 @@ export default {
   name: 'Dashboard',
   components: {
     MainChartExample,
-    WidgetsBrand,
     ProductsUser,
     Products
   },
