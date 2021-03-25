@@ -159,7 +159,9 @@ export default router
 function configRoutes () {
   return [
     {
-      path: '/'      
+      path: "/index",
+      component: Index,
+      alias: "/"  
     },
     {
       path: '/dashboard',
@@ -175,7 +177,7 @@ function configRoutes () {
           }
         },
         {
-          path: 'dashboard',
+          path: '/dashboard',
           name: 'Dashboard',
           component: Dashboard
         },
@@ -940,21 +942,12 @@ function configRoutes () {
     {
       path: '/login',
       name: 'Auth',
-      component: {
-        render (c) { return c('router-view') }
-      },
-      children: [
-        {
-          path: 'login',
-          name: 'Login',
-          component: Login
-        },
-        {
-          path: 'register',
-          name: 'Register',
-          component: Register
-        },
-      ]
+      component: Login
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     },
     {
       path: '*',

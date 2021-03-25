@@ -1,84 +1,199 @@
 <template>
-  <div class="img">
-    <loading-overlay
-      :active="Loading"
-      :is-full-page="true"
-      loader="bars"
-      color="#052D6D"
-    />
-    <CContainer class="d-flex content-center min-vh-100">
-      <CRow>
-        <CCol>
-          <CCardGroup>
-            <CCard class="p-4">
-              <CCardBody>
-                <CForm @submit.prevent="login" method="POST">
-                  <h1>Login</h1>
-                  <p class="text-muted">Sign In to your account</p>
-                  <CInput
-                    v-model="email"
-                    prependHtml="<i class='cui-user'></i>"
-                    placeholder="Username"
-                    autocomplete="username email"
-                  >
-                    <template #prepend-content
-                      ><CIcon name="cil-user"
-                    /></template>
-                  </CInput>
-                  <CInput
-                    v-model="password"
-                    prependHtml="<i class='cui-lock-locked'></i>"
-                    placeholder="Password"
-                    type="password"
-                    autocomplete="curent-password"
-                  >
-                    <template #prepend-content
-                      ><CIcon name="cil-lock-locked"
-                    /></template>
-                  </CInput>
-                  <CRow>
-                    <CCol col="6">
-                      <CButton
-                        type="submit"
-                        @click.prevent="login"
-                        color="primary"
-                        class="px-4"
-                        >Login</CButton
-                      >
-                    </CCol>
-                    <CCol col="6" class="text-right">
-                      <CButton color="link" class="px-0"
-                        >Forgot password?</CButton
-                      >
-                    </CCol>
-                  </CRow>
-                </CForm>
-              </CCardBody>
-            </CCard>
-            <CCard
-              color="primary"
-              text-color="white"
-              class="text-center py-5 d-md-down-none"
-              body-wrapper
-            >
-              <h2>Sign up</h2>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
-              <CButton
-                color="primary"
-                class="active mt-3"
-                @click="goRegister()"
-              >
-                Register Now!
-              </CButton>
-            </CCard>
-          </CCardGroup>
-        </CCol>
-      </CRow>
-    </CContainer>
+  <div class="home">
+  <header class="c-header fixed-top c-header-light px-3">
+    <div class="container d-flex flex-row pr-5">
+  <a class="c-header-brand" href="#">
+    <img src="../../../public/apple-icon-180x180.png" width="40" height="40" class="d-inline-block align-top" alt="CoreUI Logo">
+    CoreUI
+  </a>
+  <ul class="c-header-nav ml-auto pr-4">
+    <li class="c-header-nav-item active">
+      <a class="c-header-nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+    </li>
+    <li class="c-header-nav-item">
+      <a class="c-header-nav-link" href="#">Features</a>
+    </li>
+    <li class="c-header-nav-item">
+      <a class="c-header-nav-link" href="#">Pricing</a>
+    </li>
+    <li class="c-header-nav-item dropdown">
+      <a class="c-header-nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
+        Dropdown link
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+      </div>
+    </li>
+    <li class="c-header-nav-item">
+      <router-link :to="{ name: 'Auth'}">Login</router-link>
+    </li>
+  </ul>
+    
+    </div>
+</header>
+<div id="carousel-home" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="img/slider1.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="img/slider2.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="img/slider3.jpg" class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carousel-home" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel-home" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
   </div>
+<div id="seccion-cursos">
+    <div class="container">
+      <h2 style="color:white">Cursos</h2><br>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card" style="width: 15rem;">
+            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+
+            <div class="card-body">
+              <h5 class="card-title">Curso 1</h5>
+              <p class="card-text">Descripción</p>                                        
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card" style="width: 15rem;">
+            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+
+            <div class="card-body">
+              <h5 class="card-title">Curso 2</h5>
+              <p class="card-text">Descripción</p>                                        
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card" style="width: 15rem;">
+            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+
+            <div class="card-body">
+              <h5 class="card-title">Curso 3</h5>
+              <p class="card-text">Descripción</p>                                        
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card" style="width: 15rem;">
+            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+
+            <div class="card-body">
+              <h5 class="card-title">Curso 4</h5>
+              <p class="card-text">Descripción</p>                                        
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="seccion-productos">
+    <div class="container">
+      <h2 style="color:white">Productos</h2><br>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card" style="width: 15rem;">
+            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+
+            <div class="card-body">
+              <h5 class="card-title">Producto 1</h5>
+              <p class="card-text">Descripción</p>                                        
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card" style="width: 15rem;">
+            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+
+            <div class="card-body">
+              <h5 class="card-title">Producto 2</h5>
+              <p class="card-text">Descripción</p>                                        
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card" style="width: 15rem;">
+            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+
+            <div class="card-body">
+              <h5 class="card-title">Producto 3</h5>
+              <p class="card-text">Descripción</p>                                        
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card" style="width: 15rem;">
+            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+
+            <div class="card-body">
+              <h5 class="card-title">Producto 4</h5>
+              <p class="card-text">Descripción</p>                                        
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="footer-seccion">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <h3>Contacto</h3>
+              </li>
+              <li class="list-group-item">Dapibus ac facilisis in</li>
+              <li class="list-group-item">Morbi leo risus</li>
+              <li class="list-group-item">Porta ac consectetur ac</li>
+              <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+          </div>
+          <div class="footer-seccion">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <h3>De interes</h3>
+              </li>
+              <li class="list-group-item">Dapibus ac facilisis in</li>
+              <li class="list-group-item">Morbi leo risus</li>
+              <li class="list-group-item">Porta ac consectetur ac</li>
+              <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+          </div>
+          <div class="footer-seccion">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <h3>Newsletter</h3>
+              </li>
+              <li class="list-group-item">Dapibus ac facilisis in</li>
+              <li class="list-group-item">Morbi leo risus</li>
+              <li class="list-group-item">Porta ac consectetur ac</li>
+              <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  <!--  
+  
+  -->
 </template>
 
 <script>
@@ -99,36 +214,12 @@ export default {
     goRegister() {
       this.$router.push({ path: "register" });
     },
-    login() {
-      this.Loading = true;
-      let self = this;
-      axios
-        .post(this.$apiAdress + "/api/login", {
-          email: self.email,
-          password: self.password,
-        })
-        .then(function(response) {
-          self.email = "";
-          self.password = "";
-          localStorage.setItem("api_token", response.data.access_token);
-          localStorage.setItem("roles", response.data.roles);
-          localStorage.setItem("email", response.data.email);
-          localStorage.setItem("name", response.data.name);
-          console.log(response.data);
-          self.$router.push({ path: "dashboard" });
-        })
-        .catch(function(error) {
-          self.message = "Incorrect E-mail or password";
-          self.showMessage = true;
-          console.log(error);
-        });
-      this.Loading = false;
+    goLogin() {
+      this.$router.push({ path: "login" });
     },
   },
 };
 </script>
 <style scoped>
-.img {
-  background: url("../../../public/Login.jpg");
-}
+
 </style>

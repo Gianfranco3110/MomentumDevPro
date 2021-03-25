@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     goRegister() {
-      this.$router.push({ path: "register" });
+      this.$router.push({ path: 'register' })
     },
     login() {
       this.Loading = true;
