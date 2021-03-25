@@ -19,40 +19,27 @@
       class="d-md-down-none"
       @click.native="$store.commit('set', ['sidebarMinimize', !minimize])"
     />-->
-    <br />
-    <ul>
-      <li>
-        <a href="#/">
-          <CButton color="dark">
-            <CIcon size="lg" name="cil-home" />&nbsp; INICIO
-          </CButton>
+    <ul class="c-sidebar-nav">
+      <li class="c-sidebar-nav-item">
+        <a class="c-sidebar-nav-link" href="#/">
+          <CIcon size="lg" name="cil-home" />&nbsp; INICIO
         </a>
       </li>
-      <br />
-      <li>
-        <a href="#/cursos">
-          <CButton color="dark">
-            <CIcon size="lg" name="cil-education" />&nbsp; CURSOS
-          </CButton>
+      <li class="c-sidebar-nav-item">
+        <a class="c-sidebar-nav-link" href="#/cursos">
+          <CIcon size="lg" name="cil-education" />&nbsp; CURSOS
         </a>
       </li>
-      <br />
-      <li>
-        <a href="#/">
-          <CButton color="dark">
-            <CIcon size="lg" name="cil-card-travel" />&nbsp; PRODUCTOS
-          </CButton>
+      <li class="c-sidebar-nav-item">
+        <a class="c-sidebar-nav-link" href="#/">
+          <CIcon size="lg" name="cil-card-travel" />&nbsp; PRODUCTOS
         </a>
       </li>
-      <br />
-      <li>
-        <a href="#/registro">
-          <CButton color="dark">
-            <CIcon size="xl" name="cil-address-card" />&nbsp; REGISTRAR USUARIOS
-          </CButton>
+      <li class="c-sidebar-nav-item">
+        <a class="c-sidebar-nav-link" href="#/Registro">
+          <CIcon size="lg" name="cil-address-card" />&nbsp; REGISTRAR USUARIOS
         </a>
       </li>
-      <br />
     </ul>
   </CSidebar>
 </template>

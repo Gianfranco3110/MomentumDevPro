@@ -18,7 +18,7 @@ class CreateCoursesTable extends Migration
             $table->float('price',8,2);
             $table->text('description');
             $table->date('applies_to_date');
-            $table->string('photo');
+            $table->string('image');
             $table->integer('daysofvalidity');
             $table->integer('users_id')->unsigned();
             $table->integer('status_id')->unsigned();

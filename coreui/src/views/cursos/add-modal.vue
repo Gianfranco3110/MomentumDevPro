@@ -43,17 +43,51 @@
             :is-valid="hasError($v.daysofvalidity)"
           />
         </CCol>
-        <CCol sm="4">
-          <CInput
-            addLabelClasses="required"
-            type="file"
-            accept="image/*"
-            placeholder="DIAS DE VIGENCIA"
-            invalid-feedback="Campo requerido"
-            label="FOTO DE PORTADA DEL CURSO"
-            v-model="$v.photo.$model"
-            :is-valid="hasError($v.photo)"
-          />
+        <CCol sm="12">
+          <div
+            class="flex items-center justify-center w-full h-screen text-center"
+          >
+            <div
+              class="p-12 bg-gray-100 border border-gray-300"
+              @dragover="dragover"
+              @dragleave="dragleave"
+              @drop="drop"
+            >
+              <div class="ocultar">
+                <input
+                  type="file"
+                  multiple
+                  name="fields[assetsFieldHandle][]"
+                  id="assetsFieldHandle"
+                  @change="onChange"
+                  ref="file"
+                  accept="image/*"
+                />
+              </div>
+              <label for="assetsFieldHandle" class="block">
+                <img src="../../../public/img/download1.png" alt="donwload" />
+                <h5>Elige un archivo o arrástralo aquí</h5>
+              </label>
+              <ul class="mt-4" v-if="this.filelist.length" v-cloak>
+                <li
+                  class="text-sm p-1"
+                  v-for="file in filelist"
+                  :key="file.item"
+                >
+                  {{ file.name
+                  }}<button
+                    class="ml-2"
+                    type="button"
+                    @click="remove(filelist.indexOf(file))"
+                    title="Remove file"
+                  >
+                    Eliminar
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- FINAL DEL INPUT FILE -->
         </CCol>
         <CCol sm="12" v-if="actualizar">
           <CSelect
@@ -86,21 +120,59 @@ import CursosVal from "@/_validations/cursos/CursosVal";
 import axios from "axios";
 
 //METODOS
+
+function getImage(event) {
+  //Asignamos la imagen a  nuestra data
+  this.image = event.target.files[0];
+}
+
+function uploadImage() {
+  this.Loading = true;
+  let self = this;
+  let formData = new FormData();
+  formData.append("image", self.image);
+  axios
+    .post(
+      this.$apiAdress +
+        "/api/courses/image/store?token=" +
+        localStorage.getItem("api_token"),
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+    .then(function(response) {
+      self.imagePath = response.data.path;
+    })
+    .catch(function(error) {
+      console.log(error);
+      //self.$router.push({ path: '/login' });
+    });
+  this.Loading = false;
+}
+
 function guardar() {
+  this.Loading = true;
+  let course = [];
+  course = {
+    description: this.description,
+    price: this.price,
+    daysofvalidity: this.daysofvalidity,
+    status_id: 1,
+    image: this.imagePath,
+  };
+  console.log(course);
   let url = "/api/courses?token=";
   axios
     .post(
       this.$apiAdress +
         "/api/courses?token=" +
         localStorage.getItem("api_token"),
+      course,
       {
-        course: {
-          description: this.description,
-          price: this.price,
-          daysofvalidity: this.daysofvalidity,
-          photo: this.photo,
-          status_id: 1,
-        },
+        root: "course",
       }
     )
     .then(function(response) {
@@ -123,6 +195,7 @@ function guardar() {
         console.log(error);
         //self.$router.push({ path: 'login' });
       }
+      this.Loading = false;
     });
 }
 
@@ -130,8 +203,9 @@ function limpiarDatos() {
   this.description = "";
   this.price = "";
   this.daysofvalidity = "";
-  this.photo = "";
+  this.image = "";
   status_id: null;
+  this.imagePath = "";
   this.$nextTick(() => {
     this.$v.$reset();
   });
@@ -169,9 +243,8 @@ function data() {
     description: "",
     price: "",
     daysofvalidity: "",
-    photo: "",
+    imagePath: "",
     status_id: 1,
-    course: {},
 
     // VARIABLES
     AddModal: false,
@@ -183,6 +256,9 @@ function data() {
     dismissCountDown: 0,
     showDismissibleAlert: false,
     statuses: [],
+    image: null,
+    files: [],
+    filelist: [],
   };
 }
 export default {
@@ -213,6 +289,45 @@ export default {
     evaluaStatus,
     limpiarDatos,
     guardar,
+    uploadImage,
+    getImage,
+    //TRATAR DE MEJORAR ESTOS METODOS DEL INPUT FILE
+    countDownChanged(dismissCountDown) {
+      this.dismissCountDown = dismissCountDown;
+    },
+    showAlert() {
+      this.dismissCountDown = this.dismissSecs;
+    },
+    onChange() {
+      this.filelist = [...this.$refs.file.files];
+      this.image = this.filelist[0];
+      this.uploadImage();
+      console.log(this.image);
+    },
+    remove(i) {
+      this.filelist.splice(i, 1);
+    },
+    dragover(event) {
+      event.preventDefault();
+      // Add some visual fluff to show the user can drop its files
+      if (!event.currentTarget.classList.contains("bg-green-300")) {
+        event.currentTarget.classList.remove("bg-gray-100");
+        event.currentTarget.classList.add("bg-green-300");
+      }
+    },
+    dragleave(event) {
+      // Clean up
+      event.currentTarget.classList.add("bg-gray-100");
+      event.currentTarget.classList.remove("bg-green-300");
+    },
+    drop(event) {
+      event.preventDefault();
+      this.$refs.file.files = event.dataTransfer.files;
+      this.onChange(); // Trigger the onChange event manually
+      // Clean up
+      event.currentTarget.classList.add("bg-gray-100");
+      event.currentTarget.classList.remove("bg-green-300");
+    },
   },
   computed: {
     isDisabled,
@@ -235,4 +350,11 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.ocultar {
+  display: none;
+}
+.block {
+  cursor: pointer;
+}
+</style>

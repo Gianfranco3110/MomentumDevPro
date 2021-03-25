@@ -26,6 +26,21 @@ class CoursesController extends Controller
         $statuses = DB::table('status')->select('status.name as label', 'status.id as value')->get();
         return response()->json( $statuses );
     }
+    
+    //FUNCION PARA SUBIR IMG
+    public function uploadImage(Request $request){
+        $validate = request()->validate([
+             'image'          => "required"
+         ]);
+         if($request->hasFile('image')){
+             $image_path = $request->file('image');
+             $image_path_name = time().$image_path->getClientOriginalName();
+             Storage::disk('public')->put($image_path_name, File::get($image_path));
+             return response()->json(['path' => $image_path_name]); 
+         }
+         return response()->json(['path' => 'error']); 
+ 
+     }
 
     //FUNCION PARA CREAR UN CURSO
     public function store(Request $request)
@@ -34,29 +49,35 @@ class CoursesController extends Controller
             'price'             => 'required|min:1|max:20',
             'description'           => 'required|max:365',
             'daysofvalidity'         => 'required|max:20',
-            'imagePath'             => 'required|image|mimes:image/jpeg, image/png'
+            'image'             => 'required'
         ]);
+
+        if($request->hasFile('image')){
+            $image_path = $request->file('image');
+            $image_path_name = time().$image_path->getClientOriginalName();
+			Storage::disk('public')->put($image_path_name, File::get($image_path));
+
         $user = auth()->userOrFail();
-        DB::table('products')->insert([
+        $query=DB::table('Courses')->insert([
             'price' => $request->input('price'),
             'description' => $request->input('description'),
             'status_id' => intval($request->input('status_id')),
             'users_id' => $user->id,
             'applies_to_date' => date('d-m-y'),
-            'photo' => $request->input('imagePath'), //PENDIENTE CON ESTO
             'daysofvalidity' => $request ->input('daysofvalidity'),
+            'image' => $image_path_name,         //PENDIENTE CON ESTO
+            
         ]);
-        /* Comente este codigo porque de esta forma produce un error 500
-         $product = new Product();
-        $product->title= $request->input('title');
-        $product->description   = $request->input('description');
-        $product->status_id = intval($request->input('status_id'));
-        $product->product_type = $request->input('product_type');
-        $product->applies_to_date = date('d-m-y');
-        $product->users_id = $user->id;
-        $product->save();*/
-        return response()->json( ['status' => 'success'] );
-    }
+        if($query){
+            return response()->json( ['status' => 'success'] );
+         }
+         return response()->json(['status' => 'Error en la query.']);
+         
+    } else 
+    {
+        return response()->json(['message' => 'The given data was invalid.']); 
+    }          
+}
 
     //FUNCION CAMBIAR ELIMINAR (CAMBIO DE ESTATUS)
     public function destroy($id)

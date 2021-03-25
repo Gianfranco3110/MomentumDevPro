@@ -90,6 +90,7 @@ export default {
     getImage(event) {
       //Asignamos la imagen a  nuestra data
       this.image = event.target.files[0];
+      console.log(this.image);
     },
     uploadImage() {
       let self = this;

@@ -6,8 +6,6 @@ export default () => {
         description: { required, especiales, maxLength: maxLength(256) },
         price: { required, especiales, maxLength: maxLength(20) }, 
         daysofvalidity: { required, especiales, maxLength: maxLength(20) },  
-        photo: { required},  
-
          
     }
 }
