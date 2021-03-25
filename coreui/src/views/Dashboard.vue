@@ -1,6 +1,5 @@
 <template>
   <div>
-        
       <CCardGroup class="mb-4">
         <CRow lg="12" style="width:100%">
         <CCol sm="6" lg="3">
@@ -49,10 +48,10 @@
    <!-- Widget para las notas --> 
     <ProductsUser/>
   <!-- Widget para las redes sociales -->
-    <WidgetsBrand/>
+   <!-- <WidgetsBrand/> -->
   <!-- -------------------------- -->
 
-
+<!-- comentando la tabla de traffic sales 
     <CRow>
       <CCol md="12">
         <CCard>
@@ -60,7 +59,7 @@
             Traffic &amp; Sales
           </CCardHeader>
           <CCardBody>
-            <!--
+            
             <CRow>
               <CCol sm="12" lg="6">
                 <CRow>
@@ -351,7 +350,7 @@
               </CCol>
             </CRow>
             <br/>
-            -->
+            
             <CDataTable
               class="mb-0 table-outline"
               hover
@@ -418,11 +417,12 @@
                 <strong>{{item.activity}}</strong>
               </td>
             </CDataTable>
+          
           </CCardBody>
         </CCard>
       </CCol>
     </CRow>
-    
+    -->
   </div>
 </template>
 

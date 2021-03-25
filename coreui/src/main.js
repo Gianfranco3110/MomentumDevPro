@@ -2,9 +2,9 @@ import 'core-js/stable'
 import Vue from 'vue'
 import VueSweetalert2 from 'vue-sweetalert2';
 import App from './App'
+import { iconsSet as icons } from './assets/icons/icons.js';
 import router from './router'
 import CoreuiVue from '@coreui/vue'
-import { iconsSet as icons } from './assets/icons/icons.js'
 import store from './store'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'sweetalert2/src/sweetalert2.scss'

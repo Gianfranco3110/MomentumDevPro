@@ -23,11 +23,18 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     Route::resource('notes', 'NotesController');
 
+
+    //ROUTE PARA CREAR PRODUCTOS ANTONIO
     Route::post('products/image/store','productsController@uploadImage');
     Route::put('products/eliminate/{product}','productsController@deleteProduct');
     Route::get('products/myproducts', 'productsController@showPerUser');
     Route::resource('products', 'productsController');
 
+    //ROUTE PARA CREAR CURSOS GIANF
+    Route::resource('course','CoursesController');
+
+
+    
     Route::resource('resource/{table}/resource', 'ResourceController');
     
     Route::group(['middleware' => 'admin'], function ($router) {
