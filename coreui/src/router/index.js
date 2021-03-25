@@ -53,7 +53,7 @@ const Page500 = () => import('@/views/pages/Page500')
 const Login = () => import('@/views/pages/Login')
 const Register = () => import('@/views/pages/Register')
 const Articulo = () =>import('@/views/pages/Articulo/index')
-
+const Index = () =>import('@/views/pages/Index')
 
 // Users
 const Users = () => import('@/views/users/Users')
@@ -159,8 +159,10 @@ export default router
 function configRoutes () {
   return [
     {
-      path: '/',
-      redirect: '/dashboard',
+      path: '/'      
+    },
+    {
+      path: '/dashboard',
       name: 'Home',
       component: TheContainer,
       children: [
@@ -922,8 +924,7 @@ function configRoutes () {
       ]
     },
     {
-      path: '/',
-      redirect: '/Articulo',
+      path: '/Articulo',
       name: 'Articulo',
       component: {
         render (c) { return c('router-view') }
@@ -937,8 +938,7 @@ function configRoutes () {
       ]
     },
     {
-      path: '/',
-      redirect: '/login',
+      path: '/login',
       name: 'Auth',
       component: {
         render (c) { return c('router-view') }
