@@ -182,7 +182,7 @@ function configRoutes () {
           }
         },
         {
-          path: '/dashboard',
+          path: 'dashboard',
           name: 'Dashboard',
           component: Dashboard
         },
