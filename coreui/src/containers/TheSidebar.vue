@@ -12,16 +12,16 @@
         size="custom-size"
         :height="35"
         :viewBox="`0 0 ${minimize ? 110 : 556} 134`"
-      /> </CSidebarBrand
-    ><!--
-    <CRenderFunction flat :content-to-render="nav"/>
+      />
+    </CSidebarBrand>
+   <!-- <CRenderFunction flat :content-to-render="nav"/>
     <CSidebarMinimizer
       class="d-md-down-none"
       @click.native="$store.commit('set', ['sidebarMinimize', !minimize])"
     />-->
     <ul class="c-sidebar-nav">
       <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#/">
+        <a class="c-sidebar-nav-link" href="#/dashboard">
           <CIcon size="lg" name="cil-home" />&nbsp; INICIO
         </a>
       </li>

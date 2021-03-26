@@ -5,8 +5,8 @@
       <TheHeader/>
       <div class="c-body">
         <main class="c-main">
-          <CContainer fluid>
-            <transition name="fade">
+          <CContainer fluid>                        
+            <transition name="fade">              
               <router-view></router-view>
             </transition>
           </CContainer>

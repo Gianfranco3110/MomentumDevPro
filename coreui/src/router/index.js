@@ -52,7 +52,7 @@ const Page404 = () => import('@/views/pages/Page404')
 const Page500 = () => import('@/views/pages/Page500')
 const Login = () => import('@/views/pages/Login')
 const Register = () => import('@/views/pages/Register')
-
+const Index = () => import('@/views/pages/Index')
 
 // Users
 const Users = () => import('@/views/users/Users')
@@ -163,6 +163,11 @@ export default router
 
 function configRoutes () {
   return [
+    {
+      path: "/index",
+      component: Index,
+      alias: "/"  
+    },
     {
       path: '/',
       redirect: '/dashboard',
@@ -955,24 +960,14 @@ function configRoutes () {
       ]
     },
     {
-      path: '/',
-      redirect: '/login',
+      path: '/login',
       name: 'Auth',
-      component: {
-        render (c) { return c('router-view') }
-      },
-      children: [
-        {
-          path: 'login',
-          name: 'Login',
-          component: Login
-        },
-        {
-          path: 'register',
-          name: 'Register',
-          component: Register
-        },
-      ]
+      component: Login
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     },
     {
       path: '*',

@@ -1,11 +1,13 @@
 <template>
   <CRow>
     <CCol col="12" xl="12">
-      <transition name="slide">
+      <transition name="slide">       
+    
       <CCard>
+        <AgreModal :modal="AddModal" @cerrarModal="AddModal = false" />
         <CCardHeader>
           My courses
-          <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="createProduct()" class="mb-3">
+          <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="AddModal = true" class="mb-3">
             <CIcon :content="$options.freeSet.cilPlus"/> Create Product</CButton>
             <CAlert
               :show.sync="dismissCountDown"
@@ -20,7 +22,7 @@
             <template>
             <CCol md="4" v-for="(item, index) in items" :key="index">
                 <div class="card" style="width: 18rem;">
-                  <img src="#" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+                  <img :src="'public/' + item.image" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
 
                   <div class="card-body">
                     <h5 class="card-title">{{item.title}} <CBadge :color="item.status_class">{{item.status}}</CBadge></h5>
@@ -107,10 +109,18 @@
 <script>
 import axios from 'axios'
 import { freeSet } from '@coreui/icons'
+import General from '@/_mixins/general'
+import AgreModal from './add-modal'
 
 export default {
   name: 'ProductsUser',
+  mixins: [General],
   freeSet,
+  components: {    
+    General,
+    AgreModal
+  },
+  props:{},
   data: () => {
     return {
       collapse: false,
@@ -126,10 +136,12 @@ export default {
       showMessage: false,
       dismissSecs: 7,
       dismissCountDown: 0,
-      showDismissibleAlert: false
+      showDismissibleAlert: false,
+      AddModal: false
+
     }
   },
-  computed: {
+  computed: {    
   },
   methods: {
     getRowCount (items) {
@@ -151,7 +163,6 @@ export default {
     },
     deleteProduct ( id ) {
       let self = this;
-      let ProductId = id;
       axios.post(  this.$apiAdress + '/api/products/eliminate/' + id + '?token=' + localStorage.getItem("api_token"), {
         _method: 'PUT'
       })
@@ -179,12 +190,14 @@ export default {
       axios.get(  this.$apiAdress + '/api/products/myproducts?token=' + localStorage.getItem("api_token") )
       .then(function (response) {
         self.items = response.data;
+        //this.getImage();
       }).catch(function (error) {
         console.log(error);
-        self.$router.push({ path: '/login' });
+        self.$router.replace({ path: '/login' });
       });
     }
   },
+  watch:{}, 
   mounted: function(){
     this.getProducts();
   }

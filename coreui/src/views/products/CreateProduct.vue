@@ -37,16 +37,10 @@
             type="text"
             v-model="product.product_type"
           ></CInput>
-          <input
-            type="file"
-            @change="getImage"
-            name="image"
-            id="image"
-            accept="image/*"
-            placeholder="Course picture"
+          <input type="file" @change="getImage" name="image" id="image" accept="image/*"  placeholder="Course picture"
           />
 
-          <CButton color="primary" @click.prevent="uploadImage">Create</CButton>
+          <CButton color="primary" @click.prevent="createProduct">Create</CButton>
           <CButton color="primary" @click="goBack">Back</CButton>
         </CCardBody>
       </CCard>
@@ -90,7 +84,6 @@ export default {
     getImage(event) {
       //Asignamos la imagen a  nuestra data
       this.image = event.target.files[0];
-      console.log(this.image);
     },
     uploadImage() {
       let self = this;

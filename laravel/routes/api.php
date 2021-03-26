@@ -37,6 +37,7 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     
     Route::resource('resource/{table}/resource', 'ResourceController');
+    Route::get('media/storage','MediaController@getStoragePath');
     
     Route::group(['middleware' => 'admin'], function ($router) {
 

@@ -1,0 +1,52 @@
+@media only screen and (max-width:513px){
+    #carousel-home{
+        height: 370px!important;
+        overflow: hidden;
+    }
+    #carousel-home img{
+        height: 370px;
+    }
+}
+#carousel-home{
+    height:570px;overflow: hidden;
+}
+
+#seccion-productos{
+    padding:50px;
+    background-color: rgb(2, 13, 20);
+}
+
+#seccion-productos .card,#seccion-cursos .card{
+    border-radius: 5px;
+}
+#seccion-productos .card .card-img-top,#seccion-cursos .card .card-img-top{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#seccion-cursos{
+    padding:50px;
+    background-color: rgb(211, 212, 212);
+    background-image: url("Login.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#menu ul li{
+    padding: 10px;
+}
+
+#footer{
+    padding:20px;
+}
+
+#footer .footer-seccion{
+    width: 33.333333%;
+    padding:10px;
+    float: left;
+}
+
+.list-group-item{
+    border: 0px!important;;
+}
