@@ -12,20 +12,13 @@
         size="custom-size"
         :height="35"
         :viewBox="`0 0 ${minimize ? 110 : 556} 134`"
-<<<<<<< HEAD
       />
     </CSidebarBrand>
-=======
-      /> </CSidebarBrand
-    ><!--
->>>>>>> 937555c41d05a40494493086b367f1a6c122b73b
-    <CRenderFunction flat :content-to-render="nav"/>
-    <!--<CSidebarMinimizer
+   <!-- <CRenderFunction flat :content-to-render="nav"/>
+    <CSidebarMinimizer
       class="d-md-down-none"
       @click.native="$store.commit('set', ['sidebarMinimize', !minimize])"
     />-->
-<<<<<<< HEAD
-=======
     <ul class="c-sidebar-nav">
       <li class="c-sidebar-nav-item">
         <a class="c-sidebar-nav-link" href="#/">
@@ -48,7 +41,6 @@
         </a>
       </li>
     </ul>
->>>>>>> 937555c41d05a40494493086b367f1a6c122b73b
   </CSidebar>
 </template>
 

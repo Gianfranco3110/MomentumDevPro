@@ -193,7 +193,7 @@ export default {
         //this.getImage();
       }).catch(function (error) {
         console.log(error);
-        //self.$router.push({ path: '/login' });
+        self.$router.replace({ path: '/login' });
       });
     }
   },

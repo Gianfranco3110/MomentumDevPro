@@ -52,6 +52,7 @@ const Page404 = () => import('@/views/pages/Page404')
 const Page500 = () => import('@/views/pages/Page500')
 const Login = () => import('@/views/pages/Login')
 const Register = () => import('@/views/pages/Register')
+const Index = () => import('@/views/pages/Index')
 
 // Users
 const Users = () => import('@/views/users/Users')
@@ -958,8 +959,7 @@ function configRoutes () {
       ]
     },
     {
-      path: '/',
-      redirect: '/login',
+      path: '/login',
       name: 'Auth',
       component: Login
     },
