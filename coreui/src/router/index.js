@@ -169,7 +169,8 @@ function configRoutes () {
       alias: "/"  
     },
     {
-      path: '/dashboard',
+      path: '/',
+      redirect: '/dashboard',
       name: 'Home',
       component: TheContainer,
       children: [
