@@ -34,9 +34,7 @@
             </CSelect>
             <CInput label="Product type" type="text" v-model="product.product_type"></CInput>            
             <input type="file" @change="getImage" name="image" id="image" accept="image/*" placeholder="Course picture"/>
-            <figure class="mt-2">
-              <img width="200" height="200" :src="imagen" alt="Foto del articulo">
-            </figure>
+            
 
          <!-- <CButton color="primary" @click.prevent="createProduct">Create</CButton>
           <CButton color="primary" @click="goBack">Back</CButton>-->
@@ -147,8 +145,14 @@ function data() {
     price: "",
     daysofvalidity: "",
     photo: "",
-    status_id: 1,
-    course: {},
+    status_id: 1,    
+    product: {
+        title: "",
+        description: "",
+        status_id: 1,
+        product_type: "",
+        imagePath: "",
+      },
 
     // VARIABLES
     AddModal: false,
@@ -160,6 +164,7 @@ function data() {
     dismissCountDown: 0,
     showDismissibleAlert: false,
     statuses: [],
+    image: null,
   };
 }
 export default {
@@ -179,6 +184,77 @@ export default {
     },
   },
   methods: {
+    getImage(event) {
+      //Asignamos la imagen a  nuestra data
+      this.image = event.target.files[0];
+      console.log(this.image);
+    },
+    uploadImage() {
+      let self = this;
+      let formData = new FormData();
+      formData.append("image", self.image);
+      axios
+        .post(
+          this.$apiAdress +
+            "/api/products/image/store?token=" +
+            localStorage.getItem("api_token"),
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then(function(response) {
+          self.product.imagePath = response.data.path;
+          self.createUser();
+        })
+        .catch(function(error) {
+          console.log(error);
+          //self.$router.push({ path: '/login' });
+        });
+    },
+    createUser() {
+      let self = this;
+      axios
+        .post(
+          this.$apiAdress +
+            "/api/products?token=" +
+            localStorage.getItem("api_token"),
+          self.product
+        )
+        .then(function(response) {
+          self.product = {
+            title: "",
+            description: "",
+            status_id: null,
+            product_type: "",
+            imagePath: "",
+          };
+          self.message = "Successfully created product.";
+          self.showAlert();
+        })
+        .catch(function(error) {
+          if (error.response.data.message == "The given data was invalid.") {
+            self.message = "";
+            for (let key in error.response.data.errors) {
+              if (error.response.data.errors.hasOwnProperty(key)) {
+                self.message += error.response.data.errors[key][0] + "  ";
+              }
+            }
+            self.showAlert();
+          } else {
+            console.log(error);
+            //self.$router.push({ path: 'login' });
+          }
+        });
+    },
+    countDownChanged(dismissCountDown) {
+      this.dismissCountDown = dismissCountDown;
+    },
+    showAlert() {
+      this.dismissCountDown = this.dismissSecs;
+    },
   },
   computed: {
   },

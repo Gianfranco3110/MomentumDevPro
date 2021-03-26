@@ -21,7 +21,7 @@
     />-->
     <ul class="c-sidebar-nav">
       <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#/">
+        <a class="c-sidebar-nav-link" href="#/dashboard">
           <CIcon size="lg" name="cil-home" />&nbsp; INICIO
         </a>
       </li>
