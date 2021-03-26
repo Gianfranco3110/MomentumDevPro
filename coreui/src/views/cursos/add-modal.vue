@@ -17,33 +17,34 @@
             invalid-feedback="Campo requerido. {A..Z ,-.*-/#}"
             label="DESCRIPCION DEL CURSO"
             maxlength="256"
-            v-model="$v.description.$model"
-            :is-valid="hasError($v.description)"
+            placeholder="Ingrese su descripción aqui.."
+            v-model="$v.curso.description.$model"
+            :is-valid="hasError($v.curso.description)"
           />
         </CCol>
-        <CCol sm="4">
+        <CCol sm="3">
           <CInput
             addLabelClasses="required"
             type="number"
             placeholder="0"
             invalid-feedback="Campo requerido {0,00}"
             label="PRECIO DEL CURSO"
-            v-model="$v.price.$model"
-            :is-valid="hasError($v.price)"
+            v-model="$v.curso.price.$model"
+            :is-valid="hasError($v.curso.price)"
           />
         </CCol>
-        <CCol sm="4">
+        <CCol sm="3">
           <CInput
             addLabelClasses="required"
             type="number"
-            placeholder="DIAS DE VIGENCIA"
-            invalid-feedback="Campo requerido {0,00}"
+            placeholder="Dias de vigencia"
+            invalid-feedback="Campo requerido solo enteros"
             label="DIAS DE VIGENCIA"
-            v-model="$v.daysofvalidity.$model"
-            :is-valid="hasError($v.daysofvalidity)"
+            v-model="$v.curso.daysofvalidity.$model"
+            :is-valid="hasError($v.curso.daysofvalidity)"
           />
         </CCol>
-        <CCol sm="12">
+        <CCol sm="6">
           <div
             class="flex items-center justify-center w-full h-screen text-center"
           >
@@ -121,14 +122,9 @@ import axios from "axios";
 
 //METODOS
 
-function getImage(event) {
-  //Asignamos la imagen a  nuestra data
-  this.image = event.target.files[0];
-}
-
 function uploadImage() {
-  this.Loading = true;
   let self = this;
+  self.Loading = true;
   let formData = new FormData();
   formData.append("image", self.image);
   axios
@@ -150,18 +146,69 @@ function uploadImage() {
       console.log(error);
       //self.$router.push({ path: '/login' });
     });
-  this.Loading = false;
+  self.Loading = false;
 }
 
 function guardar() {
+  let self = this;
+  self.Loading = true;
+  let formData = new FormData();
+  formData.append("image", self.image);
+  formData.append("daysofvalidity", self.curso.daysofvalidity);
+  formData.append("description", self.curso.description);
+  formData.append("status_id", self.curso.status_id);
+  formData.append("price", self.curso.price);
+  console.log(formData);
+  let url = "/api/courses?token=";
+  axios
+    .post(
+      this.$apiAdress +
+        "/api/courses?token=" +
+        localStorage.getItem("api_token"),
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    )
+    .then(function(response) {
+      self.limpiarDatos();
+      self.message = "CURSO CREADO SATISFACTORIAMENTE";
+      self.showAlert();
+      console.log(response);
+      self.Loading = false;
+      self.AddModal = false;
+    })
+    .catch(function(error) {
+      console.log(error);
+      console.log(error.response.data);
+      if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
+        self.message = "";
+        for (let key in error.response.data.errors) {
+          if (error.response.data.errors.hasOwnProperty(key)) {
+            self.message += error.response.data.errors[key][0] + "  ";
+          }
+        }
+        self.showAlert();
+      } else {
+        console.log(error);
+        //self.$router.push({ path: 'login' });
+      }
+    });
+}
+
+/*
+function guardar() {
   this.Loading = true;
+  let self = this;
   let course = [];
   course = {
-    description: this.description,
-    price: this.price,
-    daysofvalidity: this.daysofvalidity,
+    description: self.description,
+    price: self.price,
+    daysofvalidity: self.daysofvalidity,
     status_id: 1,
-    image: this.imagePath,
+    image: self.imagePath,
   };
   console.log(course);
   let url = "/api/courses?token=";
@@ -170,49 +217,46 @@ function guardar() {
       this.$apiAdress +
         "/api/courses?token=" +
         localStorage.getItem("api_token"),
-      course,
-      {
-        root: "course",
-      }
+      course
     )
     .then(function(response) {
-      this.limpiarDatos();
+      self.limpiarDatos();
+      self.message = "Successfully created course.";
+      self.showAlert();
       console.log(response);
-      console.log(course);
-      this.message = "Successfully created course.";
-      this.showAlert();
     })
     .catch(function(error) {
-      if (error.response.data.message == "The given data was invalid.") {
-        this.message = "";
+      console.log(error);
+      console.log(error.response.data);
+      if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
+        self.message = "";
         for (let key in error.response.data.errors) {
           if (error.response.data.errors.hasOwnProperty(key)) {
-            this.message += error.response.data.errors[key][0] + "  ";
+            self.message += error.response.data.errors[key][0] + "  ";
           }
         }
-        this.showAlert();
+        self.showAlert();
       } else {
         console.log(error);
         //self.$router.push({ path: 'login' });
       }
-      this.Loading = false;
     });
 }
+*/
 
 function limpiarDatos() {
-  this.description = "";
-  this.price = "";
-  this.daysofvalidity = "";
+  this.curso = {
+    description: "",
+    price: "",
+    daysofvalidity: "",
+    imagePath: "",
+    status_id: "",
+  };
   this.image = "";
-  status_id: null;
-  this.imagePath = "";
-  this.$nextTick(() => {
-    this.$v.$reset();
-  });
 }
 
 function evaluaStatus() {
-  if (this.Status === 0) {
+  if (this.Status === 2) {
     this.$swal
       .fire({
         text: `¿Esta seguro de realizar el cambio de status para el registro?`,
@@ -240,12 +284,13 @@ function isDisabled() {
 function data() {
   return {
     //MODELOS
-    description: "",
-    price: "",
-    daysofvalidity: "",
-    imagePath: "",
-    status_id: 1,
-
+    curso: {
+      description: "",
+      price: "",
+      daysofvalidity: "",
+      imagePath: "",
+      status_id: 1,
+    },
     // VARIABLES
     AddModal: false,
     Loading: false,
@@ -267,6 +312,8 @@ export default {
   data,
   props: {
     modal: null,
+    type: String,
+    default: "User id",
   },
   directives: UpperCase,
   validations: CursosVal,
@@ -280,6 +327,12 @@ export default {
           this.actualizar = false;
         } else {
           this.actualizar = true;
+          this.tituloModal = "EDITAR CURSO";
+          this.curso.description = this.modal.curso.description;
+          this.curso.price = this.modal.curso.price;
+          this.curso.imagePath = this.modal.curso.imagePath;
+          this.curso.daysofvalidity = this.modal.curso.daysofvalidity;
+          this.curso.status_id = this.modal.curso.status_id;
         }
         this.$emit("cerrarModal");
       }
@@ -290,7 +343,6 @@ export default {
     limpiarDatos,
     guardar,
     uploadImage,
-    getImage,
     //TRATAR DE MEJORAR ESTOS METODOS DEL INPUT FILE
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;

@@ -13,11 +13,12 @@
 
 // Asterisco de required
 label.required:before {
-  color: #d10c0c ;
-  content: '* ';
-  display:inline;
+  color: #d10c0c;
+  content: "* ";
+  display: inline;
 }
 
+//COLOR PARA LOS MODALES
 
 .card-header:not(.content-center) > .c-icon:first-child {
   margin-right: 0.1rem;
@@ -28,11 +29,15 @@ label.required:before {
   font-size: 1.2rem;
 }
 
-.click-file{
-  cursor:pointer;
+.click-file {
+  cursor: pointer;
 }
 
-#cropp-img-img{
-  max-width:500px;
-  max-height:500px;
+#cropp-img-img {
+  max-width: 500px;
+  max-height: 500px;
+}
+
+.modal-header {
+  background-color: #9c27b0 !important;
 }

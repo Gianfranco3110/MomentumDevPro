@@ -50,24 +50,23 @@ class CoursesController extends Controller
             'description'           => 'required|max:365',
             'daysofvalidity'         => 'required|max:20',
             'image'             => 'required'
-        ]);
 
+        ]);
         if($request->hasFile('image')){
             $image_path = $request->file('image');
             $image_path_name = time().$image_path->getClientOriginalName();
 			Storage::disk('public')->put($image_path_name, File::get($image_path));
-
+    
         $user = auth()->userOrFail();
-        $query=DB::table('Courses')->insert([
+        $query=DB::table('courses')->insert([
             'price' => $request->input('price'),
             'description' => $request->input('description'),
             'status_id' => intval($request->input('status_id')),
             'users_id' => $user->id,
-            'applies_to_date' => date('d-m-y'),
+            'applies_to_date' => date('Y-m-d'),
             'daysofvalidity' => $request ->input('daysofvalidity'),
-            'image' => $image_path_name,         //PENDIENTE CON ESTO
-            
-        ]);
+            'image' => $image_path_name,         //PENDIENTE CON ESTO  
+        ]); 
         if($query){
             return response()->json( ['status' => 'success'] );
          }
@@ -76,7 +75,7 @@ class CoursesController extends Controller
     } else 
     {
         return response()->json(['message' => 'The given data was invalid.']); 
-    }          
+    }   
 }
 
     //FUNCION CAMBIAR ELIMINAR (CAMBIO DE ESTATUS)

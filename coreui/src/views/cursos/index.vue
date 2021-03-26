@@ -30,7 +30,7 @@
                   <CBadge :color="getBadge()"> </CBadge>
                 </td>
               </template>
-              <template #Detalle="{}">
+              <template #Detalle="{ item }">
                 <td class="py-2">
                   <CButton
                     color="primary"
