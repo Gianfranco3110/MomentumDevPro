@@ -11,6 +11,14 @@
 }
 */
 
+// Asterisco de required
+label.required:before {
+  color: #d10c0c ;
+  content: '* ';
+  display:inline;
+}
+
+
 .card-header:not(.content-center) > .c-icon:first-child {
   margin-right: 0.1rem;
   margin-top: 0.1rem;

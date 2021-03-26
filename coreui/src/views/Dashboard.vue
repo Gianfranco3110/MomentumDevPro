@@ -1,5 +1,5 @@
 <template>
-  <div>        
+  <div>
       <CCardGroup class="mb-4">
         <CRow lg="12" style="width:100%">
         <CCol sm="6" lg="3">
@@ -47,9 +47,11 @@
      
    <!-- Widget para las notas --> 
     <ProductsUser/>
-  
+  <!-- Widget para las redes sociales -->
+   <!-- <WidgetsBrand/> -->
+  <!-- -------------------------- -->
 
-<!--
+<!-- comentando la tabla de traffic sales 
     <CRow>
       <CCol md="12">
         <CCard>
@@ -415,6 +417,7 @@
                 <strong>{{item.activity}}</strong>
               </td>
             </CDataTable>
+          
           </CCardBody>
         </CCard>
       </CCol>

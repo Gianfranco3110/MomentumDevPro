@@ -52,8 +52,6 @@ const Page404 = () => import('@/views/pages/Page404')
 const Page500 = () => import('@/views/pages/Page500')
 const Login = () => import('@/views/pages/Login')
 const Register = () => import('@/views/pages/Register')
-const Articulo = () =>import('@/views/pages/Articulo/index')
-const Index = () =>import('@/views/pages/Index')
 
 // Users
 const Users = () => import('@/views/users/Users')
@@ -72,6 +70,12 @@ const ProductsUser = () => import('@/views/products/ProductsUser');
 const Product = () => import('@/views/products/Product')
 const EditProduct = () => import('@/views/products/EditProduct')
 const CreateProduct = () => import('@/views/products/CreateProduct')
+
+//Cursos
+const cursos = () => import('@/views/cursos/index')
+
+//CONSTANTE PARA REGISTRAR USUARIOS DESDE EL DASHBOARD
+const registro = () => import('@/views/RegistroAdmin/index')
 
 //Roles
 const Roles = () => import('@/views/roles/Roles')
@@ -383,6 +387,34 @@ function configRoutes () {
                 requiresUser: true
               }
             },
+          ]
+        },
+        //Ruta de cursos
+        {
+          path: 'cursos',
+          meta: { label: 'cursos'},
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children :[
+            {
+              path: '',
+              component:cursos,
+            }
+          ]
+        },
+        //RUTA PARA CREAR USUARIOS DESDE EL DASHBOARD
+        {
+          path: 'registro',
+          meta: { label: 'registro'},
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children :[
+            {
+              path: '',
+              component:registro,
+            }
           ]
         },
         {
@@ -926,21 +958,8 @@ function configRoutes () {
       ]
     },
     {
-      path: '/Articulo',
-      name: 'Articulo',
-      component: {
-        render (c) { return c('router-view') }
-      },
-      children: [
-        {
-          path: 'Articulo',
-          name: 'Articulo',
-          component: Articulo
-        }
-      ]
-    },
-    {
-      path: '/login',
+      path: '/',
+      redirect: '/login',
       name: 'Auth',
       component: Login
     },

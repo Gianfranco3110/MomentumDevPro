@@ -22,12 +22,20 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('register', 'AuthController@register'); 
 
     Route::resource('notes', 'NotesController');
-    
+
+
+    //ROUTE PARA CREAR PRODUCTOS ANTONIO
     Route::post('products/image/store','productsController@uploadImage');
     Route::put('products/eliminate/{product}','productsController@deleteProduct');
     Route::get('products/myproducts', 'productsController@showPerUser');
     Route::resource('products', 'productsController');
 
+    //ROUTE PARA CREAR CURSOS GIANF
+    Route::post('courses/image/store','CoursesController@uploadImage');
+    Route::resource('courses','CoursesController');
+
+
+    
     Route::resource('resource/{table}/resource', 'ResourceController');
     Route::get('media/storage','MediaController@getStoragePath');
     

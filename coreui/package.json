@@ -28,7 +28,9 @@
   },
   "dependencies": {
     "@coreui/coreui": "~3.0.0",
-    "@coreui/icons": "~1.0.1",
+    "@coreui/icons": "^1.0.1",
+    "@coreui/icons-pro": "^2.0.0-beta.5",
+    "@coreui/icons-vue": "^1.3.5",
     "@coreui/utils": "~1.2.2",
     "@coreui/vue": "~3.0.0",
     "@coreui/vue-chartjs": "~1.0.3",

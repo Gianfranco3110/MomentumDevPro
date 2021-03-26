@@ -1,11 +1,13 @@
 <template>
   <CRow>
     <CCol col="12" xl="12">
-      <transition name="slide">
+      <transition name="slide">       
+    
       <CCard>
+        <AgreModal :modal="AddModal" @cerrarModal="AddModal = false" />
         <CCardHeader>
           My courses
-          <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="createProduct()" class="mb-3">
+          <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="AddModal = true" class="mb-3">
             <CIcon :content="$options.freeSet.cilPlus"/> Create Product</CButton>
             <CAlert
               :show.sync="dismissCountDown"
@@ -107,10 +109,18 @@
 <script>
 import axios from 'axios'
 import { freeSet } from '@coreui/icons'
+import General from '@/_mixins/general'
+import AgreModal from './add-modal'
 
 export default {
   name: 'ProductsUser',
+  mixins: [General],
   freeSet,
+  components: {    
+    General,
+    AgreModal
+  },
+  props:{},
   data: () => {
     return {
       collapse: false,
@@ -126,7 +136,8 @@ export default {
       showMessage: false,
       dismissSecs: 7,
       dismissCountDown: 0,
-      showDismissibleAlert: false
+      showDismissibleAlert: false,
+      AddModal: false
 
     }
   },
@@ -185,7 +196,8 @@ export default {
         //self.$router.push({ path: '/login' });
       });
     }
-  }, 
+  },
+  watch:{}, 
   mounted: function(){
     this.getProducts();
   }
