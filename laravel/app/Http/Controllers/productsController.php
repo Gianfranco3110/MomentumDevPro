@@ -64,16 +64,10 @@ class productsController extends Controller
        $validatedData = $request->validate([
             'title'             => 'required|min:1|max:64',
             'description'           => 'required|max:1024',
-            'product_type'         => 'required|max:64',
-            'image'          => "required"
+            'product_type'         => 'required|max:64'
         ]);
 
-        if($request->hasFile('image')){
-            $image_path = $request->file('image');
-            $image_path_name = time().$image_path->getClientOriginalName();
-			Storage::disk('public')->put($image_path_name, File::get($image_path));
-
-            $user = auth()->userOrFail();
+        $user = auth()->userOrFail();
         $query=DB::table('products')->insert([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -81,20 +75,14 @@ class productsController extends Controller
             'product_type' => $request->input('product_type'),
             'users_id' => $user->id,
             'applies_to_date' => date('Y/m/d'),
-            'image' => $image_path_name
+            'image' => $request->input('imagePath')
              ]);
 
              if($query){
                 return response()->json( ['status' => 'success'] );
-             }
-             return response()->json(['status' => 'Error en la query.']);
-             
-        }else{
-            return response()->json(['message' => 'The given data was invalid.']); 
-        }
-
-        
-                
+             }else{
+             return response()->json(['status' => 'Error en la query.']);     
+             }  
         
     }
 

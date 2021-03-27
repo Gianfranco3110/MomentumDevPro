@@ -42,15 +42,15 @@
         </CCardBody>
       </CCard>
 
-     <!-- <template #footer>
-        <CButton color="success" :disabled="isDisabled" @click="evaluaStatus">
+      <template #footer>
+        <CButton color="success" @click="uploadImage">
           <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
         </CButton>
         <CButton color="dark" @click="AddModal = false">
           <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
         </CButton>
       </template>
-      -->
+      
     </CModal>
   </div>
 </template>
@@ -139,13 +139,7 @@ function isDisabled() {
 */
 //DATA
 function data() {
-  return {
-    //MODELOS
-    description: "",
-    price: "",
-    daysofvalidity: "",
-    photo: "",
-    status_id: 1,    
+  return {      
     product: {
         title: "",
         description: "",
@@ -259,7 +253,20 @@ export default {
   computed: {
   },
   mounted: function() {
-    
+    let self = this;
+    axios
+      .get(
+        this.$apiAdress +
+          "/api/products/create?token=" +
+          localStorage.getItem("api_token")
+      )
+      .then(function(response) {
+        self.statuses = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+        //self.$router.push({ path: 'login' });
+      });
   }
 };
 </script>
