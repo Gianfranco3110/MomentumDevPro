@@ -9,6 +9,38 @@
       :show.sync="AddModal"
     >
       <CRow class="mt-2">
+        <CCol sm="4">
+          <CInput
+            addLabelClasses="required"
+            placeholder="Nombre del curso"
+            invalid-feedback="Campo requerido"
+            label="NOMBRE DEL CURSO"
+            v-model="$v.curso.CourseName.$model"
+            :is-valid="hasError($v.curso.CourseName)"
+          />
+        </CCol>
+        <CCol sm="4">
+          <CInput
+            addLabelClasses="required"
+            type="number"
+            placeholder="Dias de vigencia"
+            invalid-feedback="Campo requerido solo enteros"
+            label="DIAS DE VIGENCIA"
+            v-model="$v.curso.daysofvalidity.$model"
+            :is-valid="hasError($v.curso.daysofvalidity)"
+          />
+        </CCol>
+        <CCol sm="4">
+          <CInput
+            addLabelClasses="required"
+            type="number"
+            placeholder="0"
+            invalid-feedback="Campo requerido {0,00}"
+            label="PRECIO DEL CURSO"
+            v-model="$v.curso.price.$model"
+            :is-valid="hasError($v.curso.price)"
+          />
+        </CCol>
         <CCol sm="12">
           <CTextarea
             addLabelClasses="required"
@@ -20,28 +52,6 @@
             placeholder="Ingrese su descripción aqui.."
             v-model="$v.curso.description.$model"
             :is-valid="hasError($v.curso.description)"
-          />
-        </CCol>
-        <CCol sm="3">
-          <CInput
-            addLabelClasses="required"
-            type="number"
-            placeholder="0"
-            invalid-feedback="Campo requerido {0,00}"
-            label="PRECIO DEL CURSO"
-            v-model="$v.curso.price.$model"
-            :is-valid="hasError($v.curso.price)"
-          />
-        </CCol>
-        <CCol sm="3">
-          <CInput
-            addLabelClasses="required"
-            type="number"
-            placeholder="Dias de vigencia"
-            invalid-feedback="Campo requerido solo enteros"
-            label="DIAS DE VIGENCIA"
-            v-model="$v.curso.daysofvalidity.$model"
-            :is-valid="hasError($v.curso.daysofvalidity)"
           />
         </CCol>
         <CCol sm="6">
@@ -69,32 +79,15 @@
                 <img src="../../../public/img/download1.png" alt="donwload" />
                 <h5>Elige un archivo o arrástralo aquí</h5>
               </label>
-              <ul class="mt-4" v-if="this.filelist.length" v-cloak>
-                <li
-                  class="text-sm p-1"
-                  v-for="file in filelist"
-                  :key="file.item"
-                >
-                  {{ file.name
-                  }}<button
-                    class="ml-2"
-                    type="button"
-                    @click="remove(filelist.indexOf(file))"
-                    title="Remove file"
-                  >
-                    Eliminar
-                  </button>
-                </li>
-              </ul>
             </div>
           </div>
           <!-- FINAL DEL INPUT FILE -->
         </CCol>
         <CCol sm="12" v-if="actualizar">
+          <br />
           <CSelect
-            addLabelClasses="required"
             label="Status"
-            :value.sync="status_id"
+            :value.sync="curso.status_id"
             :plain="true"
             :options="statuses"
           >
@@ -106,7 +99,7 @@
         <CButton color="success" :disabled="isDisabled" @click="evaluaStatus">
           <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
         </CButton>
-        <CButton color="dark" @click="AddModal = false">
+        <CButton class="botonesP" color="dark" @click="AddModal = false">
           <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
         </CButton>
       </template>
@@ -122,6 +115,16 @@ import axios from "axios";
 
 //METODOS
 
+//VISTA MINIATURA IMG
+function CargarMiniatura(filelist) {
+  let reader = new FileReader();
+  reader.onload = (event) => {
+    this.imageMiniature = event.target.result;
+  };
+  reader.readAsDataUrl(filelist);
+}
+
+//SUBE LA IMG AL STORAGE
 function uploadImage() {
   let self = this;
   self.Loading = true;
@@ -140,110 +143,101 @@ function uploadImage() {
       }
     )
     .then(function(response) {
+      self.$toastr.success("¡imagen agregada con exito!");
       self.imagePath = response.data.path;
+      self.Loading = false;
     })
     .catch(function(error) {
       console.log(error);
       //self.$router.push({ path: '/login' });
     });
-  self.Loading = false;
 }
 
+//GUARDA Y ACTUALIZA
 function guardar() {
   let self = this;
   self.Loading = true;
-  let formData = new FormData();
-  formData.append("image", self.image);
-  formData.append("daysofvalidity", self.curso.daysofvalidity);
-  formData.append("description", self.curso.description);
-  formData.append("status_id", self.curso.status_id);
-  formData.append("price", self.curso.price);
-  console.log(formData);
-  let url = "/api/courses?token=";
-  axios
-    .post(
-      this.$apiAdress +
-        "/api/courses?token=" +
-        localStorage.getItem("api_token"),
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    )
-    .then(function(response) {
-      self.limpiarDatos();
-      self.message = "CURSO CREADO SATISFACTORIAMENTE";
-      self.showAlert();
-      console.log(response);
-      self.Loading = false;
-      self.AddModal = false;
-    })
-    .catch(function(error) {
-      console.log(error);
-      console.log(error.response.data);
-      if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
-        self.message = "";
-        for (let key in error.response.data.errors) {
-          if (error.response.data.errors.hasOwnProperty(key)) {
-            self.message += error.response.data.errors[key][0] + "  ";
+  if (self.actualizar) {
+    axios
+      .post(
+        this.$apiAdress +
+          "/api/courses/" +
+          self.curso.id +
+          "?token=" +
+          localStorage.getItem("api_token"),
+        {
+          _method: "PUT",
+          price: self.curso.price,
+          description: self.curso.description,
+          CourseName: self.curso.CourseName,
+          applies_to_date: self.curso.applies_to_date,
+          status_id: self.curso.status_id,
+          daysofvalidity: self.curso.daysofvalidity,
+          image: self.curso.image,
+        }
+      )
+      .then(function(response) {
+        self.$toastr.success("¡Curso actualizado con exito!");
+        self.Loading = false;
+        self.AddModal = false;
+        self.limpiarDatos();
+        self.$emit("child-refresh", true);
+      })
+      .catch(function(error) {
+        if (error.response.data.message == "The given data was invalid.") {
+          self.message = "";
+          for (let key in error.response.data.errors) {
+            if (error.response.data.errors.hasOwnProperty(key)) {
+              self.message += error.response.data.errors[key][0] + "  ";
+            }
+          }
+        } else {
+          console.log(error);
+          //self.$router.push({ path: '/login' });
+        }
+      });
+  } else {
+    let formData = new FormData();
+    formData.append("image", self.image);
+    formData.append("daysofvalidity", self.curso.daysofvalidity);
+    formData.append("description", self.curso.description);
+    formData.append("CourseName", self.curso.CourseName);
+
+    formData.append("status_id", self.curso.status_id);
+    formData.append("price", self.curso.price);
+    console.log(formData);
+    axios
+      .post(
+        this.$apiAdress +
+          "/api/courses?token=" +
+          localStorage.getItem("api_token"),
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then(function(response) {
+        self.$toastr.success("¡Curso agregado con extio!");
+        self.limpiarDatos();
+        console.log(response);
+        self.Loading = false;
+        self.AddModal = false;
+        self.$emit("child-refresh", true);
+      })
+      .catch(function(error) {
+        if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
+          for (let key in error.response.data.errors) {
+            if (error.response.data.errors.hasOwnProperty(key)) {
+              self.message += error.response.data.errors[key][0] + "  ";
+            }
           }
         }
-        self.showAlert();
-      } else {
-        console.log(error);
-        //self.$router.push({ path: 'login' });
-      }
-    });
+      });
+  }
 }
-
-/*
-function guardar() {
-  this.Loading = true;
-  let self = this;
-  let course = [];
-  course = {
-    description: self.description,
-    price: self.price,
-    daysofvalidity: self.daysofvalidity,
-    status_id: 1,
-    image: self.imagePath,
-  };
-  console.log(course);
-  let url = "/api/courses?token=";
-  axios
-    .post(
-      this.$apiAdress +
-        "/api/courses?token=" +
-        localStorage.getItem("api_token"),
-      course
-    )
-    .then(function(response) {
-      self.limpiarDatos();
-      self.message = "Successfully created course.";
-      self.showAlert();
-      console.log(response);
-    })
-    .catch(function(error) {
-      console.log(error);
-      console.log(error.response.data);
-      if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
-        self.message = "";
-        for (let key in error.response.data.errors) {
-          if (error.response.data.errors.hasOwnProperty(key)) {
-            self.message += error.response.data.errors[key][0] + "  ";
-          }
-        }
-        self.showAlert();
-      } else {
-        console.log(error);
-        //self.$router.push({ path: 'login' });
-      }
-    });
-}
-*/
-
+//LIMPIA LOS CAMPOS
 function limpiarDatos() {
   this.curso = {
     description: "",
@@ -251,15 +245,17 @@ function limpiarDatos() {
     daysofvalidity: "",
     imagePath: "",
     status_id: "",
+    CourseName: "",
   };
   this.image = "";
 }
 
+//PERMITE INACTIVAR UN CURSO
 function evaluaStatus() {
-  if (this.Status === 2) {
+  if (this.curso.status_id === 2) {
     this.$swal
       .fire({
-        text: `¿Esta seguro de realizar el cambio de status para el registro?`,
+        text: `¿Esta seguro de inactivar este curso?`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -273,6 +269,26 @@ function evaluaStatus() {
         }
       });
   } else this.guardar();
+}
+
+//CARGA LOS STATUS AL ACTUALIZAR
+function Cstatus() {
+  let self = this;
+  self.Loading = true;
+  axios
+    .get(
+      this.$apiAdress +
+        "/api/courses/create?token=" +
+        localStorage.getItem("api_token")
+    )
+    .then(function(response) {
+      self.statuses = response.data;
+      self.Loading = false;
+    })
+    .catch(function(error) {
+      console.log(error);
+      //self.$router.push({ path: 'login' });
+    });
 }
 
 //COMPUTED
@@ -290,20 +306,18 @@ function data() {
       daysofvalidity: "",
       imagePath: "",
       status_id: 1,
+      CourseName: "",
     },
     // VARIABLES
     AddModal: false,
     Loading: false,
     actualizar: false,
     tituloModal: "",
-    message: "",
-    dismissSecs: 7,
-    dismissCountDown: 0,
-    showDismissibleAlert: false,
     statuses: [],
     image: null,
     files: [],
     filelist: [],
+    imageMiniature: "",
   };
 }
 export default {
@@ -314,6 +328,10 @@ export default {
     modal: null,
     type: String,
     default: "User id",
+    caption: {
+      type: String,
+      default: "curso id",
+    },
   },
   directives: UpperCase,
   validations: CursosVal,
@@ -328,11 +346,15 @@ export default {
         } else {
           this.actualizar = true;
           this.tituloModal = "EDITAR CURSO";
-          this.curso.description = this.modal.curso.description;
-          this.curso.price = this.modal.curso.price;
-          this.curso.imagePath = this.modal.curso.imagePath;
-          this.curso.daysofvalidity = this.modal.curso.daysofvalidity;
-          this.curso.status_id = this.modal.curso.status_id;
+          this.curso.id = this.modal.id;
+          this.curso.CourseName = this.modal.CourseName;
+          this.curso.description = this.modal.description;
+          this.curso.daysofvalidity = this.modal.daysofvalidity;
+          this.curso.price = this.modal.price;
+          this.curso.image = this.modal.image;
+          this.curso.status_id = this.modal.status_id == "ACTIVO" ? 1 : 2;
+
+          console.log(this.modal);
         }
         this.$emit("cerrarModal");
       }
@@ -343,17 +365,15 @@ export default {
     limpiarDatos,
     guardar,
     uploadImage,
+    CargarMiniatura,
+    Cstatus,
     //TRATAR DE MEJORAR ESTOS METODOS DEL INPUT FILE
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown;
-    },
-    showAlert() {
-      this.dismissCountDown = this.dismissSecs;
-    },
     onChange() {
+      //this.filelist = event.target.files[0];
       this.filelist = [...this.$refs.file.files];
       this.image = this.filelist[0];
       this.uploadImage();
+      //this.CargarMiniatura(this.filelist);
       console.log(this.image);
     },
     remove(i) {
@@ -383,22 +403,12 @@ export default {
   },
   computed: {
     isDisabled,
+    imagen() {
+      return this.imageMiniature;
+    },
   },
   mounted: function() {
-    let self = this;
-    axios
-      .get(
-        this.$apiAdress +
-          "/api/products/create?token=" +
-          localStorage.getItem("api_token")
-      )
-      .then(function(response) {
-        self.statuses = response.data;
-      })
-      .catch(function(error) {
-        console.log(error);
-        //self.$router.push({ path: 'login' });
-      });
+    this.Cstatus();
   },
 };
 </script>
