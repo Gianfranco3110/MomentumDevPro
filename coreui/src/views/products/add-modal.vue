@@ -43,7 +43,7 @@
       </CCard>
 
       <template #footer>
-        <CButton color="success" @click="uploadImage">
+        <CButton color="success" @click="createUser">
           <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
         </CButton>
         <CButton color="dark" @click="AddModal = false">
@@ -210,12 +210,23 @@ export default {
     },
     createUser() {
       let self = this;
+      let formData = new FormData();
+      formData.append("image", self.image);
+      formData.append("title", self.product.title);
+      formData.append("description", self.product.description);
+      formData.append("status_id", self.product.status_id);
+      formData.append("product_type", self.product.product_type);
       axios
         .post(
           this.$apiAdress +
             "/api/products?token=" +
             localStorage.getItem("api_token"),
-          self.product
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
         )
         .then(function(response) {
           self.product = {
