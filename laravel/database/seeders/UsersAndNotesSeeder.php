@@ -26,8 +26,6 @@ class UsersAndNotesSeeder extends Seeder
         $userStatus = array(
             'Active',
             'Inactive',
-            'Pending',
-            'Banned'
         );
         /* Create roles */
         $adminRole = $roleAdmin = Role::create(['name' => 'admin']);
@@ -49,23 +47,13 @@ class UsersAndNotesSeeder extends Seeder
         $faker = Faker::create();
         /*  insert status  */
         DB::table('status')->insert([
-            'name' => 'ongoing',
+            'name' => 'Activo',
             'class' => 'primary',
         ]);
         array_push($statusIds, DB::getPdo()->lastInsertId());
         DB::table('status')->insert([
-            'name' => 'stopped',
-            'class' => 'secondary',
-        ]);
-        array_push($statusIds, DB::getPdo()->lastInsertId());
-        DB::table('status')->insert([
-            'name' => 'completed',
-            'class' => 'success',
-        ]);
-        array_push($statusIds, DB::getPdo()->lastInsertId());
-        DB::table('status')->insert([
-            'name' => 'expired',
-            'class' => 'warning',
+            'name' => 'Inactivo',
+            'class' => 'danger',
         ]);
         array_push($statusIds, DB::getPdo()->lastInsertId());
         /*  insert users   */

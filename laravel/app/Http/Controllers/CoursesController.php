@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File; //PREGUNTAR SOBRE ESTE USE
 use App\Models\Course;
+use App\Models\Status;
+
 
 class CoursesController extends Controller
 {
@@ -14,6 +16,7 @@ class CoursesController extends Controller
     //FUNCION PARA MOSTRAR LOS CURSOS
     public function index()
     {
+        
         $Courses = DB::table('Courses')->join('users', 'users.id', '=', 'Courses.users_id')
         ->join('status', 'status.id', '=', 'Courses.status_id')
         ->select('Courses.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
@@ -25,6 +28,15 @@ class CoursesController extends Controller
     {        
         $statuses = DB::table('status')->select('status.name as label', 'status.id as value')->get();
         return response()->json( $statuses );
+    }
+
+    public function showPerUser()
+    {
+        $user = auth()->userOrFail();
+        $courses = DB::table('courses')->join('status','status.id','=','courses.status_id')
+        ->select('courses.*','status.name as status', 'status.class as status_class')
+        ->where('users_id',$user->id)->where('exist','=',0)->get();
+        return response()->json( $products );
     }
     
     //FUNCION PARA SUBIR IMG
@@ -49,18 +61,19 @@ class CoursesController extends Controller
             'price'             => 'required|min:1|max:20',
             'description'           => 'required|max:365',
             'daysofvalidity'         => 'required|max:20',
+            'CourseName'         => 'required|max:20',
             'image'             => 'required'
-
         ]);
         if($request->hasFile('image')){
             $image_path = $request->file('image');
             $image_path_name = time().$image_path->getClientOriginalName();
 			Storage::disk('public')->put($image_path_name, File::get($image_path));
-    
+            
         $user = auth()->userOrFail();
         $query=DB::table('courses')->insert([
             'price' => $request->input('price'),
             'description' => $request->input('description'),
+            'CourseName' => $request->input('CourseName'),
             'status_id' => intval($request->input('status_id')),
             'users_id' => $user->id,
             'applies_to_date' => date('Y-m-d'),
@@ -76,6 +89,41 @@ class CoursesController extends Controller
     {
         return response()->json(['message' => 'The given data was invalid.']); 
     }   
+}
+
+//METODO PARA EDITAR UN CURSO
+public function edit($id)
+    {
+        $courses=DB::table('courses')->where('id', '=', $id)->first();        
+        $statuses = DB::table('status')->select('status.name as label', 'status.id as value')->get();
+
+        return response()->json( [ 'statuses' => $statuses, 'course' => $courses ] );
+    }
+
+
+//METODO PARA ACTUALIZAR UN CURSO
+public function update(Request $request, $id)
+{
+    $validatedData = $request->validate([
+        'price'             => 'required|min:1|max:20',
+        'description'           => 'required|max:365',
+        'daysofvalidity'         => 'required|max:20',
+        'CourseName'         => 'required|max:20',
+        'image'             => 'required'
+    ]);
+    $courses = Course::find($id);
+    if($request->input('image')!=''){
+
+        $courses->image = $request->input('image');
+}    
+    $courses->price           = $request->input('price');
+    $courses->description     = $request->input('description');
+    $courses->status_id       = $request->input('status_id');
+    $courses->daysofvalidity    = $request->input('daysofvalidity');
+    $courses->CourseName    = $request->input('CourseName');
+    $courses->applies_to_date = date('Y/m/d');
+    $courses->save();
+    return response()->json( ['status' => 'success'] );
 }
 
     //FUNCION CAMBIAR ELIMINAR (CAMBIO DE ESTATUS)

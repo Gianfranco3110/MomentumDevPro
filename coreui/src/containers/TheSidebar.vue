@@ -1,5 +1,6 @@
 <template>
   <CSidebar
+    class="bg-dark"
     fixed
     :minimize="minimize"
     :show="show"
@@ -14,7 +15,7 @@
         :viewBox="`0 0 ${minimize ? 110 : 556} 134`"
       />
     </CSidebarBrand>
-   <!-- <CRenderFunction flat :content-to-render="nav"/>
+    <!-- <CRenderFunction flat :content-to-render="nav"/>
     <CSidebarMinimizer
       class="d-md-down-none"
       @click.native="$store.commit('set', ['sidebarMinimize', !minimize])"

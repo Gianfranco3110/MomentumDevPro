@@ -19,6 +19,7 @@ class CreateCoursesTable extends Migration
             $table->text('description');
             $table->date('applies_to_date');
             $table->string('image');
+            $table->string('CourseName');
             $table->integer('daysofvalidity');
             $table->integer('users_id')->unsigned();
             $table->integer('status_id')->unsigned();

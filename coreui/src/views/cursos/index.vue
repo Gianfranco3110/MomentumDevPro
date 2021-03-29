@@ -1,19 +1,28 @@
 <template>
   <div>
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
-    <AgreModal :modal="AddModal" @cerrarModal="AddModal = false" />
+    <AgreModal
+      :modal="AddModal"
+      @cerrarModal="AddModal = false"
+      @child-refresh="refrescarCurso = true"
+    />
     <CCard>
       <CCardHeader class="text-center bg-dark text-white">
         <b>LISTADO DE CURSOS</b>
       </CCardHeader>
       <CCardBody>
         <CCol sm="12" class="text-right">
-          <CButton square color="dark" @click="AddModal = true">
+          <CButton
+            square
+            class="botonesP"
+            color="dark"
+            @click="AddModal = true"
+          >
             <CIcon name="cil-playlist-add" />&nbsp; NUEVO CURSO
           </CButton>
           <CCol sm="12">
             <CDataTable
-              :items="['2', '2', '2']"
+              :items="items"
               :fields="fieldsCourse"
               column-filter
               :items-per-page="5"
@@ -25,16 +34,18 @@
               sorter
               pagination
             >
-              <template #Status="{}">
+              <template #status="{item}">
                 <td>
-                  <CBadge :color="getBadge()"> </CBadge>
+                  <CBadge :color="getBadge(item.status)">{{
+                    item.status
+                  }}</CBadge>
                 </td>
               </template>
               <template #Detalle="{ item }">
                 <td class="py-2">
                   <CButton
-                    color="primary"
-                    class="mr-1"
+                    color="dark"
+                    class="mr-1 bg-dark"
                     square
                     size="sm"
                     v-c-tooltip="'Editar'"
@@ -43,10 +54,10 @@
                     <CIcon name="cil-pencil" />
                   </CButton>
                   <CButton
-                    color="primary"
+                    color="dark"
                     square
                     size="sm"
-                    class="btn-info"
+                    class="mr-1"
                     v-c-tooltip="'Ver'"
                     @click="ListModal = item"
                   >
@@ -66,17 +77,19 @@
 import { DateFormater } from "@/_helpers/funciones";
 import General from "@/_mixins/general";
 import AgreModal from "./add-modal";
+import axios from "axios";
 
 const fieldsCourse = [
   {
-    key: "Nro",
+    key: "id",
     label: "#",
     _style: "width:1%;",
   },
-  { key: "Name", label: "NOMBRE" },
-  { key: "Usuario", label: "FOTO" },
-  { key: "Fecha", label: "DIAS DE VIGENCIA" },
-  { key: "Status", label: "STATUS" },
+  { key: "description", label: "TITULO" },
+  { key: "daysofvalidity", label: "DIAS DE VIGENCIA" },
+  { key: "price", label: "PRECIO" },
+  { key: "image", label: "FOTO" },
+  { key: "status", label: "STATUS" },
   {
     key: "Detalle",
     label: "",
@@ -95,16 +108,52 @@ const tableTextHelpers = {
   },
   noItemsViewText: {
     noResults: "NO SE ENCONTRARON RESULTADOS",
-    noItems: "NO HAY REGISTROS DISPONIBLES",
+    noItems: "NO HAY CURSOS DISPONIBLES",
   },
 };
+
+//LISTAR TODOS LOS CURSOS
+function ListCurso() {
+  let self = this;
+  self.Loading = true;
+  let listado = [];
+  self.items = [];
+  axios
+    .get(
+      this.$apiAdress +
+        "/api/courses?token=" +
+        localStorage.getItem("api_token")
+    )
+    .then(function(response) {
+      listado = response.data;
+      self.items = listado.map((listado) =>
+        Object.assign({}, self.items, {
+          id: listado.id,
+          image: listado.image,
+          price: listado.price,
+          daysofvalidity: listado.daysofvalidity,
+          status: listado.status,
+          description: listado.description,
+        })
+      );
+      console.log(response);
+      self.Loading = false;
+    })
+    .catch(function(error) {
+      console.log(error);
+      self.$router.push({ path: "/login" });
+    });
+}
 
 //DATA
 function data() {
   return {
+    items: [],
     Loading: false,
     LoadingEmba: false,
     AddModal: false,
+    refrescarCurso: false,
+
     tableText: Object.assign({}, tableTextHelpers),
   };
 }
@@ -124,9 +173,31 @@ export default {
       },
     },
   },
-  methods: {},
-  watch: {},
-  mounted() {},
+  methods: {
+    ListCurso,
+    getBadge(status) {
+      return status === "Activo"
+        ? "success"
+        : status === "Inactivo"
+        ? "danger"
+        : status === "Pending"
+        ? "warning"
+        : status === "Banned"
+        ? "danger"
+        : "primary";
+    },
+  },
+  watch: {
+    refrescarCurso: function() {
+      if (this.refrescarCurso) {
+        this.ListCurso();
+        this.refrescarCurso = false;
+      }
+    },
+  },
+  mounted() {
+    this.ListCurso();
+  },
 };
 </script>
 <style scoped></style>
