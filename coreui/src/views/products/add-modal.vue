@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--<loading-overlay :active="Loading" :is-full-page="true" loader="bars" />-->
+    <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CModal
       :title="tituloModal"
       :closeOnBackdrop="false"
@@ -210,6 +210,7 @@ export default {
     },
     createUser() {
       let self = this;
+      self.Loading = true;
       let formData = new FormData();
       formData.append("image", self.image);
       formData.append("title", self.product.title);
@@ -238,6 +239,7 @@ export default {
           };
           self.message = "Successfully created product.";
           self.showAlert();
+          self.$router.push({ path: "dashboard" });
         })
         .catch(function(error) {
           if (error.response.data.message == "The given data was invalid.") {
@@ -253,6 +255,7 @@ export default {
             //self.$router.push({ path: 'login' });
           }
         });
+        self.Loading = false;
     },
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;
