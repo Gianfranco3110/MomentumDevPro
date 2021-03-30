@@ -12,15 +12,7 @@
         <CCardBody>
           <h3>
             Create New Product
-          </h3>
-          <CAlert
-            :show.sync="dismissCountDown"
-            color="primary"
-            fade
-          >
-            ({{dismissCountDown}}) {{ message }}
-          </CAlert>
-
+          </h3>          
             <CInput label="Title" type="text" placeholder="Title" v-model="product.title"></CInput>
 
             <CInput textarea="true" label="Description" :rows="9" placeholder="Description.." v-model="product.description"></CInput>
@@ -35,6 +27,9 @@
             <CInput label="Product type" type="text" v-model="product.product_type"></CInput>            
             <input type="file" @change="getImage" name="image" id="image" accept="image/*" placeholder="Course picture"/>
             
+            <figure class="mt-3">
+                <img :src="imagenM" width="200" height="200" alt="Article Picture">
+            </figure>
 
          <!-- <CButton color="primary" @click.prevent="createProduct">Create</CButton>
           <CButton color="primary" @click="goBack">Back</CButton>-->
@@ -61,56 +56,6 @@ import axios from "axios";
 
 //METODOS
 /*
-function guardar() {
-  let url = "/api/courses?token=";
-  axios
-    .post(
-      this.$apiAdress +
-        "/api/courses?token=" +
-        localStorage.getItem("api_token"),
-      {
-        course: {
-          description: this.description,
-          price: this.price,
-          daysofvalidity: this.daysofvalidity,
-          photo: this.photo,
-          status_id: 1,
-        },
-      }
-    )
-    .then(function(response) {
-      this.limpiarDatos();
-      console.log(response);
-      console.log(course);
-      this.message = "Successfully created course.";
-      this.showAlert();
-    })
-    .catch(function(error) {
-      if (error.response.data.message == "The given data was invalid.") {
-        this.message = "";
-        for (let key in error.response.data.errors) {
-          if (error.response.data.errors.hasOwnProperty(key)) {
-            this.message += error.response.data.errors[key][0] + "  ";
-          }
-        }
-        this.showAlert();
-      } else {
-        console.log(error);
-        //self.$router.push({ path: 'login' });
-      }
-    });
-}
-
-function limpiarDatos() {
-  this.description = "";
-  this.price = "";
-  this.daysofvalidity = "";
-  this.photo = "";
-  status_id: null;
-  this.$nextTick(() => {
-    this.$v.$reset();
-  });
-}
 
 function evaluaStatus() {
   if (this.Status === 0) {
@@ -159,6 +104,7 @@ function data() {
     showDismissibleAlert: false,
     statuses: [],
     image: null,
+    imagenMiniatura: '',
   };
 }
 export default {
@@ -180,10 +126,18 @@ export default {
   methods: {
     getImage(event) {
       //Asignamos la imagen a  nuestra data
-      this.image = event.target.files[0];
-      console.log(this.image);
+      let file = event.target.files[0];
+      this.image = file;
+      this.cargarImagen(file);
     },
-    uploadImage() {
+    cargarImagen(file){
+      let reader = new FileReader();
+      reader.onload = (e) =>{
+        this.imagenMiniatura = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+   /* uploadImage() {
       let self = this;
       let formData = new FormData();
       formData.append("image", self.image);
@@ -207,7 +161,7 @@ export default {
           console.log(error);
           //self.$router.push({ path: '/login' });
         });
-    },
+    },*/
     createUser() {
       let self = this;
       self.Loading = true;
@@ -237,25 +191,18 @@ export default {
             product_type: "",
             imagePath: "",
           };
-          self.message = "Successfully created product.";
-          self.showAlert();
-          self.$router.push({ path: "dashboard" });
+          self.imagenMiniatura = '';
+          document.getElementById("image").value = "";
+          self.Loading = false;
+          self.$toastr.success("¡Producto agregado con exito!");
         })
-        .catch(function(error) {
-          if (error.response.data.message == "The given data was invalid.") {
-            self.message = "";
-            for (let key in error.response.data.errors) {
-              if (error.response.data.errors.hasOwnProperty(key)) {
-                self.message += error.response.data.errors[key][0] + "  ";
-              }
-            }
-            self.showAlert();
-          } else {
-            console.log(error);
-            //self.$router.push({ path: 'login' });
-          }
+        .catch(function(error) {          
+          console.log(error);
+          self.imagenMiniatura = '';
+          document.getElementById("image").value = "";
+          self.Loading = false;
+          self.$toastr.danger("¡Error al agregar producto!");
         });
-        self.Loading = false;
     },
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;
@@ -265,9 +212,13 @@ export default {
     },
   },
   computed: {
+    imagenM(){
+      return this.imagenMiniatura;
+    }
   },
   mounted: function() {
     let self = this;
+    self.Loading = true;
     axios
       .get(
         this.$apiAdress +
@@ -276,6 +227,7 @@ export default {
       )
       .then(function(response) {
         self.statuses = response.data;
+        self.Loading = false;
       })
       .catch(function(error) {
         console.log(error);
