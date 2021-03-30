@@ -205,7 +205,7 @@ function guardar() {
 
     formData.append("status_id", self.curso.status_id);
     formData.append("price", self.curso.price);
-    console.log(formData);
+    console.log(FormData);
     axios
       .post(
         this.$apiAdress +
@@ -352,7 +352,7 @@ export default {
           this.curso.daysofvalidity = this.modal.daysofvalidity;
           this.curso.price = this.modal.price;
           this.curso.image = this.modal.image;
-          this.curso.status_id = this.modal.status_id == "ACTIVO" ? 1 : 2;
+          this.curso.status = this.modal.status == "Activo" ? 1 : 2;
 
           console.log(this.modal);
         }

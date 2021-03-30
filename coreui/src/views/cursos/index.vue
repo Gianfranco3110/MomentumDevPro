@@ -85,7 +85,7 @@ const fieldsCourse = [
     label: "#",
     _style: "width:1%;",
   },
-  { key: "description", label: "TITULO" },
+  { key: "CourseName", label: "TITULO" },
   { key: "daysofvalidity", label: "DIAS DE VIGENCIA" },
   { key: "price", label: "PRECIO" },
   { key: "image", label: "FOTO" },
@@ -133,6 +133,7 @@ function ListCurso() {
           price: listado.price,
           daysofvalidity: listado.daysofvalidity,
           status: listado.status,
+          CourseName: listado.CourseName,
           description: listado.description,
         })
       );

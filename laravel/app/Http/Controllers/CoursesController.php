@@ -15,13 +15,12 @@ class CoursesController extends Controller
 
     //FUNCION PARA MOSTRAR LOS CURSOS
     public function index()
-    {
-        
-        $Courses = DB::table('Courses')->join('users', 'users.id', '=', 'Courses.users_id')
-        ->join('status', 'status.id', '=', 'Courses.status_id')
-        ->select('Courses.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
+    {  
+       $courses = DB::table('courses')->join('users', 'users.id', '=', 'courses.users_id')
+        ->join('status', 'status.id', '=', 'courses.status_id')
+        ->select('courses.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
         ->get();
-        return response()->json( $Courses );
+        return response()->json( $courses );
     }
 
     public function create()
