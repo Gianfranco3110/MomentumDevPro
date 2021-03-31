@@ -5,7 +5,7 @@
       <transition name="slide">       
     
       <CCard>
-        <AgreModal :modal="AddModal" @cerrarModal="AddModal = false" />
+        <AgreModal :modal="AddModal" @cerrarModal="AddModal = false" @child-refresh="refrescarProducto = true" />
         <CCardHeader>
           All Products
           <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="AddModal = true" class="mb-3">
@@ -20,19 +20,10 @@
 
                   <div class="card-body">
                     <h5 class="card-title">{{item.title}} <CBadge :color="item.status_class">{{item.status}}</CBadge></h5>
-                    <p class="card-text">{{item.description}}</p>
-                     <CButton @click="collapse = !collapse" color="primary">
-                      Nivel 2
-                    </CButton>
-                    <CCollapse :show="collapse" class="mt-2">
-                      <CCard body-wrapper>
-                        <CCardText>Description</CCardText>         
-                        
-                      </CCard>
-                    </CCollapse>
+                    <p class="card-text">{{item.description}}</p>                     
                     <CRow class="mt-2">
                       <CCol>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <a href="#" class="btn btn-success">Details</a>
                       </CCol>
                     </CRow>
                   </div>
@@ -128,6 +119,7 @@ export default {
       you: null,
       AddModal: false,
       Loading: false,
+      refrescarProducto: false,
     }
   },
   computed: {    
@@ -182,7 +174,14 @@ export default {
       });
     }
   },
-  watch:{}, 
+  watch:{
+    refrescarProducto: function() {
+      if (this.refrescarProducto) {
+        this.getProducts();
+        this.refrescarProducto = false;
+      }
+    },
+  }, 
   mounted: function(){
     this.getProducts();
   }

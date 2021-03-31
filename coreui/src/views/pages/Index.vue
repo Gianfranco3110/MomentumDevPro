@@ -26,7 +26,10 @@
         <a class="dropdown-item" href="#">Something else here</a>
       </div>
     </li>
-    <li class="c-header-nav-item">
+    <li v-if="logueado" class="c-header-nav-item">
+      <router-link :to="{ name: 'Dashboard'}">Dashboard</router-link>
+    </li>
+    <li v-if="logueado == false" class="c-header-nav-item">
       <router-link :to="{ name: 'Auth'}">Login</router-link>
     </li>
   </ul>
@@ -103,49 +106,32 @@
   </div>
   <div id="seccion-productos">
     <div class="container">
-      <h2 style="color:white">Productos</h2><br>
-      <div class="row">
-        <div class="col-md-3">
-          <div class="card" style="width: 15rem;">
-            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+      <CCard>        
+        <CCardHeader>
+          All Products           
+        </CCardHeader>
+        <CCardBody>
+          <CRow>
+            <template>
+            <CCol md="4" v-for="(item, index) in items" :key="index">
+                <div class="card" style="width: 18rem;">
+                  <img :src="'public/products/' + item.image" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
 
-            <div class="card-body">
-              <h5 class="card-title">Producto 1</h5>
-              <p class="card-text">Descripción</p>                                        
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card" style="width: 15rem;">
-            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
-
-            <div class="card-body">
-              <h5 class="card-title">Producto 2</h5>
-              <p class="card-text">Descripción</p>                                        
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card" style="width: 15rem;">
-            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
-
-            <div class="card-body">
-              <h5 class="card-title">Producto 3</h5>
-              <p class="card-text">Descripción</p>                                        
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card" style="width: 15rem;">
-            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
-
-            <div class="card-body">
-              <h5 class="card-title">Producto 4</h5>
-              <p class="card-text">Descripción</p>                                        
-            </div>
-          </div>
-        </div>
-      </div>
+                  <div class="card-body">
+                    <h5 class="card-title">{{item.title}} <CBadge :color="item.status_class">{{item.status}}</CBadge></h5>
+                    <p class="card-text">{{item.description}}</p>
+                     <CRow class="mt-2">
+                      <CCol>
+                    <a href="#" class="btn btn-success">Details</a>
+                      </CCol>
+                    </CRow>
+                  </div>
+                </div>
+            </CCol>
+            </template>                  
+          </CRow>            
+        </CCardBody>  
+      </CCard>
     </div>
   </div>
   <div id="footer">
@@ -197,10 +183,17 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
+import { freeSet } from '@coreui/icons'
+import General from '@/_mixins/general'
 
 export default {
   name: "Index",
+  mixins: [General],
+  freeSet,
+  components: {    
+    General
+  },
   data() {
     return {
       email: "",
@@ -208,16 +201,44 @@ export default {
       showMessage: false,
       Loading: false,
       message: "",
+      collapse: false,
+      items: [],      
+      fields: ['title', 'description', 'image', 'applies_to_date', 'status', 'product_type', 'show', 'edit', 'delete'],
+      currentPage: 1,
+      perPage: 5,
+      totalRows: 0,
+      user: '',
+      logueado: false,
     };
   },
   methods: {
+    getRowCount (items) {
+      return items.length
+    },
     goRegister() {
       this.$router.push({ path: "register" });
     },
     goLogin() {
       this.$router.push({ path: "login" });
     },
+    getProducts (){
+      let self = this;
+      axios.get(  this.$apiAdress + '/api/products?token=' + localStorage.getItem("api_token") )
+      .then(function (response) {
+        self.items = response.data;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
   },
+  mounted: function(){
+    this.getProducts();
+
+    if(localStorage.getItem("name")!=null && localStorage.getItem("name")!=''){
+      this.logueado=true;
+      this.user = localStorage.getItem("name");
+    }
+  }
 };
 </script>
 <style scoped>

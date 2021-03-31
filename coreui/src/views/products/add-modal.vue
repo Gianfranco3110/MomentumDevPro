@@ -30,9 +30,6 @@
             <figure class="mt-3">
                 <img :src="imagenM" width="200" height="200" alt="Article Picture">
             </figure>
-
-         <!-- <CButton color="primary" @click.prevent="createProduct">Create</CButton>
-          <CButton color="primary" @click="goBack">Back</CButton>-->
           
         </CCardBody>
       </CCard>
@@ -98,10 +95,6 @@ function data() {
     Loading: false,
     actualizar: false,
     tituloModal: "",
-    message: "",
-    dismissSecs: 7,
-    dismissCountDown: 0,
-    showDismissibleAlert: false,
     statuses: [],
     image: null,
     imagenMiniatura: '',
@@ -194,7 +187,9 @@ export default {
           self.imagenMiniatura = '';
           document.getElementById("image").value = "";
           self.Loading = false;
+          self.AddModal = false;
           self.$toastr.success("¡Producto agregado con exito!");
+          self.$emit("child-refresh", true);
         })
         .catch(function(error) {          
           console.log(error);
@@ -203,13 +198,7 @@ export default {
           self.Loading = false;
           self.$toastr.danger("¡Error al agregar producto!");
         });
-    },
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown;
-    },
-    showAlert() {
-      this.dismissCountDown = this.dismissSecs;
-    },
+    },       
   },
   computed: {
     imagenM(){

@@ -21,6 +21,8 @@ class productsController extends Controller
         $products = DB::table('products')->join('users', 'users.id', '=', 'products.users_id')
         ->join('status', 'status.id', '=', 'products.status_id')
         ->select('products.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
+        ->where('exist','=',0)
+        ->limit(6)
         ->get();
         return response()->json( $products );
     }
