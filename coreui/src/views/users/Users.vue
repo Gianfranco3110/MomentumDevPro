@@ -1,5 +1,6 @@
 <template>
   <CRow>
+    <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CCol col="12" xl="8">
       <transition name="slide">
         <CCard>
@@ -84,6 +85,7 @@ export default {
       dismissSecs: 7,
       dismissCountDown: 0,
       showDismissibleAlert: false,
+      Loading: false,
     };
   },
   paginationProps: {
@@ -150,6 +152,7 @@ export default {
     },
     getUsers() {
       let self = this;
+      self.Loading = true;
       axios
         .get(
           this.$apiAdress +
@@ -160,14 +163,16 @@ export default {
           self.items = response.data.users;
           console.log(self.items);
           self.you = response.data.you;
+          self.Loading = false;
         })
         .catch(function(error) {
           console.log(error);
-          self.$router.push({ path: "/login" });
+          self.Loading = false;
+          //self.$router.push({ path: "/login" });
         });
     },
   },
-  mounted: function() {
+  mounted: function() {    
     this.getUsers();
   },
 };

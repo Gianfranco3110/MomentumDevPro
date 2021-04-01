@@ -48,8 +48,11 @@
     <CDropdownItem>
       <CIcon name="cil-user" /> Profile
     </CDropdownItem>
-    <CDropdownItem>
-      <CIcon name="cil-settings" /> Settings
+    <CDropdownItem v-if="isAdmin" @click="goUsers()">      
+      <CIcon name="cil-user" /> Users      
+    </CDropdownItem>
+    <CDropdownItem  @click="goSettings()">      
+      <CIcon name="cil-settings" /> Settings      
     </CDropdownItem>
     <!--
     <CDropdownItem>
@@ -80,6 +83,7 @@ export default {
       itemsCount: 42,
       userEmail: '',
       userName: '',
+      isAdmin: false,
     }
   },
   methods:{
@@ -94,6 +98,12 @@ export default {
       }).catch(function (error) {
         console.log(error); 
       });
+    },
+    goUsers(){
+      this.$router.push({path: '/users'});
+    },
+    goSettings(){
+      this.$router.push({path: 'settings'});
     }
   },
 
@@ -101,6 +111,9 @@ export default {
     let self = this;
     self.userEmail = localStorage.getItem("email");
     self.userName = localStorage.getItem("name");
+    if(localStorage.getItem('roles')=='user,admin'){
+      self.isAdmin = true;
+    }
   }
 }
 </script>

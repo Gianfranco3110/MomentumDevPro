@@ -46,8 +46,9 @@
       </CCardGroup>    
      
    <!-- Widget para las notas --> 
+    <div v-if="isAdmin">
     <ProductsUser/>
-  
+    </div>
 
   </div>
 </template>
@@ -66,7 +67,7 @@ export default {
   },
   data () {
     return {
-      
+      isAdmin: false,
     }
   },
   methods: {
@@ -82,6 +83,11 @@ export default {
         $color = 'danger'
       }
       return $color
+    }
+  },
+  mounted: function(){
+    if(localStorage.getItem('roles') == 'user,admin'){
+      this.isAdmin = true;
     }
   }
 }
