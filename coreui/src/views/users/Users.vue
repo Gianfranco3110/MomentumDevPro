@@ -77,7 +77,7 @@ export default {
         "delete",
       ],
       currentPage: 1,
-      perPage: 5,
+      perPage: 15,
       totalRows: 0,
       you: null,
       message: "",
@@ -122,6 +122,7 @@ export default {
     },
     deleteUser(id) {
       let self = this;
+      self.Loading = true;
       let userId = id;
       axios
         .post(
@@ -134,14 +135,15 @@ export default {
             _method: "DELETE",
           }
         )
-        .then(function(response) {
-          self.message = "Successfully deleted user.";
-          self.showAlert();
+        .then(function(response) {    
+          self.Loading = false;
+          self.$toastr.success("¡Usuario eliminado con exito!");    
           self.getUsers();
         })
         .catch(function(error) {
           console.log(error);
-          self.$router.push({ path: "/login" });
+          self.Loading = false;
+          self.$toastr.danger("¡Error al eliminar usuario!");
         });
     },
     countDownChanged(dismissCountDown) {

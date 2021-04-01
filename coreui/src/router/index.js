@@ -422,6 +422,9 @@ function configRoutes () {
             {
               path: '',
               component:registro,
+              meta:{
+                requiresAdmin: true
+              }
             }
           ]
         },
