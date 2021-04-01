@@ -171,6 +171,8 @@ export default {
       }).catch(function (error) {
         console.log(error);
         self.$router.replace({ path: '/login' });
+        localStorage.setItem('name', '');
+        localStorage.setItem('api_token', '');
       });
     }
   },

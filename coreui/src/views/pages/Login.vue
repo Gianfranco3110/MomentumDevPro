@@ -114,8 +114,8 @@ export default {
           self.$router.push({ path: "dashboard" });
         })
         .catch(function(error) {
-          self.message = "Incorrect E-mail or password";
-          self.showMessage = true;
+          self.Loading = false;
+          self.$toastr.warning("¡Error, please check your password!");
           console.log(error);
         });
       

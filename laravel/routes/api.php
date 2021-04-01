@@ -19,7 +19,9 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
-    Route::post('register', 'AuthController@register'); 
+    Route::post('register', 'AuthController@register');
+
+    Route::put('user/password/change','UsersController@updatePassword');
 
     Route::resource('notes', 'NotesController');
 

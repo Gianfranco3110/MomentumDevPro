@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -71,6 +73,27 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function updatePassword(Request $request){
+        $validate = Validator::make($request->all(), [
+            'password'  => 'required|min:4|confirmed',
+        ]); 
+        if ($validate->fails()){
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validate->errors()
+            ], 422);
+        } 
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+        
+        $user->password = bcrypt($request->password); 
+        $user->save();
+
+        return response()->json(['status' => 'success'], 200);
+    }
+
+
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([

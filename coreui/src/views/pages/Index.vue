@@ -26,11 +26,11 @@
         <a class="dropdown-item" href="#">Something else here</a>
       </div>
     </li>
-    <li v-if="logueado" class="c-header-nav-item">
-      <router-link :to="{ name: 'Dashboard'}">Dashboard</router-link>
+    <li v-if="logueado" class="c-header-nav-item" @click="goDashboard()">
+      Dashboard
     </li>
-    <li v-if="logueado == false" class="c-header-nav-item">
-      <router-link :to="{ name: 'Auth'}">Login</router-link>
+    <li v-if="logueado == false" class="c-header-nav-item" @click="goLogin()">
+      Login
     </li>
   </ul>
     
@@ -59,7 +59,7 @@
   </div>
 <div id="seccion-cursos">
     <div class="container">
-      <h2 style="color:white">Cursos</h2><br>
+      <h2>Cursos</h2><br>
       <div class="row">
         <div class="col-md-3">
           <div class="card" style="width: 15rem;">
@@ -221,6 +221,9 @@ export default {
     goLogin() {
       this.$router.push({ path: "login" });
     },
+    goDashboard() {
+      this.$router.push({ path: "Dashboard" });
+    },
     getProducts (){
       let self = this;
       axios.get(  this.$apiAdress + '/api/products?token=' + localStorage.getItem("api_token") )
@@ -236,11 +239,12 @@ export default {
 
     if(localStorage.getItem("name")!=null && localStorage.getItem("name")!=''){
       this.logueado=true;
-      this.user = localStorage.getItem("name");
     }
   }
 };
 </script>
 <style scoped>
-
+.c-header-nav-item{
+  cursor: pointer;
+}
 </style>

@@ -25,12 +25,7 @@
 }
 
 #seccion-cursos{
-    padding:50px;
-    background-color: rgb(211, 212, 212);
-    background-image: url("Login.jpg");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    padding:50px;  
 }
 
 #menu ul li{

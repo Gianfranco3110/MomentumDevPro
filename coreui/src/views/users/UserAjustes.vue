@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex align-items-center min-vh-100">
+    <div class="d-flex align-items-center min-vh-50">
         <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CContainer fluid>
         <transition name="slide">  
@@ -8,29 +8,22 @@
           <CCard class="mx-4 mb-0">
             <CCardBody class="p-4">
               <CForm>
-                <h2 class="mb-4">Change Password</h2>               
-                <CInput placeholder="Old Password" type="password" prependHtml="<i class='cui-lock-locked'></i>"
-                  autocomplete="old-password" v-model="oldpassword" >
-                  <template #prepend-content
-                    ><CIcon name="cil-lock-locked"
-                  /></template>
-                </CInput>
+                <h2 class="mb-4">Change Password</h2>              
+                
                 <CInput placeholder="New Password" type="password" prependHtml="<i class='cui-lock-locked'></i>"
-                  autocomplete="new-password" v-model="newpassword" >
+                  autocomplete="new-password" v-model="password" >
                   <template #prepend-content
                     ><CIcon name="cil-lock-locked"
                   /></template>
                 </CInput>
                 <CInput placeholder="Repeat password" type="password" prependHtml="<i class='cui-lock-locked'></i>"
-                  autocomplete="new-password" class="mb-4" v-model="password_confirmation"
+                  autocomplete="confirm-password" class="mb-4" v-model="password_confirmation"
                 >
                   <template #prepend-content
                     ><CIcon name="cil-lock-locked"
                   /></template>
                 </CInput>
-                <CButton type="submit" color="success" block
-                  >Change</CButton
-                >
+                <CButton color="success" block @click="changePassword()">Change Password</CButton>
               </CForm>
             </CCardBody>            
           </CCard>
@@ -52,14 +45,35 @@ export default {
   },
   data() {
     return {
-      oldpassword: '',
-      newpassword: '',
-      password_confirmation: '',
+      password: "",
+      password_confirmation: "",
       Loading: false,
     };
   },
   methods: {     
-    
+    changePassword(){
+      let self = this;
+      self.Loading = true;
+      axios.post( this.$apiAdress + '/api/user/password/change?token=' + localStorage.getItem('api_token'),
+      {
+          _method: 'PUT',          
+          password: self.password,
+          password_confirmation: self.password_confirmation,
+        })
+        .then(function(response){
+          self.password = '';
+          self.password_confirmation = '',
+          self.Loading = false;
+          self.$toastr.success("¡Contraseña actualizada con exito!");
+      })
+      .catch(function(e){
+        self.password = '';
+        self.password_confirmation = '',
+        self.Loading = false;
+        console.log(e);
+        self.$toastr.danger("¡Error al actualizar contraseña!");
+      });
+    },
   },
   mounted: function(){
     

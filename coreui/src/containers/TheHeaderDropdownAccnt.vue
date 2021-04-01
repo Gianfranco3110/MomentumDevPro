@@ -52,7 +52,7 @@
       <CIcon name="cil-user" /> Users      
     </CDropdownItem>
     <CDropdownItem  @click="goSettings()">      
-      <CIcon name="cil-settings" /> Settings      
+      <CIcon name="cil-settings" /> Change Password      
     </CDropdownItem>
     <!--
     <CDropdownItem>
