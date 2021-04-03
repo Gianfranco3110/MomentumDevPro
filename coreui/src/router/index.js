@@ -75,6 +75,9 @@ const CreateProduct = () => import('@/views/products/CreateProduct')
 //Cursos
 const cursos = () => import('@/views/cursos/index')
 
+//Cursos-Video
+const videos = () => import('@/views/videos/index')
+
 //CONSTANTE PARA REGISTRAR USUARIOS DESDE EL DASHBOARD
 const registro = () => import('@/views/RegistroAdmin/index')
 
@@ -402,6 +405,19 @@ function configRoutes () {
             {
               path: '',
               component:cursos,
+            }
+          ]
+        },
+        {
+          path: 'videos',
+          meta: { label: 'videos'},
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children :[
+            {
+              path: '',
+              component:videos,
             }
           ]
         },

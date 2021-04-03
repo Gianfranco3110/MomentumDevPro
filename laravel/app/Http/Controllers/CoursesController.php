@@ -46,7 +46,7 @@ class CoursesController extends Controller
          if($request->hasFile('image')){
              $image_path = $request->file('image');
              $image_path_name = time().$image_path->getClientOriginalName();
-             Storage::disk('public')->put($image_path_name, File::get($image_path));
+             Storage::disk('public')->put('curso/'.$image_path_name, File::get($image_path));
              return response()->json(['path' => $image_path_name]); 
          }
          return response()->json(['path' => 'error']); 

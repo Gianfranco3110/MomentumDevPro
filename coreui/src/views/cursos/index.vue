@@ -41,6 +41,18 @@
                   }}</CBadge>
                 </td>
               </template>
+              <template #image="{item}">
+                <td>
+                  <img
+                    :src="'public/curso/' + item.image"
+                    class="bd-placeholder-img card-img-top"
+                    width="100%"
+                    height="180"
+                    aria-label="Placeholder: Image cap"
+                    role="img"
+                  />
+                </td>
+              </template>
               <template #Detalle="{ item }">
                 <td class="py-2">
                   <CButton
@@ -151,7 +163,6 @@ function data() {
   return {
     items: [],
     Loading: false,
-    LoadingEmba: false,
     AddModal: false,
     refrescarCurso: false,
 
