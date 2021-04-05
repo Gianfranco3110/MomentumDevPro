@@ -163,10 +163,17 @@ class productsController extends Controller
             'product_type'         => 'required|max:64'
         ]);
         $product = Product::find($id);
-    if($request->input('image')!=''){
+
+        if($request->hasFile('image')){
+            $image_path = $request->file('image');
+            $image_path_name = time().$image_path->getClientOriginalName();
+			Storage::disk('public')->put('products/'.$image_path_name, File::get($image_path));
+            $product->image = $image_path_name;
+        }
+    /*if($request->input('image')!=''){
 
             $product->image = $request->input('image');
-    }    
+    } */   
         
         $product->title           = $request->input('title');
         $product->description     = $request->input('description');

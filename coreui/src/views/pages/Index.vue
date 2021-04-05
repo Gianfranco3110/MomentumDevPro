@@ -8,24 +8,11 @@
   </a>
   <ul class="c-header-nav ml-auto pr-4">
     <li class="c-header-nav-item active">
-      <a class="c-header-nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      Home <span class="sr-only">(current)</span>
     </li>
     <li class="c-header-nav-item">
-      <a class="c-header-nav-link" href="#">Features</a>
-    </li>
-    <li class="c-header-nav-item">
-      <a class="c-header-nav-link" href="#">Pricing</a>
-    </li>
-    <li class="c-header-nav-item dropdown">
-      <a class="c-header-nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
-        Dropdown link
-      </a>
-      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-      </div>
-    </li>
+      Contact us
+    </li>   
     <li v-if="logueado" class="c-header-nav-item" @click="goDashboard()">
       Dashboard
     </li>
@@ -57,6 +44,45 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
+<div id="seccion-estadisticas">
+  <div class="container">
+    <div class="row">
+      <div class="column1">
+        <div class="card">
+          <div class="row">
+            <h4>
+                Certificate
+                <br>
+              <span>Completa cualquiera de nuestros cursos y obtén tu certificado</span>
+            </h4>            
+          </div>
+        </div>
+      </div>
+      <div class="column2">
+        <div class="card">
+          <div class="row">
+            <h4>
+                Learn
+                <br>
+              <span>Completa cualquiera de nuestros cursos y obtén tu certificado</span>
+            </h4>            
+          </div>
+        </div>
+      </div>
+      <div class="column3">
+        <div class="card">
+          <div class="row">
+            <h4>
+              Share
+              <br>
+              <span>Completa cualquiera de nuestros cursos y obtén tu certificado</span>
+            </h4>            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="seccion-cursos">
     <div class="container">
       <h2>Cursos</h2><br>
@@ -97,7 +123,7 @@
 
             <div class="card-body">
               <h5 class="card-title">Curso 4</h5>
-              <p class="card-text">Descripción</p>                                        
+              <p class="card-text">Description</p>                                        
             </div>
           </div>
         </div>
@@ -134,47 +160,77 @@
       </CCard>
     </div>
   </div>
-  <div id="footer">
+  <footer id="footer">
     <div class="container">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 p-3">
           <div class="footer-seccion">
             <ul class="list-group">
-              <li class="list-group-item">
-                <h3>Contacto</h3>
+              <li class="list-group-item footer-title">
+                <h3>Contact</h3>
               </li>
-              <li class="list-group-item">Dapibus ac facilisis in</li>
-              <li class="list-group-item">Morbi leo risus</li>
-              <li class="list-group-item">Porta ac consectetur ac</li>
-              <li class="list-group-item">Vestibulum at eros</li>
+              <li class="list-group-item">
+                <CIcon name="cil-envelope-open" />
+                email@email.com
+              </li>
+              <li class="list-group-item">
+                <CIcon name="cil-phone" />
+                +1 458 125478
+              </li>
+              <li class="list-group-item">
+                <CIcon name="cil-location-pin" />
+                Address
+              </li>
+            </ul>
+          </div>
+          <div class="footer-seccion">
+            <ul class="list-group footer-social">
+              <li class="list-group-item footer-title">
+                <h3>Social Networks</h3>
+              </li>
+              <li class="list-group-item">
+                <span style="font-size: 2.7em; color: rgb(64, 148, 243)">
+                <i class="fab fa-twitter-square"></i>
+                </span>
+                Twitter
+              </li>
+              <li class="list-group-item">
+                <span style="font-size: 2.7em; color: rgb(20, 42, 163)">
+                <i class="fab fa-facebook"></i>
+                </span>
+                Facebook
+              </li>
+              <li class="list-group-item">
+                <span style="font-size: 2.7em; color: rgb(54, 29, 9)">
+                <i class="fab fa-instagram-square"></i>
+                </span>
+                Instagram
+              </li>
             </ul>
           </div>
           <div class="footer-seccion">
             <ul class="list-group">
-              <li class="list-group-item">
-                <h3>De interes</h3>
-              </li>
-              <li class="list-group-item">Dapibus ac facilisis in</li>
-              <li class="list-group-item">Morbi leo risus</li>
-              <li class="list-group-item">Porta ac consectetur ac</li>
-              <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
-          </div>
-          <div class="footer-seccion">
-            <ul class="list-group">
-              <li class="list-group-item">
+              <li class="list-group-item footer-title">
                 <h3>Newsletter</h3>
               </li>
-              <li class="list-group-item">Dapibus ac facilisis in</li>
-              <li class="list-group-item">Morbi leo risus</li>
-              <li class="list-group-item">Porta ac consectetur ac</li>
-              <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
+              <li class="list-group-item">Dapibus ac facilisis in Morbi leo risus. Porta ac consectetur ac
+                Vestibulum at eros
+                <input type="email" class="form-control mt-2" id="Input-email" placeholder="name@example.com">
+                <button class="btn btn-success mt-2" type="button">Submit</button>
+              </li>
+            </ul>          
           </div>
-        </div>
-      </div>
+        </div>        
+      </div>      
     </div>
-  </div>
+    <div class="row" style="background-color:white">
+        <div class="footer-copyright-seccion m-auto mt-3 p-2">
+            <div class="container">
+              <p>© 2021 MomentumDev, All rights reserved.</p>
+            </div>
+          </div>
+      </div>
+  </footer>
 
   </div>
   <!--  
@@ -246,5 +302,46 @@ export default {
 <style scoped>
 .c-header-nav-item{
   cursor: pointer;
+  font-size: 1.032rem;
+  height: 100%;
+    padding: 13px;
 }
+.c-header-nav-item:hover{
+  border-bottom: 4px solid rgb(182, 108, 204);
+}
+
+#seccion-estadisticas{
+  padding:0px 50px;
+  text-align: center;
+}
+
+#seccion-estadisticas .column1, #seccion-estadisticas .column2,#seccion-estadisticas .column3{
+  padding: 30px 15px;
+  flex: 1;  
+}
+#seccion-estadisticas .column1{background-color: rgb(74, 29, 83);}
+#seccion-estadisticas .column2{background-color: rgb(34, 29, 83);}
+#seccion-estadisticas .column3{background-color: rgb(83, 29, 42);}
+
+#seccion-estadisticas .card{
+    border:none;
+    background-color: transparent;
+}
+
+#seccion-estadisticas .card .row{
+  justify-content: center;
+  margin-right: 20px;
+  display: flex;
+  overflow: hidden;
+}
+
+#seccion-estadisticas h4{
+    color: rgb(255, 255, 255);
+    margin: auto 0 auto 10px;
+}
+
+#seccion-estadisticas h4 span{    
+    font-size: 12px;
+}
+
 </style>

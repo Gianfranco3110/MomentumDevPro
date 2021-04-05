@@ -34,7 +34,7 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     //ROUTE PARA CREAR CURSOS GIANF
     Route::post('courses/image/store','CoursesController@uploadImage');
-    Route::get('courses/courses', 'Courses@showPerUser');
+    Route::get('courses/courses', 'CoursesController@showPerUser');
     Route::resource('courses', 'CoursesController');
 
 
