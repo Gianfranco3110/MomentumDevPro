@@ -216,6 +216,7 @@ export default {
       )
       .then(function(response) {
         self.statuses = response.data;
+        console.log(response.data);
         self.Loading = false;
       })
       .catch(function(error) {

@@ -1,16 +1,14 @@
 <template>
   <CRow>
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
-    <CCol col="12" xl="8">
+    <CCol col="12" xl="12">
       <transition name="slide">
-        <CCard>
+        <CCard>          
+        <AgreModal :modal="AddModal" @cerrarModal="AddModal = false" @child-refresh="refrescarComponente = true" />
           <CCardHeader>
             Users
           </CCardHeader>
           <CCardBody>
-            <CAlert :show.sync="dismissCountDown" color="primary" fade>
-              ({{ dismissCountDown }}) {{ message }}
-            </CAlert>
             <CDataTable
               hover
               striped
@@ -50,6 +48,16 @@
                   >
                 </td>
               </template>
+              <template #Course="{item}">
+                <td>
+                  <CButton
+                    v-if="you != item.id"
+                    color="success"
+                    @click="AddModal = item"
+                    >Assign course</CButton
+                  >
+                </td>
+              </template>
             </CDataTable>
           </CCardBody>
         </CCard>
@@ -59,10 +67,17 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
+import AgreModal from './assign-course-modal'
+import General from '@/_mixins/general'
 
 export default {
   name: "Users",
+  mixins: [General],
+  components: {    
+    General,
+    AgreModal
+  },
   data: () => {
     return {
       items: [],
@@ -75,17 +90,15 @@ export default {
         "show",
         "edit",
         "delete",
+        "Course",
       ],
       currentPage: 1,
       perPage: 15,
       totalRows: 0,
       you: null,
-      message: "",
-      showMessage: false,
-      dismissSecs: 7,
-      dismissCountDown: 0,
-      showDismissibleAlert: false,
+      AddModal: false,
       Loading: false,
+      refrescarComponente: false,
     };
   },
   paginationProps: {
@@ -146,24 +159,24 @@ export default {
           self.$toastr.danger("¡Error al eliminar usuario!");
         });
     },
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown;
-    },
-    showAlert() {
-      this.dismissCountDown = this.dismissSecs;
-    },
     getUsers() {
       let self = this;
       self.Loading = true;
+      let listado= [];
       axios
         .get(
-          this.$apiAdress +
-            "/api/users?token=" +
-            localStorage.getItem("api_token")
-        )
+          this.$apiAdress + "/api/users?token=" + localStorage.getItem("api_token"))
         .then(function(response) {
-          self.items = response.data.users;
-          console.log(self.items);
+          listado = response.data.users;
+          self.items = listado.map((listado) =>
+        Object.assign({}, self.items, {
+          id: listado.id,
+          name: listado.name,
+          registered: listado.registered,
+          roles: listado.roles,
+          status: listado.status,
+        })
+        );
           self.you = response.data.you;
           self.Loading = false;
         })
@@ -174,6 +187,14 @@ export default {
         });
     },
   },
+  watch:{
+    refrescarComponente: function() {
+      if (this.refrescarComponente) {
+        this.getProducts();
+        this.refrescarComponente = false;
+      }
+    },
+  }, 
   mounted: function() {    
     this.getUsers();
   },
