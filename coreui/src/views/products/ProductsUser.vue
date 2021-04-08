@@ -12,7 +12,7 @@
             <CIcon :content="$options.freeSet.cilPlus"/> Create Product</CButton>            
         </CCardHeader>
         <CCardBody>
-          <CRow>
+         <!-- <CRow>
             <template>
             <CCol md="4" v-for="(item, index) in items" :key="index">
                 <div class="card" style="width: 18rem;">
@@ -29,8 +29,8 @@
                   </div>
                 </div>
             </CCol>
-            </template>                  
-          </CRow>
+            </template>                 
+          </CRow> -->
             <CDataTable
               hover
               :items="items"
