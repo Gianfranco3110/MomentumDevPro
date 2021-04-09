@@ -8,7 +8,7 @@
         <AgreModal :modal="AddModal" @cerrarModal="AddModal = false" @child-refresh="refrescarProducto = true" />
         <CCardHeader>
           All Products
-          <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="AddModal = true" class="mb-3">
+          <CButton v-bind:style="{ background: '#4B4BAF',color: '#ebedef', float:'right'}" @click="AddModal = true" class="mb-3">
             <CIcon :content="$options.freeSet.cilPlus"/> Create Product</CButton>            
         </CCardHeader>
         <CCardBody>
@@ -16,7 +16,7 @@
             <template>
             <CCol md="4" v-for="(item, index) in items" :key="index">
                 <div class="card" style="width: 18rem;">
-                  <img :src="'public/products/' + item.image" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+                  <img :src="'public/products/' + item.price" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: price cap" role="img">
 
                   <div class="card-body">
                     <h5 class="card-title">{{item.title}} <CBadge :color="item.status_class">{{item.status}}</CBadge></h5>
@@ -48,9 +48,9 @@
                   {{item.description}}
                 </td>  
               </template>
-              <template #image="{item}">
+              <template #price="{item}">
                 <td>
-                  <strong>{{item.image}}</strong>
+                  <strong>{{item.price}}</strong>
                 </td>
               </template>
               <template #applies_to_date="{item}">
@@ -112,7 +112,7 @@ export default {
       cardCollapse: true,
       innerCollapse: false,
       items: [],      
-      fields: ['title', 'description', 'image', 'applies_to_date', 'status', 'product_type', 'show', 'edit', 'delete'],
+      fields: ['title', 'description', 'price', 'applies_to_date', 'status', 'product_type', 'show', 'edit', 'delete'],
       currentPage: 1,
       perPage: 5,
       totalRows: 0,

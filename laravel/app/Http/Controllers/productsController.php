@@ -65,8 +65,9 @@ class productsController extends Controller
     {
        $validatedData = $request->validate([
             'title'             => 'required|min:1|max:64',
-            'description'           => 'required|max:1024',
-            'product_type'         => 'required|max:64'
+            'description'       => 'required|max:1024',
+            'product_type'      => 'required|max:64',
+            'price'             => 'required'
         ]);
         if($request->hasFile('image')){
             $image_path = $request->file('image');
@@ -82,7 +83,8 @@ class productsController extends Controller
             'users_id' => $user->id,
             'applies_to_date' => date('Y/m/d'),
             'image' => $image_path_name,
-            'exist' => 0
+            'exist' => 0,
+            'price' => $request->input('price')
              ]);
              
         if($query){

@@ -1,6 +1,8 @@
 <template>
   <div class="c-app">
+    
     <TheSidebar/>
+    
     <CWrapper>
       <TheHeader/>
       <div class="c-body">

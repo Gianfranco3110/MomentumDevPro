@@ -23,23 +23,33 @@
     <ul class="c-sidebar-nav">
       <li class="c-sidebar-nav-item">
         <a class="c-sidebar-nav-link" href="#/dashboard">
-          <CIcon size="lg" name="cil-home" />&nbsp; INICIO
+          <CIcon size="lg" name="cil-home" class="mr-2" /> HOME
         </a>
       </li>
       <li class="c-sidebar-nav-item">
         <a class="c-sidebar-nav-link" href="#/cursos">
-          <CIcon size="lg" name="cil-education" />&nbsp; CURSOS
+          <CIcon size="lg" name="cil-education" class="mr-2" /> COURSES
         </a>
       </li>
       <li class="c-sidebar-nav-item">
         <a class="c-sidebar-nav-link" href="#/">
-          <CIcon size="lg" name="cil-card-travel" />&nbsp; PRODUCTOS
+          <CIcon size="lg" name="cil-card-travel" class="mr-2" /> PRODUCTS
         </a>
+      </li>
+      <li class="c-sidebar-nav-item"> 
+        <a class="c-sidebar-nav-link" href="#/users">     
+         <CIcon name="cil-user" class="mr-2" /> USERS
+         </a>    
       </li>
       <li class="c-sidebar-nav-item" v-if="isAdmin">
         <a class="c-sidebar-nav-link" href="#/Registro">
-          <CIcon size="lg" name="cil-address-card" />&nbsp; REGISTRAR USUARIOS
+          <CIcon size="lg" name="cil-address-card" class="mr-2" /> REGISTER USER
         </a>
+      </li>
+      <li class="c-sidebar-nav-item"> 
+        <a class="c-sidebar-nav-link" href="#/settings">     
+         <CIcon name="cil-settings" class="mr-2" /> CHANGE PASSWORD 
+         </a>    
       </li>
     </ul>
   </CSidebar>
@@ -67,6 +77,9 @@ export default {
     },
   },
   methods: {
+    goSettings(){
+      this.$router.push({path: 'settings'});
+    },
     dropdown(data) {
       let result = {
         _name: "CSidebarNavDropdown",

@@ -24,6 +24,7 @@
               :options="statuses"
             >
             </CSelect>
+            <CInput label="Price" type="number" min="1" step="any" placeholder="price" v-model="product.price"></CInput>
             <CInput label="Product type" type="text" v-model="product.product_type"></CInput>            
             <input type="file" @change="getImage" name="image" id="image" accept="image/*" placeholder="Course picture"/>
             
@@ -35,7 +36,7 @@
       </CCard>
 
       <template #footer>
-        <CButton color="success" @click="createUser">
+        <CButton style="background-color:#4B4BAF;color:white" @click="createProduct">
           <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
         </CButton>
         <CButton color="dark" @click="AddModal = false">
@@ -88,6 +89,7 @@ function data() {
         status_id: 1,
         product_type: "",
         imagePath: "",
+        price: 0,
       },
 
     // VARIABLES
@@ -148,14 +150,14 @@ export default {
         )
         .then(function(response) {
           self.product.imagePath = response.data.path;
-          self.createUser();
+          self.createProduct();
         })
         .catch(function(error) {
           console.log(error);
           //self.$router.push({ path: '/login' });
         });
     },*/
-    createUser() {
+    createProduct() {
       let self = this;
       self.Loading = true;
       let formData = new FormData();
@@ -164,6 +166,7 @@ export default {
       formData.append("description", self.product.description);
       formData.append("status_id", self.product.status_id);
       formData.append("product_type", self.product.product_type);
+      formData.append("price", self.product.price);
       axios
         .post(
           this.$apiAdress +
@@ -183,6 +186,7 @@ export default {
             status_id: null,
             product_type: "",
             imagePath: "",
+            price: 0,
           };
           self.imagenMiniatura = '';
           document.getElementById("image").value = "";

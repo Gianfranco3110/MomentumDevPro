@@ -23,6 +23,7 @@
               :options="statuses"
               label="Status"
             />
+            <CInput label="Price" type="number" min="1" step="any" placeholder="price" v-model="product.price"></CInput>
             <CInput label="Product type" type="text" v-model="product.product_type"/>
             <input type="file" @change="getImage" name="imagen" id="imagen" accept="image/*" placeholder="product picture"/>
             
@@ -54,7 +55,8 @@ export default {
           description: '',
           applies_to_date: '',
           status_id: null,
-          product_type: '',        
+          product_type: '',
+          price: 0,    
         },
         statuses: [],
         message: '',
@@ -93,6 +95,7 @@ export default {
         formData.append("description", self.product.description);
         formData.append("status_id", self.product.status_id);
         formData.append("product_type", self.product.product_type);
+        formData.append("price", self.product.price);
         formData.append('_method', 'PUT');
         axios.post(  this.$apiAdress + '/api/products/' + self.$route.params.id + '?token=' + localStorage.getItem("api_token")
         ,formData,{
@@ -137,8 +140,9 @@ export default {
         self.product.description = response.data.product.description;
         self.product.applies_to_date = response.data.product.applies_to_date;
         self.product.status_id = response.data.product.status_id;
-        self.image = response.data.product.image;
         self.product.product_type = response.data.product.product_type;
+        self.product.price = response.data.product.price;
+        self.image = response.data.product.image;
         self.statuses = response.data.statuses;
     }).catch(function (error) {
         console.log(error);

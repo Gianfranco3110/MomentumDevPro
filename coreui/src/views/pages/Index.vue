@@ -144,8 +144,8 @@
                   <img :src="'public/products/' + item.image" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
 
                   <div class="card-body">
-                    <h5 class="card-title">{{item.title}} <CBadge :color="item.status_class">{{item.status}}</CBadge></h5>
-                    <p class="card-text">{{item.description}}</p>
+                    <h5 class="card-title">{{item.title}}</h5>
+                    <p class="card-text">${{item.price}}</p>
                      <CRow class="mt-2">
                       <CCol>
                     <a href="#" class="btn btn-success">Details</a>
@@ -259,10 +259,8 @@ export default {
       message: "",
       collapse: false,
       items: [],      
-      fields: ['title', 'description', 'image', 'applies_to_date', 'status', 'product_type', 'show', 'edit', 'delete'],
       currentPage: 1,
       perPage: 5,
-      totalRows: 0,
       user: '',
       logueado: false,
     };

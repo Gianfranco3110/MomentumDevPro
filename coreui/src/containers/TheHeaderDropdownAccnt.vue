@@ -38,22 +38,7 @@
       <CBadge color="warning" class="ml-auto">{{ itemsCount }}</CBadge>
     </CDropdownItem> 
     -->
-    <CDropdownHeader
-      tag="div"
-      class="text-center"
-      color="light"
-    >
-      <strong>Settings</strong>
-    </CDropdownHeader>
-    <CDropdownItem>
-      <CIcon name="cil-user" /> Profile
-    </CDropdownItem>
-    <CDropdownItem v-if="isAdmin" @click="goUsers()">      
-      <CIcon name="cil-user" /> Users      
-    </CDropdownItem>
-    <CDropdownItem  @click="goSettings()">      
-      <CIcon name="cil-settings" /> Change Password      
-    </CDropdownItem>
+       
     <!--
     <CDropdownItem>
       <CIcon name="cil-dollar" /> Payments
