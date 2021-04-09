@@ -8,54 +8,170 @@
       size="lg"
       :show.sync="AddModal"
     >
-      <CCard no-header>
-        <CCardBody>
-          <h3>
-            Create New Product
-          </h3>          
-            <CInput label="Title" type="text" placeholder="Title" v-model="product.title"></CInput>
-
-            <CInput textarea="true" label="Description" :rows="9" placeholder="Description.." v-model="product.description"></CInput>
-
-            <CSelect
-              label="Status" 
-              :value.sync="product.status_id"
-              :plain="true"
-              :options="statuses"
-            >
-            </CSelect>
-            <CInput label="Product type" type="text" v-model="product.product_type"></CInput>            
-            <input type="file" @change="getImage" name="image" id="image" accept="image/*" placeholder="Course picture"/>
-            
-            <figure class="mt-3">
-                <img :src="imagenM" width="200" height="200" alt="Article Picture">
-            </figure>
-          
-        </CCardBody>
-      </CCard>
-
+      <CRow class="mt-2">
+        <CCol sm="4">
+          <CInput
+            label="TITULO DEL PRODUCTO"
+            type="text"
+            placeholder="Titulo"
+            v-model="$v.product.title.$model"
+            :is-valid="hasError($v.product.title)"
+          />
+        </CCol>
+        <CCol sm="4">
+          <CInput
+            textarea="true"
+            label="DESCRIPCION DEL PRODUCTO"
+            :rows="9"
+            placeholder="Ingrese su descripción aqui.."
+            v-model="product.description"
+          />
+        </CCol>
+        <CCol sm="4">
+          <CInput
+            label="TIPO DE PRODUCTO"
+            type="text"
+            v-model="product.product_type"
+            placeholder="Tipo de producto"
+          />
+        </CCol>
+        <CCol sm="4">
+          <CInput
+            type="file"
+            @change="getImage"
+            name="image"
+            id="image"
+            accept="image/*"
+            placeholder="Course picture"
+          />
+          <figure class="mt-3">
+            <img
+              :src="imagenM"
+              width="200"
+              height="200"
+              alt="Article Picture"
+            />
+          </figure>
+        </CCol>
+        <CCol sm="12" v-if="actualizar">
+          <CSelect
+            label="Status"
+            :value.sync="product.status_id"
+            :plain="true"
+            :options="statuses"
+          >
+          </CSelect>
+        </CCol>
+      </CRow>
       <template #footer>
-        <CButton color="success" @click="createUser">
+        <CButton color="success" :disabled="isDisabled" @click="evaluaStatus">
           <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
         </CButton>
         <CButton color="dark" @click="AddModal = false">
           <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
         </CButton>
       </template>
-      
     </CModal>
   </div>
 </template>
 
 <script>
 import General from "@/_mixins/general";
+import UpperCase from "@/_validations/uppercase-directive";
 import axios from "axios";
+import productosVal from "@/_validations/productos/productosVal";
 
 //METODOS
-/*
+//LIMPIA LOS CAMPOS
+function limpiarDatos() {
+  this.product = {
+    title: "",
+    description: "",
+    status_id: null,
+    product_type: "",
+    imagePath: "",
+  };
+  self.imagenMiniatura = "";
+  document.getElementById("image").value = "";
+}
+function guardar() {
+  let self = this;
+  self.Loading = true;
+  if (self.actualizar) {
+    axios
+      .post(
+        this.$apiAdress +
+          "/api/products/" +
+          self.product.id +
+          "?token=" +
+          localStorage.getItem("api_token"),
+        {
+          _method: "PUT",
+          image: self.imageNueva,
+          title: self.product.title,
+          description: self.product.description,
+          status_id: self.product.status_id,
+          product_type: self.product.product_type,
+        }
+      )
+      .then(function(response) {
+        self.Loading = false;
+        self.$toastr.success("¡Producto actualizado con exito!");
+        self.AddModal = false;
+        self.limpiarDatos();
+        self.$emit("child-refresh", true);
+      })
+      .catch(function(error) {
+        self.Loading = false;
+        self.$toastr.warning("¡Error, please try later!");
+        if (error.response.data.message == "The given data was invalid.") {
+          self.message = "";
+          for (let key in error.response.data.errors) {
+            if (error.response.data.errors.hasOwnProperty(key)) {
+              self.message += error.response.data.errors[key][0] + "  ";
+            }
+          }
+        } else {
+          console.log(error);
+          //self.$router.push({ path: '/login' });
+        }
+      });
+  } else {
+    let formData = new FormData();
+    formData.append("image", self.image);
+    formData.append("title", self.product.title);
+    formData.append("description", self.product.description);
+    formData.append("status_id", self.product.status_id);
+    formData.append("product_type", self.product.product_type);
+    axios
+      .post(
+        this.$apiAdress +
+          "/api/products?token=" +
+          localStorage.getItem("api_token"),
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then(function(response) {
+        self.limpiarDatos();
+        self.Loading = false;
+        self.AddModal = false;
+        self.$toastr.success("¡Producto agregado con exito!");
+        self.$emit("child-refresh", true);
+      })
+      .catch(function(error) {
+        console.log(error);
+        self.Loading = false;
+        self.$toastr.danger("¡Error al agregar producto!");
+      });
+  }
+}
 
 function evaluaStatus() {
-  if (this.Status === 0) {
+  if (this.product.status_id === 2) {
     this.$swal
       .fire({
         text: `¿Esta seguro de realizar el cambio de status para el registro?`,
@@ -78,17 +194,16 @@ function evaluaStatus() {
 function isDisabled() {
   return this.$v.$invalid;
 }
-*/
 //DATA
 function data() {
-  return {      
+  return {
     product: {
-        title: "",
-        description: "",
-        status_id: 1,
-        product_type: "",
-        imagePath: "",
-      },
+      title: "",
+      description: "",
+      status_id: 1,
+      product_type: "",
+      imagePath: "",
+    },
 
     // VARIABLES
     AddModal: false,
@@ -97,40 +212,68 @@ function data() {
     tituloModal: "",
     statuses: [],
     image: null,
-    imagenMiniatura: '',
+    imagenMiniatura: "",
   };
 }
 export default {
-  name: 'add-modal',
+  name: "add-modal",
   mixins: [General],
   data,
   props: {
     modal: null,
+    type: String,
+    default: "User id",
+    caption: {
+      type: String,
+      default: "product id",
+    },
   },
+  validations: productosVal,
+  directives: UpperCase,
   watch: {
     modal: function() {
       if (this.modal) {
-        //this.limpiarDatos();
-        this.AddModal = true;        
+        this.limpiarDatos();
+        this.AddModal = true;
+        if (this.modal == true) {
+          this.tituloModal = "NUEVO PRODUCTO";
+          this.actualizar = false;
+        } else {
+          this.actualizar = true;
+          this.product.id = this.modal.id;
+          this.product.title = this.modal.title;
+          this.product.price = this.modal.price;
+          this.product.product_type = this.modal.product_type;
+          this.product.description = this.modal.description;
+
+          console.log(this.modal);
+        }
         this.$emit("cerrarModal");
       }
     },
   },
   methods: {
+    evaluaStatus,
+    guardar,
+    limpiarDatos,
     getImage(event) {
       //Asignamos la imagen a  nuestra data
       let file = event.target.files[0];
       this.image = file;
       this.cargarImagen(file);
     },
-    cargarImagen(file){
+    cargarImagen(file) {
       let reader = new FileReader();
-      reader.onload = (e) =>{
+      reader.onload = (e) => {
         this.imagenMiniatura = e.target.result;
       };
       reader.readAsDataURL(file);
     },
-   /* uploadImage() {
+    getImage(event) {
+      //Asignamos la imagen a  nuestra data
+      this.image = event.target.files[0];
+    },
+    uploadImage() {
       let self = this;
       let formData = new FormData();
       formData.append("image", self.image);
@@ -154,56 +297,13 @@ export default {
           console.log(error);
           //self.$router.push({ path: '/login' });
         });
-    },*/
-    createUser() {
-      let self = this;
-      self.Loading = true;
-      let formData = new FormData();
-      formData.append("image", self.image);
-      formData.append("title", self.product.title);
-      formData.append("description", self.product.description);
-      formData.append("status_id", self.product.status_id);
-      formData.append("product_type", self.product.product_type);
-      axios
-        .post(
-          this.$apiAdress +
-            "/api/products?token=" +
-            localStorage.getItem("api_token"),
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
-        .then(function(response) {
-          self.product = {
-            title: "",
-            description: "",
-            status_id: null,
-            product_type: "",
-            imagePath: "",
-          };
-          self.imagenMiniatura = '';
-          document.getElementById("image").value = "";
-          self.Loading = false;
-          self.AddModal = false;
-          self.$toastr.success("¡Producto agregado con exito!");
-          self.$emit("child-refresh", true);
-        })
-        .catch(function(error) {          
-          console.log(error);
-          self.imagenMiniatura = '';
-          document.getElementById("image").value = "";
-          self.Loading = false;
-          self.$toastr.danger("¡Error al agregar producto!");
-        });
-    },       
+    },
   },
   computed: {
-    imagenM(){
+    isDisabled,
+    imagenM() {
       return this.imagenMiniatura;
-    }
+    },
   },
   mounted: function() {
     let self = this;
@@ -223,7 +323,7 @@ export default {
         console.log(error);
         //self.$router.push({ path: 'login' });
       });
-  }
+  },
 };
 </script>
 <style scoped></style>

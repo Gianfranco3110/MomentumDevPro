@@ -4,11 +4,11 @@
     <AgreModal
       :modal="AddModal"
       @cerrarModal="AddModal = false"
-      @child-refresh="refrescarCurso = true"
+      @child-refresh="refrescarProduc = true"
     />
     <CCard>
       <CCardHeader class="text-center bg-dark text-white">
-        <b>LISTADO DE CURSOS</b>
+        <b>LISTADO DE PRODUCTOS</b>
       </CCardHeader>
       <CCardBody>
         <CCol sm="12" class="text-right">
@@ -18,12 +18,12 @@
             color="dark"
             @click="AddModal = true"
           >
-            <CIcon name="cil-playlist-add" />&nbsp; NUEVO CURSO
+            <CIcon name="cil-playlist-add" />&nbsp; NUEVO PRODUCTO
           </CButton>
           <CCol sm="12">
             <CDataTable
               :items="items"
-              :fields="fieldsCourse"
+              :fields="fieldsProducts"
               column-filter
               :items-per-page="5"
               :noItemsView="tableText.noItemsViewText"
@@ -41,18 +41,7 @@
                   }}</CBadge>
                 </td>
               </template>
-              <template #image="{item}">
-                <td>
-                  <img
-                    :src="'public/curso/' + item.image"
-                    class="bd-placeholder-img card-img-top"
-                    width="100%"
-                    height="180"
-                    aria-label="Placeholder: Image cap"
-                    role="img"
-                  />
-                </td>
-              </template>
+
               <template #Detalle="{ item }">
                 <td class="py-2">
                   <CButton
@@ -86,19 +75,18 @@
 </template>
 
 <script>
-import { DateFormater } from "@/_helpers/funciones";
+import axios from "axios";
 import General from "@/_mixins/general";
 import AgreModal from "./add-modal";
-import axios from "axios";
 
-const fieldsCourse = [
+const fieldsProducts = [
   {
     key: "id",
     label: "#",
     _style: "width:1%;",
   },
-  { key: "CourseName", label: "TITULO" },
-  { key: "daysofvalidity", label: "DIAS DE VIGENCIA" },
+  { key: "title", label: "TITULO" },
+  { key: "product_type", label: "TIPO DE PRODUCTO" },
   { key: "price", label: "PRECIO" },
   { key: "status", label: "STATUS" },
   {
@@ -112,38 +100,39 @@ const fieldsCourse = [
 const tableTextHelpers = {
   tableFilterText: {
     label: "FILTRAR:",
-    placeholder: "CURSO",
+    placeholder: "Productos",
   },
   itemsPerPageText: {
-    label: "CURSO POR PAGINA:",
+    label: "PRODUCTOS POR PAGINA:",
   },
   noItemsViewText: {
     noResults: "NO SE ENCONTRARON RESULTADOS",
-    noItems: "NO HAY CURSOS DISPONIBLES",
+    noItems: "NO HAY PRODUCTOS DISPONIBLES",
   },
 };
 
-//LISTAR TODOS LOS CURSOS
-function ListCurso() {
+function ListProducts() {
   let self = this;
   self.Loading = true;
   let listado = [];
   self.items = [];
+
   axios
     .get(
       this.$apiAdress +
-        "/api/courses?token=" +
+        "/api/products?token=" +
         localStorage.getItem("api_token")
     )
     .then(function(response) {
+      console.log(response);
       listado = response.data;
       self.items = listado.map((listado) =>
         Object.assign({}, self.items, {
           id: listado.id,
+          title: listado.title,
           price: listado.price,
-          daysofvalidity: listado.daysofvalidity,
+          product_type: listado.product_type,
           status: listado.status,
-          CourseName: listado.CourseName,
           description: listado.description,
         })
       );
@@ -152,7 +141,7 @@ function ListCurso() {
     })
     .catch(function(error) {
       console.log(error);
-      self.$router.push({ path: "/login" });
+      //self.$router.push({ path: "/login" });
     });
 }
 
@@ -162,7 +151,7 @@ function data() {
     items: [],
     Loading: false,
     AddModal: false,
-    refrescarCurso: false,
+    refrescarProduc: false,
 
     tableText: Object.assign({}, tableTextHelpers),
   };
@@ -176,15 +165,15 @@ export default {
     AgreModal,
   },
   props: {
-    fieldsCourse: {
+    fieldsProducts: {
       type: Array,
       default() {
-        return fieldsCourse;
+        return fieldsProducts;
       },
     },
   },
   methods: {
-    ListCurso,
+    ListProducts,
     getBadge(status) {
       return status === "Activo"
         ? "success"
@@ -198,16 +187,17 @@ export default {
     },
   },
   watch: {
-    refrescarCurso: function() {
-      if (this.refrescarCurso) {
-        this.ListCurso();
-        this.refrescarCurso = false;
+    refrescarProduc: function() {
+      if (this.refrescarProduc) {
+        this.ListProducts();
+        this.refrescarProduc = false;
       }
     },
   },
-  mounted() {
-    this.ListCurso();
+  mounted: function() {
+    this.ListProducts();
   },
 };
 </script>
+
 <style scoped></style>
