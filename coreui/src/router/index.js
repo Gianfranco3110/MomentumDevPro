@@ -67,14 +67,13 @@ const EditNote = () => import('@/views/notes/EditNote')
 const CreateNote = () => import('@/views/notes/CreateNote')
 
 //Products
-const Products = () => import('@/views/products/Products')
-const ProductsUser = () => import('@/views/products/ProductsUser');
-const Product = () => import('@/views/products/Product')
-const EditProduct = () => import('@/views/products/EditProduct')
-const CreateProduct = () => import('@/views/products/CreateProduct')
+const products = () => import('@/views/products/index')
 
 //Cursos
 const cursos = () => import('@/views/cursos/index')
+
+//Cursos-Video
+const videos = () => import('@/views/videos/index')
 
 //CONSTANTE PARA REGISTRAR USUARIOS DESDE EL DASHBOARD
 const registro = () => import('@/views/RegistroAdmin/index')
@@ -411,6 +410,33 @@ function configRoutes () {
             }
           ]
         },
+        //Ruta de Products
+        {
+          path: 'products',
+          meta: { label: 'products'},
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children :[
+            {
+              path: '',
+              component:products,
+            }
+          ]
+        },
+        {
+          path: 'videos',
+          meta: { label: 'videos'},
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children :[
+            {
+              path: '',
+              component:videos,
+            }
+          ]
+        },
         //RUTA PARA CREAR USUARIOS DESDE EL DASHBOARD
         {
           path: 'registro',
@@ -426,92 +452,6 @@ function configRoutes () {
                 requiresAdmin: true
               }
             }
-          ]
-        },
-        {
-          path: 'products/myproducts',
-          meta: { label: 'Products'},
-          component: {
-            render (c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: '',
-              component: ProductsUser,
-              meta:{
-                requiresUser: true
-              }
-            },             
-            {
-              path: 'create',
-              meta: { label: 'Create Product' },
-              name: 'Create Product',
-              component: CreateProduct,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: ':id',
-              meta: { label: 'Product Details'},
-              name: 'Product',
-              component: Product,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: ':id/edit',
-              meta: { label: 'Edit Product' },
-              name: 'Edit Product',
-              component: EditProduct,
-              meta:{
-                requiresUser: true
-              }
-            },
-          ]
-        },        
-        {
-          path: 'products',
-          meta: { label: 'Products'},
-          component: {
-            render (c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: '',
-              component: Products,
-              meta:{
-                requiresUser: true
-              }
-            },             
-            {
-              path: 'create',
-              meta: { label: 'Create Product' },
-              name: 'Create Product',
-              component: CreateProduct,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: ':id',
-              meta: { label: 'Product Details'},
-              name: 'Product',
-              component: Product,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: ':id/edit',
-              meta: { label: 'Edit Product' },
-              name: 'Edit Product',
-              component: EditProduct,
-              meta:{
-                requiresUser: true
-              }
-            },
           ]
         },
         {

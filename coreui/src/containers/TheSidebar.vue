@@ -32,8 +32,8 @@
         </a>
       </li>
       <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#/">
-          <CIcon size="lg" name="cil-card-travel" class="mr-2" /> PRODUCTS
+        <a class="c-sidebar-nav-link" href="#/products">
+          <CIcon size="lg" name="cil-card-travel" />&nbsp; PRODUCTOS
         </a>
       </li>
       <li class="c-sidebar-nav-item"> 
@@ -143,7 +143,7 @@ export default {
       return this.buffor;
     },
   },
-  mounted() {    
+  mounted() {
     this.$root.$on("toggle-sidebar", () => {
       const sidebarOpened = this.show === true || this.show === "responsive";
       this.show = sidebarOpened ? false : "responsive";
@@ -153,7 +153,7 @@ export default {
       this.show = sidebarClosed ? true : "responsive";
     });
     let self = this;
-    if(localStorage.getItem('roles') == 'user,admin'){
+    if (localStorage.getItem("roles") == "user,admin") {
       self.isAdmin = true;
     }
     console.log(this.$apiAdress);
