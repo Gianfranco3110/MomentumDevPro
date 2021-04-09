@@ -1,11 +1,6 @@
 <template>
   <div class="img">
-    <loading-overlay
-      :active="Loading"
-      :is-full-page="true"
-      loader="bars"
-      color="#052D6D"
-    />
+    <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CContainer class="d-flex content-center min-vh-100">
       <CRow>
         <CCol>
@@ -99,9 +94,9 @@ export default {
     goRegister() {
       this.$router.push({ path: 'register' })
     },
-    login() {
-      this.Loading = true;
+    login() {      
       let self = this;
+      self.Loading = true;
       axios
         .post(this.$apiAdress + "/api/login", {
           email: self.email,
@@ -115,14 +110,15 @@ export default {
           localStorage.setItem("email", response.data.email);
           localStorage.setItem("name", response.data.name);
           console.log(response.data);
+          self.Loading = false;
           self.$router.push({ path: "dashboard" });
         })
         .catch(function(error) {
-          self.message = "Incorrect E-mail or password";
-          self.showMessage = true;
+          self.Loading = false;
+          self.$toastr.warning("¡Error, please check your password!");
           console.log(error);
         });
-      this.Loading = false;
+      
     },
   },
 };

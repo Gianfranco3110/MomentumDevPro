@@ -8,26 +8,16 @@
   </a>
   <ul class="c-header-nav ml-auto pr-4">
     <li class="c-header-nav-item active">
-      <a class="c-header-nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      Home <span class="sr-only">(current)</span>
     </li>
     <li class="c-header-nav-item">
-      <a class="c-header-nav-link" href="#">Features</a>
+      Contact us
+    </li>   
+    <li v-if="logueado" class="c-header-nav-item" @click="goDashboard()">
+      Dashboard
     </li>
-    <li class="c-header-nav-item">
-      <a class="c-header-nav-link" href="#">Pricing</a>
-    </li>
-    <li class="c-header-nav-item dropdown">
-      <a class="c-header-nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
-        Dropdown link
-      </a>
-      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-      </div>
-    </li>
-    <li class="c-header-nav-item">
-      <router-link :to="{ name: 'Auth'}">Login</router-link>
+    <li v-if="logueado == false" class="c-header-nav-item" @click="goLogin()">
+      Login
     </li>
   </ul>
     
@@ -54,9 +44,48 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
+<div id="seccion-estadisticas">
+  <div class="container">
+    <div class="row">
+      <div class="column1">
+        <div class="card">
+          <div class="row">
+            <h4>
+                Certificate
+                <br>
+              <span>Completa cualquiera de nuestros cursos y obtén tu certificado</span>
+            </h4>            
+          </div>
+        </div>
+      </div>
+      <div class="column2">
+        <div class="card">
+          <div class="row">
+            <h4>
+                Learn
+                <br>
+              <span>Completa cualquiera de nuestros cursos y obtén tu certificado</span>
+            </h4>            
+          </div>
+        </div>
+      </div>
+      <div class="column3">
+        <div class="card">
+          <div class="row">
+            <h4>
+              Share
+              <br>
+              <span>Completa cualquiera de nuestros cursos y obtén tu certificado</span>
+            </h4>            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="seccion-cursos">
     <div class="container">
-      <h2 style="color:white">Cursos</h2><br>
+      <h2>Cursos</h2><br>
       <div class="row">
         <div class="col-md-3">
           <div class="card" style="width: 15rem;">
@@ -94,7 +123,7 @@
 
             <div class="card-body">
               <h5 class="card-title">Curso 4</h5>
-              <p class="card-text">Descripción</p>                                        
+              <p class="card-text">Description</p>                                        
             </div>
           </div>
         </div>
@@ -103,92 +132,105 @@
   </div>
   <div id="seccion-productos">
     <div class="container">
-      <h2 style="color:white">Productos</h2><br>
-      <div class="row">
-        <div class="col-md-3">
-          <div class="card" style="width: 15rem;">
-            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+      <CCard>        
+        <CCardHeader>
+          All Products           
+        </CCardHeader>
+        <CCardBody>
+          <CRow>
+            <template>
+            <CCol md="4" v-for="(item, index) in items" :key="index">
+                <div class="card" style="width: 18rem;">
+                  <img :src="'public/products/' + item.image" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
 
-            <div class="card-body">
-              <h5 class="card-title">Producto 1</h5>
-              <p class="card-text">Descripción</p>                                        
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card" style="width: 15rem;">
-            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
-
-            <div class="card-body">
-              <h5 class="card-title">Producto 2</h5>
-              <p class="card-text">Descripción</p>                                        
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card" style="width: 15rem;">
-            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
-
-            <div class="card-body">
-              <h5 class="card-title">Producto 3</h5>
-              <p class="card-text">Descripción</p>                                        
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card" style="width: 15rem;">
-            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
-
-            <div class="card-body">
-              <h5 class="card-title">Producto 4</h5>
-              <p class="card-text">Descripción</p>                                        
-            </div>
-          </div>
-        </div>
-      </div>
+                  <div class="card-body">
+                    <h5 class="card-title">{{item.title}} <CBadge :color="item.status_class">{{item.status}}</CBadge></h5>
+                    <p class="card-text">{{item.description}}</p>
+                     <CRow class="mt-2">
+                      <CCol>
+                    <a href="#" class="btn btn-success">Details</a>
+                      </CCol>
+                    </CRow>
+                  </div>
+                </div>
+            </CCol>
+            </template>                  
+          </CRow>            
+        </CCardBody>  
+      </CCard>
     </div>
   </div>
-  <div id="footer">
+  <footer id="footer">
     <div class="container">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 p-3">
           <div class="footer-seccion">
             <ul class="list-group">
-              <li class="list-group-item">
-                <h3>Contacto</h3>
+              <li class="list-group-item footer-title">
+                <h3>Contact</h3>
               </li>
-              <li class="list-group-item">Dapibus ac facilisis in</li>
-              <li class="list-group-item">Morbi leo risus</li>
-              <li class="list-group-item">Porta ac consectetur ac</li>
-              <li class="list-group-item">Vestibulum at eros</li>
+              <li class="list-group-item">
+                <CIcon name="cil-envelope-open" />
+                email@email.com
+              </li>
+              <li class="list-group-item">
+                <CIcon name="cil-phone" />
+                +1 458 125478
+              </li>
+              <li class="list-group-item">
+                <CIcon name="cil-location-pin" />
+                Address
+              </li>
+            </ul>
+          </div>
+          <div class="footer-seccion">
+            <ul class="list-group footer-social">
+              <li class="list-group-item footer-title">
+                <h3>Social Networks</h3>
+              </li>
+              <li class="list-group-item">
+                <span style="font-size: 2.7em; color: rgb(64, 148, 243)">
+                <i class="fab fa-twitter-square"></i>
+                </span>
+                Twitter
+              </li>
+              <li class="list-group-item">
+                <span style="font-size: 2.7em; color: rgb(20, 42, 163)">
+                <i class="fab fa-facebook"></i>
+                </span>
+                Facebook
+              </li>
+              <li class="list-group-item">
+                <span style="font-size: 2.7em; color: rgb(54, 29, 9)">
+                <i class="fab fa-instagram-square"></i>
+                </span>
+                Instagram
+              </li>
             </ul>
           </div>
           <div class="footer-seccion">
             <ul class="list-group">
-              <li class="list-group-item">
-                <h3>De interes</h3>
-              </li>
-              <li class="list-group-item">Dapibus ac facilisis in</li>
-              <li class="list-group-item">Morbi leo risus</li>
-              <li class="list-group-item">Porta ac consectetur ac</li>
-              <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
-          </div>
-          <div class="footer-seccion">
-            <ul class="list-group">
-              <li class="list-group-item">
+              <li class="list-group-item footer-title">
                 <h3>Newsletter</h3>
               </li>
-              <li class="list-group-item">Dapibus ac facilisis in</li>
-              <li class="list-group-item">Morbi leo risus</li>
-              <li class="list-group-item">Porta ac consectetur ac</li>
-              <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
+              <li class="list-group-item">Dapibus ac facilisis in Morbi leo risus. Porta ac consectetur ac
+                Vestibulum at eros
+                <input type="email" class="form-control mt-2" id="Input-email" placeholder="name@example.com">
+                <button class="btn btn-success mt-2" type="button">Submit</button>
+              </li>
+            </ul>          
           </div>
-        </div>
-      </div>
+        </div>        
+      </div>      
     </div>
-  </div>
+    <div class="row" style="background-color:white">
+        <div class="footer-copyright-seccion m-auto mt-3 p-2">
+            <div class="container">
+              <p>© 2021 MomentumDev, All rights reserved.</p>
+            </div>
+          </div>
+      </div>
+  </footer>
 
   </div>
   <!--  
@@ -197,10 +239,17 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
+import { freeSet } from '@coreui/icons'
+import General from '@/_mixins/general'
 
 export default {
   name: "Index",
+  mixins: [General],
+  freeSet,
+  components: {    
+    General
+  },
   data() {
     return {
       email: "",
@@ -208,18 +257,91 @@ export default {
       showMessage: false,
       Loading: false,
       message: "",
+      collapse: false,
+      items: [],      
+      fields: ['title', 'description', 'image', 'applies_to_date', 'status', 'product_type', 'show', 'edit', 'delete'],
+      currentPage: 1,
+      perPage: 5,
+      totalRows: 0,
+      user: '',
+      logueado: false,
     };
   },
   methods: {
+    getRowCount (items) {
+      return items.length
+    },
     goRegister() {
       this.$router.push({ path: "register" });
     },
     goLogin() {
       this.$router.push({ path: "login" });
     },
+    goDashboard() {
+      this.$router.push({ path: "Dashboard" });
+    },
+    getProducts (){
+      let self = this;
+      axios.get(  this.$apiAdress + '/api/products?token=' + localStorage.getItem("api_token") )
+      .then(function (response) {
+        self.items = response.data;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
   },
+  mounted: function(){
+    this.getProducts();
+
+    if(localStorage.getItem("name")!=null && localStorage.getItem("name")!=''){
+      this.logueado=true;
+    }
+  }
 };
 </script>
 <style scoped>
+.c-header-nav-item{
+  cursor: pointer;
+  font-size: 1.032rem;
+  height: 100%;
+    padding: 13px;
+}
+.c-header-nav-item:hover{
+  border-bottom: 4px solid rgb(182, 108, 204);
+}
+
+#seccion-estadisticas{
+  padding:0px 50px;
+  text-align: center;
+}
+
+#seccion-estadisticas .column1, #seccion-estadisticas .column2,#seccion-estadisticas .column3{
+  padding: 30px 15px;
+  flex: 1;  
+}
+#seccion-estadisticas .column1{background-color: rgb(74, 29, 83);}
+#seccion-estadisticas .column2{background-color: rgb(34, 29, 83);}
+#seccion-estadisticas .column3{background-color: rgb(83, 29, 42);}
+
+#seccion-estadisticas .card{
+    border:none;
+    background-color: transparent;
+}
+
+#seccion-estadisticas .card .row{
+  justify-content: center;
+  margin-right: 20px;
+  display: flex;
+  overflow: hidden;
+}
+
+#seccion-estadisticas h4{
+    color: rgb(255, 255, 255);
+    margin: auto 0 auto 10px;
+}
+
+#seccion-estadisticas h4 span{    
+    font-size: 12px;
+}
 
 </style>

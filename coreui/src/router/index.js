@@ -58,6 +58,7 @@ const Index = () => import('@/views/pages/Index')
 const Users = () => import('@/views/users/Users')
 const User = () => import('@/views/users/User')
 const EditUser = () => import('@/views/users/EditUser')
+const UserAjustes = () => import('@/views/users/UserAjustes')
 
 //Notes
 const Notes = () => import('@/views/notes/Notes')
@@ -349,6 +350,11 @@ function configRoutes () {
                 requiresAdmin: true
               }
             },
+            {
+              path: '/settings',
+              name: 'settings',
+              component: UserAjustes,
+            },
           ]
         },
         {
@@ -432,6 +438,9 @@ function configRoutes () {
             {
               path: '',
               component:registro,
+              meta:{
+                requiresAdmin: true
+              }
             }
           ]
         },

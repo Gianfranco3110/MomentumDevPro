@@ -1,51 +1,36 @@
 <template>
   <CRow>
+    <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CCol col="12" xl="12">
       <transition name="slide">       
     
       <CCard>
-        <AgreModal :modal="AddModal" @cerrarModal="AddModal = false" />
+        <AgreModal :modal="AddModal" @cerrarModal="AddModal = false" @child-refresh="refrescarProducto = true" />
         <CCardHeader>
-          My courses
+          All Products
           <CButton v-bind:style="{ background: '#142850',color: '#ebedef', float:'right'}" @click="AddModal = true" class="mb-3">
-            <CIcon :content="$options.freeSet.cilPlus"/> Create Product</CButton>
-            <CAlert
-              :show.sync="dismissCountDown"
-              color="primary"
-              fade
-            >
-              ({{dismissCountDown}}) {{ message }}
-            </CAlert>
+            <CIcon :content="$options.freeSet.cilPlus"/> Create Product</CButton>            
         </CCardHeader>
         <CCardBody>
-          <CRow>
+         <!-- <CRow>
             <template>
             <CCol md="4" v-for="(item, index) in items" :key="index">
                 <div class="card" style="width: 18rem;">
-                  <img :src="'public/' + item.image" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+                  <img :src="'public/products/' + item.image" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
 
                   <div class="card-body">
                     <h5 class="card-title">{{item.title}} <CBadge :color="item.status_class">{{item.status}}</CBadge></h5>
-                    <p class="card-text">{{item.description}}</p>
-                     <CButton @click="collapse = !collapse" color="primary">
-                      Nivel 2
-                    </CButton>
-                    <CCollapse :show="collapse" class="mt-2">
-                      <CCard body-wrapper>
-                        <CCardText>Description</CCardText>         
-                        
-                      </CCard>
-                    </CCollapse>
+                    <p class="card-text">{{item.description}}</p>                     
                     <CRow class="mt-2">
                       <CCol>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <a href="#" class="btn btn-success">Details</a>
                       </CCol>
                     </CRow>
                   </div>
                 </div>
             </CCol>
-            </template>                  
-          </CRow>
+            </template>                 
+          </CRow> -->
             <CDataTable
               hover
               :items="items"
@@ -132,13 +117,9 @@ export default {
       perPage: 5,
       totalRows: 0,
       you: null,
-      message: '',
-      showMessage: false,
-      dismissSecs: 7,
-      dismissCountDown: 0,
-      showDismissibleAlert: false,
-      AddModal: false
-
+      AddModal: false,
+      Loading: false,
+      refrescarProducto: false,
     }
   },
   computed: {    
@@ -163,27 +144,23 @@ export default {
     },
     deleteProduct ( id ) {
       let self = this;
+      self.Loading = true;
       axios.post(  this.$apiAdress + '/api/products/eliminate/' + id + '?token=' + localStorage.getItem("api_token"), {
         _method: 'PUT'
       })
       .then(function (response) {
-          self.message = 'Successfully deleted product.';
-          console.log('Producto eliminado');
-          self.showAlert();
+          self.$toastr.success("¡Producto eliminado con exito!");
           self.getProducts();
+          self.Loading = false;
       }).catch(function (error) {
         console.log(error);
+        self.Loading = false;
+        self.$toastr.danger("¡Error al eliminar producto!");
         //self.$router.push({ path: '/login' });
       });
     },
     createProduct () {
       this.$router.push({path: 'products/create'});
-    },
-    countDownChanged (dismissCountDown) {
-      this.dismissCountDown = dismissCountDown
-    },
-    showAlert () {
-      this.dismissCountDown = this.dismissSecs
     },
     getProducts (){
       let self = this;
@@ -194,10 +171,19 @@ export default {
       }).catch(function (error) {
         console.log(error);
         self.$router.replace({ path: '/login' });
+        localStorage.setItem('name', '');
+        localStorage.setItem('api_token', '');
       });
     }
   },
-  watch:{}, 
+  watch:{
+    refrescarProducto: function() {
+      if (this.refrescarProducto) {
+        this.getProducts();
+        this.refrescarProducto = false;
+      }
+    },
+  }, 
   mounted: function(){
     this.getProducts();
   }

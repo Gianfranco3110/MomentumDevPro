@@ -41,6 +41,7 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->status = 'Active';
+        $user->email_verified_at = now();
         $user->save();       
         return response()->json(['status' => 'success'], 200);
     } 

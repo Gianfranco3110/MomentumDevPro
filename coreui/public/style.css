@@ -13,7 +13,7 @@
 
 #seccion-productos{
     padding:50px;
-    background-color: rgb(2, 13, 20);
+    background-color: rgb(238, 187, 194);
 }
 
 #seccion-productos .card,#seccion-cursos .card{
@@ -25,20 +25,11 @@
 }
 
 #seccion-cursos{
-    padding:50px;
-    background-color: rgb(211, 212, 212);
-    background-image: url("Login.jpg");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    padding:50px;  
 }
 
 #menu ul li{
     padding: 10px;
-}
-
-#footer{
-    padding:20px;
 }
 
 #footer .footer-seccion{
@@ -47,6 +38,12 @@
     float: left;
 }
 
+.footer-social li, .footer-title{
+    padding: 0px 1.25rem!important;
+}
+
 .list-group-item{
     border: 0px!important;;
 }
+
+

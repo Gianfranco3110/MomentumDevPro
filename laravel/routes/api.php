@@ -19,7 +19,9 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
-    Route::post('register', 'AuthController@register'); 
+    Route::post('register', 'AuthController@register');
+
+    Route::put('user/password/change','UsersController@updatePassword');
 
     Route::resource('notes', 'NotesController');
 
@@ -32,9 +34,12 @@ Route::group(['middleware' => 'api'], function ($router) {
 
     //ROUTE PARA CREAR CURSOS GIANF
     Route::post('courses/image/store','CoursesController@uploadImage');
-    Route::get('courses/courses', 'Courses@showPerUser');
+    Route::get('courses/courses', 'CoursesController@showPerUser');
+    Route::get('courses/list', 'CoursesController@nameCourses');
     Route::resource('courses', 'CoursesController');
 
+    //ROUTE PARA CREAR VINCULACION CURSO-USUARIO
+    Route::post('usercourses/create','UserCourseController@create');
 
     
     Route::resource('resource/{table}/resource', 'ResourceController');

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CContainer>
       <CRow class="justify-content-center">
         <CCol md="6">
@@ -99,12 +100,14 @@ export default {
       email: "",
       password: "",
       password_confirmation: "",
+      Loading: false,
     };
   },
   methods: {
     Sweet,
     register() {
       var self = this;
+      self.Loading = true;
       axios
         .post(this.$apiAdress + "/api/register", {
           name: self.name,
@@ -118,10 +121,13 @@ export default {
           self.password = "";
           self.password_confirmation = "";
           console.log(response);
-          self.$router.push({ path: "/login" });
+          self.$toastr.success("¡Usuario registrado con exito!");
+          self.Loading = false;
         })
         .catch(function(error) {
+          self.$toastr.danger("¡Error al agregar producto!");
           console.log(error);
+          self.Loading = false;
         });
     },
   },

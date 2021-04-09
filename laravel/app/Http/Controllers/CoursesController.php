@@ -23,6 +23,12 @@ class CoursesController extends Controller
         return response()->json( $courses );
     }
 
+    //FUNCION PARA SACAR UNA LISTA DE LOS CURSOS PERO SOLO EL NOMBRE Y EL ID
+    public function nameCourses(){
+        $courses = DB::table('courses')->select('courses.CourseName as label', 'courses.id as value')->get();
+        return response()->json( $courses );
+    }
+
     public function create()
     {        
         $statuses = DB::table('status')->select('status.name as label', 'status.id as value')->get();
@@ -89,6 +95,7 @@ class CoursesController extends Controller
         return response()->json(['message' => 'The given data was invalid.']); 
     }   
 }
+
 
 //METODO PARA EDITAR UN CURSO
 public function edit($id)
