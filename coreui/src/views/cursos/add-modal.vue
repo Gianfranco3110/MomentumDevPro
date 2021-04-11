@@ -8,7 +8,10 @@
       size="lg"
       :show.sync="AddModal"
     >
-      <CRow class="mt-2">
+      <CRow class="mt-2" style="text-align:center">
+        <CCol sm="12" v-if="actualizar">            
+            <img :src="'public/curso/'+curso.image" width="200" height="200" alt="product image">
+        </CCol>
         <CCol sm="4">
           <CInput
             addLabelClasses="required"
@@ -83,6 +86,12 @@
           </div>
           <!-- FINAL DEL INPUT FILE -->
         </CCol>
+        <!-- MOSTRAR IMAGEN EN MINIATURA -->
+        <CCol sm="3">
+            <figure>
+                <img :src="imagenM" width="150" height="150" alt="Course Picture">
+            </figure>
+        </CCol>        
         <CCol sm="12" v-if="actualizar">
           <br />
           <CSelect
@@ -125,7 +134,7 @@ function CargarMiniatura(filelist) {
 }
 
 //SUBE LA IMG AL STORAGE
-function uploadImage() {
+/*function uploadImage() {
   let self = this;
   self.Loading = true;
   let formData = new FormData();
@@ -151,61 +160,60 @@ function uploadImage() {
       console.log(error);
       //self.$router.push({ path: '/login' });
     });
-}
+}*/
 
 //GUARDA Y ACTUALIZA
 function guardar() {
   let self = this;
   self.Loading = true;
   if (self.actualizar) {
-    axios
-      .post(
-        this.$apiAdress +
-          "/api/courses/" +
-          self.curso.id +
-          "?token=" +
-          localStorage.getItem("api_token"),
-        {
-          _method: "PUT",
-          price: self.curso.price,
-          description: self.curso.description,
-          CourseName: self.curso.CourseName,
-          applies_to_date: self.curso.applies_to_date,
-          status_id: self.curso.status_id,
-          daysofvalidity: self.curso.daysofvalidity,
-          image: self.curso.image,
-        }
-      )
-      .then(function(response) {
-        self.$toastr.success("¡Curso actualizado con exito!");
-        self.Loading = false;
-        self.AddModal = false;
-        self.limpiarDatos();
-        self.$emit("child-refresh", true);
-      })
-      .catch(function(error) {
-        if (error.response.data.message == "The given data was invalid.") {
-          self.message = "";
-          for (let key in error.response.data.errors) {
-            if (error.response.data.errors.hasOwnProperty(key)) {
-              self.message += error.response.data.errors[key][0] + "  ";
-            }
+    
+    let formData = new FormData();
+        formData.append("image", self.imageNueva);
+        formData.append("CourseName", self.curso.CourseName);
+        formData.append("description", self.curso.description);
+        formData.append("status_id", self.curso.status_id);
+        formData.append("price", self.curso.price);
+        formData.append("daysofvalidity", self.curso.daysofvalidity);        
+        formData.append('_method', 'PUT');
+
+        axios.post(  this.$apiAdress + '/api/courses/' + self.curso.id + '?token=' + localStorage.getItem("api_token")
+        ,formData,{
+                    headers: {
+                              "Content-Type": "multipart/form-data",
+                            },
           }
-        } else {
-          console.log(error);
-          //self.$router.push({ path: '/login' });
-        }
-      });
+        )
+        .then(function (response) {
+            self.$toastr.success("¡Course updated succesfully!");
+            self.Loading = false;
+            self.AddModal = false;
+            self.limpiarDatos();
+            self.$emit("child-refresh", true);
+        }).catch(function (error) {
+          self.Loading = false;
+          self.$toastr.warning("¡Error, please try later!");
+            if(error.response.data.message == 'The given data was invalid.'){
+              self.message = '';
+              for (let key in error.response.data.errors) {
+                if (error.response.data.errors.hasOwnProperty(key)) {
+                  self.message += error.response.data.errors[key][0] + '  ';
+                }
+              }              
+            }else{
+              console.log(error); 
+              //self.$router.push({ path: '/login' }); 
+            }
+        });
+    
   } else {
     let formData = new FormData();
-    formData.append("image", self.image);
+    formData.append("image", self.imageNueva);
     formData.append("daysofvalidity", self.curso.daysofvalidity);
     formData.append("description", self.curso.description);
     formData.append("CourseName", self.curso.CourseName);
-
     formData.append("status_id", self.curso.status_id);
     formData.append("price", self.curso.price);
-    console.log(FormData);
     axios
       .post(
         this.$apiAdress +
@@ -219,7 +227,7 @@ function guardar() {
         }
       )
       .then(function(response) {
-        self.$toastr.success("¡Curso agregado con extio!");
+        self.$toastr.success("¡Courses added successfully!");
         self.limpiarDatos();
         console.log(response);
         self.Loading = false;
@@ -227,6 +235,7 @@ function guardar() {
         self.$emit("child-refresh", true);
       })
       .catch(function(error) {
+        console.log(error);
         if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
           for (let key in error.response.data.errors) {
             if (error.response.data.errors.hasOwnProperty(key)) {
@@ -243,7 +252,6 @@ function limpiarDatos() {
     description: "",
     price: "",
     daysofvalidity: "",
-    imagePath: "",
     status_id: "",
     CourseName: "",
   };
@@ -302,11 +310,11 @@ function data() {
     //MODELOS
     curso: {
       description: "",
-      price: "",
+      price: 0,
       daysofvalidity: "",
-      imagePath: "",
       status_id: 1,
       CourseName: "",
+      image: '',
     },
     // VARIABLES
     AddModal: false,
@@ -317,7 +325,8 @@ function data() {
     image: null,
     files: [],
     filelist: [],
-    imageMiniature: "",
+    imageNueva:null,
+    imagenMiniatura: "",
   };
 }
 export default {
@@ -364,17 +373,21 @@ export default {
     evaluaStatus,
     limpiarDatos,
     guardar,
-    uploadImage,
     CargarMiniatura,
     Cstatus,
     //TRATAR DE MEJORAR ESTOS METODOS DEL INPUT FILE
-    onChange() {
-      //this.filelist = event.target.files[0];
-      this.filelist = [...this.$refs.file.files];
-      this.image = this.filelist[0];
-      this.uploadImage();
-      //this.CargarMiniatura(this.filelist);
-      console.log(this.image);
+    onChange(event) {      
+      //Asignamos la imagen a  nuestra data
+      let file = event.target.files[0];
+      this.imageNueva = file;
+      this.cargarImagen(file);
+    },
+    cargarImagen(file) {
+      let reader = new FileReader();
+      reader.onload = (e) =>{
+        this.imagenMiniatura = e.target.result;
+      };
+      reader.readAsDataURL(file);
     },
     remove(i) {
       this.filelist.splice(i, 1);
@@ -403,8 +416,8 @@ export default {
   },
   computed: {
     isDisabled,
-    imagen() {
-      return this.imageMiniature;
+    imagenM() {
+      return this.imagenMiniatura;
     },
   },
   mounted: function() {

@@ -124,7 +124,6 @@ function ListProducts() {
         localStorage.getItem("api_token")
     )
     .then(function(response) {
-      console.log(response);
       listado = response.data;
       self.items = listado.map((listado) =>
         Object.assign({}, self.items, {
@@ -134,9 +133,9 @@ function ListProducts() {
           product_type: listado.product_type,
           status: listado.status,
           description: listado.description,
+          image: listado.image
         })
       );
-      console.log(response);
       self.Loading = false;
     })
     .catch(function(error) {

@@ -45,17 +45,20 @@
       </CRow>
     </CCardGroup>
 
-    <!-- Widget para las notas -->
+    <!-- Productos -->
+    
   </div>
 </template>
 
 <script>
 import MainChartExample from "./charts/MainChartExample";
+import indexProducts from "./products/index";
 
 export default {
   name: "Dashboard",
   components: {
     MainChartExample,
+    indexProducts,
   },
   data() {
     return {

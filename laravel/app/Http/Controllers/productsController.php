@@ -21,7 +21,7 @@ class productsController extends Controller
         $products = DB::table('products')->join('users', 'users.id', '=', 'products.users_id')
         ->join('status', 'status.id', '=', 'products.status_id')
         ->select('products.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
-        ->where('exist','=',0)
+        ->where('exist','=',0)->where('status_id','=',1)
         ->limit(6)
         ->get();
         return response()->json( $products );
@@ -78,7 +78,7 @@ class productsController extends Controller
         $query=DB::table('products')->insert([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'status_id' => intval($request->input('status_id')),
+            'status_id' => 1,
             'product_type' => $request->input('product_type'),
             'users_id' => $user->id,
             'applies_to_date' => date('Y/m/d'),
@@ -162,7 +162,8 @@ class productsController extends Controller
             'title'             => 'required|min:1|max:64',
             'description'           => 'required|max:1024',
             'status_id'         => 'required',
-            'product_type'         => 'required|max:64'
+            'product_type'         => 'required|max:64',
+            'price'             => 'required'
         ]);
         $product = Product::find($id);
 
@@ -182,6 +183,7 @@ class productsController extends Controller
         $product->status_id       = $request->input('status_id');
         $product->product_type    = $request->input('product_type');
         $product->applies_to_date = date('Y/m/d');
+        $product->price           = $request->input('price');        
         $product->save();
         return response()->json( ['status' => 'success'] );
     }
