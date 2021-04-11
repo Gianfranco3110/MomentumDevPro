@@ -72,16 +72,16 @@ class CoursesController extends Controller
         if($request->hasFile('image')){
             $image_path = $request->file('image');
             $image_path_name = time().$image_path->getClientOriginalName();
-			Storage::disk('public')->put($image_path_name, File::get($image_path));
+			Storage::disk('public')->put('curso/'.$image_path_name, File::get($image_path));
             
         $user = auth()->userOrFail();
         $query=DB::table('courses')->insert([
             'price' => $request->input('price'),
             'description' => $request->input('description'),
             'CourseName' => $request->input('CourseName'),
-            'status_id' => intval($request->input('status_id')),
+            'status_id' => 1,
             'users_id' => $user->id,
-            'applies_to_date' => date('Y-m-d'),
+            'applies_to_date' => date('Y/m/d'),
             'daysofvalidity' => $request ->input('daysofvalidity'),
             'image' => $image_path_name,         //PENDIENTE CON ESTO  
         ]); 
@@ -118,15 +118,17 @@ public function update(Request $request, $id)
         'image'             => 'required'
     ]);
     $courses = Course::find($id);
-    if($request->input('image')!=''){
-
-        $courses->image = $request->input('image');
-}    
+    if($request->hasFile('image')){
+        $image_path = $request->file('image');
+        $image_path_name = time().$image_path->getClientOriginalName();
+        Storage::disk('public')->put('curso/'.$image_path_name, File::get($image_path));
+        $courses->image = $image_path_name;
+    }
     $courses->price           = $request->input('price');
     $courses->description     = $request->input('description');
     $courses->status_id       = $request->input('status_id');
-    $courses->daysofvalidity    = $request->input('daysofvalidity');
-    $courses->CourseName    = $request->input('CourseName');
+    $courses->daysofvalidity  = $request->input('daysofvalidity');
+    $courses->CourseName      = $request->input('CourseName');
     $courses->applies_to_date = date('Y/m/d');
     $courses->save();
     return response()->json( ['status' => 'success'] );

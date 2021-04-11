@@ -145,6 +145,7 @@ function ListCurso() {
           status: listado.status,
           CourseName: listado.CourseName,
           description: listado.description,
+          image: listado.image
         })
       );
       console.log(response);

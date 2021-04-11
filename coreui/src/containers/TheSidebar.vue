@@ -33,7 +33,7 @@
       </li>
       <li class="c-sidebar-nav-item">
         <a class="c-sidebar-nav-link" href="#/products">
-          <CIcon size="lg" name="cil-card-travel" />&nbsp; PRODUCTOS
+          <CIcon size="lg" name="cil-card-travel" class="mr-2" /> PRODUCTS
         </a>
       </li>
       <li class="c-sidebar-nav-item"> 

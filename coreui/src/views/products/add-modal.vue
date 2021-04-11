@@ -28,6 +28,9 @@
           />
         </CCol>
         <CCol sm="4">
+          <CInput label="PRICE" type="number" min="1" step="any" placeholder="price" v-model="product.price"></CInput>
+        </CCol>
+        <CCol sm="4">
           <CInput
             label="TIPO DE PRODUCTO"
             type="text"
@@ -36,23 +39,17 @@
           />
         </CCol>
         <CCol sm="4">
-          <CInput
-            type="file"
-            @change="getImage"
-            name="image"
-            id="image"
-            accept="image/*"
-            placeholder="Course picture"
-          />
-          <figure class="mt-3">
-            <img
-              :src="imagenM"
-              width="200"
-              height="200"
-              alt="Article Picture"
-            />
-          </figure>
+          <input label="New image" type="file" @change="getImage" name="imagen" id="image" accept="image/*" placeholder="product picture"/>
+            
+            <figure class="mt-3">
+                <img :src="imagenM" width="200" height="200" alt="Article Picture">
+            </figure>
         </CCol>
+        <CCol sm="4" v-if="actualizar">            
+            <img :src="'public/products/'+imageProducto" width="200" height="200" alt="product image">
+        </CCol>
+        
+        
         <CCol sm="12" v-if="actualizar">
           <CSelect
             label="Status"
@@ -87,9 +84,9 @@ function limpiarDatos() {
   this.product = {
     title: "",
     description: "",
-    status_id: null,
+    status_id: 1,
     product_type: "",
-    imagePath: "",
+    price: 0, 
   };
   self.imagenMiniatura = "";
   document.getElementById("image").value = "";
@@ -98,74 +95,68 @@ function guardar() {
   let self = this;
   self.Loading = true;
   if (self.actualizar) {
-    axios
-      .post(
-        this.$apiAdress +
-          "/api/products/" +
-          self.product.id +
-          "?token=" +
-          localStorage.getItem("api_token"),
-        {
-          _method: "PUT",
-          image: self.imageNueva,
-          title: self.product.title,
-          description: self.product.description,
-          status_id: self.product.status_id,
-          product_type: self.product.product_type,
-        }
-      )
-      .then(function(response) {
-        self.Loading = false;
-        self.$toastr.success("¡Producto actualizado con exito!");
-        self.AddModal = false;
-        self.limpiarDatos();
-        self.$emit("child-refresh", true);
-      })
-      .catch(function(error) {
-        self.Loading = false;
-        self.$toastr.warning("¡Error, please try later!");
-        if (error.response.data.message == "The given data was invalid.") {
-          self.message = "";
-          for (let key in error.response.data.errors) {
-            if (error.response.data.errors.hasOwnProperty(key)) {
-              self.message += error.response.data.errors[key][0] + "  ";
-            }
+        let formData = new FormData();
+        formData.append("image", self.imageNueva);
+        formData.append("title", self.product.title);
+        formData.append("description", self.product.description);
+        formData.append("status_id", self.product.status_id);
+        formData.append("product_type", self.product.product_type);
+        formData.append("price", self.product.price);
+        formData.append('_method', 'PUT');
+        axios.post(  this.$apiAdress + '/api/products/' + self.product.id + '?token=' + localStorage.getItem("api_token")
+        ,formData,{
+                    headers: {
+                              "Content-Type": "multipart/form-data",
+                            },
           }
-        } else {
-          console.log(error);
-          //self.$router.push({ path: '/login' });
-        }
-      });
+        )
+        .then(function (response) {
+            self.Loading = false;
+            self.AddModal = false;
+            self.$toastr.success("¡Product updated!");
+            self.$emit("child-refresh", true);
+        }).catch(function (error) {
+          self.Loading = false;
+          self.$toastr.warning("¡Error, please try later!");
+            if(error.response.data.message == 'The given data was invalid.'){
+              self.message = '';
+              for (let key in error.response.data.errors) {
+                if (error.response.data.errors.hasOwnProperty(key)) {
+                  self.message += error.response.data.errors[key][0] + '  ';
+                }
+              }              
+            }else{
+              console.log(error); 
+              //self.$router.push({ path: '/login' }); 
+            }
+        });
   } else {
     let formData = new FormData();
-    formData.append("image", self.image);
+    formData.append("image", self.imageNueva);
     formData.append("title", self.product.title);
     formData.append("description", self.product.description);
-    formData.append("status_id", self.product.status_id);
     formData.append("product_type", self.product.product_type);
-    axios
-      .post(
-        this.$apiAdress +
-          "/api/products?token=" +
-          localStorage.getItem("api_token"),
+    formData.append("price",self.product.price);
+    //ENVÍO DE DATOS
+    axios.post(this.$apiAdress + "/api/products?token=" + localStorage.getItem("api_token"),
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         }
-      )
+      )      
       .then(function(response) {
         self.limpiarDatos();
         self.Loading = false;
         self.AddModal = false;
-        self.$toastr.success("¡Producto agregado con exito!");
+        self.$toastr.success("¡Product created succesfully!");
         self.$emit("child-refresh", true);
       })
       .catch(function(error) {
         console.log(error);
         self.Loading = false;
-        self.$toastr.danger("¡Error al agregar producto!");
+        self.$toastr.warning("¡Error, please try later or contact admin!");
       });
   }
 }
@@ -202,7 +193,7 @@ function data() {
       description: "",
       status_id: 1,
       product_type: "",
-      imagePath: "",
+      price: 0,
     },
 
     // VARIABLES
@@ -211,8 +202,9 @@ function data() {
     actualizar: false,
     tituloModal: "",
     statuses: [],
-    image: null,
+    imageNueva:null,
     imagenMiniatura: "",
+    imageProducto: '',
   };
 }
 export default {
@@ -233,7 +225,7 @@ export default {
   watch: {
     modal: function() {
       if (this.modal) {
-        this.limpiarDatos();
+        //this.limpiarDatos();
         this.AddModal = true;
         if (this.modal == true) {
           this.tituloModal = "NUEVO PRODUCTO";
@@ -245,7 +237,7 @@ export default {
           this.product.price = this.modal.price;
           this.product.product_type = this.modal.product_type;
           this.product.description = this.modal.description;
-
+          this.imageProducto = this.modal.image;
           console.log(this.modal);
         }
         this.$emit("cerrarModal");
@@ -259,51 +251,22 @@ export default {
     getImage(event) {
       //Asignamos la imagen a  nuestra data
       let file = event.target.files[0];
-      this.image = file;
+      this.imageNueva = file;
       this.cargarImagen(file);
     },
     cargarImagen(file) {
       let reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = (e) =>{
         this.imagenMiniatura = e.target.result;
       };
       reader.readAsDataURL(file);
-    },
-    getImage(event) {
-      //Asignamos la imagen a  nuestra data
-      this.image = event.target.files[0];
-    },
-    uploadImage() {
-      let self = this;
-      let formData = new FormData();
-      formData.append("image", self.image);
-      axios
-        .post(
-          this.$apiAdress +
-            "/api/products/image/store?token=" +
-            localStorage.getItem("api_token"),
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
-        .then(function(response) {
-          self.product.imagePath = response.data.path;
-          self.createUser();
-        })
-        .catch(function(error) {
-          console.log(error);
-          //self.$router.push({ path: '/login' });
-        });
-    },
+    },    
   },
   computed: {
     isDisabled,
-    imagenM() {
+    imagenM(){
       return this.imagenMiniatura;
-    },
+    }
   },
   mounted: function() {
     let self = this;
@@ -316,7 +279,6 @@ export default {
       )
       .then(function(response) {
         self.statuses = response.data;
-        console.log(response.data);
         self.Loading = false;
       })
       .catch(function(error) {
