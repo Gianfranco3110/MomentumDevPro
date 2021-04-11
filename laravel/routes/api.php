@@ -41,6 +41,11 @@ Route::group(['middleware' => 'api'], function ($router) {
     //ROUTE PARA CREAR VINCULACION CURSO-USUARIO
     Route::post('usercourses/create','UserCourseController@create');
 
+    //ROUTE PARA ASOCIAR VIDEOS A LOS CURSOS GIANF
+    Route::post('coursesvideos/store','Courses_videoController@store');
+    Route::get('coursesvideos/list/{id}', 'Courses_videoController@index');
+
+
     
     Route::resource('resource/{table}/resource', 'ResourceController');
     Route::get('media/storage','MediaController@getStoragePath');

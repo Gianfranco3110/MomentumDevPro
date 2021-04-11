@@ -6,8 +6,12 @@
       @cerrarModal="AddModal = false"
       @child-refresh="refrescarCurso = true"
     />
+    VeModal
+    <VeModal :modal="VerModal" @cerrarModal="VerModal = false" />
+    <VideoAdd :modal="AddVideo" @cerrarModal="AddVideo = false" />
+
     <CCard>
-      <CCardHeader class="text-center bg-dark text-white">
+      <CCardHeader class="text-center botonesP text-white">
         <b>LISTADO DE CURSOS</b>
       </CCardHeader>
       <CCardBody>
@@ -41,23 +45,11 @@
                   }}</CBadge>
                 </td>
               </template>
-              <template #image="{item}">
-                <td>
-                  <img
-                    :src="'public/curso/' + item.image"
-                    class="bd-placeholder-img card-img-top"
-                    width="100%"
-                    height="180"
-                    aria-label="Placeholder: Image cap"
-                    role="img"
-                  />
-                </td>
-              </template>
               <template #Detalle="{ item }">
                 <td class="py-2">
                   <CButton
                     color="dark"
-                    class="mr-1 bg-dark"
+                    class="mr-1"
                     square
                     size="sm"
                     v-c-tooltip="'Editar'"
@@ -71,9 +63,19 @@
                     size="sm"
                     class="mr-1"
                     v-c-tooltip="'Ver'"
-                    @click="ListModal = item"
+                    @click="VerModal = item"
                   >
                     <CIcon name="cil-note" />
+                  </CButton>
+                  <CButton
+                    shape="square"
+                    color="success"
+                    size="sm"
+                    v-c-tooltip="'Añadir video'"
+                    class="mr-1"
+                    @click="AddVideo = item"
+                  >
+                    <CIcon name="cil-plus" />
                   </CButton>
                 </td>
               </template>
@@ -89,6 +91,8 @@
 import { DateFormater } from "@/_helpers/funciones";
 import General from "@/_mixins/general";
 import AgreModal from "./add-modal";
+import VeModal from "./ver-modal";
+import VideoAdd from "./add-VideoModal";
 import axios from "axios";
 
 const fieldsCourse = [
@@ -145,6 +149,7 @@ function ListCurso() {
           status: listado.status,
           CourseName: listado.CourseName,
           description: listado.description,
+          image: listado.image,
         })
       );
       console.log(response);
@@ -163,6 +168,8 @@ function data() {
     Loading: false,
     AddModal: false,
     refrescarCurso: false,
+    VerModal: false,
+    AddVideo: false,
 
     tableText: Object.assign({}, tableTextHelpers),
   };
@@ -174,6 +181,8 @@ export default {
   data,
   components: {
     AgreModal,
+    VeModal,
+    VideoAdd,
   },
   props: {
     fieldsCourse: {

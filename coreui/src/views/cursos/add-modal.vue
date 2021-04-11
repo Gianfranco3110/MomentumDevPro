@@ -99,7 +99,7 @@
         <CButton color="success" :disabled="isDisabled" @click="evaluaStatus">
           <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
         </CButton>
-        <CButton class="botonesP" color="dark" @click="AddModal = false">
+        <CButton color="dark" @click="AddModal = false">
           <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
         </CButton>
       </template>

@@ -36,20 +36,20 @@
           <CIcon size="lg" name="cil-card-travel" />&nbsp; PRODUCTOS
         </a>
       </li>
-      <li class="c-sidebar-nav-item"> 
-        <a class="c-sidebar-nav-link" href="#/users">     
-         <CIcon name="cil-user" class="mr-2" /> USERS
-         </a>    
+      <li class="c-sidebar-nav-item">
+        <a class="c-sidebar-nav-link" href="#/users">
+          <CIcon name="cil-user" class="mr-2" /> USERS
+        </a>
       </li>
       <li class="c-sidebar-nav-item" v-if="isAdmin">
         <a class="c-sidebar-nav-link" href="#/Registro">
           <CIcon size="lg" name="cil-address-card" class="mr-2" /> REGISTER USER
         </a>
       </li>
-      <li class="c-sidebar-nav-item"> 
-        <a class="c-sidebar-nav-link" href="#/settings">     
-         <CIcon name="cil-settings" class="mr-2" /> CHANGE PASSWORD 
-         </a>    
+      <li class="c-sidebar-nav-item">
+        <a class="c-sidebar-nav-link" href="#/settings">
+          <CIcon name="cil-settings" class="mr-2" /> CHANGE PASSWORD
+        </a>
       </li>
     </ul>
   </CSidebar>
@@ -77,8 +77,8 @@ export default {
     },
   },
   methods: {
-    goSettings(){
-      this.$router.push({path: 'settings'});
+    goSettings() {
+      this.$router.push({ path: "settings" });
     },
     dropdown(data) {
       let result = {
