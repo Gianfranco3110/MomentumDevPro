@@ -52,7 +52,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 
 //DATA
 function data() {

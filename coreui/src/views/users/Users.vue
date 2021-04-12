@@ -183,7 +183,7 @@ export default {
         .catch(function(error) {
           console.log(error);
           self.Loading = false;
-          //self.$router.push({ path: "/login" });
+          self.$router.push({ path: "/login" });
         });
     },
   },

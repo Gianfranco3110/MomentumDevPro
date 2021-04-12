@@ -85,9 +85,7 @@ export default {
     return {
       email: "",
       password: "",
-      showMessage: false,
       Loading: false,
-      message: "",
     };
   },
   methods: {
