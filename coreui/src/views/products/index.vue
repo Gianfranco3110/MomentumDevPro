@@ -45,8 +45,8 @@
               <template #Detalle="{ item }">
                 <td class="py-2">
                   <CButton
-                    color="dark"
-                    class="mr-1 bg-dark"
+                    color="success"
+                    class="mr-1"
                     square
                     size="sm"
                     v-c-tooltip="'Editar'"
@@ -120,7 +120,7 @@ function ListProducts() {
   axios
     .get(
       this.$apiAdress +
-        "/api/products?token=" +
+        "/api/products/all?token=" +
         localStorage.getItem("api_token")
     )
     .then(function(response) {
@@ -140,7 +140,7 @@ function ListProducts() {
     })
     .catch(function(error) {
       console.log(error);
-      //self.$router.push({ path: "/login" });
+      self.$router.push({ path: "/login" });
     });
 }
 

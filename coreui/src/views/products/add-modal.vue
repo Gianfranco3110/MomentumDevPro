@@ -9,6 +9,9 @@
       :show.sync="AddModal"
     >
       <CRow class="mt-2">
+        <CCol sm="12" v-if="actualizar">            
+            <img :src="'public/products/'+imageProducto" width="200" height="200" alt="product image">
+        </CCol>
         <CCol sm="4">
           <CInput
             label="TITULO DEL PRODUCTO"
@@ -38,16 +41,17 @@
             placeholder="Tipo de producto"
           />
         </CCol>
+        <CCol sm="4">          
+          <div class="custom-input-file mt-3">
+            <input class="input-file" label="Imagen del producto" type="file" @change="getImage" name="imagen" id="image" accept="image/*" placeholder="product picture"/>
+            Imagen del producto...
+          </div>            
+        </CCol>
         <CCol sm="4">
-          <input label="New image" type="file" @change="getImage" name="imagen" id="image" accept="image/*" placeholder="product picture"/>
-            
-            <figure class="mt-3">
-                <img :src="imagenM" width="200" height="200" alt="Article Picture">
+          <figure v-if="imagenMiniatura!=''">
+                <img :src="imagenM" width="200" height="200">
             </figure>
-        </CCol>
-        <CCol sm="4" v-if="actualizar">            
-            <img :src="'public/products/'+imageProducto" width="200" height="200" alt="product image">
-        </CCol>
+        </CCol>      
         
         
         <CCol sm="12" v-if="actualizar">
@@ -64,7 +68,7 @@
         <CButton color="success" :disabled="isDisabled" @click="evaluaStatus">
           <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
         </CButton>
-        <CButton color="dark" @click="AddModal = false">
+        <CButton color="dark" @click="modalClose">
           <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
         </CButton>
       </template>
@@ -115,6 +119,7 @@ function guardar() {
             self.AddModal = false;
             self.$toastr.success("¡Product updated!");
             self.$emit("child-refresh", true);
+            self.limpiarDatos();
         }).catch(function (error) {
           self.Loading = false;
           self.$toastr.warning("¡Error, please try later!");
@@ -181,6 +186,12 @@ function evaluaStatus() {
   } else this.guardar();
 }
 
+function modalClose(){
+  this.limpiarDatos();
+  this.imagenMiniatura='';
+  this.AddModal=false;  
+}
+
 //COMPUTED
 function isDisabled() {
   return this.$v.$invalid;
@@ -225,12 +236,13 @@ export default {
   watch: {
     modal: function() {
       if (this.modal) {
-        //this.limpiarDatos();
+        this.limpiarDatos();
         this.AddModal = true;
         if (this.modal == true) {
           this.tituloModal = "NUEVO PRODUCTO";
           this.actualizar = false;
         } else {
+          this.tituloModal = "EDITAR PRODUCTO";
           this.actualizar = true;
           this.product.id = this.modal.id;
           this.product.title = this.modal.title;
@@ -248,6 +260,7 @@ export default {
     evaluaStatus,
     guardar,
     limpiarDatos,
+    modalClose,
     getImage(event) {
       //Asignamos la imagen a  nuestra data
       let file = event.target.files[0];
@@ -288,4 +301,32 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.custom-input-file {
+  background-color: #4B4BAF;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  margin: 0 auto 0;
+  min-height: 15px;
+  overflow: hidden;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+  width: 200px;
+}
+
+.custom-input-file .input-file {
+ border: 10000px solid transparent;
+ cursor: pointer;
+ font-size: 10000px;
+ margin: 0;
+ opacity: 0;
+ outline: 0 none;
+ padding: 0;
+ position: absolute;
+ right: -1000px;
+ top: -1000px;
+}
+</style>

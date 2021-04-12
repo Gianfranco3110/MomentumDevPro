@@ -252,7 +252,7 @@ function limpiarDatos() {
     description: "",
     price: "",
     daysofvalidity: "",
-    status_id: "",
+    status_id: 1,
     CourseName: "",
   };
   this.image = "";

@@ -30,6 +30,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('products/image/store','productsController@uploadImage');
     Route::put('products/eliminate/{product}','productsController@deleteProduct');
     Route::get('products/myproducts', 'productsController@showPerUser');
+    Route::get('products/all','productsController@AllProducts');
     Route::resource('products', 'productsController');
 
     //ROUTE PARA CREAR CURSOS GIANF

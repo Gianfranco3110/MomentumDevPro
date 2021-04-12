@@ -27,6 +27,16 @@ class productsController extends Controller
         return response()->json( $products );
     }
 
+    public function AllProducts()
+    {
+        $products = DB::table('products')->join('users', 'users.id', '=', 'products.users_id')
+        ->join('status', 'status.id', '=', 'products.status_id')
+        ->select('products.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
+        ->where('exist','=',0)
+        ->get();
+        return response()->json( $products );
+    }
+
     /**
      * Show the form for creating a new resource.
      *
