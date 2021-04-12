@@ -145,12 +145,7 @@
 
                   <div class="card-body">
                     <h5 class="card-title">{{item.title}}</h5>
-                    <p class="card-text">${{item.price}}</p>
-                     <CRow class="mt-2">
-                      <CCol>
-                    <a href="#" class="btn btn-success">Details</a>
-                      </CCol>
-                    </CRow>
+                    <p class="card-text">${{item.price}}</p>                     
                   </div>
                 </div>
             </CCol>

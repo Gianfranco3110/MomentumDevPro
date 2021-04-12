@@ -1,11 +1,8 @@
 <template>
   <div>
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
-    <AgreModal
-      :modal="AddModal"
-      @cerrarModal="AddModal = false"
-      @child-refresh="refrescarProduc = true"
-    />
+    <AgreModal :modal="AddModal" @cerrarModal="AddModal = false"  @child-refresh="refrescarProduc = true"/>
+    <VeModal :modal="VerModal" @cerrarModal="VerModal = false" />
     <CCard>
       <CCardHeader class="text-center bg-dark text-white">
         <b>LISTADO DE PRODUCTOS</b>
@@ -60,9 +57,19 @@
                     size="sm"
                     class="mr-1"
                     v-c-tooltip="'Ver'"
-                    @click="ListModal = item"
+                    @click="VerModal = item"
                   >
-                    <CIcon name="cil-note" />
+                    <CIcon name="cil-zoom" />
+                  </CButton>
+                  <CButton
+                    color="danger"
+                    square
+                    size="sm"
+                    class="mr-1"
+                    v-c-tooltip="'Eliminar'"
+                    @click="deleteProduct( item.id )"
+                  >
+                    <CIcon name="cil-X" />
                   </CButton>
                 </td>
               </template>
@@ -78,6 +85,7 @@
 import axios from "axios";
 import General from "@/_mixins/general";
 import AgreModal from "./add-modal";
+import VeModal from "./ver-modal";
 
 const fieldsProducts = [
   {
@@ -150,6 +158,7 @@ function data() {
     items: [],
     Loading: false,
     AddModal: false,
+    VerModal: false,
     refrescarProduc: false,
 
     tableText: Object.assign({}, tableTextHelpers),
@@ -162,6 +171,7 @@ export default {
   data,
   components: {
     AgreModal,
+    VeModal,
   },
   props: {
     fieldsProducts: {
@@ -183,6 +193,23 @@ export default {
         : status === "Banned"
         ? "danger"
         : "primary";
+    },
+    deleteProduct ( id ) {
+      let self = this;
+      self.Loading = true;
+      axios.post(  this.$apiAdress + '/api/products/eliminate/' + id + '?token=' + localStorage.getItem("api_token"), {
+        _method: 'PUT'
+      })
+      .then(function (response) {
+          self.$toastr.success("¡Producto eliminado con exito!");
+          self.ListProducts();
+          self.Loading = false;
+      }).catch(function (error) {
+        console.log(error);
+        self.Loading = false;
+        self.$toastr.warning("¡Error al eliminar producto!");
+        //self.$router.push({ path: '/login' });
+      });
     },
   },
   watch: {
