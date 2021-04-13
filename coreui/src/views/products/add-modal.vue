@@ -9,7 +9,7 @@
       :show.sync="AddModal"
     >
       <CRow class="mt-2">
-        <CCol sm="12" v-if="actualizar">            
+        <CCol sm="12" v-if="actualizar" style="text-align:center">            
             <img :src="'public/products/'+imageProducto" width="200" height="200" alt="product image">
         </CCol>
         <CCol sm="4">
@@ -60,7 +60,7 @@
         </CCol>
         <CCol sm="4">
           <figure v-if="imagenMiniatura!=''">
-                <img :src="imagenM" width="200" height="200">
+                <img id="imagenMiniatura" :src="imagenM" width="200" height="200">
             </figure>
         </CCol>      
         
@@ -103,8 +103,7 @@ function limpiarDatos() {
     product_type: "",
     price: 0,
   };
-  self.imagenMiniatura = "";
-  document.getElementById("image").value = "";
+  this.imagenMiniatura = "";
 }
 function guardar() {
   let self = this;
@@ -127,12 +126,12 @@ function guardar() {
         ).then(function (response) {
             self.Loading = false;
             self.AddModal = false;
-            self.$toastr.success("¡Product updated!");
+            self.$toastr.success("¡Producto actualizado!");
             self.$emit("child-refresh", true);
             self.limpiarDatos();
         }).catch(function (error) {
           self.Loading = false;
-          self.$toastr.warning("¡Error, please try later!");            
+          self.$toastr.warning("¡Error! Por favor intente mas tarde");            
           console.log(error); 
           //self.$router.push({ path: '/login' });             
           });     
@@ -166,7 +165,7 @@ function guardar() {
       .catch(function(error) {
         console.log(error);
         self.Loading = false;
-        self.$toastr.warning("¡Error, pongase en contacto con el admin!");
+        self.$toastr.warning("Error al crear producto");
       });
   }
 }

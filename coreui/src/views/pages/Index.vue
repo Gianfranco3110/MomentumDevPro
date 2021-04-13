@@ -85,49 +85,27 @@
 </div>
 <div id="seccion-cursos">
     <div class="container">
-      <h2>Cursos</h2><br>
-      <div class="row">
-        <div class="col-md-3">
-          <div class="card" style="width: 15rem;">
-            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
+      <CCard>        
+        <CCardHeader>
+          Cursos mas populares         
+        </CCardHeader>
+        <CCardBody>
+          <CRow>
+            <template>
+            <CCol md="4" v-for="(item, index) in Cursositems" :key="index">
+                <div class="card" style="width: 18rem;">
+                  <img :src="'public/curso/' + item.image" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
 
-            <div class="card-body">
-              <h5 class="card-title">Curso 1</h5>
-              <p class="card-text">Descripción</p>                                        
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card" style="width: 15rem;">
-            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
-
-            <div class="card-body">
-              <h5 class="card-title">Curso 2</h5>
-              <p class="card-text">Descripción</p>                                        
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card" style="width: 15rem;">
-            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
-
-            <div class="card-body">
-              <h5 class="card-title">Curso 3</h5>
-              <p class="card-text">Descripción</p>                                        
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card" style="width: 15rem;">
-            <img src="img/slider2.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
-
-            <div class="card-body">
-              <h5 class="card-title">Curso 4</h5>
-              <p class="card-text">Description</p>                                        
-            </div>
-          </div>
-        </div>
-      </div>
+                  <div class="card-body">
+                    <h5 class="card-title">{{item.CourseName}}</h5>
+                    <p class="card-text">${{item.price}}</p>                     
+                  </div>
+                </div>
+            </CCol>
+            </template>                  
+          </CRow>            
+        </CCardBody>  
+      </CCard>
     </div>
   </div>
   <div id="seccion-productos">
@@ -139,7 +117,7 @@
         <CCardBody>
           <CRow>
             <template>
-            <CCol md="4" v-for="(item, index) in items" :key="index">
+            <CCol md="4" v-for="(item, index) in Productitems" :key="index">
                 <div class="card" style="width: 18rem;">
                   <img :src="'public/products/' + item.image" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img">
 
@@ -218,7 +196,7 @@
         </div>        
       </div>      
     </div>
-    <div class="row" style="background-color:white">
+    <div class="row" style="background-color:#4B4BAF">
         <div class="footer-copyright-seccion m-auto mt-3 p-2">
             <div class="container">
               <p>© 2021 MomentumDev, All rights reserved.</p>
@@ -253,7 +231,8 @@ export default {
       Loading: false,
       message: "",
       collapse: false,
-      items: [],      
+      Productitems: [],
+      Cursositems:[],  
       currentPage: 1,
       perPage: 5,
       user: '',
@@ -261,8 +240,8 @@ export default {
     };
   },
   methods: {
-    getRowCount (items) {
-      return items.length
+    getRowCount (Productitems) {
+      return Productitems.length
     },
     goRegister() {
       this.$router.push({ path: "register" });
@@ -277,7 +256,16 @@ export default {
       let self = this;
       axios.get(  this.$apiAdress + '/api/products?token=' + localStorage.getItem("api_token") )
       .then(function (response) {
-        self.items = response.data;
+        self.Productitems = response.data;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    getCourses (){
+      let self = this;
+      axios.get(  this.$apiAdress + '/api/courses?token=' + localStorage.getItem("api_token") )
+      .then(function (response) {
+        self.Cursositems = response.data;
       }).catch(function (error) {
         console.log(error);
       });
@@ -285,7 +273,7 @@ export default {
   },
   mounted: function(){
     this.getProducts();
-
+    this.getCourses();
     if(localStorage.getItem("name")!=null && localStorage.getItem("name")!=''){
       this.logueado=true;
     }

@@ -22,7 +22,7 @@
               :items="items"
               :fields="fieldsProducts"
               column-filter
-              :items-per-page="5"
+              :items-per-page="10"
               :noItemsView="tableText.noItemsViewText"
               :table-filter="tableText.tableFilterText"
               :items-per-page-select="tableText.itemsPerPageText"
@@ -42,11 +42,7 @@
               <template #Detalle="{ item }">
                 <td class="py-2">
                   <CButton
-<<<<<<< HEAD
                     color="success"
-=======
-                    color="dark"
->>>>>>> c4cc06ba7212e2ea8399b05d19ffa492c28e8bc8
                     class="mr-1"
                     square
                     size="sm"
@@ -199,9 +195,22 @@ export default {
         : "primary";
     },
     deleteProduct ( id ) {
-      let self = this;
-      self.Loading = true;
-      axios.post(  this.$apiAdress + '/api/products/eliminate/' + id + '?token=' + localStorage.getItem("api_token"), {
+      let self = this;      
+      /////
+      this.$swal
+      .fire({
+        text: `¿Esta seguro de realizar esta acción?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "CONFIRMAR",
+        cancelButtonText: "CANCELAR",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          self.Loading = true;
+          axios.post(  this.$apiAdress + '/api/products/eliminate/' + id + '?token=' + localStorage.getItem("api_token"), {
         _method: 'PUT'
       })
       .then(function (response) {
@@ -214,7 +223,11 @@ export default {
         self.$toastr.warning("¡Error al eliminar producto!");
         //self.$router.push({ path: '/login' });
       });
-    },
+        }
+      });
+      ////
+
+    },  
   },
   watch: {
     refrescarProduc: function() {
