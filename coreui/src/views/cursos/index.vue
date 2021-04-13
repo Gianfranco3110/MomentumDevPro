@@ -136,7 +136,7 @@ function ListCurso() {
   axios
     .get(
       this.$apiAdress +
-        "/api/courses?token=" +
+        "/api/courses/all?token=" +
         localStorage.getItem("api_token")
     )
     .then(function(response) {

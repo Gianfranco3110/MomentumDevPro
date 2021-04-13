@@ -8,8 +8,8 @@
             <CCard class="p-4">
               <CCardBody>
                 <CForm @submit.prevent="login" method="POST">
-                  <h1>Login</h1>
-                  <p class="text-muted">Sign In to your account</p>
+                  <h1>Iniciar sesión</h1>
+                  <p class="text-muted">Entra en tu cuenta</p>
                   <CInput
                     v-model="email"
                     prependHtml="<i class='cui-user'></i>"
@@ -38,12 +38,12 @@
                         @click.prevent="login"
                         color="primary"
                         class="px-4"
-                        >Login</CButton
+                        >Entrar</CButton
                       >
                     </CCol>
                     <CCol col="6" class="text-right">
                       <CButton color="link" class="px-0"
-                        >Forgot password?</CButton
+                        >¡Olvidé mi contraseña!</CButton
                       >
                     </CCol>
                   </CRow>
@@ -51,12 +51,12 @@
               </CCardBody>
             </CCard>
             <CCard
-              color="primary"
+              style="background-color:#4B4BAF"
               text-color="white"
               class="text-center py-5 d-md-down-none"
               body-wrapper
             >
-              <h2>Sign up</h2>
+              <h2>Regístrate</h2>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -66,7 +66,7 @@
                 class="active mt-3"
                 @click="goRegister()"
               >
-                Register Now!
+                Registrar!
               </CButton>
             </CCard>
           </CCardGroup>

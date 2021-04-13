@@ -37,6 +37,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('courses/image/store','CoursesController@uploadImage');
     Route::get('courses/courses', 'CoursesController@showPerUser');
     Route::get('courses/list', 'CoursesController@nameCourses');
+    Route::get('courses/all','CoursesController@allCourses');
     Route::resource('courses', 'CoursesController');
 
     //ROUTE PARA CREAR VINCULACION CURSO-USUARIO

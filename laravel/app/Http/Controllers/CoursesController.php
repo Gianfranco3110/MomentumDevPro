@@ -19,8 +19,17 @@ class CoursesController extends Controller
        $courses = DB::table('courses')->join('users', 'users.id', '=', 'courses.users_id')
         ->join('status', 'status.id', '=', 'courses.status_id')
         ->select('courses.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
+        ->limit(3)
         ->get();
         return response()->json( $courses );
+    }
+
+    public function allCourses(){
+        $courses = DB::table('courses')->join('users', 'users.id', '=', 'courses.users_id')
+        ->join('status', 'status.id', '=', 'courses.status_id')
+        ->select('courses.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
+        ->get();
+        return response()->json( $courses ); 
     }
 
     //FUNCION PARA SACAR UNA LISTA DE LOS CURSOS PERO SOLO EL NOMBRE Y EL ID

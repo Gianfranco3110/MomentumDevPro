@@ -9,7 +9,7 @@
       :show.sync="AddModal"
     >
       <CRow class="mt-2">
-        <CCol sm="12" v-if="actualizar">
+        <CCol sm="12" v-if="actualizar" style="text-align:center">
           <img
             :src="'public/products/' + imageProducto"
             width="200"
@@ -74,7 +74,7 @@
         </CCol>
         <CCol sm="4">
           <figure v-if="imagenMiniatura != ''">
-            <img :src="imagenM" width="200" height="200" />
+            <img id="imagenMiniatura" :src="imagenM" width="200" height="200" />
           </figure>
         </CCol>
 
@@ -116,8 +116,7 @@ function limpiarDatos() {
     product_type: "",
     price: 0,
   };
-  self.imagenMiniatura = "";
-  document.getElementById("image").value = "";
+  this.imagenMiniatura = "";
 }
 function guardar() {
   let self = this;
@@ -148,24 +147,15 @@ function guardar() {
       .then(function(response) {
         self.Loading = false;
         self.AddModal = false;
-        self.$toastr.success("¡Product updated!");
+        self.$toastr.success("¡Producto actualizado!");
         self.$emit("child-refresh", true);
         self.limpiarDatos();
       })
       .catch(function(error) {
         self.Loading = false;
-        self.$toastr.warning("¡Error, please try later!");
-        if (error.response.data.message == "The given data was invalid.") {
-          self.message = "";
-          for (let key in error.response.data.errors) {
-            if (error.response.data.errors.hasOwnProperty(key)) {
-              self.message += error.response.data.errors[key][0] + "  ";
-            }
-          }
-        } else {
-          console.log(error);
-          //self.$router.push({ path: '/login' });
-        }
+        self.$toastr.warning("¡Error! Por favor intente mas tarde");
+        console.log(error);
+        //self.$router.push({ path: '/login' });
       });
   } else {
     let formData = new FormData();
@@ -197,7 +187,7 @@ function guardar() {
       .catch(function(error) {
         console.log(error);
         self.Loading = false;
-        self.$toastr.warning("¡Error, pongase en contacto con el admin!");
+        self.$toastr.warning("Error al crear producto");
       });
   }
 }
