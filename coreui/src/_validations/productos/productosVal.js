@@ -5,7 +5,7 @@ export default () => {
     return {
         product : {
             description: { required, especiales, maxLength: maxLength(256) },
-            title: { required,especiales, maxLength: maxLength(20) }, 
+            title: { required,especiales, maxLength: maxLength(50) }, 
             product_type: { required,especiales, maxLength: maxLength(20) },
         }    
     }

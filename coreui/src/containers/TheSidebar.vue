@@ -23,28 +23,33 @@
     <ul class="c-sidebar-nav">
       <li class="c-sidebar-nav-item">
         <a class="c-sidebar-nav-link" href="#/dashboard">
-          <CIcon size="lg" name="cil-home" class="mr-2" /> HOME
+          <CIcon size="lg" name="cil-home" class="mr-2" /> INICIO
         </a>
       </li>
       <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#/users">
-          <CIcon name="cil-user" class="mr-2" /> USERS
+        <a class="c-sidebar-nav-link" href="#">
+          <CIcon size="lg" name="cil-education" class="mr-2" /> MIS CURSOS
         </a>
       </li>
-      <li class="c-sidebar-nav-item">
+      <li class="c-sidebar-nav-item" v-if="isAdmin">
         <a class="c-sidebar-nav-link" href="#/cursos">
           <CIcon size="lg" name="cil-education" class="mr-2" /> CURSOS
         </a>
       </li>
-      <li class="c-sidebar-nav-item">
+      <li class="c-sidebar-nav-item" v-if="isAdmin">
         <a class="c-sidebar-nav-link" href="#/products">
           <CIcon size="lg" name="cil-card-travel" class="mr-2" /> PRODUCTOS
         </a>
       </li>
       <li class="c-sidebar-nav-item" v-if="isAdmin">
+        <a class="c-sidebar-nav-link" href="#/users">
+          <CIcon name="cil-user" class="mr-2" /> USUARIOS
+        </a>
+      </li>
+      <li class="c-sidebar-nav-item" v-if="isAdmin">
         <a class="c-sidebar-nav-link" href="#/Registro">
           <CIcon size="lg" name="cil-address-card" class="mr-2" /> REGISTRAR
-          USUARIOS
+          USUARIO
         </a>
       </li>
       <li class="c-sidebar-nav-item">
@@ -57,7 +62,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   name: "TheSidebar",
   data() {
@@ -80,7 +84,7 @@ export default {
   methods: {
     goSettings() {
       this.$router.push({ path: "settings" });
-    },
+    } /*
     dropdown(data) {
       let result = {
         _name: "CSidebarNavDropdown",
@@ -142,7 +146,7 @@ export default {
         }
       }
       return this.buffor;
-    },
+    },*/,
   },
   mounted() {
     this.$root.$on("toggle-sidebar", () => {
@@ -157,8 +161,7 @@ export default {
     if (localStorage.getItem("roles") == "user,admin") {
       self.isAdmin = true;
     }
-    console.log(this.$apiAdress);
-
+    /*
     axios
       .get(
         this.$apiAdress + "/api/menu?token=" + localStorage.getItem("api_token")
@@ -169,7 +172,7 @@ export default {
       .catch(function(error) {
         console.log(error);
         self.$router.push({ path: "/login" });
-      });
+      });*/
   },
 };
 </script>
