@@ -94,15 +94,15 @@
           >
             <template #DocsRoute="{item}">
               <td class="py-2">
-                <a
-                  class="btn btn-sm btn-primary mr-1"
+                <CButton
+                  color="dark"
+                  class="mr-1"
+                  square
+                  size="sm"
                   v-c-tooltip="'Ver'"
-                  target="_blank"
-                  :href="item.DocsRoute"
                 >
                   <CIcon name="cil-search" />
-                </a>
-
+                </CButton>
                 <CButton
                   color="danger"
                   square
@@ -146,10 +146,8 @@ function CerrarLimpiar() {
 
 //LIMPIA LOS CAMPOS
 function limpiarDatos() {
-  this.video = {
-    description: "",
-    url_video: "",
-  };
+  this.video.description = "";
+  this.video.url_video = "";
 }
 
 const fields = [
@@ -209,6 +207,7 @@ function guardar() {
     .then(function(response) {
       self.$toastr.success("Video agregado con extio!");
       self.limpiarDatos();
+      self.ListVideo(self.video.courses_id);
       console.log(response);
       self.Loading = false;
     })
@@ -238,6 +237,16 @@ function ListVideo(id) {
         localStorage.getItem("api_token")
     )
     .then(function(response) {
+      listado = response.data;
+      let Nro = 1;
+      self.items = listado.map((listado) =>
+        Object.assign({}, self.items, {
+          Nro: Nro++,
+          id: listado.id,
+          url_video: listado.url_video,
+          description: listado.description,
+        })
+      );
       console.log(response);
       self.Loading = false;
     })

@@ -27,28 +27,29 @@
         </a>
       </li>
       <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#/cursos">
-          <CIcon size="lg" name="cil-education" class="mr-2" /> COURSES
-        </a>
-      </li>
-      <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#/products">
-          <CIcon size="lg" name="cil-card-travel" class="mr-2" /> PRODUCTS
-        </a>
-      </li>
-      <li class="c-sidebar-nav-item">
         <a class="c-sidebar-nav-link" href="#/users">
           <CIcon name="cil-user" class="mr-2" /> USERS
         </a>
       </li>
+      <li class="c-sidebar-nav-item">
+        <a class="c-sidebar-nav-link" href="#/cursos">
+          <CIcon size="lg" name="cil-education" class="mr-2" /> CURSOS
+        </a>
+      </li>
+      <li class="c-sidebar-nav-item">
+        <a class="c-sidebar-nav-link" href="#/products">
+          <CIcon size="lg" name="cil-card-travel" class="mr-2" /> PRODUCTOS
+        </a>
+      </li>
       <li class="c-sidebar-nav-item" v-if="isAdmin">
         <a class="c-sidebar-nav-link" href="#/Registro">
-          <CIcon size="lg" name="cil-address-card" class="mr-2" /> REGISTER USER
+          <CIcon size="lg" name="cil-address-card" class="mr-2" /> REGISTRAR
+          USUARIOS
         </a>
       </li>
       <li class="c-sidebar-nav-item">
         <a class="c-sidebar-nav-link" href="#/settings">
-          <CIcon name="cil-settings" class="mr-2" /> CHANGE PASSWORD
+          <CIcon name="cil-settings" class="mr-2" /> CAMBIAR CONTRASEÑA
         </a>
       </li>
     </ul>

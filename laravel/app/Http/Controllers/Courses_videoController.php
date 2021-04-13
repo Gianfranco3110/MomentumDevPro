@@ -13,7 +13,9 @@ class Courses_videoController extends Controller
     //LISTA
     public function index($id)
     {  
-        DB::table('course_videos')->select('course_videos.*')->where('courses_id', '=', $id)->get();
+        $course_videos=DB::table('course_videos')->select('course_videos.*')->where('courses_id', '=', $id)->get();
+        return response()->json( $course_videos );
+
     }
 
     // GUARDA-ASOCIA LOS VIDEOS

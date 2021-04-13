@@ -11,6 +11,7 @@
       <CRow class="mt-2">
         <CCol sm="4">
           <CInput
+            addLabelClasses="required"
             label="TITULO DEL PRODUCTO"
             type="text"
             placeholder="Titulo"
@@ -20,6 +21,7 @@
         </CCol>
         <CCol sm="4">
           <CInput
+            addLabelClasses="required"
             textarea="true"
             label="DESCRIPCION DEL PRODUCTO"
             :rows="9"
@@ -28,10 +30,19 @@
           />
         </CCol>
         <CCol sm="4">
-          <CInput label="PRICE" type="number" min="1" step="any" placeholder="price" v-model="product.price"></CInput>
+          <CInput
+            addLabelClasses="required"
+            label="PRECIO"
+            type="number"
+            min="1"
+            step="any"
+            placeholder="PRECIO"
+            v-model="product.price"
+          ></CInput>
         </CCol>
         <CCol sm="4">
           <CInput
+            addLabelClasses="required"
             label="TIPO DE PRODUCTO"
             type="text"
             v-model="product.product_type"
@@ -39,17 +50,35 @@
           />
         </CCol>
         <CCol sm="4">
-          <input label="New image" type="file" @change="getImage" name="imagen" id="image" accept="image/*" placeholder="product picture"/>
-            
-            <figure class="mt-3">
-                <img :src="imagenM" width="200" height="200" alt="Article Picture">
-            </figure>
+          <input
+            addLabelClasses="required"
+            label="New image"
+            type="file"
+            @change="getImage"
+            name="imagen"
+            id="image"
+            accept="image/*"
+            placeholder="product picture"
+          />
+
+          <figure class="mt-3">
+            <img
+              :src="imagenM"
+              width="200"
+              height="200"
+              alt="Article Picture"
+            />
+          </figure>
         </CCol>
-        <CCol sm="4" v-if="actualizar">            
-            <img :src="'public/products/'+imageProducto" width="200" height="200" alt="product image">
+        <CCol sm="4" v-if="actualizar">
+          <img
+            :src="'public/products/' + imageProducto"
+            width="200"
+            height="200"
+            alt="product image"
+          />
         </CCol>
-        
-        
+
         <CCol sm="12" v-if="actualizar">
           <CSelect
             label="Status"
@@ -86,7 +115,7 @@ function limpiarDatos() {
     description: "",
     status_id: 1,
     product_type: "",
-    price: 0, 
+    price: 0,
   };
   self.imagenMiniatura = "";
   document.getElementById("image").value = "";
@@ -95,68 +124,80 @@ function guardar() {
   let self = this;
   self.Loading = true;
   if (self.actualizar) {
-        let formData = new FormData();
-        formData.append("image", self.imageNueva);
-        formData.append("title", self.product.title);
-        formData.append("description", self.product.description);
-        formData.append("status_id", self.product.status_id);
-        formData.append("product_type", self.product.product_type);
-        formData.append("price", self.product.price);
-        formData.append('_method', 'PUT');
-        axios.post(  this.$apiAdress + '/api/products/' + self.product.id + '?token=' + localStorage.getItem("api_token")
-        ,formData,{
-                    headers: {
-                              "Content-Type": "multipart/form-data",
-                            },
-          }
-        )
-        .then(function (response) {
-            self.Loading = false;
-            self.AddModal = false;
-            self.$toastr.success("¡Product updated!");
-            self.$emit("child-refresh", true);
-        }).catch(function (error) {
-          self.Loading = false;
-          self.$toastr.warning("¡Error, please try later!");
-            if(error.response.data.message == 'The given data was invalid.'){
-              self.message = '';
-              for (let key in error.response.data.errors) {
-                if (error.response.data.errors.hasOwnProperty(key)) {
-                  self.message += error.response.data.errors[key][0] + '  ';
-                }
-              }              
-            }else{
-              console.log(error); 
-              //self.$router.push({ path: '/login' }); 
-            }
-        });
-  } else {
     let formData = new FormData();
     formData.append("image", self.imageNueva);
     formData.append("title", self.product.title);
     formData.append("description", self.product.description);
+    formData.append("status_id", self.product.status_id);
     formData.append("product_type", self.product.product_type);
-    formData.append("price",self.product.price);
-    //ENVÍO DE DATOS
-    axios.post(this.$apiAdress + "/api/products?token=" + localStorage.getItem("api_token"),
+    formData.append("price", self.product.price);
+    formData.append("_method", "PUT");
+    axios
+      .post(
+        this.$apiAdress +
+          "/api/products/" +
+          self.product.id +
+          "?token=" +
+          localStorage.getItem("api_token"),
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         }
-      )      
+      )
+      .then(function(response) {
+        self.Loading = false;
+        self.AddModal = false;
+        self.$toastr.success("¡Producto actualizado con exito!");
+        self.$emit("child-refresh", true);
+      })
+      .catch(function(error) {
+        self.Loading = false;
+        self.$toastr.warning("¡Error, please try later!");
+        if (error.response.data.message == "The given data was invalid.") {
+          self.message = "";
+          for (let key in error.response.data.errors) {
+            if (error.response.data.errors.hasOwnProperty(key)) {
+              self.message += error.response.data.errors[key][0] + "  ";
+            }
+          }
+        } else {
+          console.log(error);
+          //self.$router.push({ path: '/login' });
+        }
+      });
+  } else {
+    let formData = new FormData();
+    formData.append("image", self.imageNueva);
+    formData.append("title", self.product.title);
+    formData.append("description", self.product.description);
+    formData.append("product_type", self.product.product_type);
+    formData.append("price", self.product.price);
+    //ENVÍO DE DATOS
+    axios
+      .post(
+        this.$apiAdress +
+          "/api/products?token=" +
+          localStorage.getItem("api_token"),
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then(function(response) {
         self.limpiarDatos();
         self.Loading = false;
         self.AddModal = false;
-        self.$toastr.success("¡Product created succesfully!");
+        self.$toastr.success("¡Producto creado con exito!");
         self.$emit("child-refresh", true);
       })
       .catch(function(error) {
         console.log(error);
         self.Loading = false;
-        self.$toastr.warning("¡Error, please try later or contact admin!");
+        self.$toastr.warning("¡Error, pongase en contacto con el admin!");
       });
   }
 }
@@ -202,9 +243,9 @@ function data() {
     actualizar: false,
     tituloModal: "",
     statuses: [],
-    imageNueva:null,
+    imageNueva: null,
     imagenMiniatura: "",
-    imageProducto: '',
+    imageProducto: "",
   };
 }
 export default {
@@ -256,17 +297,17 @@ export default {
     },
     cargarImagen(file) {
       let reader = new FileReader();
-      reader.onload = (e) =>{
+      reader.onload = (e) => {
         this.imagenMiniatura = e.target.result;
       };
       reader.readAsDataURL(file);
-    },    
+    },
   },
   computed: {
     isDisabled,
-    imagenM(){
+    imagenM() {
       return this.imagenMiniatura;
-    }
+    },
   },
   mounted: function() {
     let self = this;

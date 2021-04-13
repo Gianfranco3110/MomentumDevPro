@@ -7,7 +7,7 @@
       @child-refresh="refrescarProduc = true"
     />
     <CCard>
-      <CCardHeader class="text-center bg-dark text-white">
+      <CCardHeader class="text-center botonesP text-white">
         <b>LISTADO DE PRODUCTOS</b>
       </CCardHeader>
       <CCardBody>
@@ -46,7 +46,7 @@
                 <td class="py-2">
                   <CButton
                     color="dark"
-                    class="mr-1 bg-dark"
+                    class="mr-1"
                     square
                     size="sm"
                     v-c-tooltip="'Editar'"
@@ -133,7 +133,7 @@ function ListProducts() {
           product_type: listado.product_type,
           status: listado.status,
           description: listado.description,
-          image: listado.image
+          image: listado.image,
         })
       );
       self.Loading = false;
