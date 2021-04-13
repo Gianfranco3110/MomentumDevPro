@@ -27,6 +27,7 @@
         </a>
       </li>
       <li class="c-sidebar-nav-item">
+<<<<<<< HEAD
         <a class="c-sidebar-nav-link" href="#">
           <CIcon size="lg" name="cil-education" class="mr-2" /> MIS CURSOS
         </a>
@@ -44,11 +45,30 @@
       <li class="c-sidebar-nav-item" v-if="isAdmin">
         <a class="c-sidebar-nav-link" href="#/users">
           <CIcon name="cil-user" class="mr-2" /> USUARIOS
+=======
+        <a class="c-sidebar-nav-link" href="#/users">
+          <CIcon name="cil-user" class="mr-2" /> USERS
+        </a>
+      </li>
+      <li class="c-sidebar-nav-item">
+        <a class="c-sidebar-nav-link" href="#/cursos">
+          <CIcon size="lg" name="cil-education" class="mr-2" /> CURSOS
+        </a>
+      </li>
+      <li class="c-sidebar-nav-item">
+        <a class="c-sidebar-nav-link" href="#/products">
+          <CIcon size="lg" name="cil-card-travel" class="mr-2" /> PRODUCTOS
+>>>>>>> c4cc06ba7212e2ea8399b05d19ffa492c28e8bc8
         </a>
       </li>
       <li class="c-sidebar-nav-item" v-if="isAdmin">
         <a class="c-sidebar-nav-link" href="#/Registro">
+<<<<<<< HEAD
           <CIcon size="lg" name="cil-address-card" class="mr-2" /> REGISTRAR USUARIO
+=======
+          <CIcon size="lg" name="cil-address-card" class="mr-2" /> REGISTRAR
+          USUARIOS
+>>>>>>> c4cc06ba7212e2ea8399b05d19ffa492c28e8bc8
         </a>
       </li>
       <li class="c-sidebar-nav-item">

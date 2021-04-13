@@ -4,7 +4,7 @@
     <AgreModal :modal="AddModal" @cerrarModal="AddModal = false"  @child-refresh="refrescarProduc = true"/>
     <VeModal :modal="VerModal" @cerrarModal="VerModal = false" />
     <CCard>
-      <CCardHeader class="text-center bg-dark text-white">
+      <CCardHeader class="text-center botonesP text-white">
         <b>LISTADO DE PRODUCTOS</b>
       </CCardHeader>
       <CCardBody>
@@ -42,7 +42,11 @@
               <template #Detalle="{ item }">
                 <td class="py-2">
                   <CButton
+<<<<<<< HEAD
                     color="success"
+=======
+                    color="dark"
+>>>>>>> c4cc06ba7212e2ea8399b05d19ffa492c28e8bc8
                     class="mr-1"
                     square
                     size="sm"
@@ -141,7 +145,7 @@ function ListProducts() {
           product_type: listado.product_type,
           status: listado.status,
           description: listado.description,
-          image: listado.image
+          image: listado.image,
         })
       );
       self.Loading = false;

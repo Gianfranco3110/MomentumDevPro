@@ -8,10 +8,7 @@
       size="lg"
       :show.sync="AddModal"
     >
-      <CRow class="mt-2" style="text-align:center">
-        <CCol sm="12" v-if="actualizar">            
-            <img :src="'public/curso/'+curso.image" width="200" height="200" alt="product image">
-        </CCol>
+      <CRow class="mt-2">
         <CCol sm="4">
           <CInput
             addLabelClasses="required"
@@ -88,10 +85,20 @@
         </CCol>
         <!-- MOSTRAR IMAGEN EN MINIATURA -->
         <CCol sm="3">
-            <figure>
-                <img :src="imagenM" width="150" height="150" alt="Course Picture">
-            </figure>
-        </CCol>        
+          <figure>
+            <img :src="imagenM" width="150" height="150" alt="Course Picture" />
+          </figure>
+        </CCol>
+        <CCol sm="3" v-if="actualizar">
+          <img
+            :src="'public/curso/' + this.curso.image"
+            class="bd-placeholder-img card-img-top"
+            width="150px"
+            height="200px"
+            aria-label="Placeholder: Image cap"
+            role="img"
+          />
+        </CCol>
         <CCol sm="12" v-if="actualizar">
           <br />
           <CSelect
@@ -108,7 +115,7 @@
         <CButton color="success" :disabled="isDisabled" @click="evaluaStatus">
           <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
         </CButton>
-        <CButton color="dark" @click="AddModal = false">
+        <CButton color="dark" @click="CerrarLimpiar">
           <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
         </CButton>
       </template>
@@ -123,7 +130,17 @@ import CursosVal from "@/_validations/cursos/CursosVal";
 import axios from "axios";
 
 //METODOS
-
+function CerrarLimpiar() {
+  this.curso.description = "";
+  this.curso.price = "";
+  this.curso.daysofvalidity = "";
+  this.curso.status_id = "";
+  this.curso.CourseName = "";
+  this.curso.image = "";
+  this.AddModal = false;
+  this.files = "";
+  this.filelist = "";
+}
 //VISTA MINIATURA IMG
 function CargarMiniatura(filelist) {
   let reader = new FileReader();
@@ -167,45 +184,51 @@ function guardar() {
   let self = this;
   self.Loading = true;
   if (self.actualizar) {
-    
     let formData = new FormData();
-        formData.append("image", self.imageNueva);
-        formData.append("CourseName", self.curso.CourseName);
-        formData.append("description", self.curso.description);
-        formData.append("status_id", self.curso.status_id);
-        formData.append("price", self.curso.price);
-        formData.append("daysofvalidity", self.curso.daysofvalidity);        
-        formData.append('_method', 'PUT');
+    formData.append("image", self.imageNueva);
+    formData.append("CourseName", self.curso.CourseName);
+    formData.append("description", self.curso.description);
+    formData.append("status_id", self.curso.status_id);
+    formData.append("price", self.curso.price);
+    formData.append("daysofvalidity", self.curso.daysofvalidity);
+    formData.append("_method", "PUT");
 
-        axios.post(  this.$apiAdress + '/api/courses/' + self.curso.id + '?token=' + localStorage.getItem("api_token")
-        ,formData,{
-                    headers: {
-                              "Content-Type": "multipart/form-data",
-                            },
-          }
-        )
-        .then(function (response) {
-            self.$toastr.success("¡Course updated succesfully!");
-            self.Loading = false;
-            self.AddModal = false;
-            self.limpiarDatos();
-            self.$emit("child-refresh", true);
-        }).catch(function (error) {
-          self.Loading = false;
-          self.$toastr.warning("¡Error, please try later!");
-            if(error.response.data.message == 'The given data was invalid.'){
-              self.message = '';
-              for (let key in error.response.data.errors) {
-                if (error.response.data.errors.hasOwnProperty(key)) {
-                  self.message += error.response.data.errors[key][0] + '  ';
-                }
-              }              
-            }else{
-              console.log(error); 
-              //self.$router.push({ path: '/login' }); 
+    axios
+      .post(
+        this.$apiAdress +
+          "/api/courses/" +
+          self.curso.id +
+          "?token=" +
+          localStorage.getItem("api_token"),
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then(function(response) {
+        self.$toastr.success("¡Course updated succesfully!");
+        self.Loading = false;
+        self.AddModal = false;
+        self.limpiarDatos();
+        self.$emit("child-refresh", true);
+      })
+      .catch(function(error) {
+        self.Loading = false;
+        self.$toastr.warning("¡Error, please try later!");
+        if (error.response.data.message == "The given data was invalid.") {
+          self.message = "";
+          for (let key in error.response.data.errors) {
+            if (error.response.data.errors.hasOwnProperty(key)) {
+              self.message += error.response.data.errors[key][0] + "  ";
             }
-        });
-    
+          }
+        } else {
+          console.log(error);
+          //self.$router.push({ path: '/login' });
+        }
+      });
   } else {
     let formData = new FormData();
     formData.append("image", self.imageNueva);
@@ -248,14 +271,17 @@ function guardar() {
 }
 //LIMPIA LOS CAMPOS
 function limpiarDatos() {
-  this.curso = {
-    description: "",
-    price: "",
-    daysofvalidity: "",
-    status_id: 1,
-    CourseName: "",
-  };
-  this.image = "";
+  this.curso.description = "";
+  this.curso.price = "";
+  this.curso.daysofvalidity = "";
+  this.curso.status_id = 1;
+  this.curso.CourseName = "";
+  this.curso.image = "";
+  this.AddModal = false;
+  this.files = "";
+  this.filelist = "";
+  this.imageNueva = "";
+  this.imagenMiniatura = "";
 }
 
 //PERMITE INACTIVAR UN CURSO
@@ -314,7 +340,7 @@ function data() {
       daysofvalidity: "",
       status_id: 1,
       CourseName: "",
-      image: '',
+      image: "",
     },
     // VARIABLES
     AddModal: false,
@@ -325,7 +351,7 @@ function data() {
     image: null,
     files: [],
     filelist: [],
-    imageNueva:null,
+    imageNueva: null,
     imagenMiniatura: "",
   };
 }
@@ -375,8 +401,9 @@ export default {
     guardar,
     CargarMiniatura,
     Cstatus,
+    CerrarLimpiar,
     //TRATAR DE MEJORAR ESTOS METODOS DEL INPUT FILE
-    onChange(event) {      
+    onChange(event) {
       //Asignamos la imagen a  nuestra data
       let file = event.target.files[0];
       this.imageNueva = file;
@@ -384,7 +411,7 @@ export default {
     },
     cargarImagen(file) {
       let reader = new FileReader();
-      reader.onload = (e) =>{
+      reader.onload = (e) => {
         this.imagenMiniatura = e.target.result;
       };
       reader.readAsDataURL(file);

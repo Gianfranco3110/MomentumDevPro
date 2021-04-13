@@ -176,7 +176,6 @@ class productsController extends Controller
             'price'             => 'required'
         ]);
         $product = Product::find($id);
-
         if($request->hasFile('image')){
             $image_path = $request->file('image');
             $image_path_name = time().$image_path->getClientOriginalName();

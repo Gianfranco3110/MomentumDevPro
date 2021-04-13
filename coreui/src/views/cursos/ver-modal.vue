@@ -20,10 +20,24 @@
           />
         </CCardHeader>
         <CCardBody>
-          <h5>{{ CourseName }}</h5>
-          <p>{{ description }}</p>
-          <p>{{ daysofvalidity }}</p>
-          <p>{{ price }}</p>
+          <div class="row">
+            <CCol sm="3">
+              <H4> NOMBRE</H4>
+              <p>{{ CourseName }}</p>
+            </CCol>
+            <CCol sm="3">
+              <H4> DESCRIPCION</H4>
+              <p>{{ description }}</p>
+            </CCol>
+            <CCol sm="3">
+              <H4> DIAS VALIDO</H4>
+              <p>{{ daysofvalidity }}</p>
+            </CCol>
+            <CCol sm="3">
+              <H4> PRECIO</H4>
+              <p>{{ price }}</p>
+            </CCol>
+          </div>
         </CCardBody>
       </CCard>
       <template #footer>

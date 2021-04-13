@@ -5,7 +5,7 @@
       <CRow class="justify-content-center">
         <CCol md="6">
           <CCard>
-            <CCardHeader class="text-center bg-dark text-white">
+            <CCardHeader class="text-center botonesP text-white">
               <b>REGISTRO DE USUARIOS</b>
             </CCardHeader>
             <CCardBody class="p-4">
@@ -48,10 +48,11 @@
                   /></template>
                 </CInput>
                 <CButton type="submit" color="success" block
-                  >Create Account</CButton
+                  >CREAR USUARIO</CButton
                 >
               </CForm>
             </CCardBody>
+            <!--
             <CCardFooter class="p-4">
               <CRow>
                 <CCol col="6">
@@ -65,7 +66,7 @@
                   </CButton>
                 </CCol>
               </CRow>
-            </CCardFooter>
+            </CCardFooter> -->
           </CCard>
         </CCol>
       </CRow>

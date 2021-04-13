@@ -112,10 +112,11 @@ public function update(Request $request, $id)
 {
     $validatedData = $request->validate([
         'price'             => 'required|min:1|max:20',
-        'description'           => 'required|max:365',
-        'daysofvalidity'         => 'required|max:20',
-        'CourseName'         => 'required|max:20',
-        'image'             => 'required'
+        'description'       => 'required|max:365',
+        'daysofvalidity'    => 'required|max:20',
+        'CourseName'        => 'required|max:20',
+        'image'             => 'required',
+        'status_id'         => 'required',
     ]);
     $courses = Course::find($id);
     if($request->hasFile('image')){
