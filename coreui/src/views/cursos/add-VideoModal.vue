@@ -10,7 +10,9 @@
     >
       <CRow>
         <CCol sm="6">
-          <CInput
+          <CRow>
+            <CCol sm="4">
+              <CInput
             addLabelClasses="required"
             placeholder="Nombre del curso"
             invalid-feedback="Campo requerido"
@@ -18,7 +20,9 @@
             v-model="CourseName"
             disabled
           />
-          <CInput
+            </CCol>
+            <CCol sm="4">
+              <CInput
             addLabelClasses="required"
             type="number"
             placeholder="Dias de vigencia"
@@ -27,7 +31,9 @@
             v-model="daysofvalidity"
             disabled
           />
-          <CInput
+            </CCol>
+            <CCol sm="4">
+              <CInput
             addLabelClasses="required"
             type="number"
             placeholder="0"
@@ -36,6 +42,9 @@
             v-model="price"
             disabled
           />
+            </CCol>
+          </CRow>   
+          
 
           <CInput
             addLabelClasses="required"
