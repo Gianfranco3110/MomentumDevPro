@@ -208,7 +208,7 @@ function guardar() {
         }
       )
       .then(function(response) {
-        self.$toastr.success("¡Course updated succesfully!");
+        self.$toastr.success("¡Curso actualizado con exito!");
         self.Loading = false;
         self.AddModal = false;
         self.limpiarDatos();
@@ -250,7 +250,7 @@ function guardar() {
         }
       )
       .then(function(response) {
-        self.$toastr.success("¡Courses added successfully!");
+        self.$toastr.success("¡Curso creado con exito!");
         self.limpiarDatos();
         console.log(response);
         self.Loading = false;

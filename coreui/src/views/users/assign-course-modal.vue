@@ -2,7 +2,7 @@
   <div>
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CModal
-      :title="tituloModal"
+      title="ASIGNAR CURSO"
       :closeOnBackdrop="false"
       color="dark"
       size="lg"
@@ -10,17 +10,13 @@
     >
       <CCard no-header>
         <CCardBody>
-          <h3>
-            Assign a course to {{user_name}}
-          </h3>           
-            <CSelect 
-              label="Courses" 
-              :value.sync="courseData.course_id"
-              :plain="true"
-              :options="courses"
-            >
-            </CSelect> 
-          
+          <CSelect
+            label="CURSOS DISPONIBLES"
+            :value.sync="courseData.course_id"
+            :plain="true"
+            :options="courses"
+          >
+          </CSelect>
         </CCardBody>
       </CCard>
 
@@ -32,7 +28,6 @@
           <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
         </CButton>
       </template>
-      
     </CModal>
   </div>
 </template>
@@ -41,33 +36,31 @@ import General from "@/_mixins/general";
 import axios from "axios";
 
 function data() {
-  return {  
-
+  return {
     // VARIABLES
     AddModal: false,
     Loading: false,
-    tituloModal: "",
-    user_name: '',  
+    user_name: "",
     courseData: {
-        course_id:1,
-        user_id: 1,
+      course_id: 1,
+      user_id: 1,
     },
     courses: [],
   };
 }
 export default {
-  name: 'add-modal',
+  name: "add-modal",
   mixins: [General],
   data,
   props: {
     modal: null,
   },
   watch: {
-    modal: function() {      
-        if (this.modal) {
+    modal: function() {
+      if (this.modal) {
         this.AddModal = true;
-        if(this.modal!=false){
-        this.user_name = this.modal.name;
+        if (this.modal != false) {
+          this.user_name = this.modal.name;
         }
         this.$emit("cerrarModal");
       }
@@ -77,27 +70,34 @@ export default {
     AssignCourse() {
       let self = this;
       self.Loading = true;
-      axios.post(this.$apiAdress + "/api/usercourses/create?token=" + localStorage.getItem("api_token"),
-         self.courseData
+      axios
+        .post(
+          this.$apiAdress +
+            "/api/usercourses/create?token=" +
+            localStorage.getItem("api_token"),
+          self.courseData
         )
-        .then(function(response) {          
+        .then(function(response) {
           self.Loading = false;
           self.AddModal = false;
           self.$toastr.success("¡Curso asignado con exito!");
         })
-        .catch(function(error) {          
+        .catch(function(error) {
           console.log(error);
           self.Loading = false;
           self.$toastr.warning("¡Error al asignar curso!");
         });
-    },       
+    },
   },
-  computed: {
-  },
+  computed: {},
   mounted: function() {
     let self = this;
     self.Loading = true;
-    axios.get( this.$apiAdress + "/api/courses/list?token=" + localStorage.getItem("api_token")
+    axios
+      .get(
+        this.$apiAdress +
+          "/api/courses/list?token=" +
+          localStorage.getItem("api_token")
       )
       .then(function(response) {
         self.courses = response.data;
@@ -108,7 +108,7 @@ export default {
         self.Loading = false;
         //self.$router.push({ path: 'login' });
       });
-  }
+  },
 };
 </script>
 <style scoped></style>

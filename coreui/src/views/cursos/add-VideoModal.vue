@@ -13,38 +13,37 @@
           <CRow>
             <CCol sm="4">
               <CInput
-            addLabelClasses="required"
-            placeholder="Nombre del curso"
-            invalid-feedback="Campo requerido"
-            label="NOMBRE DEL CURSO"
-            v-model="CourseName"
-            disabled
-          />
+                addLabelClasses="required"
+                placeholder="Nombre del curso"
+                invalid-feedback="Campo requerido"
+                label="NOMBRE DEL CURSO"
+                v-model="CourseName"
+                disabled
+              />
             </CCol>
             <CCol sm="4">
               <CInput
-            addLabelClasses="required"
-            type="number"
-            placeholder="Dias de vigencia"
-            invalid-feedback="Campo requerido solo enteros"
-            label="DIAS DE VIGENCIA"
-            v-model="daysofvalidity"
-            disabled
-          />
+                addLabelClasses="required"
+                type="number"
+                placeholder="Dias de vigencia"
+                invalid-feedback="Campo requerido solo enteros"
+                label="DIAS DE VIGENCIA"
+                v-model="daysofvalidity"
+                disabled
+              />
             </CCol>
             <CCol sm="4">
               <CInput
-            addLabelClasses="required"
-            type="number"
-            placeholder="0"
-            invalid-feedback="Campo requerido {0,00}"
-            label="PRECIO DEL CURSO"
-            v-model="price"
-            disabled
-          />
+                addLabelClasses="required"
+                type="number"
+                placeholder="0"
+                invalid-feedback="Campo requerido {0,00}"
+                label="PRECIO DEL CURSO"
+                v-model="price"
+                disabled
+              />
             </CCol>
-          </CRow>   
-          
+          </CRow>
 
           <CInput
             addLabelClasses="required"
@@ -218,7 +217,6 @@ function guardar() {
       self.limpiarDatos();
       self.ListVideo(self.video.courses_id);
       console.log(response);
-      self.Loading = false;
     })
     .catch(function(error) {
       if (error.response.data.message == "SIN SALIR DE VUE ERROR") {

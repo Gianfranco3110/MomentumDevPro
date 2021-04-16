@@ -1,53 +1,55 @@
-@media only screen and (max-width:513px){
-    #carousel-home{
-        height: 370px!important;
-        overflow: hidden;
-    }
-    #carousel-home img{
-        height: 370px;
-    }
+@media only screen and (max-width: 513px) {
+  #carousel-home {
+    height: 370px !important;
+    overflow: hidden;
+  }
+  #carousel-home img {
+    height: 370px;
+  }
 }
-#carousel-home{
-    height:570px;overflow: hidden;
-}
-
-#seccion-productos{
-    padding:50px;
-    background-color: rgb(86 85 85);
+#carousel-home {
+  height: 570px;
+  overflow: hidden;
 }
 
-#seccion-productos .card,#seccion-cursos .card{
-    border-radius: 5px;
-}
-#seccion-productos .card .card-img-top,#seccion-cursos .card .card-img-top{
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+#seccion-productos {
+  padding: 50px;
+  background-color: white;
 }
 
-#seccion-cursos{
-    padding:50px;  
+#seccion-productos .card,
+#seccion-cursos .card {
+  border-radius: 5px;
+}
+#seccion-productos .card .card-img-top,
+#seccion-cursos .card .card-img-top {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
-#menu ul li{
-    padding: 10px;
+#seccion-cursos {
+  padding: 50px;
 }
 
-#footer .footer-seccion{
-    width: 33.333333%;
-    padding:10px;
-    float: left;
+#menu ul li {
+  padding: 10px;
 }
 
-.footer-social li, .footer-title{
-    padding: 0px 1.25rem!important;
+#footer .footer-seccion {
+  width: 33.333333%;
+  padding: 10px;
+  float: left;
 }
 
-.list-group-item{
-    border: 0px!important;;
+.footer-social li,
+.footer-title {
+  padding: 0px 1.25rem !important;
 }
 
-.footer-copyright-seccion{
-    color:white;
+.list-group-item {
+  border: 0px !important;
 }
 
-
+.footer-copyright-seccion {
+  color: white;
+}
