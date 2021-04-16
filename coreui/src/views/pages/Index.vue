@@ -3,8 +3,7 @@
   <header class="c-header fixed-top c-header-light px-3">
     <div class="container d-flex flex-row pr-5">
   <a class="c-header-brand" href="#">
-    <img src="../../../public/apple-icon-180x180.png" width="40" height="40" class="d-inline-block align-top" alt="CoreUI Logo">
-    CoreUI
+    <h2>YareStylo</h2>
   </a>
   <ul class="c-header-nav ml-auto pr-4">
     <li class="c-header-nav-item active">
@@ -199,7 +198,7 @@
     <div class="row" style="background-color:#4B4BAF">
         <div class="footer-copyright-seccion m-auto mt-3 p-2">
             <div class="container">
-              <p>© 2021 MomentumDev, All rights reserved.</p>
+              <p>© 2021 YareStylo, All rights reserved.</p>
             </div>
           </div>
       </div>

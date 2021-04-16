@@ -57,7 +57,7 @@
             placeholder="Tipo de producto"
           />
         </CCol>
-        <CCol sm="4">
+        <CCol sm="4" style="padding-top:10px">
           <div class="custom-input-file mt-3">
             <input
               class="input-file"
@@ -334,7 +334,7 @@ export default {
   cursor: pointer;
   font-size: 15px;
   font-weight: bold;
-  margin: 0 auto 0;
+  margin: 0;
   min-height: 15px;
   overflow: hidden;
   padding: 10px;

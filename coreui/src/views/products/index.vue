@@ -44,7 +44,7 @@
               </template>
 
               <template #Detalle="{ item }">
-                <td class="py-2">
+                <td style="width:150px">
                   <CButton
                     color="success"
                     class="mr-1"
