@@ -5,7 +5,7 @@ export default () => {
     return {
         video : {
             description: { required, especiales, maxLength: maxLength(256) },
-            url_video: { required, maxLength: maxLength(100) },
+            url_video: { required, maxLength: maxLength(500) },
         }    
     }
 }

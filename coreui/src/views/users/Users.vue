@@ -3,8 +3,12 @@
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CCol col="12" xl="12">
       <transition name="slide">
-        <CCard>          
-        <AgreModal :modal="AddModal" @cerrarModal="AddModal = false" @child-refresh="refrescarComponente = true" />
+        <CCard>
+          <AgreModal
+            :modal="AddModal"
+            @cerrarModal="AddModal = false"
+            @child-refresh="refrescarComponente = true"
+          />
           <CCardHeader>
             Users
           </CCardHeader>
@@ -54,7 +58,7 @@
                     v-if="you != item.id"
                     color="success"
                     @click="AddModal = item"
-                    >Assign course</CButton
+                    >Asignar curso</CButton
                   >
                 </td>
               </template>
@@ -67,16 +71,16 @@
 </template>
 
 <script>
-import axios from 'axios'
-import AgreModal from './assign-course-modal'
-import General from '@/_mixins/general'
+import axios from "axios";
+import AgreModal from "./assign-course-modal";
+import General from "@/_mixins/general";
 
 export default {
   name: "Users",
   mixins: [General],
-  components: {    
+  components: {
     General,
-    AgreModal
+    AgreModal,
   },
   data: () => {
     return {
@@ -148,9 +152,9 @@ export default {
             _method: "DELETE",
           }
         )
-        .then(function(response) {    
+        .then(function(response) {
           self.Loading = false;
-          self.$toastr.success("¡Usuario eliminado con exito!");    
+          self.$toastr.success("¡Usuario eliminado con exito!");
           self.getUsers();
         })
         .catch(function(error) {
@@ -162,21 +166,24 @@ export default {
     getUsers() {
       let self = this;
       self.Loading = true;
-      let listado= [];
+      let listado = [];
       axios
         .get(
-          this.$apiAdress + "/api/users?token=" + localStorage.getItem("api_token"))
+          this.$apiAdress +
+            "/api/users?token=" +
+            localStorage.getItem("api_token")
+        )
         .then(function(response) {
           listado = response.data.users;
           self.items = listado.map((listado) =>
-        Object.assign({}, self.items, {
-          id: listado.id,
-          name: listado.name,
-          registered: listado.registered,
-          roles: listado.roles,
-          status: listado.status,
-        })
-        );
+            Object.assign({}, self.items, {
+              id: listado.id,
+              name: listado.name,
+              registered: listado.registered,
+              roles: listado.roles,
+              status: listado.status,
+            })
+          );
           self.you = response.data.you;
           self.Loading = false;
         })
@@ -187,15 +194,15 @@ export default {
         });
     },
   },
-  watch:{
+  watch: {
     refrescarComponente: function() {
       if (this.refrescarComponente) {
         this.getProducts();
         this.refrescarComponente = false;
       }
     },
-  }, 
-  mounted: function() {    
+  },
+  mounted: function() {
     this.getUsers();
   },
 };

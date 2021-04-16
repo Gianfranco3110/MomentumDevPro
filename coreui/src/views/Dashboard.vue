@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--
     <CCardGroup class="mb-4">
       <CRow lg="12" style="width:100%">
         <CCol sm="6" lg="3">
@@ -44,9 +45,7 @@
         </CCol>
       </CRow>
     </CCardGroup>
-
-    <!-- Productos -->
-    
+-->
   </div>
 </template>
 

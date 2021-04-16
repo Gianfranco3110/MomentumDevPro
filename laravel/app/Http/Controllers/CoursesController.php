@@ -75,7 +75,7 @@ class CoursesController extends Controller
             'price'             => 'required|min:1|max:20',
             'description'           => 'required|max:365',
             'daysofvalidity'         => 'required|max:20',
-            'CourseName'         => 'required|max:20',
+            'CourseName'         => 'required|max:100',
             'image'             => 'required'
         ]);
         if($request->hasFile('image')){
@@ -123,7 +123,7 @@ public function update(Request $request, $id)
         'price'             => 'required|min:1|max:20',
         'description'       => 'required|max:365',
         'daysofvalidity'    => 'required|max:20',
-        'CourseName'        => 'required|max:20',
+        'CourseName'        => 'required|max:100',
         'image'             => 'required',
         'status_id'         => 'required',
     ]);
