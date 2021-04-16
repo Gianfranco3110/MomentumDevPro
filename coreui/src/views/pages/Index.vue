@@ -3,14 +3,9 @@
     <header class="c-header fixed-top c-header-light px-3">
       <div class="container d-flex flex-row pr-5">
         <a class="c-header-brand" href="#">
-          <img
-            src="../../../public/apple-icon-180x180.png"
-            width="40"
-            height="40"
-            class="d-inline-block align-top"
-            alt="CoreUI Logo"
-          />
-          CoreUI
+          <h3>
+          YareStylo
+          </h3>
         </a>
         <ul class="c-header-nav ml-auto pr-4">
           <li class="c-header-nav-item active">
@@ -364,6 +359,10 @@ export default {
 };
 </script>
 <style scoped>
+.c-header-brand{
+  text-decoration: none;
+}
+
 .c-header-nav-item {
   cursor: pointer;
   font-size: 1.032rem;
