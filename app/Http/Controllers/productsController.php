@@ -13,7 +13,7 @@ class productsController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * PRUEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
      * @return \Illuminate\Http\Response
      */
     public function index()
