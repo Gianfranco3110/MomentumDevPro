@@ -82,7 +82,11 @@ class productsController extends Controller
             $image_path = $request->file('image');
             $image_path_name = time().$image_path->getClientOriginalName();
 			//Storage::disk('products')->put($image_path_name, File::get($image_path));
-    
+        var_dump($request->input('title'));
+        var_dump($request->input('description'));
+        var_dump($request->input('product_type'));
+        var_dump($image_path_name);
+        var_dump($request->input('price'));
         $user = auth()->userOrFail();
         $query=DB::table('products')->insert([
             'title' => $request->input('title'),
