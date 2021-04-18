@@ -91,7 +91,7 @@ class productsController extends Controller
             'product_type' => $request->input('product_type'),
             'users_id' => $user->id,
             'applies_to_date' => date('Y/m/d'),
-            'image' => $image_path_name,
+            'image' => '/storage/products/'.$image_path_name,
             'exist' => 0,
             'price' => $request->input('price')
              ]);
