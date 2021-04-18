@@ -72,30 +72,30 @@ class productsController extends Controller
    
     public function store(Request $request)
     {
-       /*$validatedData = $request->validate([
+       $validatedData = $request->validate([
             'title'             => 'required|min:1|max:64',
             'description'       => 'required|max:1024',
             'product_type'      => 'required|max:64',
             'price'             => 'required'
-        ]);*/
+        ]);
         if($request->hasFile('image')){
             $image_path = $request->file('image');
             $image_path_name = time().$image_path->getClientOriginalName();
-			//Storage::disk('products')->put($image_path_name, File::get($image_path));
+			Storage::disk('products')->put($image_path_name, File::get($image_path));
         
         $user = auth()->userOrFail();
         $query=DB::table('products')->insert([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
+            'title' => 'titulo',
+            'description' => 'descripcion',
             'status_id' => 1,
-            'product_type' => $request->input('product_type'),
-            'users_id' => $user->id,
+            'product_type' => 'maquillaje',
+            'users_id' => 1,
             'applies_to_date' => date('Y/m/d'),
-            'image' => $image_path_name,
+            'image' => asdasd,
             'exist' => 0,
-            'price' => $request->input('price')
+            'price' => 233
              ]);
-             //asdasd
+             
         if($query){
             return response()->json( ['status' => 'success'] );
          }
