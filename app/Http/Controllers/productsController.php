@@ -72,21 +72,17 @@ class productsController extends Controller
    
     public function store(Request $request)
     {
-       $validatedData = $request->validate([
+       /*$validatedData = $request->validate([
             'title'             => 'required|min:1|max:64',
             'description'       => 'required|max:1024',
             'product_type'      => 'required|max:64',
             'price'             => 'required'
-        ]);
+        ]);*/
         if($request->hasFile('image')){
             $image_path = $request->file('image');
             $image_path_name = time().$image_path->getClientOriginalName();
 			//Storage::disk('products')->put($image_path_name, File::get($image_path));
-        var_dump($request->input('title'));
-        var_dump($request->input('description'));
-        var_dump($request->input('product_type'));
-        var_dump($image_path_name);
-        var_dump($request->input('price'));
+        
         $user = auth()->userOrFail();
         $query=DB::table('products')->insert([
             'title' => $request->input('title'),
@@ -99,7 +95,7 @@ class productsController extends Controller
             'exist' => 0,
             'price' => $request->input('price')
              ]);
-             
+             //asdasd
         if($query){
             return response()->json( ['status' => 'success'] );
          }
