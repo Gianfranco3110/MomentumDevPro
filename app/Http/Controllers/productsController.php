@@ -78,33 +78,7 @@ class productsController extends Controller
             'product_type'      => 'required|max:64',
             'price'             => 'required'
         ]);
-        if($request->hasFile('image')){
-            $image_path = $request->file('image');
-            $image_path_name = time().$image_path->getClientOriginalName();
-			Storage::disk('products')->put($image_path_name, File::get($image_path));
-        
-        $user = auth()->userOrFail();
-        $query=DB::table('products')->insert([
-            'title' => 'titulo',
-            'description' => 'descripcion',
-            'status_id' => 1,
-            'product_type' => 'maquillaje',
-            'users_id' => 1,
-            'applies_to_date' => date('Y/m/d'),
-            'image' => asdasd,
-            'exist' => 0,
-            'price' => 233
-             ]);
-             
-        if($query){
-            return response()->json( ['status' => 'success'] );
-         }
-         return response()->json(['status' => 'Error en la query.']);
-         
-    } else 
-    {
-        return response()->json(['message' => 'The given data was invalid.']); 
-    }           
+        return response()->json( ['status' => 'success'] );          
         
     }
 
