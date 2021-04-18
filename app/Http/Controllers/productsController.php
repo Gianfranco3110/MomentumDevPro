@@ -78,7 +78,33 @@ class productsController extends Controller
             'product_type'      => 'required|max:64',
             'price'             => 'required'
         ]);
-        return response()->json( ['status' => 'success'] );          
+        if($request->hasFile('image')){
+            $image_path = $request->file('image');
+            $image_path_name = time().$image_path->getClientOriginalName();
+			Storage::disk('products')->put($image_path_name, File::get($image_path));
+        
+        $user = auth()->userOrFail();
+        $query=DB::table('products')->insert([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'status_id' => 1,
+            'product_type' => $request->input('product_type'),
+            'users_id' => $user->id,
+            'applies_to_date' => date('Y/m/d'),
+            'image' => $image_path_name,
+            'exist' => 0,
+            'price' => $request->input('price')
+             ]);
+             
+        if($query){
+            return response()->json( ['status' => 'success'] );
+         }
+         return response()->json(['status' => 'Error en la query.']);
+         
+    } else 
+    {
+        return response()->json(['message' => 'The given data was invalid.']); 
+    }           
         
     }
 
