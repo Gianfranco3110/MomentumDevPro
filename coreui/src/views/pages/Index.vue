@@ -4,13 +4,13 @@
       <div class="container d-flex flex-row pr-5">
         <a class="c-header-brand" href="#">
           <h3>
-          YareStylo
+            YareStylo
           </h3>
         </a>
         <ul class="c-header-nav ml-auto pr-4">
           <li class="c-header-nav-item active">
             <strong>
-              Home
+              Inicio
             </strong>
             <span class="sr-only">(current)</span>
           </li>
@@ -21,7 +21,7 @@
           </li>
           <li v-if="logueado" class="c-header-nav-item" @click="goDashboard()">
             <strong>
-              Dashboard
+              Panel de control
             </strong>
           </li>
           <li
@@ -263,7 +263,7 @@
       <div class="row" style="background-color:#aa8caf">
         <div class="footer-copyright-seccion m-auto mt-3 p-2">
           <div class="container">
-            <p>© 2021 MomentumDev, Todos los derechos reservados.</p>
+            <p>© 2021 YareStylo, Todos los derechos reservados.</p>
           </div>
         </div>
       </div>
@@ -359,7 +359,7 @@ export default {
 };
 </script>
 <style scoped>
-.c-header-brand{
+.c-header-brand {
   text-decoration: none;
 }
 
@@ -416,6 +416,6 @@ export default {
 }
 
 #footer {
-  background-color: #c6b1c9;
+  background-color: #8e6795;
 }
 </style>

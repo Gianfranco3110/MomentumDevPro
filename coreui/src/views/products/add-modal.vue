@@ -329,7 +329,7 @@ export default {
 </script>
 <style scoped>
 .custom-input-file {
-  background-color: #4b4baf;
+  background-color: #aa8caf;
   color: #fff;
   cursor: pointer;
   font-size: 15px;

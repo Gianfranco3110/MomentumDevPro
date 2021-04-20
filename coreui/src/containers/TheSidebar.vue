@@ -7,49 +7,71 @@
     @update:show="(value) => $store.commit('set', ['sidebarShow', value])"
   >
     <CSidebarBrand class="d-md-down-none" to="/">
-       <h3>YareStylo</h3>  
+      <h3>YareStylo</h3>
     </CSidebarBrand>
     <!-- <CRenderFunction flat :content-to-render="nav"/>
     <CSidebarMinimizer
       class="d-md-down-none"
       @click.native="$store.commit('set', ['sidebarMinimize', !minimize])"
     />-->
-    <ul class="c-sidebar-nav">
+    <ul id="hovers" class="c-sidebar-nav">
       <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#/dashboard">
-          <CIcon size="lg" name="cil-home" class="mr-2" /> INICIO
-        </a>
-      </li>
-      <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#">
-          <CIcon size="lg" name="cil-education" class="mr-2" /> MIS CURSOS
-        </a>
+        <strong>
+          <a class="c-sidebar-nav-link" href="#/dashboard">
+            <CIcon size="lg" name="cil-home" class="mr-2" /> INICIO
+          </a>
+        </strong>
       </li>
       <li class="c-sidebar-nav-item" v-if="isAdmin">
-        <a class="c-sidebar-nav-link" href="#/cursos">
-          <CIcon size="lg" name="cil-education" class="mr-2" /> CURSOS
-        </a>
+        <strong>
+          <a class="c-sidebar-nav-link" href="#/cursos">
+            <CIcon size="lg" name="cil-education" class="mr-2" /> CURSOS
+          </a>
+        </strong>
       </li>
       <li class="c-sidebar-nav-item" v-if="isAdmin">
-        <a class="c-sidebar-nav-link" href="#/products">
-          <CIcon size="lg" name="cil-card-travel" class="mr-2" /> PRODUCTOS
-        </a>
-      </li>
-      <li class="c-sidebar-nav-item" v-if="isAdmin">
-        <a class="c-sidebar-nav-link" href="#/users">
-          <CIcon name="cil-user" class="mr-2" /> USUARIOS
-        </a>
-      </li>
-      <li class="c-sidebar-nav-item" v-if="isAdmin">
-        <a class="c-sidebar-nav-link" href="#/Registro">
-          <CIcon size="lg" name="cil-address-card" class="mr-2" /> REGISTRAR
-          USUARIO
-        </a>
+        <strong>
+          <a class="c-sidebar-nav-link" href="#/users">
+            <CIcon name="cil-user" class="mr-2" /> USUARIOS
+          </a>
+        </strong>
       </li>
       <li class="c-sidebar-nav-item">
-        <a class="c-sidebar-nav-link" href="#/settings">
-          <CIcon name="cil-settings" class="mr-2" /> CAMBIAR CONTRASEÑA
-        </a>
+        <strong>
+          <a class="c-sidebar-nav-link" href="#">
+            <CIcon size="lg" name="cil-education" class="mr-2" /> MIS CURSOS
+          </a>
+        </strong>
+      </li>
+      <li class="c-sidebar-nav-item" v-if="isAdmin">
+        <strong>
+          <a class="c-sidebar-nav-link" href="#/products">
+            <CIcon size="lg" name="cil-card-travel" class="mr-2" /> PRODUCTOS
+          </a>
+        </strong>
+      </li>
+      <li class="c-sidebar-nav-item" v-if="isAdmin">
+        <strong>
+          <a class="c-sidebar-nav-link" href="#/test">
+            <CIcon size="lg" name="cil-address-card" class="mr-2" /> REGISTRAR
+            TEST
+          </a>
+        </strong>
+      </li>
+      <li class="c-sidebar-nav-item" v-if="isAdmin">
+        <strong>
+          <a class="c-sidebar-nav-link" href="#/Registro">
+            <CIcon size="lg" name="cil-address-card" class="mr-2" /> REGISTRAR
+            USUARIO
+          </a>
+        </strong>
+      </li>
+      <li class="c-sidebar-nav-item">
+        <strong>
+          <a class="c-sidebar-nav-link" href="#/settings">
+            <CIcon name="cil-settings" class="mr-2" /> CAMBIAR CONTRASEÑA
+          </a>
+        </strong>
       </li>
     </ul>
   </CSidebar>
@@ -171,7 +193,7 @@ export default {
 };
 </script>
 <style scoped>
-  .c-sidebar-brand{
-    text-decoration:none;
-  }
+.c-sidebar-brand {
+  text-decoration: none;
+}
 </style>

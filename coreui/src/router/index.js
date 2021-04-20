@@ -14,33 +14,9 @@ const Charts = () => import('@/views/charts/Charts')
 const Widgets = () => import('@/views/widgets/Widgets')
 
 // Views - Components
-const Cards = () => import('@/views/base/Cards')
-const Forms = () => import('@/views/base/Forms')
-const Switches = () => import('@/views/base/Switches')
-const Tables = () => import('@/views/base/Tables')
-const Tabs = () => import('@/views/base/Tabs')
-const Breadcrumbs = () => import('@/views/base/Breadcrumbs')
-const Carousels = () => import('@/views/base/Carousels')
-const Collapses = () => import('@/views/base/Collapses')
-const Jumbotrons = () => import('@/views/base/Jumbotrons')
-const ListGroups = () => import('@/views/base/ListGroups')
-const Navs = () => import('@/views/base/Navs')
-const Navbars = () => import('@/views/base/Navbars')
-const Paginations = () => import('@/views/base/Paginations')
-const Popovers = () => import('@/views/base/Popovers')
-const ProgressBars = () => import('@/views/base/ProgressBars')
-const Tooltips = () => import('@/views/base/Tooltips')
 
 // Views - Buttons
-const StandardButtons = () => import('@/views/buttons/StandardButtons')
-const ButtonGroups = () => import('@/views/buttons/ButtonGroups')
-const Dropdowns = () => import('@/views/buttons/Dropdowns')
-const BrandButtons = () => import('@/views/buttons/BrandButtons')
-
 // Views - Icons
-const CoreUIIcons = () => import('@/views/icons/CoreUIIcons')
-const Brands = () => import('@/views/icons/Brands')
-const Flags = () => import('@/views/icons/Flags')
 
 // Views - Notifications
 const Alerts = () => import('@/views/notifications/Alerts')
@@ -74,6 +50,9 @@ const cursos = () => import('@/views/cursos/index')
 
 //Cursos-Video
 const videos = () => import('@/views/videos/index')
+
+//test
+const test = () => import('@/views/test/index')
 
 //CONSTANTE PARA REGISTRAR USUARIOS DESDE EL DASHBOARD
 const registro = () => import('@/views/RegistroAdmin/index')
@@ -437,6 +416,19 @@ function configRoutes () {
             }
           ]
         },
+        {
+          path: 'test',
+          meta: { label: 'Test'},
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children :[
+            {
+              path: '',
+              component:test,
+            }
+          ]
+        },
         //RUTA PARA CREAR USUARIOS DESDE EL DASHBOARD
         {
           path: 'registro',
@@ -645,212 +637,6 @@ function configRoutes () {
           component: {
             render (c) { return c('router-view') }
           },
-          children: [
-            {
-              path: 'cards',
-              name: 'Cards',
-              component: Cards,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'forms',
-              name: 'Forms',
-              component: Forms,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'switches',
-              name: 'Switches',
-              component: Switches,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'tables',
-              name: 'Tables',
-              component: Tables,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'tabs',
-              name: 'Tabs',
-              component: Tabs,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'breadcrumb',
-              name: 'Breadcrumb',
-              component: Breadcrumbs,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'carousel',
-              name: 'Carousel',
-              component: Carousels,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'collapse',
-              name: 'Collapse',
-              component: Collapses,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'jumbotron',
-              name: 'Jumbotron',
-              component: Jumbotrons,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'list-group',
-              name: 'List Group',
-              component: ListGroups,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'navs',
-              name: 'Navs',
-              component: Navs,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'navbars',
-              name: 'Navbars',
-              component: Navbars,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'pagination',
-              name: 'Pagination',
-              component: Paginations,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'popovers',
-              name: 'Popovers',
-              component: Popovers,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'progress',
-              name: 'Progress',
-              component: ProgressBars,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'tooltips',
-              name: 'Tooltips',
-              component: Tooltips,
-              meta:{
-                requiresUser: true
-              }
-            }
-          ]
-        },
-        {
-          path: 'buttons',
-          redirect: '/buttons/standard-buttons',
-          name: 'Buttons',
-          component: {
-            render (c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: 'buttons',
-              name: 'Standard Buttons',
-              component: StandardButtons,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'button-group',
-              name: 'Button Group',
-              component: ButtonGroups,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'dropdowns',
-              name: 'Dropdowns',
-              component: Dropdowns,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'brand-buttons',
-              name: 'Brand Buttons',
-              component: BrandButtons,
-              meta:{
-                requiresUser: true
-              }
-            }
-          ]
-        },
-        {
-          path: 'icon',
-          redirect: '/icons/coreui-icons',
-          name: 'CoreUI Icons',
-          component: {
-            render (c) { return c('router-view') }
-          },
-          children: [
-            {
-              path: 'coreui-icons',
-              name: 'Icons library',
-              component: CoreUIIcons,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'brands',
-              name: 'Brands',
-              component: Brands,
-              meta:{
-                requiresUser: true
-              }
-            },
-            {
-              path: 'flags',
-              name: 'Flags',
-              component: Flags,
-              meta:{
-                requiresUser: true
-              }
-            }
-          ]
         },
         {
           path: 'notifications',

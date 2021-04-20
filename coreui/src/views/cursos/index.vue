@@ -6,7 +6,6 @@
       @cerrarModal="AddModal = false"
       @child-refresh="refrescarCurso = true"
     />
-    VeModal
     <VeModal :modal="VerModal" @cerrarModal="VerModal = false" />
     <VideoAdd :modal="AddVideo" @cerrarModal="AddVideo = false" />
 
@@ -102,7 +101,7 @@ const fieldsCourse = [
     _style: "width:1%;",
   },
   { key: "CourseName", label: "TITULO" },
-  { key: "daysofvalidity", label: "DIAS DE VIGENCIA" },
+  { key: "daysofvalidity", label: "DIAS DE VIGENCIA", _style: "widht:20%" },
   { key: "price", label: "PRECIO" },
   { key: "status", label: "STATUS" },
   {

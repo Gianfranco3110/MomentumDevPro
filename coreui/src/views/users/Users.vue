@@ -91,7 +91,7 @@ export default {
         "registered",
         "roles",
         "status",
-        "show",
+
         "edit",
         "delete",
         "Course",
