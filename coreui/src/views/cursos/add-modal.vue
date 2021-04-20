@@ -28,6 +28,7 @@
             label="DIAS DE VIGENCIA"
             v-model="$v.curso.daysofvalidity.$model"
             :is-valid="hasError($v.curso.daysofvalidity)"
+            maxlength="10"
           />
         </CCol>
         <CCol sm="4">
@@ -54,39 +55,31 @@
             :is-valid="hasError($v.curso.description)"
           />
         </CCol>
-        <CCol sm="6">
-          <div
-            class="flex items-center justify-center w-full h-screen text-center"
-          >
-            <div
-              class="p-12 bg-gray-100 border border-gray-300"
-              @dragover="dragover"
-              @dragleave="dragleave"
-              @drop="drop"
-            >
-              <div class="ocultar">
-                <input
-                  type="file"
-                  multiple
-                  name="fields[assetsFieldHandle][]"
-                  id="assetsFieldHandle"
-                  @change="onChange"
-                  ref="file"
-                  accept="image/*"
-                />
-              </div>
-              <label for="assetsFieldHandle" class="block">
-                <img src="../../../public/img/download1.png" alt="donwload" />
-                <h5>Elige un archivo o arrástralo aquí</h5>
-              </label>
-            </div>
+        <CCol sm="4">
+          <div class="custom-input-file mt-3">
+            <input
+              class="input-file"
+              label="Imagen del curso"
+              type="file"
+              name="imagen"
+              id="image"
+              accept="image/*"
+              @change="getImage"
+              placeholder="Imagen del curso"
+            />
+            Imagen del curso...
           </div>
-          <!-- FINAL DEL INPUT FILE -->
         </CCol>
         <!-- MOSTRAR IMAGEN EN MINIATURA -->
-        <CCol sm="3">
-          <figure>
-            <img :src="imagenM" width="150" height="150" alt="Course Picture" />
+        <CCol sm="4">
+          <figure v-if="imagenMiniatura != ''">
+            <img
+              id="imagenMiniatura"
+              :src="imagenM"
+              width="150"
+              height="150"
+              alt="Course Picture"
+            />
           </figure>
         </CCol>
         <CCol sm="3" v-if="actualizar">
@@ -340,7 +333,6 @@ function data() {
       daysofvalidity: "",
       status_id: 1,
       CourseName: "",
-      image: "",
     },
     // VARIABLES
     AddModal: false,
@@ -402,7 +394,22 @@ export default {
     CargarMiniatura,
     Cstatus,
     CerrarLimpiar,
-    //TRATAR DE MEJORAR ESTOS METODOS DEL INPUT FILE
+    getImage(event) {
+      //Asignamos la imagen a  nuestra data
+      this.filelist = event.target.files[0];
+      //this.imageNueva = file;
+      //this.cargarImagen(file);
+      this.image = this.filelist;
+      console.log(this.image);
+    },
+    cargarImagen(file) {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        this.imagenMiniatura = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    /*
     onChange(event) {
       //Asignamos la imagen a  nuestra data
       let file = event.target.files[0];
@@ -439,7 +446,7 @@ export default {
       // Clean up
       event.currentTarget.classList.add("bg-gray-100");
       event.currentTarget.classList.remove("bg-green-300");
-    },
+    },*/
   },
   computed: {
     isDisabled,
@@ -453,8 +460,32 @@ export default {
 };
 </script>
 <style scoped>
-.ocultar {
-  display: none;
+.custom-input-file {
+  background-color: #aa8caf;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  margin: 0;
+  min-height: 15px;
+  overflow: hidden;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+  width: 200px;
+}
+
+.custom-input-file .input-file {
+  border: 10000px solid transparent;
+  cursor: pointer;
+  font-size: 10000px;
+  margin: 0;
+  opacity: 0;
+  outline: 0 none;
+  padding: 0;
+  position: absolute;
+  right: -1000px;
+  top: -1000px;
 }
 .block {
   cursor: pointer;

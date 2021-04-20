@@ -90,9 +90,9 @@ export default {
   },
   methods: {
     goRegister() {
-      this.$router.push({ path: 'register' })
+      this.$router.push({ path: "register" });
     },
-    login() {      
+    login() {
       let self = this;
       self.Loading = true;
       axios
@@ -116,7 +116,6 @@ export default {
           self.$toastr.warning("¡Error, please check your password!");
           console.log(error);
         });
-      
     },
   },
 };

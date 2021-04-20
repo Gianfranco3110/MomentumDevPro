@@ -64,13 +64,11 @@
             v-model="$v.video.description.$model"
             :is-valid="hasError($v.video.description)"
           />
-        </CCol>
-        <!-- BOTON DE AGREGAR + -->
+          <!-- BOTON DE AGREGAR + -->
 
-        <div class="card-header" align="right">
-          <template>
-            <td class="center-cell">
-              <div>
+          <div class="card-header" align="right">
+            <template>
+              <td class="center-cell">
                 <CButton
                   shape="square"
                   color="success"
@@ -82,16 +80,17 @@
                 >
                   <CIcon name="cil-plus" />
                 </CButton>
-              </div>
-            </td>
-          </template>
-        </div>
-        <CCol sm="5">
+              </td>
+            </template>
+          </div>
+        </CCol>
+
+        <CCol sm="6">
           <CDataTable
             :items="items"
             :fields="fields"
             column-filter
-            :items-per-page="5"
+            :items-per-page="3"
             :noItemsView="tableText.noItemsViewText"
             :table-filter="tableText.tableFilterText"
             :items-per-page-select="tableText.itemsPerPageText"
@@ -130,7 +129,7 @@
         <CButton color="success" @click="CerrarLimpiar">
           <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
         </CButton>
-        <CButton class="botonesP" color="dark" @click="CerrarLimpiar">
+        <CButton color="dark" @click="CerrarLimpiar">
           <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
         </CButton>
       </template>

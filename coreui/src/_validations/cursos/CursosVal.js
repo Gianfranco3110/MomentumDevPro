@@ -6,8 +6,8 @@ export default () => {
         curso : {
             description: { required, especiales, maxLength: maxLength(256) },
             price: { required, decimalEspecial, maxLength: maxLength(20) }, 
-            daysofvalidity: { required, SoloEnteros, maxLength: maxLength(20) },
-            CourseName: { required, maxLength: maxLength(100) },
+            daysofvalidity: { required, SoloEnteros, maxLength: maxLength(10) },
+            CourseName: { required, especiales, maxLength: maxLength(100) },
         }    
     }
 }
