@@ -84,7 +84,7 @@
         </CCol>
         <CCol sm="3" v-if="actualizar">
           <img
-            :src="'public/curso/' + this.curso.image"
+            :src="this.$apiAdress+'/storage/courses/' + this.curso.image"
             class="bd-placeholder-img card-img-top"
             width="150px"
             height="200px"
@@ -273,7 +273,7 @@ function limpiarDatos() {
   this.AddModal = false;
   this.files = "";
   this.filelist = "";
-  this.imageNueva = "";
+  this.imageNueva = null;
   this.imagenMiniatura = "";
 }
 
@@ -396,11 +396,10 @@ export default {
     CerrarLimpiar,
     getImage(event) {
       //Asignamos la imagen a  nuestra data
-      this.filelist = event.target.files[0];
-      //this.imageNueva = file;
-      //this.cargarImagen(file);
+      let filelist = event.target.files[0];
+      this.imageNueva = filelist;
+      this.cargarImagen(filelist);
       this.image = this.filelist;
-      console.log(this.image);
     },
     cargarImagen(file) {
       let reader = new FileReader();

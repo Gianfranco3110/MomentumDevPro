@@ -50,13 +50,9 @@
 </template>
 
 <script>
-import indexProducts from "./products/index";
 
 export default {
   name: "Dashboard",
-  components: {
-    indexProducts,
-  },
   data() {
     return {
       isAdmin: false,

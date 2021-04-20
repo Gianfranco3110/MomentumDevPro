@@ -135,7 +135,7 @@
                 <CCol md="4" v-for="(item, index) in Cursositems" :key="index">
                   <div class="card" style="width: 18rem;">
                     <img
-                      :src="'public/curso/' + item.image"
+                      :src="$apiAdress +'/storage/courses/'+ item.image"
                       class="bd-placeholder-img card-img-top"
                       width="100%"
                       height="180"
@@ -169,7 +169,7 @@
                 <CCol md="4" v-for="(item, index) in Productitems" :key="index">
                   <div class="card" style="width: 18rem;">
                     <img
-                      :src="'public/products/' + item.image"
+                      :src="$apiAdress + '/storage/products/'+ item.image"
                       class="bd-placeholder-img card-img-top"
                       width="100%"
                       height="180"

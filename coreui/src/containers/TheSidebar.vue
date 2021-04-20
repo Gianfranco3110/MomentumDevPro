@@ -38,7 +38,7 @@
       </li>
       <li class="c-sidebar-nav-item">
         <strong>
-          <a class="c-sidebar-nav-link" href="#">
+          <a class="c-sidebar-nav-link" href="#/mis-cursos">
             <CIcon size="lg" name="cil-education" class="mr-2" /> MIS CURSOS
           </a>
         </strong>

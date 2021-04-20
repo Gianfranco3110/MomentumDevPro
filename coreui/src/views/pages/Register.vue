@@ -6,8 +6,8 @@
           <CCard class="mx-4 mb-0">
             <CCardBody class="p-4">
               <CForm @submit.prevent="register" method="POST">
-                <h1>Register</h1>
-                <p class="text-muted">Create your account</p>
+                <h1>Registrarse</h1>
+                <p class="text-muted">Crea tu cuenta</p>
                 <CInput
                   placeholder="Username"
                   prependHtml="<i class='cui-user'></i>"
@@ -23,7 +23,7 @@
                   v-model="email"
                 />
                 <CInput
-                  placeholder="Password"
+                  placeholder="Contraseña"
                   type="password"
                   prependHtml="<i class='cui-lock-locked'></i>"
                   autocomplete="new-password"
@@ -34,7 +34,7 @@
                   /></template>
                 </CInput>
                 <CInput
-                  placeholder="Repeat password"
+                  placeholder="Repetir contraseña"
                   type="password"
                   prependHtml="<i class='cui-lock-locked'></i>"
                   autocomplete="new-password"
@@ -46,11 +46,11 @@
                   /></template>
                 </CInput>
                 <CButton type="submit" color="success" block
-                  >Create Account</CButton
+                  >Crear Cuenta</CButton
                 >
               </CForm>
             </CCardBody>
-            <CCardFooter class="p-4">
+           <!-- <CCardFooter class="p-4">
               <CRow>
                 <CCol col="6">
                   <CButton @click="Sweet" block color="facebook">
@@ -63,7 +63,7 @@
                   </CButton>
                 </CCol>
               </CRow>
-            </CCardFooter>
+            </CCardFooter>-->
           </CCard>
         </CCol>
       </CRow>

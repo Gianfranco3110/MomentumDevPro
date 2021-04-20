@@ -35,6 +35,7 @@ const Users = () => import('@/views/users/Users')
 const User = () => import('@/views/users/User')
 const EditUser = () => import('@/views/users/EditUser')
 const UserAjustes = () => import('@/views/users/UserAjustes')
+const MisCursos = () => import('@/views/users/MisCursos')
 
 //Notes
 const Notes = () => import('@/views/notes/Notes')
@@ -386,6 +387,20 @@ function configRoutes () {
             {
               path: '',
               component:cursos,
+            }
+          ]
+        },
+        //Ruta de Mis Cursos
+        {
+          path: 'mis-cursos',
+          meta: { label: 'Mis Cursos'},
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children :[
+            {
+              path: '',
+              component:MisCursos,
             }
           ]
         },

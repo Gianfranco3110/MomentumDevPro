@@ -11,7 +11,7 @@
       <CCard class="text-left">
         <CCardHeader>
           <img
-            :src="'public/curso/' + image"
+            :src="this.$apiAdress+'/storage/courses/' + image"
             class="bd-placeholder-img card-img-top"
             width="150px"
             height="200px"
