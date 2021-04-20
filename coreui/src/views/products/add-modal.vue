@@ -11,7 +11,7 @@
       <CRow class="mt-2">
         <CCol sm="12" v-if="actualizar" style="text-align:center">
           <img
-            :src="'public/products/' + imageProducto"
+            :src="this.$apiAdress+'/storage/'+imageProducto"
             width="200"
             height="200"
             alt="product image"
