@@ -5,79 +5,50 @@
     <hr>
     <!--<CRow>
             <CCol md="4" v-for="(item, index) in items" :key="index">
-                <div class="card" style="width: 18rem;">
-                  <img :src="'public/products/' + item.price" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: price cap" role="img">
+                  <div class="card" style="width: 18rem;">
+                    <img
+                      :src="$apiAdress +'/storage/courses/'+ item.image"
+                      class="bd-placeholder-img card-img-top"
+                      width="100%"
+                      height="180"
+                      aria-label="Placeholder: Image cap"
+                      role="img"
+                    />
 
-                  <div class="card-body">
-                    <h5 class="card-title">{{item.title}} <CBadge :color="item.status_class">{{item.status}}</CBadge></h5>
-                    <p class="card-text">{{item.description}}</p>                     
-                    <CRow class="mt-2">
-                      <CCol>
-                    <a href="#" class="btn btn-success">Details</a>
-                      </CCol>
-                    </CRow>
+                    <div class="card-body">
+                      <h5 class="card-title">{{ item.CourseName }}</h5>
+                      <CRow class="mt-2">
+                        <CCol style="text-align:Center">
+                            <a href="#" class="btn btn-success">Ver curso</a>
+                        </CCol>
+                      </CRow>
+                    </div>
                   </div>
-                </div>
-            </CCol>                 
+                </CCol>               
           </CRow>-->
-        <CRow>
-            <CCol md="4">
-                <div class="card" style="width: 18rem;">
-                  <img src="public/curso/1618360436maquillaj.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: price cap" role="img">
+        <CRow> 
+            <CCol md="4" v-for="(item, index) in items" :key="index">
+                  <div class="card" style="width: 18rem;">
+                    <img
+                      :src="$apiAdress +'/storage/courses/'+ item.image"
+                      class="bd-placeholder-img card-img-top"
+                      width="100%"
+                      height="180"
+                      aria-label="Placeholder: Image cap"
+                      role="img"
+                    />
 
-                  <div class="card-body">
-                    <h5 class="card-title">Titulo</h5>                    
-                    <CRow class="mt-2">
-                      <CCol style="text-align:Center">
-                    <a href="#" class="btn btn-success">Ver curso</a>
-                      </CCol>
-                    </CRow>
+                    <div class="card-body">
+                      <h5 class="card-title">{{ item.CourseName }}</h5>
+                      <CRow class="mt-2">
+                        <CCol style="text-align:Center">
+                            <a href="#" class="btn btn-success">Ver curso</a>
+                        </CCol>
+                      </CRow>
+                    </div>
                   </div>
-                </div>
-            </CCol>   
-            <CCol md="4">
-                <div class="card" style="width: 18rem;">
-                  <img src="public/curso/1618360436maquillaj.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: price cap" role="img">
-
-                  <div class="card-body">
-                    <h5 class="card-title">Titulo</h5>                    
-                    <CRow class="mt-2">
-                      <CCol style="text-align:Center">
-                    <a href="#" class="btn btn-success">Ver curso</a>
-                      </CCol>
-                    </CRow>
-                  </div>
-                </div>
-            </CCol> 
-            <CCol md="4">
-                <div class="card" style="width: 18rem;">
-                  <img src="public/curso/1618360436maquillaj.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: price cap" role="img">
-
-                  <div class="card-body">
-                    <h5 class="card-title">Titulo</h5>                    
-                    <CRow class="mt-2">
-                      <CCol style="text-align:Center">
-                    <a href="#" class="btn btn-success">Ver curso</a>
-                      </CCol>
-                    </CRow>
-                  </div>
-                </div>
-            </CCol> 
-            <CCol md="4">
-                <div class="card" style="width: 18rem;">
-                  <img src="public/curso/1618360436maquillaj.jpg" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: price cap" role="img">
-
-                  <div class="card-body">
-                    <h5 class="card-title">Titulo</h5>                    
-                    <CRow class="mt-2">
-                      <CCol style="text-align:Center">
-                    <a href="#" class="btn btn-success">Ver curso</a>
-                      </CCol>
-                    </CRow>
-                  </div>
-                </div>
-            </CCol>               
-          </CRow>
+                </CCol>                  
+        </CRow>
    </div>
 </template>
 <script>
@@ -89,6 +60,7 @@ export default {
     data: () =>{
         return{
             Loading: false,
+            items: [],
         }
     }, 
     methods: {
@@ -98,15 +70,14 @@ export default {
         
   let self = this;
   self.Loading = true;
-  //let listado = [];
-  //self.items = [];
   axios
     .get(
       this.$apiAdress +
-        "/api/courses/all?token=" +
+        "/api/courses/mycourses?token=" +
         localStorage.getItem("api_token")
     )
     .then(function(response) {
+      self.items = response.data;
       self.Loading = false;
     })
     .catch(function(error) {

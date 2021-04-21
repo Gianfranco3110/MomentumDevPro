@@ -17,6 +17,13 @@
             :options="courses"
           >
           </CSelect>
+          <CSelect
+            label="ESTADO"
+            :value.sync="courseData.status"
+            :plain="true"
+            :options="statuses"
+          >
+          </CSelect>     
         </CCardBody>
       </CCard>
 
@@ -44,8 +51,10 @@ function data() {
     courseData: {
       course_id: 1,
       user_id: 1,
+      status: '',
     },
     courses: [],
+    statuses: ['Pagado','No pagado'],
   };
 }
 export default {
@@ -61,6 +70,7 @@ export default {
         this.AddModal = true;
         if (this.modal != false) {
           this.user_name = this.modal.name;
+          this.courseData.user_id = this.modal.id;          
         }
         this.$emit("cerrarModal");
       }
@@ -90,7 +100,7 @@ export default {
     },
   },
   computed: {},
-  mounted: function() {
+  mounted: function() {    
     let self = this;
     self.Loading = true;
     axios
