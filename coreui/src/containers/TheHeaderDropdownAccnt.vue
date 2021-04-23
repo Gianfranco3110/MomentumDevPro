@@ -93,12 +93,12 @@ export default {
   },
 
   mounted: function(){
-    let self = this;
+    let self = this;   
+    
     self.userEmail = localStorage.getItem("email");
-    self.userName = localStorage.getItem("name");
-    if(localStorage.getItem('roles')=='user,admin'){
-      self.isAdmin = true;
-    }
+      self.userName = localStorage.getItem("name");
+      if(localStorage.getItem('roles')=='user,admin'){
+        self.isAdmin = true;      }
   }
 }
 </script>

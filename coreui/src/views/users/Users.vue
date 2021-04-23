@@ -193,7 +193,7 @@ export default {
   watch: {
     refrescarComponente: function() {
       if (this.refrescarComponente) {
-        this.getProducts();
+        this.getUsers();
         this.refrescarComponente = false;
       }
     },
