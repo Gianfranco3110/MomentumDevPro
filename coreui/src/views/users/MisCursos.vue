@@ -1,5 +1,5 @@
 <template>
-  <div id="mis-productos">
+  <div id="mis-cursos">
       <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <h1>Mis Cursos</h1>
     <hr>

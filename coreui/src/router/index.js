@@ -36,6 +36,7 @@ const User = () => import('@/views/users/User')
 const EditUser = () => import('@/views/users/EditUser')
 const UserAjustes = () => import('@/views/users/UserAjustes')
 const MisCursos = () => import('@/views/users/MisCursos')
+const UserCourses = () => import('@/views/users/user-courses')
 
 //Notes
 const Notes = () => import('@/views/notes/Notes')
@@ -322,6 +323,15 @@ function configRoutes () {
               meta: { label: 'Edit User' },
               name: 'Edit User',
               component: EditUser,
+              meta:{
+                requiresAdmin: true
+              }
+            },
+            {
+              path: ':id/courses',
+              meta: { label: 'Cursos de usuario' },
+              name: 'User Courses',
+              component: UserCourses,
               meta:{
                 requiresAdmin: true
               }

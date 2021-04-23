@@ -10,59 +10,49 @@
             @child-refresh="refrescarComponente = true"
           />
           <CCardHeader>
-            Users
+            Usuarios
           </CCardHeader>
           <CCardBody>
-            <CDataTable
-              hover
-              striped
-              :items="items"
-              :fields="fields"
-              :items-per-page="5"
-              pagination
-            >
-              <template #status="{item}">
-                <td>
-                  <CBadge :color="getBadge(item.status)">{{
-                    item.status
-                  }}</CBadge>
-                </td>
-              </template>
-              <template #show="{item}">
-                <td>
-                  <CButton color="primary" @click="showUser(item.id)"
-                    >Show</CButton
-                  >
-                </td>
-              </template>
-              <template #edit="{item}">
-                <td>
-                  <CButton color="primary" @click="editUser(item.id)"
-                    >Edit</CButton
-                  >
-                </td>
-              </template>
-              <template #delete="{item}">
-                <td>
-                  <CButton
-                    v-if="you != item.id"
-                    color="danger"
-                    @click="deleteUser(item.id)"
-                    >Delete</CButton
-                  >
-                </td>
-              </template>
-              <template #Course="{item}">
-                <td>
-                  <CButton
-                    v-if="you != item.id"
-                    color="success"
-                    @click="AddModal = item"
-                    >Asignar curso</CButton
-                  >
-                </td>
-              </template>
-            </CDataTable>
+            
+            <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Rol</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Eliminar</th>
+                    <th scope="col">Asignación</th>
+                    <th scope="col"></th>     
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(item, index) in items" :key="index">
+                    <th scope="row">{{item.id}}</th>
+                    <td>{{item.name}}</td>
+                    <td>{{item.roles}}</td>
+                    <td>
+                      <CBadge :color="getBadge(item.status)">{{item.status}}</CBadge>
+                    </td>
+                    <td>
+                      <CButton color="primary" @click="editUser(item.id)"><CIcon name="cil-pencil" /></CButton>
+                    </td>
+                    <td>
+                      <CButton v-if="you != item.id" color="danger" @click="deleteUser(item.id)"><CIcon name="cil-X" />
+                      </CButton>
+                    </td>
+                    <td>
+                      <CButton v-if="you != item.id" color="success" @click="AddModal = item">Asignar curso</CButton>
+                    </td>
+                    <td>
+                      <CButton v-if="you != item.id" color="info" @click="courseUser(item.id)">
+                        Cursos Asignados
+                      </CButton>
+                    </td>
+                  </tr>   
+                </tbody>
+              </table>
           </CCardBody>
         </CCard>
       </transition>
@@ -91,10 +81,9 @@ export default {
         "registered",
         "roles",
         "status",
-
-        "edit",
-        "delete",
-        "Course",
+        "editar",
+        "eliminar",
+        "asignar_curso",
       ],
       currentPage: 1,
       perPage: 15,
@@ -162,6 +151,13 @@ export default {
           self.Loading = false;
           self.$toastr.danger("¡Error al eliminar usuario!");
         });
+    },
+    userCourseLink (id) {
+      return `users/${id.toString()}/courses`
+    },
+    courseUser ( id ) {
+      const editLink = this.userCourseLink( id );
+      this.$router.push({path: editLink});
     },
     getUsers() {
       let self = this;
