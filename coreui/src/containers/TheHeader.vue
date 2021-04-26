@@ -10,9 +10,9 @@
       class="ml-3 d-md-down-none"
       @click="$store.commit('toggleSidebarDesktop')"
     />
-    <CHeaderBrand class="mx-auto d-lg-none" to="/">
-      <CIcon name="logo" height="48" alt="Logo"/>
-    </CHeaderBrand>
+    <CSidebarBrand style="text-decoration:none;color:black" class="d-md-none d-lg-none" to="/">
+      <h3>YareStylo</h3>
+    </CSidebarBrand>
 
     <CMenu/>
   
