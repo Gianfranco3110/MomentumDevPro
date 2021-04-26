@@ -1,40 +1,24 @@
 <template>
   <div class="home">
-    <header class="c-header fixed-top c-header-light px-3">
-      <div class="container d-flex flex-row pr-5">
-        <a class="c-header-brand" href="#">
-          <h3>
-            YareStylo
-          </h3>
-        </a>
-        <ul class="c-header-nav ml-auto pr-4">
-          <li class="c-header-nav-item active">
-            <strong>
-              Inicio
-            </strong>
-            <span class="sr-only">(current)</span>
-          </li>
-          <li class="c-header-nav-item">
-            <strong>
-              Contacto
-            </strong>
-          </li>
-          <li v-if="logueado" class="c-header-nav-item" @click="goDashboard()">
-            <strong>
-              Panel de control
-            </strong>
-          </li>
-          <li
-            v-if="logueado == false"
-            class="c-header-nav-item"
-            @click="goLogin()"
-          >
-            <strong>
-              Login
-            </strong>
-          </li>
-        </ul>
-      </div>
+    <header class="navbar fixed-top navbar-expand-lg navbar-light bg-light px-3">
+       <div class="container">
+          <a class="navbar-brand" href="#">YareStylo</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse my-2" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link active" href="#">Inicio <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="#">Contacto</a>
+              <a v-if="logueado" class="nav-link" @click="goDashboard()">            
+                Panel de control            
+              </a>
+              <a v-if="logueado == false" class="nav-link" @click="goLogin()">              
+                  Login              
+              </a>
+            </div>
+          </div>
+       </div>
     </header>
     <div id="carousel-home" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
@@ -132,7 +116,7 @@
           <CCardBody>
             <CRow>
               <template>
-                <CCol md="4" v-for="(item, index) in Cursositems" :key="index">
+                <CCol md="6" lg="4" v-for="(item, index) in Cursositems" :key="index">
                   <div class="card" style="width: 18rem;">
                     <img
                       :src="$apiAdress +'/storage/courses/'+ item.image"
@@ -166,7 +150,7 @@
           <CCardBody>
             <CRow>
               <template>
-                <CCol md="4" v-for="(item, index) in Productitems" :key="index">
+                <CCol md="6" lg="4" v-for="(item, index) in Productitems" :key="index">
                   <div class="card" style="width: 18rem;">
                     <img
                       :src="$apiAdress + '/storage/products/'+ item.image"
@@ -191,8 +175,8 @@
     </div>
     <footer id="footer" class="text-white">
       <div class="container">
-        <div class="row">
-          <div class="col-md-12 p-3">
+        <div class="row pt-3 pb-3">
+          <div class="col-md-4">
             <div class="footer-seccion">
               <ul class="list-group">
                 <li class="list-group-item footer-title">
@@ -212,31 +196,35 @@
                 </li>
               </ul>
             </div>
-            <div class="footer-seccion">
-              <ul class="list-group footer-social">
-                <li class="list-group-item footer-title">
-                  <h3>Redes Sociales</h3>
-                </li>
-                <li class="list-group-item">
-                  <span style="font-size: 2.7em; color: rgb(64, 148, 243)">
-                    <i class="fab fa-twitter-square"></i>
-                  </span>
-                  Twitter
-                </li>
-                <li class="list-group-item">
-                  <span style="font-size: 2.7em; color: rgb(20, 42, 163)">
-                    <i class="fab fa-facebook"></i>
-                  </span>
-                  Facebook
-                </li>
-                <li class="list-group-item">
-                  <span style="font-size: 2.7em; color: rgb(54, 29, 9)">
-                    <i class="fab fa-instagram-square"></i>
-                  </span>
-                  Instagram
-                </li>
-              </ul>
-            </div>
+          </div>
+          <div class="col-md-4">
+              <div class="footer-seccion">
+                <ul class="list-group footer-social">
+                  <li class="list-group-item footer-title">
+                    <h3>Redes Sociales</h3>
+                  </li>
+                  <li class="list-group-item">
+                    <span style="font-size: 2.7em; color: rgb(64, 148, 243)">
+                      <i class="fab fa-twitter-square"></i>
+                    </span>
+                    Twitter
+                  </li>
+                  <li class="list-group-item">
+                    <span style="font-size: 2.7em; color: rgb(20, 42, 163)">
+                      <i class="fab fa-facebook"></i>
+                    </span>
+                    Facebook
+                  </li>
+                  <li class="list-group-item">
+                    <span style="font-size: 2.7em; color: rgb(54, 29, 9)">
+                      <i class="fab fa-instagram-square"></i>
+                    </span>
+                    Instagram
+                  </li>
+                </ul>
+              </div>
+          </div>
+          <div class="col-md-4">
             <div class="footer-seccion">
               <ul class="list-group">
                 <li class="list-group-item footer-title">
@@ -373,10 +361,20 @@ export default {
   border-bottom: 4px solid rgb(182, 108, 204);
 }
 
-#seccion-estadisticas {
+@media only screen and (min-width:514px){
+  #seccion-estadisticas {
   padding: 0px 50px;
   text-align: center;
 }
+}
+
+@media only screen and (max-width:513px){
+  #seccion-estadisticas {
+  padding: 0px;
+  text-align: center;
+}
+}
+
 
 #seccion-estadisticas .column1,
 #seccion-estadisticas .column2,
@@ -417,5 +415,8 @@ export default {
 
 #footer {
   background-color: #8e6795;
+}
+.nav-link:hover{
+  cursor:pointer;
 }
 </style>
