@@ -6,15 +6,15 @@
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse my-2" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
+          <div class="collapse navbar-collapse my-2" style="float:right" id="navbarNavAltMarkup">
+            <div class="navbar-nav ml-auto">
               <a class="nav-link active" href="#">Inicio <span class="sr-only">(current)</span></a>
               <a class="nav-link" href="#">Contacto</a>
               <a v-if="logueado" class="nav-link" @click="goDashboard()">            
                 Panel de control            
               </a>
               <a v-if="logueado == false" class="nav-link" @click="goLogin()">              
-                  Login              
+                  Iniciar Sesión              
               </a>
             </div>
           </div>
@@ -337,12 +337,21 @@ export default {
   mounted: function() {
     this.getProducts();
     this.getCourses();
-    if (
-      localStorage.getItem("name") != null &&
-      localStorage.getItem("name") != ""
-    ) {
-      this.logueado = true;
-    }
+    let self = this;
+  axios
+    .get(
+      this.$apiAdress +
+        "/api/courses/mycourses?token=" +
+        localStorage.getItem("api_token")
+    )
+    .then(function(response) {
+      //self.items = response.data;
+      self.logueado = true;
+    })
+    .catch(function(error) {
+      console.log(error);
+      self.logueado = false;      
+    });    
   },
 };
 </script>

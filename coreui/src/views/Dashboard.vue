@@ -50,7 +50,7 @@
 </template>
 
 <script>
-
+import axios from "axios";
 export default {
   name: "Dashboard",
   data() {
@@ -77,6 +77,22 @@ export default {
     if (localStorage.getItem("roles") == "user,admin") {
       this.isAdmin = true;
     }
+    let self = this;
+  self.Loading = true;
+  axios
+    .get(
+      this.$apiAdress +
+        "/api/courses/mycourses?token=" +
+        localStorage.getItem("api_token")
+    )
+    .then(function(response) {
+      self.items = response.data;
+      self.Loading = false;
+    })
+    .catch(function(error) {
+      console.log(error);
+      self.$router.push({ path: "/login" });
+    });
   },
 };
 </script>
