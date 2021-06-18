@@ -46,6 +46,31 @@
       </CRow>
     </CCardGroup>
 -->
+    <iframe
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/xo9ZPZRPEB8"
+      title="YouTube video player"
+      frameborder="10"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+    <br />
+    <br />
+    <template>
+      <CCol sm="6">
+        <Ccol sm="3">
+          <CButton color="success">
+            <CIcon name="cil-check-circle" />&nbsp; Leccion anterior
+          </CButton>
+        </Ccol>
+        <Ccol sm="3">
+          <CButton color="dark">
+            <CIcon name="cil-chevron-circle-left-alt" />&nbsp; Leccion siguiente
+          </CButton>
+        </Ccol>
+      </CCol>
+    </template>
   </div>
 </template>
 
@@ -78,21 +103,21 @@ export default {
       this.isAdmin = true;
     }
     let self = this;
-  self.Loading = true;
-  axios
-    .get(
-      this.$apiAdress +
-        "/api/courses/mycourses?token=" +
-        localStorage.getItem("api_token")
-    )
-    .then(function(response) {
-      self.items = response.data;
-      self.Loading = false;
-    })
-    .catch(function(error) {
-      console.log(error);
-      self.$router.push({ path: "/login" });
-    });
+    self.Loading = true;
+    axios
+      .get(
+        this.$apiAdress +
+          "/api/courses/mycourses?token=" +
+          localStorage.getItem("api_token")
+      )
+      .then(function(response) {
+        self.items = response.data;
+        self.Loading = false;
+      })
+      .catch(function(error) {
+        console.log(error);
+        self.$router.push({ path: "/login" });
+      });
   },
 };
 </script>

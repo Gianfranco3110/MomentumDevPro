@@ -8,6 +8,7 @@
     />
     <VeModal :modal="VerModal" @cerrarModal="VerModal = false" />
     <VideoAdd :modal="AddVideo" @cerrarModal="AddVideo = false" />
+    <AddTes :modal="AddTest" @cerrarModal="AddTest = false" />
 
     <CCard>
       <CCardHeader class="text-center botonesP text-white">
@@ -57,6 +58,16 @@
                     <CIcon name="cil-pencil" />
                   </CButton>
                   <CButton
+                    shape="square"
+                    color="success"
+                    size="sm"
+                    v-c-tooltip="'Añadir video'"
+                    class="mr-1"
+                    @click="AddVideo = item"
+                  >
+                    <CIcon name="cil-plus" />
+                  </CButton>
+                  <CButton
                     color="dark"
                     square
                     size="sm"
@@ -66,13 +77,14 @@
                   >
                     <CIcon name="cil-note" />
                   </CButton>
+
                   <CButton
                     shape="square"
                     color="success"
                     size="sm"
-                    v-c-tooltip="'Añadir video'"
+                    v-c-tooltip="'Añadir test'"
                     class="mr-1"
-                    @click="AddVideo = item"
+                    @click="AddTest = item"
                   >
                     <CIcon name="cil-plus" />
                   </CButton>
@@ -92,6 +104,8 @@ import General from "@/_mixins/general";
 import AgreModal from "./add-modal";
 import VeModal from "./ver-modal";
 import VideoAdd from "./add-VideoModal";
+import AddTes from "./add-Test";
+
 import axios from "axios";
 
 const fieldsCourse = [
@@ -169,6 +183,7 @@ function data() {
     refrescarCurso: false,
     VerModal: false,
     AddVideo: false,
+    AddTest: false,
 
     tableText: Object.assign({}, tableTextHelpers),
   };
@@ -182,6 +197,7 @@ export default {
     AgreModal,
     VeModal,
     VideoAdd,
+    AddTes,
   },
   props: {
     fieldsCourse: {
