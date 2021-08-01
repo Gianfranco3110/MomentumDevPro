@@ -56,6 +56,12 @@ Route::group(['middleware' => ['api']], function ($router) {
     Route::post('coursesvideos/store','Courses_videoController@store');
     Route::get('coursesvideos/list/{id}', 'Courses_videoController@index');
 
+    //ROUTE PARA CREAR LAS PREGUNTAS-TEST DE LOS CURSOS
+    Route::get('coursestest/list/{id}', 'User_questionController@index');
+    Route::post('coursestest/store','User_questionController@store');
+
+    //RUTA QUE SE ENCARGA DE IMPRIMIR LOS CERTIFICADOS
+    Route::get('usercertificado', 'Pdf_CertificadoController@getPDF');
 
     Route::resource('resource/{table}/resource', 'ResourceController');
     Route::get('media/storage','MediaController@getStoragePath');
@@ -114,4 +120,3 @@ Route::group(['middleware' => ['api']], function ($router) {
         Route::get('/roles/move/move-down',    'RolesController@moveDown')->name('roles.down');
     });
 });
-
