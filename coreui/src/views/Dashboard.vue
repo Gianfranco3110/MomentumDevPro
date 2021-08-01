@@ -65,7 +65,7 @@
           </CButton>
         </Ccol>
         <Ccol sm="3">
-          <CButton color="dark">
+          <CButton id="next" color="dark">
             <CIcon name="cil-chevron-circle-left-alt" />&nbsp; Leccion siguiente
           </CButton>
         </Ccol>
@@ -98,10 +98,12 @@ export default {
       return $color;
     },
   },
+
   mounted: function() {
     if (localStorage.getItem("roles") == "user,admin") {
       this.isAdmin = true;
     }
+    /*
     let self = this;
     self.Loading = true;
     axios
@@ -118,6 +120,12 @@ export default {
         console.log(error);
         self.$router.push({ path: "/login" });
       });
+      */
   },
 };
 </script>
+<style scoped>
+#next {
+  float: right;
+}
+</style>

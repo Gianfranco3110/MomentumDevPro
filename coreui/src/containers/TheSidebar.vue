@@ -50,14 +50,7 @@
           </a>
         </strong>
       </li>
-      <li class="c-sidebar-nav-item" v-if="isAdmin">
-        <strong>
-          <a class="c-sidebar-nav-link" href="#/test">
-            <CIcon size="lg" name="cil-address-card" class="mr-2" /> REGISTRAR
-            TEST
-          </a>
-        </strong>
-      </li>
+
       <li class="c-sidebar-nav-item" v-if="isAdmin">
         <strong>
           <a class="c-sidebar-nav-link" href="#/Registro">
