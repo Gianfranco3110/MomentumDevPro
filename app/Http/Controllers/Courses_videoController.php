@@ -23,7 +23,7 @@ class Courses_videoController extends Controller
     {
         $validatedData = $request->validate([
             'description'       => 'required|max:365',
-            'url_video'         => 'required|max:500',
+            'url_video'         => 'required|max:200',
         ]);   
         $user = auth()->userOrFail();
         $query=DB::table('course_videos')->insert([

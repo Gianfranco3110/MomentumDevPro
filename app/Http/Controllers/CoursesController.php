@@ -19,7 +19,8 @@ class CoursesController extends Controller
        $courses = DB::table('courses')->join('users', 'users.id', '=', 'courses.users_id')
         ->join('status', 'status.id', '=', 'courses.status_id')
         ->select('courses.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
-        ->limit(3)
+        ->where('status_id','=',1)
+        ->limit(6)
         ->get();
         return response()->json( $courses );
     }
@@ -32,6 +33,16 @@ class CoursesController extends Controller
         return response()->json( $courses ); 
     }
 
+    public function misCursos(){
+        $user = auth()->userOrFail();
+        $courses = DB::table('users_courses')->join('courses', 'courses.id', '=', 'users_courses.curso_id')
+        ->select('courses.*','users_courses.Video_actual as Video')
+        ->where('users_courses.usuario_id','=',$user->id)
+        ->where('users_courses.status','=','Pagado')
+        ->get();
+        return response()->json( $courses );
+    }
+
     //FUNCION PARA SACAR UNA LISTA DE LOS CURSOS PERO SOLO EL NOMBRE Y EL ID
     public function nameCourses(){
         $courses = DB::table('courses')->select('courses.CourseName as label', 'courses.id as value')->get();
@@ -42,6 +53,11 @@ class CoursesController extends Controller
     {        
         $statuses = DB::table('status')->select('status.name as label', 'status.id as value')->get();
         return response()->json( $statuses );
+    }
+
+    public function show($id)
+    {        
+        //Codigo
     }
 
     public function showPerUser()
@@ -75,13 +91,13 @@ class CoursesController extends Controller
             'price'             => 'required|min:1|max:20',
             'description'           => 'required|max:365',
             'daysofvalidity'         => 'required|max:20',
-            'CourseName'         => 'required|max:100',
+            'CourseName'         => 'required|max:20',
             'image'             => 'required'
         ]);
         if($request->hasFile('image')){
             $image_path = $request->file('image');
             $image_path_name = time().$image_path->getClientOriginalName();
-			Storage::disk('public')->put('curso/'.$image_path_name, File::get($image_path));
+			Storage::disk('public')->put('courses/'.$image_path_name, File::get($image_path));
             
         $user = auth()->userOrFail();
         $query=DB::table('courses')->insert([
@@ -131,7 +147,7 @@ public function update(Request $request, $id)
     if($request->hasFile('image')){
         $image_path = $request->file('image');
         $image_path_name = time().$image_path->getClientOriginalName();
-        Storage::disk('public')->put('curso/'.$image_path_name, File::get($image_path));
+        Storage::disk('public')->put('courses/'.$image_path_name, File::get($image_path));
         $courses->image = $image_path_name;
     }
     $courses->price           = $request->input('price');

@@ -13,6 +13,7 @@ class productsController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -81,8 +82,8 @@ class productsController extends Controller
         if($request->hasFile('image')){
             $image_path = $request->file('image');
             $image_path_name = time().$image_path->getClientOriginalName();
-			Storage::disk('public')->put($image_path_name, File::get($image_path));
-        
+            Storage::disk('public')->put('products/'.$image_path_name, File::get($image_path));
+    
         $user = auth()->userOrFail();
         $query=DB::table('products')->insert([
             'title' => $request->input('title'),

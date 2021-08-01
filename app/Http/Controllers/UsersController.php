@@ -36,6 +36,16 @@ class UsersController extends Controller
         return response()->json( compact('users', 'you') );
     }
 
+    public function userLogged()
+    {
+        $you = auth()->userOrFail()->id;
+        $users = DB::table('users')
+        ->select('users.name', 'users.email', 'users.menuroles as roles')
+        ->where('users.id','=',$you)
+        ->get();
+        return response()->json( compact('users', 'you') );
+    }
+
     /**
      * Display the specified resource.
      *

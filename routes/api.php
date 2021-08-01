@@ -13,7 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['middleware' => 'api'], function ($router) {
+
+Route::group(['middleware' => ['api']], function ($router) {
+
     Route::get('menu', 'MenuController@index');
 
     Route::post('login', 'AuthController@login');
@@ -22,6 +24,7 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('register', 'AuthController@register');
 
     Route::put('user/password/change','UsersController@updatePassword');
+    Route::get('user/logged','UsersController@userLogged');
 
     Route::resource('notes', 'NotesController');
 
@@ -38,17 +41,22 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::get('courses/courses', 'CoursesController@showPerUser');
     Route::get('courses/list', 'CoursesController@nameCourses');
     Route::get('courses/all','CoursesController@allCourses');
+    Route::get('courses/mycourses','CoursesController@misCursos');
     Route::resource('courses', 'CoursesController');
 
-    //ROUTE PARA CREAR VINCULACION CURSO-USUARIO
+    //ROUTES PARA VINCULACION CURSO-USUARIO
     Route::post('usercourses/create','UserCourseController@create');
+    Route::put('usercourses/{id}/changestatus','UserCourseController@changeStatus');
+    Route::get('usercourses/{id}','UserCourseController@index');
+    Route::delete('usercourses/{id}','UserCourseController@destroy');
+    //ROUTE PARA GENERAR PDF
+    Route::get('usercourses/pdf','UserCourseController@generatePDF');
 
     //ROUTE PARA ASOCIAR VIDEOS A LOS CURSOS GIANF
     Route::post('coursesvideos/store','Courses_videoController@store');
     Route::get('coursesvideos/list/{id}', 'Courses_videoController@index');
 
 
-    
     Route::resource('resource/{table}/resource', 'ResourceController');
     Route::get('media/storage','MediaController@getStoragePath');
     

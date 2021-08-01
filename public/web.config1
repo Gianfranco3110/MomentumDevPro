@@ -1,38 +1,19 @@
-
-
 <!--
     Rewrites requires Microsoft URL Rewrite Module for IIS
     Download: https://www.microsoft.com/en-us/download/details.aspx?id=47337
     Debug Help: https://docs.microsoft.com/en-us/iis/extensions/url-rewrite-module/using-failed-request-tracing-to-trace-rewrite-rules
 -->
 <configuration>
-
-  <appSettings>
-    <!-- Estos parámetros de appSettings solo funcionan en ASP.NET 4.5 o superior -->
-    <add key="ClientValidationEnabled" value="true" />
-    <!-- Con está opción especificamos que ASP.NET utilice la validación no intrusiva, evitando que inserte código de javascript en linea en todas las páginas de nuestra web -->
-    <add key="UnobtrusiveJavaScriptEnabled" value="true" />
-  </appSettings>
-  <!-- Configuración de ASP.NET -->
   <system.webServer>
-  	
-     <httpProtocol>
-         <customHeaders>
-            <add name="Access-Control-Allow-Origin" value="*" />
-            <add name="Access-Control-Allow-Methods" value="*" />
-            <add name="Access-Control-Allow-Headers" value="*" />
-         </customHeaders>	
-    </httpProtocol>
-
     <rewrite>
       <rules>
-        <!-- rule name="Imported Rule 1" stopProcessing="true">
+        <rule name="Imported Rule 1" stopProcessing="true">
           <match url="^(.*)/$" ignoreCase="false" />
           <conditions>
             <add input="{REQUEST_FILENAME}" matchType="IsDirectory" ignoreCase="false" negate="true" />
           </conditions>
           <action type="Redirect" redirectType="Permanent" url="/{R:1}" />
-        </rule -->
+        </rule>
         <rule name="Imported Rule 2" stopProcessing="true">
           <match url="^" ignoreCase="false" />
           <conditions>
@@ -42,7 +23,6 @@
           <action type="Rewrite" url="index.php" />
         </rule>
       </rules>
-
     </rewrite>
         <handlers>
             <clear />
