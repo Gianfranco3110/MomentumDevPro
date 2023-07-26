@@ -17,7 +17,7 @@ import 'vue-toastr-2/dist/vue-toastr-2.min.css'
 window.toastr = require('toastr')
 
 
-Vue.prototype.$apiAdress = 'https://momentumdev.ml'
+Vue.prototype.$apiAdress = 'http://127.0.0.1:8000'
 Vue.config.performance = true
 Vue.use(CoreuiVue)
 Vue.use(VueSweetalert2)
