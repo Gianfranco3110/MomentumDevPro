@@ -15,7 +15,7 @@ class CoursesController extends Controller
 
     //FUNCION PARA MOSTRAR LOS CURSOS
     public function index()
-    {  
+    {
        $courses = DB::table('courses')->join('users', 'users.id', '=', 'courses.users_id')
         ->join('status', 'status.id', '=', 'courses.status_id')
         ->select('courses.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
@@ -30,7 +30,7 @@ class CoursesController extends Controller
         ->join('status', 'status.id', '=', 'courses.status_id')
         ->select('courses.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
         ->get();
-        return response()->json( $courses ); 
+        return response()->json( $courses );
     }
 
     public function misCursos(){
@@ -50,13 +50,13 @@ class CoursesController extends Controller
     }
 
     public function create()
-    {        
+    {
         $statuses = DB::table('status')->select('status.name as label', 'status.id as value')->get();
         return response()->json( $statuses );
     }
 
     public function show($id)
-    {        
+    {
         //Codigo
     }
 
@@ -68,7 +68,7 @@ class CoursesController extends Controller
         ->where('users_id',$user->id)->where('exist','=',0)->get();
         return response()->json( $products );
     }
-    
+
     //FUNCION PARA SUBIR IMG
     public function uploadImage(Request $request){
         $validate = request()->validate([
@@ -78,10 +78,10 @@ class CoursesController extends Controller
              $image_path = $request->file('image');
              $image_path_name = time().$image_path->getClientOriginalName();
              Storage::disk('public')->put('curso/'.$image_path_name, File::get($image_path));
-             return response()->json(['path' => $image_path_name]); 
+             return response()->json(['path' => $image_path_name]);
          }
-         return response()->json(['path' => 'error']); 
- 
+         return response()->json(['path' => 'error']);
+
      }
 
     //FUNCION PARA CREAR UN CURSO
@@ -98,7 +98,7 @@ class CoursesController extends Controller
             $image_path = $request->file('image');
             $image_path_name = time().$image_path->getClientOriginalName();
 			Storage::disk('public')->put('courses/'.$image_path_name, File::get($image_path));
-            
+
         $user = auth()->userOrFail();
         $query=DB::table('courses')->insert([
             'price' => $request->input('price'),
@@ -108,24 +108,24 @@ class CoursesController extends Controller
             'users_id' => $user->id,
             'applies_to_date' => date('Y/m/d'),
             'daysofvalidity' => $request ->input('daysofvalidity'),
-            'image' => $image_path_name,         //PENDIENTE CON ESTO  
-        ]); 
+            'image' => $image_path_name,         //PENDIENTE CON ESTO
+        ]);
         if($query){
             return response()->json( ['status' => 'success'] );
          }
          return response()->json(['status' => 'Error en la query.']);
-         
-    } else 
+
+    } else
     {
-        return response()->json(['message' => 'The given data was invalid.']); 
-    }   
+        return response()->json(['message' => 'The given data was invalid.']);
+    }
 }
 
 
 //METODO PARA EDITAR UN CURSO
 public function edit($id)
     {
-        $courses=DB::table('courses')->where('id', '=', $id)->first();        
+        $courses=DB::table('courses')->where('id', '=', $id)->first();
         $statuses = DB::table('status')->select('status.name as label', 'status.id as value')->get();
 
         return response()->json( [ 'statuses' => $statuses, 'course' => $courses ] );

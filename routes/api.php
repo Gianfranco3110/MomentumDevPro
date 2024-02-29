@@ -54,6 +54,8 @@ Route::group(['middleware' => ['api']], function ($router) {
 
     //ROUTE PARA ASOCIAR VIDEOS A LOS CURSOS GIANF
     Route::post('coursesvideos/store','Courses_videoController@store');
+    //ACTUALIZAR EL STATUS DEL VIDEO A INACTIVO
+    Route::post('coursesvideos/updatestatus','Courses_videoController@changeStatus');
     Route::get('coursesvideos/list/{id}', 'Courses_videoController@index');
 
     //ROUTE PARA CREAR LAS PREGUNTAS-TEST DE LOS CURSOS
@@ -65,7 +67,7 @@ Route::group(['middleware' => ['api']], function ($router) {
 
     Route::resource('resource/{table}/resource', 'ResourceController');
     Route::get('media/storage','MediaController@getStoragePath');
-    
+
     Route::group(['middleware' => 'admin'], function ($router) {
 
         Route::resource('mail',        'MailController');
@@ -76,7 +78,7 @@ Route::group(['middleware' => ['api']], function ($router) {
 
         Route::resource('users', 'UsersController')->except( ['create', 'store'] );
 
-        Route::prefix('menu/menu')->group(function () { 
+        Route::prefix('menu/menu')->group(function () {
             Route::get('/',         'MenuEditController@index')->name('menu.menu.index');
             Route::get('/create',   'MenuEditController@create')->name('menu.menu.create');
             Route::post('/store',   'MenuEditController@store')->name('menu.menu.store');
@@ -84,7 +86,7 @@ Route::group(['middleware' => ['api']], function ($router) {
             Route::post('/update',  'MenuEditController@update')->name('menu.menu.update');
             Route::get('/delete',   'MenuEditController@delete')->name('menu.menu.delete');
         });
-        Route::prefix('menu/element')->group(function () { 
+        Route::prefix('menu/element')->group(function () {
             Route::get('/',             'MenuElementController@index')->name('menu.index');
             Route::get('/move-up',      'MenuElementController@moveUp')->name('menu.up');
             Route::get('/move-down',    'MenuElementController@moveDown')->name('menu.down');

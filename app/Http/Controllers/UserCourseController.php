@@ -10,7 +10,7 @@ use App\Models\userCourses;
 class UserCourseController extends Controller
 {
 
-   public function index($id){        
+   public function index($id){
         $courses = DB::table('users_courses')->join('courses', 'courses.id', '=', 'users_courses.curso_id')
         ->join('users', 'users.id', '=', 'users_courses.usuario_id')
         ->select('courses.id','courses.CourseName','courses.image','users.id','users.name as Usuario','users.email','users_courses.Video_actual as Video', 'users_courses.id as Vinculo', 'users_courses.status')
@@ -19,11 +19,11 @@ class UserCourseController extends Controller
         return response()->json( $courses );
     }
 
-    public function changeStatus(Request $request, $id){        
+    public function changeStatus(Request $request, $id){
         $validatedData = $request->validate([
         'status'             => 'required'
-    ]);
-        $vinculo = userCourses::find($id);        
+        ]);
+        $vinculo = userCourses::find($id);
         $vinculo->status      = $request->input('status');
         $vinculo->save();
         return response()->json( ['estado' => 'success'] );
@@ -56,7 +56,7 @@ class UserCourseController extends Controller
             'title' => 'Welcome to MomentumDevPro',
             'date' => date('d/m/Y')
         ];
-          
+
         $pdf = PDF::loadHTML('<h1>Test</h1>');
 
         $headers = [
