@@ -18,6 +18,7 @@ window.toastr = require('toastr')
 
 
 Vue.prototype.$apiAdress = 'http://127.0.0.1:8000'
+
 Vue.config.performance = true
 Vue.use(CoreuiVue)
 Vue.use(VueSweetalert2)
