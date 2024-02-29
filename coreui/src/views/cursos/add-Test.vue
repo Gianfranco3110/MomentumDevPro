@@ -85,7 +85,7 @@
                   size="sm"
                   class="mr-1"
                   v-c-tooltip="'Quitar'"
-                  @click="eliminar(item)"
+                  @click="deleteTestCourse(item)"
                 >
                   <CIcon name="cil-minus" />
                 </CButton>
@@ -249,6 +249,26 @@ export default {
     guardar,
     ListQuestion,
     limpiarDatos,
+    deleteTestCourse(iten){
+      console.log(iten.id);
+      let self = this;
+      axios
+      .post(
+        this.$apiAdress +
+          "/api/coursestest/updatestatus?token=" +
+          localStorage.getItem("api_token"),{id:iten.id}
+        ,
+        
+      )
+      .then(function(response) {
+        console.log(response);
+        self.$toastr.success("Video quitado con extio!");
+        self.ListQuestion(self.test.courses_id);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    }
   },
   directives: UpperCase,
   watch: {
