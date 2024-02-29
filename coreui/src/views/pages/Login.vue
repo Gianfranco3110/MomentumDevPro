@@ -2,10 +2,10 @@
   <div class="img">
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CContainer class="d-flex content-center min-vh-100">
-      <CRow>
+      <CRow class="w-45">
         <CCol>
           <CCardGroup>
-            <CCard class="p-4">
+            <CCard class="p-4 rounded-1">
               <CCardBody>
                 <CForm @submit.prevent="login" method="POST">
                   <h1>Iniciar sesión</h1>
@@ -32,12 +32,11 @@
                     /></template>
                   </CInput>
                   <CRow>
-                    <CCol col="6">
+                    <CCol class="text-start" col="6">
                       <CButton
                         type="submit"
                         @click.prevent="login"
-                        color="primary"
-                        class="px-4"
+                        class="px-5 pt-2 pb-2 btn botonesP text-white ms-0"
                         >Entrar</CButton
                       >
                     </CCol>
@@ -50,7 +49,7 @@
                 </CForm>
               </CCardBody>
             </CCard>
-            <CCard
+            <!--<CCard
               style="background-color:#4B4BAF"
               text-color="white"
               class="text-center py-5"
@@ -68,7 +67,7 @@
               >
                 Registrar!
               </CButton>
-            </CCard>
+            </CCard> -->
           </CCardGroup>
         </CCol>
       </CRow>
@@ -107,6 +106,7 @@ export default {
           localStorage.setItem("roles", response.data.roles);
           localStorage.setItem("email", response.data.email);
           localStorage.setItem("name", response.data.name);
+          localStorage.setItem("id", response.data.id);
           console.log(response.data);
           self.Loading = false;
           self.$router.push({ path: "dashboard" });

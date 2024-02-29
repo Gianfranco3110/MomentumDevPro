@@ -16,6 +16,9 @@
               <a v-if="logueado == false" class="nav-link" @click="goLogin()">              
                   Iniciar Sesión              
               </a>
+              <a v-if="logueado == false" class="nav-link" @click="goRegister()">              
+                  Registrate              
+              </a>
             </div>
           </div>
        </div>
@@ -327,6 +330,8 @@ export default {
             localStorage.getItem("api_token")
         )
         .then(function(response) {
+          console.log("Get course");
+          console.log(response.data);
           self.Cursositems = response.data;
         })
         .catch(function(error) {
@@ -346,6 +351,7 @@ export default {
     )
     .then(function(response) {
       //self.items = response.data;
+      console.log("Response de pedro",response);
       self.logueado = true;
     })
     .catch(function(error) {

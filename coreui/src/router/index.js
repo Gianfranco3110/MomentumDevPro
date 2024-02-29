@@ -419,21 +419,21 @@ function configRoutes() {
           ],
         },
         //Ruta de Products
-        {
-          path: "products",
-          meta: { label: "products" },
-          component: {
-            render(c) {
-              return c("router-view");
-            },
-          },
-          children: [
-            {
-              path: "",
-              component: products,
-            },
-          ],
-        },
+        // {
+        //   path: "products",
+        //   meta: { label: "products" },
+        //   component: {
+        //     render(c) {
+        //       return c("router-view");
+        //     },
+        //   },
+        //   children: [
+        //     {
+        //       path: "",
+        //       component: products,
+        //     },
+        //   ],
+        // },
         //RUTA PARA CREAR USUARIOS DESDE EL DASHBOARD
         {
           path: "registro",

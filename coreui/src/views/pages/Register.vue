@@ -45,7 +45,7 @@
                     ><CIcon name="cil-lock-locked"
                   /></template>
                 </CInput>
-                <CButton type="submit" color="success" block
+                <CButton class="botonesP text-white w-auto text-center px-5 pt-2 pb-2  " type="submit"  block
                   >Crear Cuenta</CButton
                 >
               </CForm>

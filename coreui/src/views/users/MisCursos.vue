@@ -87,12 +87,13 @@ export default {
         .get(
           this.$apiAdress +
             "/api/usercourses/" +
-            self.$route.params.id +
+            localStorage.getItem("id") +
             "?token=" +
             localStorage.getItem("api_token")
         )
         .then(function(response) {
           self.items = response.data;
+          console.log("response.data");
           console.log(response.data);
           self.Loading = false;
         })

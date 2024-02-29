@@ -43,13 +43,14 @@
           </a>
         </strong>
       </li>
-      <li class="c-sidebar-nav-item" v-if="isAdmin">
+      
+      <!-- <li class="c-sidebar-nav-item" v-if="isAdmin">
         <strong>
           <a class="c-sidebar-nav-link" href="#/products">
             <CIcon size="lg" name="cil-card-travel" class="mr-2" /> PRODUCTOS
           </a>
         </strong>
-      </li>
+      </li>-->
 
       <li class="c-sidebar-nav-item" v-if="isAdmin">
         <strong>

@@ -79,6 +79,7 @@ export default {
         localStorage.setItem('roles', '');
         localStorage.setItem('email', '');
         localStorage.setItem("name", '');
+        localStorage.setItem("id", '');
         self.$router.push({ path: '/login' });
       }).catch(function (error) {
         console.log(error); 

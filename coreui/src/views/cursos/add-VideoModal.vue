@@ -116,7 +116,7 @@
                   size="sm"
                   class="mr-1"
                   v-c-tooltip="'Quitar'"
-                  @click="eliminar(item)"
+                  @click="deleteVideoCourse(item)"
                 >
                   <CIcon name="cil-minus" />
                 </CButton>
@@ -190,6 +190,7 @@ const tableTextHelpers = {
 //METHODS
 //GUARDA Y ACTUALIZA
 function guardar() {
+  console.log("guardar");
   let self = this;
   self.Loading = true;
   let formData = new FormData();
@@ -230,6 +231,7 @@ function guardar() {
 
 //LISTAR VIDEOS
 function ListVideo(id) {
+  console.log("ListVideo");
   let self = this;
   self.Loading = true;
   let listado = [];
@@ -310,7 +312,27 @@ export default {
     limpiarDatos,
     CerrarLimpiar,
     ListVideo,
-  },
+    deleteVideoCourse(iten){
+      let self = this;
+      console.log(iten.id);
+      axios
+      .post(
+        this.$apiAdress +
+          "/api/coursesvideos/updatestatus?token=" +
+          localStorage.getItem("api_token"),{id_video:iten.id}
+        ,
+        
+      )
+      .then(function(response) {
+        console.log(response);
+        self.$toastr.success("Video quitado con extio!");
+        self.ListVideo(self.video.courses_id);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+    }
+  },  
   watch: {
     modal: function() {
       if (this.modal) {

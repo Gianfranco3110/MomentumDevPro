@@ -62,3 +62,31 @@ label.required:before {
     background-color: #884A39 !important;
   }
 }
+
+
+.w-45{
+  width: 45% !important;
+}
+.text-start{
+  text-align: start !important;
+}
+.m-auto{
+  margin: 0px auto;
+}
+.form-control:focus{
+  color: #768192;
+  background-color: #fff;
+  border-color: #C3815491 !important;
+  outline: 0;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(50, 31, 219, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(136, 74, 57, 0.18) !important;
+}
+.b-b-ligth{
+  border-bottom: 1px solid #eee !important;
+}
+.text-bold{
+  font-weight: bold;
+}
+.text-w-300{
+  font-weight: 100;
+}
