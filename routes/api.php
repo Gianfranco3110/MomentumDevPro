@@ -61,6 +61,7 @@ Route::group(['middleware' => ['api']], function ($router) {
     //ROUTE PARA CREAR LAS PREGUNTAS-TEST DE LOS CURSOS
     Route::get('coursestest/list/{id}', 'User_questionController@index');
     Route::post('coursestest/store','User_questionController@store');
+    Route::post('coursestest/updatestatus','User_questionController@changeStatus');
 
     //RUTA QUE SE ENCARGA DE IMPRIMIR LOS CERTIFICADOS
     Route::get('usercertificado', 'Pdf_CertificadoController@getPDF');
