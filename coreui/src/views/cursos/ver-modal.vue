@@ -63,6 +63,7 @@ function data() {
     price: "",
     description: "",
     image: "",
+    imgdefaul: "img_default.webp"
   };
 }
 
@@ -81,7 +82,7 @@ export default {
         this.daysofvalidity = this.modal.daysofvalidity;
         this.price = this.modal.price;
         this.description = this.modal.description;
-        this.image = this.modal.image;
+        this.image = this.modal.image == null?this.imgdefaul:this.modal.image;
         this.$emit("cerrarModal");
         console.log(this.modal);
       }

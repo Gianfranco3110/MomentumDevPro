@@ -10,7 +10,7 @@
         <p class="mt-3">{{ userName }}</p>
         <div class="c-avatar ml-2">
           <img
-            src="img/avatars/6.jpg"
+            src="img/avatars/icon_user.webp"
             class="c-avatar-img "
           />
         </div>

@@ -44,6 +44,25 @@
               />
             </CCol>
           </CRow>
+          <CInput
+               invalid-feedback="Campo requerido"
+                addLabelClasses="required"
+                type="number"
+                placeholder="0"
+                label="Nº DE ORDEN"
+                v-model="$v.video.order.$model"
+                :is-valid="hasError($v.video.order)"
+              />
+
+          <CSelect
+            addLabelClasses="required"
+            label="SECCIÓN"
+            :value.sync="video.section_id"
+            invalid-feedback="Campo requerido"
+            :plain="true"
+            :options="sections"
+          >
+          </CSelect>
 
           <CInput
             addLabelClasses="required"
@@ -155,6 +174,8 @@ function CerrarLimpiar() {
 function limpiarDatos() {
   this.video.description = "";
   this.video.url_video = "";
+  this.video.section_id = 1;
+  this.video.order = 1;
 }
 
 const fields = [
@@ -198,6 +219,8 @@ function guardar() {
   formData.append("description", self.video.description);
   formData.append("status_id", self.video.status_id);
   formData.append("courses_id", self.video.courses_id);
+  formData.append("section_id", self.video.section_id);
+  formData.append("order", self.video.order);
 
   console.log(FormData);
   axios
@@ -219,6 +242,7 @@ function guardar() {
       console.log(response);
     })
     .catch(function(error) {
+      self.Loading = false;
       if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
         for (let key in error.response.data.errors) {
           if (error.response.data.errors.hasOwnProperty(key)) {
@@ -264,6 +288,30 @@ function ListVideo(id) {
     });
 }
 
+//FUNCION PARA OBTENER LAS SECTIONES
+function getSections() {    
+    let self = this;
+    self.Loading = true;
+    axios
+      .get(
+        this.$apiAdress +
+          "/api/coursesvideos/listsections?token=" +
+          localStorage.getItem("api_token")
+      )
+      .then(function(response) {
+        console.log("Listas de sections");
+        console.log(response.data);
+        self.sections = response.data;
+        self.$emit("child-refresh", true);
+        self.Loading = false;        
+      })
+      .catch(function(error) {
+        console.log(error);
+        self.Loading = false;
+        //self.$router.push({ path: 'login' });
+      });
+}
+
 function data() {
   return {
     //MODELOS
@@ -272,6 +320,8 @@ function data() {
       url_video: "",
       status_id: 1,
       courses_id: "",
+      section_id: 1,
+      order: 1,
     },
     // VARIABLES
     AddVideo: false,
@@ -282,6 +332,7 @@ function data() {
     price: "",
     tableText: Object.assign({}, tableTextHelpers),
     items: [],
+    sections: [],
   };
 }
 //COMPUTED
@@ -311,6 +362,7 @@ export default {
     guardar,
     limpiarDatos,
     CerrarLimpiar,
+    getSections,
     ListVideo,
     deleteVideoCourse(iten){
       let self = this;
@@ -338,6 +390,7 @@ export default {
       if (this.modal) {
         this.AddVideo = true;
         this.ListVideo(this.modal.id);
+        this.getSections();
         this.video.courses_id = this.modal.id;
         this.tituloModal = this.modal.CourseName;
         this.CourseName = this.modal.CourseName;
@@ -349,5 +402,8 @@ export default {
       }
     },
   },
+  mounted:{
+
+  }
 };
 </script>

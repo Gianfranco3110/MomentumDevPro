@@ -345,6 +345,7 @@ function data() {
     filelist: [],
     imageNueva: null,
     imagenMiniatura: "",
+    imgdefaul: "img_default.webp"
   };
 }
 export default {
@@ -378,7 +379,8 @@ export default {
           this.curso.description = this.modal.description;
           this.curso.daysofvalidity = this.modal.daysofvalidity;
           this.curso.price = this.modal.price;
-          this.curso.image = this.modal.image;
+          this.curso.image = this.modal.image == null?this.imgdefaul:this.modal.image;
+          
           this.curso.status = this.modal.status == "Activo" ? 1 : 2;
 
           console.log(this.modal);

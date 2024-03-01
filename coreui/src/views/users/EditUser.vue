@@ -14,10 +14,10 @@
             >
               ({{dismissCountDown}}) {{ message }}
             </CAlert>
-            <CInput type="text" label="Name" placeholder="Name" v-model="name"></CInput>
-            <CInput type="text" label="Email" placeholder="Email" v-model="email"></CInput>
-            <CButton color="primary" @click="update()">Save</CButton>
-            <CButton color="primary" @click="goBack">Back</CButton>
+            <CInput type="text" label="NOMBRE" placeholder="Name" v-model="name"></CInput>
+            <CInput type="text" label="CORREO" placeholder="Email" v-model="email"></CInput>
+            <CButton class="px-5 pt-2 pb-2 btn botonesP text-white mr-3" @click="update()">Guardar</CButton>
+            <CButton class="px-5 pt-2 pb-2 btn botonesCan text-white " @click="goBack">Cancelar</CButton>
           </CForm>
         </CCardBody>
       </CCard>

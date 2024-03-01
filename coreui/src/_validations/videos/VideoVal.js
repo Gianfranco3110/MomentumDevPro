@@ -6,6 +6,8 @@ export default () => {
         video : {
             description: { required, especiales, maxLength: maxLength(256) },
             url_video: { required, maxLength: maxLength(500) },
+            order: { required },
+            section_id: { required },
         }    
     }
 }
