@@ -11,6 +11,17 @@ class Course extends Model
 
     protected $table = 'courses';
 
+    protected $fillable = [
+        'price',
+        'description',
+        'applies_to_date',
+        'image',
+        'CourseName',
+        'daysofvalidity',
+        'users_id',
+        'status_id',
+    ];
+
 
     public function user()
     {

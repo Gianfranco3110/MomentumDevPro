@@ -15,6 +15,9 @@ class CreateCourseVideosTable extends Migration
     {
         Schema::create('course_videos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('course_section_id');
+            // $table->foreign('course_section_id')->references('id')->on('course_sections');
+            $table->integer('order')->unsigned();
             $table->text('description');
             $table->string('url_video');
             $table->integer('courses_id')->unsigned();

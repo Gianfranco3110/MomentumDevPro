@@ -57,6 +57,8 @@ Route::group(['middleware' => ['api']], function ($router) {
     //ACTUALIZAR EL STATUS DEL VIDEO A INACTIVO
     Route::post('coursesvideos/updatestatus','Courses_videoController@changeStatus');
     Route::get('coursesvideos/list/{id}', 'Courses_videoController@index');
+    // TRAER LAS SECCIONES
+    Route::get('coursesvideos/listsections', 'Courses_videoController@getSections');
 
     //ROUTE PARA CREAR LAS PREGUNTAS-TEST DE LOS CURSOS
     Route::get('coursestest/list/{id}', 'User_questionController@index');
