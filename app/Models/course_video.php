@@ -24,5 +24,9 @@ class course_video extends Model
     {
         return $this->belongsTo('App\Models\course', 'courses_id');
     }
-
+    
+    public function courseSection()
+    {
+        return $this->belongsTo('App\Models\CourseSection','course_section_id');
+    }
 }

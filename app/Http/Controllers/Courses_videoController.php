@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\course_video;
 use App\Models\Status;
-
 class Courses_videoController extends Controller
 {
 
@@ -67,5 +66,28 @@ class Courses_videoController extends Controller
     public function getSections(){
         $sections = DB::table('course_sections')->select('course_sections.name as label', 'course_sections.id as value')->get();
         return response()->json( $sections );
+    }
+
+    //TRAE EL CURSO CON SUS VIDEOS PARA INICIAR
+    public function viewcoursestart($id){
+        //return response()->json($id);
+        $videos = course_video::where('courses_id', $id)
+        ->with(['courseSection' => function ($query) {
+            $query->select('id', 'name');
+        }, 'courses:id,courseName'])
+        ->get();
+
+        $groupedVideos = $videos->groupBy('courseSection.name')->map(function ($videos) {
+            return $videos->sortBy('order')->map(function ($video) {
+                return [
+                    'id_video' => $video->id,
+                    'description_video' => $video->description,
+                    'url_video' => $video->url_video,
+                    'orden' => $video->order
+                ];
+            })->values();
+        });
+    
+        return response()->json($groupedVideos);
     }
 }
