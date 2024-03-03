@@ -50,89 +50,111 @@
     <div>
       <CRow class="w-100">
         <CCol sm="6">
-            <iframe class="w-100"
-          height="415"
-          src="https://www.youtube.com/embed/xo9ZPZRPEB8"
-          title="YouTube video player"
-          frameborder="10"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
-        <br />
-        <br />
-          <Ccol sm="3">
+          <iframe
+            class="w-100"
+            height="415"
+            src="https://www.youtube.com/embed/xo9ZPZRPEB8"
+            title="YouTube video player"
+            frameborder="10"
+            allowfullscreen
+          ></iframe>
+          <br />
+          <br />
+          <CCol sm="3">
             <CButton color="success">
               <CIcon name="cil-check-circle" />&nbsp; Leccion anterior
             </CButton>
-          </Ccol>
-          <Ccol sm="3">
+          </CCol>
+          <CCol sm="3">
             <CButton id="next" color="dark">
-              <CIcon name="cil-chevron-circle-left-alt" />&nbsp; Leccion siguiente
+              <CIcon name="cil-chevron-circle-left-alt" />&nbsp; Leccion
+              siguiente
             </CButton>
-          </Ccol>
+          </CCol>
         </CCol>
 
         <CCol sm="6">
-          <div class="card ">
+          <div class="card">
             <div class="card-header h4 text-center mb-0">
-              Curso de java de lo basico a profesional
+              Curso de java de lo basico a profesional TITULO
             </div>
             <div class="card-body pt-0 pb-0">
-
-              <ol class="list-group list-group-numbered">
-                <li class="b-b-ligth px-0 list-group-item ">
-                  <div   @click="collapse = !collapse"  class="w-100 d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                      <div class="fw-bold text-bold">1- Introducción a java</div>
-                      <p class="text-w-300 ">Aqui podras aprender que es java y como lo utilizaremos</p> 
+              <ol
+                v-for="(videos, sectionName) in Secciones"
+                :key="sectionName"
+                class="list-group list-group-numbered"
+              >
+                <li class="b-b-ligth px-0 list-group-item">
+                  <div
+                    class="w-100 d-flex justify-content-between align-items-start"
+                  >
+                    <div
+                      @click="
+                        collapsedSection =
+                          collapsedSection === sectionName ? null : sectionName
+                      "
+                    >
+                      <div class="fw-bold text-bold">
+                        {{ sectionName }}
+                      </div>
                     </div>
-                    <span class="badge bg-primary rounded-pill text-white">3</span>
+                    <span class="badge bg-primary rounded-pill text-white">
+                      {{ videos.length }}
+                    </span>
                   </div>
-                  <CCollapse :show="collapse">
-                      <CListGroup>
-                        <CListGroupItem href="#">
-                           Capitullo Nº1 de java
-                        </CListGroupItem>
-                        
-                      </CListGroup>
+                  <CCollapse :show="collapsedSection === sectionName">
+                    <CListGroup>
+                      <CListGroupItem
+                        v-for="video in videos"
+                        :key="video.id_video"
+                      >
+                        <p>Descripción: {{ video.description_video }}</p>
+                        <p>Url: {{ video.url_video }}</p>
+                      </CListGroupItem>
+                    </CListGroup>
                   </CCollapse>
                 </li>
-                <!--<li class="b-b-ligth list-group-item d-flex justify-content-between align-items-start">
-                  <div class="ms-2 me-auto">
-                    <div class="fw-bold">Subheading</div>
-                    Content for list item
-                  </div>
-                  <span class="badge bg-primary rounded-pill">14</span>
-                </li>
-                <li class="b-b-ligth list-group-item d-flex justify-content-between align-items-start">
-                  <div class="ms-2 me-auto">
-                    <div class="fw-bold">Subheading</div>
-                    Content for list item
-                  </div>
-                  <span class="badge bg-primary rounded-pill">14</span>
-                </li>-->
               </ol>
             </div>
-            <div class="card-footer text-body-secondary">
-              2 days ago
-            </div>
+            <div class="card-footer text-body-secondary">2 days ago</div>
           </div>
         </CCol>
       </CRow>
     </div>
   </div>
-  
 </template>
 
 <script>
 import axios from "axios";
+
+function obtenerCourse() {
+  let self = this;
+  self.Loading = true;
+  axios
+    .get(
+      this.$apiAdress +
+        "/api/viewcoursestart/" +
+        localStorage.getItem("id") +
+        "?token=" +
+        localStorage.getItem("api_token")
+    )
+    .then(function (response) {
+      console.log("response", response);
+      self.Secciones = response.data;
+      console.log("Secciones", self.Secciones);
+      self.Loading = false;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
 export default {
   name: "Dashboard",
   data() {
     return {
       isAdmin: false,
-      collapse: false,
-      innerCollapse: false
+      collapsedSection: null,
+      Secciones: [],
     };
   },
   methods: {
@@ -149,12 +171,14 @@ export default {
       }
       return $color;
     },
+    obtenerCourse,
   },
 
-  mounted: function() {
+  mounted: function () {
     if (localStorage.getItem("roles") == "user,admin") {
       this.isAdmin = true;
     }
+    this.obtenerCourse();
     /*
     let self = this;
     self.Loading = true;

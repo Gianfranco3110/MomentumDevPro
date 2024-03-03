@@ -11,9 +11,9 @@
             <CCardBody class="p-4">
               <CForm @submit.prevent="register" method="POST">
                 <CInput
-                  placeholder="Username"
+                  placeholder="Usuario"
                   prependHtml="<i class='cui-user'></i>"
-                  autocomplete="username"
+                  autocomplete="Usuario"
                   v-model="name"
                 >
                   <template #prepend-content><CIcon name="cil-user"/></template>

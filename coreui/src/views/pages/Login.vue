@@ -13,8 +13,8 @@
                   <CInput
                     v-model="email"
                     prependHtml="<i class='cui-user'></i>"
-                    placeholder="Username"
-                    autocomplete="username email"
+                    placeholder="Usuario"
+                    autocomplete="Usuario email"
                   >
                     <template #prepend-content
                       ><CIcon name="cil-user"
