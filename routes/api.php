@@ -71,6 +71,9 @@ Route::group(['middleware' => ['api']], function ($router) {
     Route::resource('resource/{table}/resource', 'ResourceController');
     Route::get('media/storage','MediaController@getStoragePath');
 
+    //RUTA PARA ENVIAR TODOS LOS DATOS DE UN CURSO EN ESPECIFICO
+    Route::get('viewcoursestart/{id}', 'Courses_videoController@viewcoursestart');
+
     Route::group(['middleware' => 'admin'], function ($router) {
 
         Route::resource('mail',        'MailController');
