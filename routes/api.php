@@ -66,7 +66,7 @@ Route::group(['middleware' => ['api']], function ($router) {
     Route::post('coursestest/updatestatus','User_questionController@changeStatus');
 
     //RUTA QUE SE ENCARGA DE IMPRIMIR LOS CERTIFICADOS
-    Route::get('usercertificado', 'Pdf_CertificadoController@getPDF');
+    Route::post('usercertificado', 'Pdf_CertificadoController@getPDF');
 
     Route::resource('resource/{table}/resource', 'ResourceController');
     Route::get('media/storage','MediaController@getStoragePath');
