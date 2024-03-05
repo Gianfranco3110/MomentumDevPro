@@ -14,7 +14,8 @@
                   placeholder="Usuario"
                   prependHtml="<i class='cui-user'></i>"
                   autocomplete="Usuario"
-                  v-model="name"
+                  v-model="$v.dataUser.name.$model"
+                :is-valid="hasError($v.dataUser.name)"
                 >
                   <template #prepend-content><CIcon name="cil-user"/></template>
                 </CInput>
@@ -22,14 +23,16 @@
                   placeholder="Email"
                   prepend="@"
                   autocomplete="email"
-                  v-model="email"
+                  v-model="$v.dataUser.email.$model"
+                :is-valid="hasError($v.dataUser.email)"
                 />
                 <CInput
                   placeholder="Password"
                   type="password"
                   prependHtml="<i class='cui-lock-locked'></i>"
                   autocomplete="new-password"
-                  v-model="password"
+                  v-model="$v.dataUser.password.$model"
+                :is-valid="hasError($v.dataUser.password)"
                 >
                   <template #prepend-content
                     ><CIcon name="cil-lock-locked"
@@ -41,13 +44,13 @@
                   prependHtml="<i class='cui-lock-locked'></i>"
                   autocomplete="new-password"
                   class="mb-4"
-                  v-model="password_confirmation"
+                  v-model="dataUser.confirmPassword"
                 >
                   <template #prepend-content
                     ><CIcon name="cil-lock-locked"
                   /></template>
                 </CInput>
-                <CButton type="submit" color="success" block
+                <CButton :disabled="isDisabled" type="submit" color="success" block
                   >CREAR USUARIO</CButton
                 >
               </CForm>
@@ -75,7 +78,12 @@
 </template>
 
 <script>
-function Sweet() {
+import General from "@/_mixins/general";
+import UpperCase from "@/_validations/uppercase-directive";
+import Registerval from "@/_validations/register/RegisterVal";
+import axios from "axios";
+
+function Sweet(title="",text="") {
   this.$swal
     .fire({
       title: "TRABAJAAAA",
@@ -93,17 +101,37 @@ function Sweet() {
     });
 }
 
-import axios from "axios";
+
+
+//COMPUTED
+function isDisabled() {
+  return this.$v.$invalid;
+}
+
+
 export default {
   data() {
     return {
+      dataUser: {
       name: "",
       email: "",
       password: "",
-      password_confirmation: "",
+      confirmPassword: "",
       Loading: false,
+    },
+      /*name: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+      Loading: false,*/
     };
   },
+  mixins: [General],
+  computed: {
+    isDisabled,
+  },
+  directives: UpperCase,
+  validations: Registerval,
   methods: {
     Sweet,
     register() {
@@ -111,24 +139,38 @@ export default {
       self.Loading = true;
       axios
         .post(this.$apiAdress + "/api/register", {
-          name: self.name,
-          email: self.email,
-          password: self.password,
-          password_confirmation: self.password_confirmation,
+          name: self.dataUser.name,
+          email: self.dataUser.email,
+          password: self.dataUser.password,
+          password_confirmation: self.dataUser.confirmPassword,
         })
         .then(function(response) {
-          self.name = "";
-          self.email = "";
-          self.password = "";
-          self.password_confirmation = "";
+          self.dataUser.name = "";
+          self.dataUser.email = "";
+          self.dataUser.password = "";
+          self.dataUser.confirmPassword = "";
           console.log(response);
           self.$toastr.success("¡Usuario registrado con exito!");
-          self.Loading = false;
+          self.dataUser.Loading = false;
         })
         .catch(function(error) {
-          self.$toastr.danger("¡Error al agregar producto!");
-          console.log(error);
-          self.Loading = false;
+          if (error.response.status === 422) {
+            console.log("Error 422 - Unprocessable Entity");
+            console.log(error.response.data); // Aquí se muestra el error en formato JSON
+            if (error.response.data.errors.name) {
+              console.log("error name",error.response.data.errors.name);
+            }
+            if (error.response.data.errors.email) {
+              console.log("error email",error.response.data.errors.email[0]);
+              this.Sweet("Error",error.response.data.errors.email[0])
+            }
+            self.$toastr.danger("¡Error al agregar producto!");
+          } else {
+            console.log("Error");
+            console.log(error);
+            self.$toastr.danger("¡Error al agregar producto!");
+          }
+          self.dataUser.Loading = false;
         });
     },
   },

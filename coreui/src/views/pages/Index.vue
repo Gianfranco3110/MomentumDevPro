@@ -142,7 +142,10 @@
         </CCard>
       </div>
     </div>
-    <div id="seccion-productos">
+    <div>
+      <a target="_blank" href="https://api.whatsapp.com/send?phone=584245064512&text=Hola que tál, me interesa obtener información de los cursos" class="btn p-0 floating-button"><i class="text-white fab fa-whatsapp w-auto"></i></a>
+    </div>
+    <!--<div id="seccion-productos">
       <div class="container">
         <CCard>
           <CCardHeader>
@@ -175,7 +178,8 @@
           </CCardBody>
         </CCard>
       </div>
-    </div>
+    </div>-->
+    
     <footer id="footer" class="text-white">
       <div class="container">
         <div class="row pt-3 pb-3">
