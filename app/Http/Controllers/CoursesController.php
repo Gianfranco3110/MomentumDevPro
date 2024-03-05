@@ -115,7 +115,7 @@ class CoursesController extends Controller
             'users_id' => $user->id,
             'applies_to_date' => date('Y/m/d'),
             'daysofvalidity' => $request->input('daysofvalidity'),
-            'image' =>$request->hasFile('image')?$image_path_name:null,
+            'image' =>$request->hasFile('image')?$image_path_name:"img_default.webp",
         ]);
         if ($query) {
             return response()->json(['status' => 'success']);

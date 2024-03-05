@@ -12,7 +12,12 @@ class Courses_videoController extends Controller
     //LISTA
     public function index($id)
     {
-        $course_videos=course_video::where('courses_id', '=', $id)->where('status_id', '=', 1)->get();
+        $course_videos=course_video::where('courses_id', '=', $id)->where('status_id', '=', 1)->orderBy('order', 'asc')->with(['courseSection' =>  function ($query) {
+            $query->select('id', 'name');
+        }, 'courses:id,courseName'])->get();
+
+
+
         return response()->json( $course_videos );
 
     }
@@ -87,7 +92,7 @@ class Courses_videoController extends Controller
                 ];
             })->values();
         });
-    
+
         return response()->json($groupedVideos);
     }
 }
