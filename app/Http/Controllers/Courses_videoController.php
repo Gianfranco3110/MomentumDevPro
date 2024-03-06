@@ -78,9 +78,15 @@ class Courses_videoController extends Controller
         //return response()->json($id);
         $videos = course_video::where('courses_id', $id)
         ->with(['courseSection' => function ($query) {
-            $query->select('id', 'name');
+            $query->select('id', 'name', 'orden')->orderBy('orden'); 
         }, 'courses:id,courseName'])
-        ->get();
+        ->get()
+        ->sortBy(function ($video) {
+            return $video->courseSection->orden;
+        });
+        
+        //return response ($videos);
+        $courseName = $videos->first()->courses->courseName;
 
         $groupedVideos = $videos->groupBy('courseSection.name')->map(function ($videos) {
             return $videos->sortBy('order')->map(function ($video) {
@@ -88,11 +94,15 @@ class Courses_videoController extends Controller
                     'id_video' => $video->id,
                     'description_video' => $video->description,
                     'url_video' => $video->url_video,
-                    'orden' => $video->order
+                    'orden' => $video->order,
+                    'course_name' => $video->courses->courseName
+
                 ];
             })->values();
         });
 
-        return response()->json($groupedVideos);
-    }
+        return response()->json([
+            'groupedVideos' => $groupedVideos,
+            'courseName' => $courseName
+        ]);    }
 }

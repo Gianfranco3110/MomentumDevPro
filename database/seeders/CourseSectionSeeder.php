@@ -17,15 +17,18 @@ class CourseSectionSeeder extends Seeder
         $data = [
             [
                 'id' => 1,
-                'name' => 'Introduccion'
+                'name' => 'Introduccion',
+                'orden' => 1
             ],
             [
                 'id' => 2,
-                'name' => 'Desarrollo'
+                'name' => 'Desarrollo',
+                'orden' => 2
             ],
             [
                 'id' => 3,
-                'name' => 'Cierre'
+                'name' => 'Cierre',
+                'orden' => 3
             ],
 
         ];

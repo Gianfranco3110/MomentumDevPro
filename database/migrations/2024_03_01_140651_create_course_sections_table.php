@@ -16,6 +16,7 @@ class CreateCourseSectionsTable extends Migration
         Schema::create('course_sections', function (Blueprint $table) {
             $table->id();
             $table->string("name")->nullable();
+            $table->integer("orden")->nullable();
             $table->timestamps();
         });
     }
