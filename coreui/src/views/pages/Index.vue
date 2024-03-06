@@ -1,22 +1,21 @@
 <template>
   <div class="home">
-    <header class="navbar fixed-top navbar-expand-lg navbar-light bg-light px-3">
+    <header class="botonesP navbar fixed-top navbar-expand-lg navbar-light bg-light px-3">
        <div class="container">
-          <a class="navbar-brand" href="#">YareStylo</a>
+          <a class="text-white navbar-brand" href="#">YareStylo</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse my-2" style="float:right" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
-              <a class="nav-link active" href="#">Inicio <span class="sr-only">(current)</span></a>
-              <a class="nav-link" href="#">Contacto</a>
-              <a v-if="logueado" class="nav-link" @click="goDashboard()">            
+              <a class="text-white nav-link active" href="#">Inicio <span class="sr-only">(current)</span></a>
+              <a v-if="logueado" class="nav-link text-white" @click="goDashboard()">            
                 Panel de control            
               </a>
-              <a v-if="logueado == false" class="nav-link" @click="goLogin()">              
+              <a v-if="logueado == false" class="nav-link text-white" @click="goLogin()">              
                   Iniciar Sesión              
               </a>
-              <a v-if="logueado == false" class="nav-link" @click="goRegister()">              
+              <a v-if="logueado == false" class="nav-link text-white" @click="goRegister()">              
                   Registrate              
               </a>
             </div>
@@ -54,60 +53,7 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
-    <div id="seccion-estadisticas">
-      <div class="container">
-        <div class="row">
-          <div class="column1">
-            <div class="card">
-              <div class="row">
-                <h4>
-                  <strong>
-                    Certificate
-                  </strong>
-                  <br />
-                  <span
-                    >Completa cualquiera de nuestros cursos y obtén tu
-                    certificado</span
-                  >
-                </h4>
-              </div>
-            </div>
-          </div>
-          <div class="column2">
-            <div class="card">
-              <div class="row">
-                <h4>
-                  <strong>
-                    Aprendé
-                  </strong>
-                  <br />
-                  <span
-                    >Completa cualquiera de nuestros cursos y obtén tu
-                    certificado</span
-                  >
-                </h4>
-              </div>
-            </div>
-          </div>
-          <div class="column3">
-            <div class="card">
-              <div class="row">
-                <h4>
-                  <strong>
-                    Comparté
-                  </strong>
-                  <br />
-                  <span
-                    >Completa cualquiera de nuestros cursos y obtén tu
-                    certificado</span
-                  >
-                </h4>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    
     <div id="seccion-cursos">
       <div class="container">
         <CCard>
@@ -135,6 +81,7 @@
                       <p class="card-text">${{ item.price }}</p>
                     </div>
                   </div>
+                  lo nueevo
                 </CCol>
               </template>
             </CRow>
@@ -142,7 +89,7 @@
         </CCard>
       </div>
     </div>
-    <div id="seccion-productos">
+    <!-- <div id="seccion-productos">
       <div class="container">
         <CCard>
           <CCardHeader>
@@ -176,7 +123,8 @@
         </CCard>
       </div>
     </div>
-    <footer id="footer" class="text-white">
+    -->
+    <footer id="footer" class="text-white botonesP">
       <div class="container">
         <div class="row pt-3 pb-3">
           <div class="col-md-4">
@@ -251,7 +199,7 @@
           </div>
         </div>
       </div>
-      <div class="row" style="background-color:#aa8caf">
+      <div class="row footer-copyright-seccion">
         <div class="footer-copyright-seccion m-auto mt-3 p-2">
           <div class="container">
             <p>© 2021 YareStylo, Todos los derechos reservados.</p>
@@ -389,7 +337,9 @@ export default {
   text-align: center;
 }
 }
-
+.footer-copyright-seccion{
+  background-color: #C38154;
+}
 
 #seccion-estadisticas .column1,
 #seccion-estadisticas .column2,
@@ -398,13 +348,13 @@ export default {
   flex: 1;
 }
 #seccion-estadisticas .column1 {
-  background-color: #8e6795;
+  background-color: #FFC26F;
 }
 #seccion-estadisticas .column2 {
-  background-color: #b398b7;
+  background-color: #FFC26F;
 }
 #seccion-estadisticas .column3 {
-  background-color: #a17fa6;
+  background-color: #FFC26F;
 }
 
 #seccion-estadisticas .card {

@@ -72,24 +72,6 @@
 </template>
 
 <script>
-function Sweet() {
-  this.$swal
-    .fire({
-      title: "TRABAJAAAA",
-      text: "ERES UN BICHITO PONTE A TRABAJAR MMG",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    })
-    .then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
-      }
-    });
-}
-
 import axios from "axios";
 export default {
   data() {
@@ -101,7 +83,6 @@ export default {
     };
   },
   methods: {
-    Sweet,
     register() {
       var self = this;
       axios
