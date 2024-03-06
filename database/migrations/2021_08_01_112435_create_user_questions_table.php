@@ -17,6 +17,7 @@ class CreateUserQuestionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('question');
             $table->integer('courses_id')->unsigned();
+            $table->integer('course_section_id')->unsigned();
             $table->integer('status_id')->unsigned();
             $table->timestamps();
         });

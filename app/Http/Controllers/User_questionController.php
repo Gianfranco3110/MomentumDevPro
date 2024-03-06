@@ -12,7 +12,10 @@ class User_questionController extends Controller
     //LISTA
     public function index($id)
     {
-        $User_questions=DB::table('User_questions')->select('User_questions.*')->where('courses_id', '=', $id)->where('status_id', '=', 1)->get();
+        // $User_questions=DB::table('User_questions')->select('User_questions.*')->where('courses_id', '=', $id)->where('status_id', '=', 1)->get();
+        $User_questions = User_questions::where('courses_id', '=', $id)->where('status_id', '=', 1)->with(['courseSection' =>  function ($query) {
+            $query->select('id', 'name');
+        }, 'courses:id,courseName'])->get();
         return response()->json( $User_questions );
 
     }
@@ -22,15 +25,28 @@ class User_questionController extends Controller
          $validatedData = $request->validate([
              'question'       => 'required|max:365',
              'courses_id'         => 'required|max:200',
+             'section_id'         => 'required|numeric',
          ]);
-         //$user = auth()->userOrFail();
-         $query=DB::table('User_questions')->insert([
-             'question' => $request->input('question'),
-             'courses_id' => $request->input('courses_id'),
-             'status_id' => intval($request->input('status_id'))
-         ]);
+         $text_r = "";
+         if ($request->id == "") {
+            //$user = auth()->userOrFail();
+            $query=DB::table('User_questions')->insert([
+                'question' => $request->input('question'),
+                'courses_id' => $request->input('courses_id'),
+                'status_id' => intval($request->input('status_id')),
+                'course_section_id' => $request->input('section_id')
+            ]);
+            $text_r = "Agregado correctamente";
+         }else{
+            $query = User_questions::where('id',$request->id)->update([
+                'question'=>$request->input('question'),
+                'course_section_id'=>$request->input('section_id'),
+            ]);
+            $text_r = "Editado correctamente";
+         }
+
          if($query){
-             return response()->json( ['status' => 'success'] );
+             return response()->json( ['status' => 'success',"messague"=>$text_r] );
           }
           return response()->json(['status' => 'Error en la query.']);
      }
