@@ -107,7 +107,7 @@
         <p class=" playfair-display" style="margin-top: 0px; color: #083762;text-align: center; font-size: 21px">Por haber obtenido el Primer Lugar de aprovechamiento con un promedio de 9.8 en la Generación 2020 - 2023 </p>
         {{-- <h4>Este documento certifica que <b>{{$name}}</b> ha completado con exito el curso <b>"NOMBRE DEL CURSO" </b> --}}
     </main>
-
+    <img src="{{$dataViews['url_qr']}}" style="opacity: 0.9; position: absolute; right: 120px; margin-top: 30px" width="105"/>
     <main style=" padding-left: 0px; padding-right: 570px" >
         <p class="cardo-regular" style="margin-top: 79px; color: #083762;text-align: center; font-size: 21px;margin-bottom: 0px">LIC. ELENA PAULA</p>
         <p class="cardo-regular" style="margin-top: -4px; color: #083762;text-align: center; font-size: 21px; margin-bottom: 0px">DIRECTORA ACADÉMICA</p>

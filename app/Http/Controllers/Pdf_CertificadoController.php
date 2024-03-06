@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 Use PDF;
 use Symfony\Contracts\Service\Attribute\Required;
 use Illuminate\Validation\Factory;
+use Illuminate\Support\Facades\File;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Pdf_CertificadoController extends Controller
 {
@@ -48,20 +50,34 @@ class Pdf_CertificadoController extends Controller
             die;
         }
 
+        /**
+         * Crear el directorio de QR para los usuarios
+         */
+        $folderPath = public_path('qr-certificacion/user-'.$request->user_id);
+        if (!File::exists($folderPath)) {
+            File::makeDirectory($folderPath, 0755, true, true);
+        }
+
+         /**
+         * Generar Qr para dicho certificado.
+         * Guardado en la carpeta public
+         */
+        QrCode::generate('1', '../public/qr-certificacion/user-'.$request->user_id.'/qrcodecertificado.svg');
+
+
         $dataViews = [
             'course'=> Course::find($request->course_id),
             'user'=> User::find($request->user_id),
+            'url_qr'=>public_path('qr-certificacion/user-'.$request->user_id.'/qrcodecertificado.svg')
         ];
-        // return response($dataViews);
 
-        // $pdf = PDF::loadView('CERTIFICADO', compact('user'));
         $pdf = PDF::loadView('CERTIFICADO', compact('dataViews'))->setPaper('a4', 'landscape')->setWarnings(false)->save('Certificado.pdf');
         $pdfPath = public_path('Certificado.pdf');
         $pdf->stream($pdfPath);
         // return response()->json($pdf->stream('users.pdf'));
-        // return $pdf->stream('/pepe/Certificado.pdf');
-        $pdfUrl = asset('Certificado.pdf');
-        return response()->json(['certificado_url' => $pdfUrl]);
+        return $pdf->stream('certificado.pdf');
+        // $pdfUrl = asset('Certificado.pdf');
+        // return response()->json(['certificado_url' => $pdfUrl]);
 
 	}
 }
