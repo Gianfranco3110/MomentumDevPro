@@ -28,8 +28,7 @@
             <CDataTable
               :items="items"
               :fields="fieldsCourse"
-              column-filter
-              :items-per-page="5"
+              :items-per-page="10"
               :noItemsView="tableText.noItemsViewText"
               :table-filter="tableText.tableFilterText"
               :items-per-page-select="tableText.itemsPerPageText"

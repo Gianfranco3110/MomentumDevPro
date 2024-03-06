@@ -54,6 +54,15 @@
                     <CBadge :color="getBadge(item.status)">{{
                       item.status
                     }}</CBadge>
+                  
+                  </CCol>
+                 
+                </CRow>
+              </CCol>
+              <CCol md="6">
+                <CRow>
+                  <CCol md="12 " class="text-end">
+                    <button  @click="viewsCourseUser(item.course_id)"  class="btn btn-success"> Ver </button>
                   </CCol>
                 </CRow>
               </CCol>
@@ -102,6 +111,10 @@ export default {
           //self.$router.push({ path: "/login" });
         });
     },
+    viewsCourseUser(id_course){
+      console.log("ver curso");
+      console.log("id curso."+id_course);
+    }
   },
   mounted: function() {
     this.getCourses();
