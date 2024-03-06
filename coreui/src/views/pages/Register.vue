@@ -2,7 +2,7 @@
   <div class="d-flex align-items-center min-vh-100">
     <CContainer fluid>
       <CRow class="justify-content-center">
-        <CCol md="6">
+        <CCol md="4">
           <CCard class="mx-4 mb-0">
             <CCardBody class="p-4">
               <CForm @submit.prevent="register" method="POST">
@@ -12,7 +12,8 @@
                   placeholder="Username"
                   prependHtml="<i class='cui-user'></i>"
                   autocomplete="username"
-                  v-model="name"
+                  v-model="$v.dataUser.name.$model"
+                :is-valid="hasError($v.dataUser.name)"
                 >
                   <template #prepend-content><CIcon name="cil-user"/></template>
                 </CInput>
@@ -20,14 +21,16 @@
                   placeholder="Email"
                   prepend="@"
                   autocomplete="email"
-                  v-model="email"
+                  v-model="$v.dataUser.email.$model"
+                :is-valid="hasError($v.dataUser.email)"
                 />
                 <CInput
                   placeholder="Contraseña"
                   type="password"
                   prependHtml="<i class='cui-lock-locked'></i>"
                   autocomplete="new-password"
-                  v-model="password"
+                  v-model="$v.dataUser.password.$model"
+                :is-valid="hasError($v.dataUser.password)"
                 >
                   <template #prepend-content
                     ><CIcon name="cil-lock-locked"
@@ -39,13 +42,13 @@
                   prependHtml="<i class='cui-lock-locked'></i>"
                   autocomplete="new-password"
                   class="mb-4"
-                  v-model="password_confirmation"
+                  v-model="dataUser.confirmPassword"
                 >
                   <template #prepend-content
                     ><CIcon name="cil-lock-locked"
                   /></template>
                 </CInput>
-                <CButton class="botonesP text-white w-auto text-center px-5 pt-2 pb-2  " type="submit"  block
+                <CButton  :disabled="isDisabled" class="botonesP text-white w-auto text-center px-5 pt-2 pb-2  " type="submit"  block
                   >Crear Cuenta</CButton
                 >
               </CForm>
@@ -76,21 +79,30 @@ import axios from "axios";
 export default {
   data() {
     return {
+      dataUser: {
       name: "",
       email: "",
       password: "",
-      password_confirmation: "",
+      confirmPassword: "",
+    },
+
     };
   },
+  mixins: [General],
+  computed: {
+    isDisabled,
+  },
+  directives: UpperCase,
+  validations: Registerval,
   methods: {
     register() {
       var self = this;
       axios
         .post(this.$apiAdress + "/api/register", {
-          name: self.name,
-          email: self.email,
-          password: self.password,
-          password_confirmation: self.password_confirmation,
+          name: self.dataUser.name,
+          email: self.dataUser.email,
+          password: self.dataUser.password,
+          password_confirmation: self.dataUser.password_confirmation,
         })
         .then(function(response) {
           self.name = "";

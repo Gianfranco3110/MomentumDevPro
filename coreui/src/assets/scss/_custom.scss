@@ -10,6 +10,13 @@
   font-size: 1.2rem;
 }
 */
+/*----------------custom btn flotante whatsapp----------------*/
+$button-background-color: #2eb85c; // Color de fondo del botón
+$button-color: #fff; // Color del texto del botón
+$button-size: 50px; // Tamaño del botón
+$button-margin: 20px; // Margen del botón desde el borde de la pantalla
+$tamanoo-icon: 30px; // Margen del botón desde el borde de la pantalla
+/*----------------End custom btn flotante whatsapp----------------*/
 
 // Asterisco de required
 label.required:before {
@@ -95,3 +102,33 @@ label.required:before {
   font-weight: 100;
 }
 
+
+.floating-button {
+  position: fixed;
+  bottom: $button-margin;
+  right: $button-margin;
+  background-color: $button-background-color;
+  color: $button-color;
+  width: $button-size;
+  height: $button-size;
+  border-radius: 50%;
+  text-align: center;
+  line-height: $button-size;
+  cursor: pointer;
+  z-index: 999; // Asegura que el botón esté por encima de otros elementos
+  transition: background-color 0.3s;
+  font-size: $tamanoo-icon;
+
+  &:hover {
+    background-color: darken($button-background-color, 10%); // Cambia el color al pasar el mouse sobre el botón
+    color: white;
+  }
+}
+
+
+
+@media (min-width: 1200px) {
+  .modal-xxl {
+    max-width: 1590px;
+  }
+}

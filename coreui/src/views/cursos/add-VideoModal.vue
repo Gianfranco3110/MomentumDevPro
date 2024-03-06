@@ -5,11 +5,11 @@
       :title="tituloModal"
       :closeOnBackdrop="false"
       color="dark"
-      size="xl"
+      size="xxl"
       :show.sync="AddVideo"
     >
       <CRow>
-        <CCol sm="6">
+        <CCol sm="4">
           <CRow>
             <CCol sm="4">
               <CInput
@@ -104,7 +104,7 @@
           </div>
         </CCol>
 
-        <CCol sm="6">
+        <CCol sm="8">
           <CDataTable
             :items="items"
             :fields="fields"
@@ -179,11 +179,13 @@ function limpiarDatos() {
 }
 
 const fields = [
-  {
-    key: "Nro",
-    label: "#",
-    _style: "width:1%;",
-  },
+  // {
+  //   key: "Nro",
+  //   label: "#",
+  //   _style: "width:1%;",
+  // },
+  { key: "order", label: "ORDEN" },
+  { key: "section", label: "SECCIÓN" },
   { key: "url_video", label: "URL DEL VIDEO" },
   { key: "description", label: "DESCRIPCION" },
   {
@@ -273,10 +275,12 @@ function ListVideo(id) {
       let Nro = 1;
       self.items = listado.map((listado) =>
         Object.assign({}, self.items, {
-          Nro: Nro++,
+          // Nro: Nro++,
           id: listado.id,
           url_video: listado.url_video,
           description: listado.description,
+          section: listado.course_section.name,
+          order: listado.order,
         })
       );
       console.log(response);
