@@ -225,9 +225,6 @@ export default {
   name: "Index",
   mixins: [General],
   freeSet,
-  components: {
-    General,
-  },
   data() {
     return {
       email: "",

@@ -30,7 +30,7 @@
                   prependHtml="<i class='cui-lock-locked'></i>"
                   autocomplete="new-password"
                   v-model="$v.dataUser.password.$model"
-                :is-valid="hasError($v.dataUser.password)"
+                  :is-valid="hasError($v.dataUser.password)"
                 >
                   <template #prepend-content
                     ><CIcon name="cil-lock-locked"
@@ -42,7 +42,9 @@
                   prependHtml="<i class='cui-lock-locked'></i>"
                   autocomplete="new-password"
                   class="mb-4"
-                  v-model="dataUser.confirmPassword"
+                  v-model="$v.dataUser.confirmPassword.$model"
+                  :is-valid="hasError($v.dataUser.confirmPassword)"
+                   invalid-feedback="Debe coincidir con el password"
                 >
                   <template #prepend-content
                     ><CIcon name="cil-lock-locked"
@@ -76,6 +78,17 @@
 
 <script>
 import axios from "axios";
+import General from "@/_mixins/general";
+import UpperCase from "@/_validations/uppercase-directive";
+import Registerval from "@/_validations/register/RegisterVal";
+
+
+//COMPUTED
+function isDisabled() {
+  return this.$v.$invalid;
+}
+
+
 export default {
   data() {
     return {
@@ -93,7 +106,9 @@ export default {
     isDisabled,
   },
   directives: UpperCase,
-  validations: Registerval,
+  validations() {
+    return Registerval()
+  },
   methods: {
     register() {
       var self = this;

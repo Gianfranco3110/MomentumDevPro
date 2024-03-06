@@ -76,7 +76,7 @@
         <CCol sm="6">
           <div class="card">
             <div class="card-header h4 text-center mb-0">
-              Curso de java de lo basico a profesional TITULO
+                {{ titleVideo }}
             </div>
             <div class="card-body pt-0 pb-0">
               <ol
@@ -94,7 +94,7 @@
                           collapsedSection === sectionName ? null : sectionName
                       "
                     >
-                      <div class="fw-bold text-bold">
+                      <div class="fw-bold text-bold customs-section">
                         {{ sectionName }}
                       </div>
                     </div>
@@ -140,7 +140,8 @@ function obtenerCourse() {
     )
     .then(function (response) {
       console.log("response", response);
-      self.Secciones = response.data;
+      self.Secciones = response.data.groupedVideos;
+      self.titleVideo = response.data.courseName
       console.log("Secciones", self.Secciones);
       self.Loading = false;
     })
@@ -155,6 +156,8 @@ export default {
       isAdmin: false,
       collapsedSection: null,
       Secciones: [],
+      titleVideo: "",
+     
     };
   },
   methods: {
@@ -203,5 +206,8 @@ export default {
 <style scoped>
 #next {
   float: right;
+}
+.customs-section{
+  cursor: pointer;
 }
 </style>
