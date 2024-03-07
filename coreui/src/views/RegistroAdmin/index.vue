@@ -3,7 +3,7 @@
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CContainer>
       <CRow class="justify-content-center">
-        <CCol md="6">
+        <CCol md="7">
           <CCard>
             <CCardHeader class="text-center botonesP text-white">
               <b>REGISTRO DE USUARIOS</b>
@@ -26,6 +26,37 @@
                   v-model="$v.dataUser.email.$model"
                 :is-valid="hasError($v.dataUser.email)"
                 />
+                <CTextarea
+                  addLabelClasses="required"
+                  rows="5"
+                  placeholder="Ingrese la dirección exacta"
+                  v-model="$v.dataUser.adress.$model"
+                  :is-valid="hasError($v.dataUser.adress)"
+                />
+                <CRow >
+                  <CCol md="2">
+                    <!--<CSelect
+                      :options="[{'V':'V'},{'E':'E'},]"
+                      v-model="$v.dataUser.type_document.$model"
+                      :is-valid="hasError($v.dataUser.type_document)"
+                    />-->
+                    <select v-model="dataUser.type_document" class="form-select form-control" aria-label="Default select example">
+                      <option value="V" selected>V</option>
+                      <option value="E">E</option>
+                    </select>
+                  </CCol>
+                  <CCol md="10">
+                    <CInput
+                      placeholder="Numero de documento"
+                      prependHtml="<i class='cui-user'></i>"
+                      autocomplete="Numero de documento"
+                      v-model="$v.dataUser.number_document.$model"
+                    :is-valid="hasError($v.dataUser.number_document)"
+                    >
+                      <template #prepend-content><CIcon name="cil-user"/></template>
+                    </CInput>
+                  </CCol>
+                </CRow>
                 <CInput
                   placeholder="Password"
                   type="password"
@@ -118,7 +149,11 @@ export default {
       password: "",
       confirmPassword: "",
       Loading: false,
+      adress: "",
+      type_document: "V",
+      number_document: ""
     },
+
       /*name: "",
       email: "",
       password: "",
@@ -136,22 +171,29 @@ export default {
     Sweet,
     register() {
       var self = this;
-      self.Loading = true;
+      self.dataUser.Loading = true;
       axios
         .post(this.$apiAdress + "/api/register", {
           name: self.dataUser.name,
           email: self.dataUser.email,
           password: self.dataUser.password,
           password_confirmation: self.dataUser.confirmPassword,
+          type_document: self.dataUser.type_document,
+          number_document: self.dataUser.number_document,
+          adress_all: self.dataUser.adress,
         })
         .then(function(response) {
+          self.dataUser.Loading = false;
+
           self.dataUser.name = "";
           self.dataUser.email = "";
           self.dataUser.password = "";
           self.dataUser.confirmPassword = "";
+          self.dataUser.type_document = "V";
+          self.dataUser.number_document = "";
+          self.dataUser.adress = "";
           console.log(response);
           self.$toastr.success("¡Usuario registrado con exito!");
-          self.dataUser.Loading = false;
         })
         .catch(function(error) {
           if (error.response.status === 422) {
@@ -173,6 +215,8 @@ export default {
           self.dataUser.Loading = false;
         });
     },
+   
   },
+  
 };
 </script>
