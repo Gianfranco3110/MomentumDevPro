@@ -30,7 +30,7 @@ class UsersController extends Controller
     {
         $you = auth()->user()->id;
         $users = DB::table('users')
-        ->select('users.id', 'users.name', 'users.email', 'users.menuroles as roles', 'users.status', 'users.email_verified_at as registered')
+        ->select('users.id', 'users.name','users.number_document','users.type_document','users.adress_all', 'users.email', 'users.menuroles as roles', 'users.status', 'users.email_verified_at as registered')
         ->whereNull('deleted_at')
         ->get();
         return response()->json( compact('users', 'you') );
@@ -70,7 +70,7 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = DB::table('users')
-        ->select('users.id', 'users.name', 'users.email', 'users.menuroles as roles', 'users.status')
+        ->select('users.id', 'users.name', 'users.email', 'users.menuroles as roles', 'users.status','users.number_document','users.type_document','users.adress_all')
         ->where('users.id', '=', $id)
         ->first();
         return response()->json( $user );
@@ -87,17 +87,17 @@ class UsersController extends Controller
     public function updatePassword(Request $request){
         $validate = Validator::make($request->all(), [
             'password'  => 'required|min:4|confirmed',
-        ]); 
+        ]);
         if ($validate->fails()){
             return response()->json([
                 'status' => 'error',
                 'errors' => $validate->errors()
             ], 422);
-        } 
+        }
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
-        
-        $user->password = bcrypt($request->password); 
+
+        $user->password = bcrypt($request->password);
         $user->save();
 
         return response()->json(['status' => 'success'], 200);
@@ -108,14 +108,20 @@ class UsersController extends Controller
     {
         $validatedData = $request->validate([
             'name'       => 'required|min:1|max:256',
-            'email'      => 'required|email|max:256'
+            'email'      => 'required|email|max:256',
+            'adress'      => 'required',
+            'type_document'      => 'required|max:1',
+            'number_document'      => 'required|numeric',
         ]);
         $user = User::find($id);
         $user->name       = $request->input('name');
         $user->email      = $request->input('email');
+        $user->adress_all      = $request->input('adress');
+        $user->type_document      = $request->input('type_document');
+        $user->number_document      = $request->input('number_document');
         $user->save();
         //$request->session()->flash('message', 'Successfully updated user');
-        return response()->json( ['status' => 'success'] );
+        return response()->json( ['status' => 'success',"messague"=>"Usuario editado correctamente."] );
     }
 
     /**

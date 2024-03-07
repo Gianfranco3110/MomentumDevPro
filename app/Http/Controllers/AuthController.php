@@ -29,6 +29,9 @@ class AuthController extends Controller
             'name'      => 'required',
             'email'     => 'required|email|unique:users',
             'password'  => 'required|min:4|confirmed',
+            'type_document'  => 'required',
+            'number_document'  => 'required|numeric',
+            'adress_all'  => 'required',
         ]);
         if ($validate->fails()){
             return response()->json([
@@ -42,6 +45,9 @@ class AuthController extends Controller
         $user->password = bcrypt($request->password);
         $user->status = 'Active';
         $user->email_verified_at = now();
+        $user->adress_all = $request->adress_all;
+        $user->type_document = $request->type_document;
+        $user->number_document = $request->number_document;
         $user->save();
         return response()->json(['status' => 'success'], 200);
     }
