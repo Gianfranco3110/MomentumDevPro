@@ -1,4 +1,20 @@
-// Here you can add other styles
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+// Color proyect paleta
+$color-active: #884A39;
+$color-active-afable: #884A39;
+$color-afable: #FFC26F;
+$color-afable-extreme: #F9E0BB;
+
+.font-playfair {
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+}
+h1,h2,h3,h4,h5,p,span,a{
+  font-family: "Playfair Display", serif !important; 
+}
+
+
 
 /*
 .card-header > .c-icon:first-child {
@@ -136,4 +152,8 @@ label.required:before {
 
 .text-end{
   text-align: end !important;
+}
+.text-color-header{
+  // color: $color-active !important;
+
 }
