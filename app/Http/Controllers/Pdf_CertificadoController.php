@@ -12,6 +12,7 @@ use Symfony\Contracts\Service\Attribute\Required;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\File;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Carbon\Carbon;
 
 class Pdf_CertificadoController extends Controller
 {
@@ -62,16 +63,19 @@ class Pdf_CertificadoController extends Controller
          * Generar Qr para dicho certificado.
          * Guardado en la carpeta public
          */
-        QrCode::generate('1', '../public/qr-certificacion/user-'.$request->user_id.'/qrcodecertificado.svg');
+        QrCode::generate('codigo', '../public/qr-certificacion/user-'.$request->user_id.'/qrcodecertificado.svg');
 
+        $da = Carbon::createFromDate(2024, 1, 23);
+        $fecha = $da->translatedFormat('l j \d\e F, Y');
 
         $dataViews = [
             'course'=> Course::find($request->course_id),
             'user'=> User::find($request->user_id),
-            'url_qr'=>public_path('qr-certificacion/user-'.$request->user_id.'/qrcodecertificado.svg')
+            'url_qr'=>public_path('qr-certificacion/user-'.$request->user_id.'/qrcodecertificado.svg'),
+            'fecha'=> $fecha
         ];
 
-        $pdf = PDF::loadView('CERTIFICADO', compact('dataViews'))->setPaper('a4', 'landscape')->setWarnings(false)->save('Certificado.pdf');
+        $pdf = PDF::loadView('CERTIFICADO', compact('dataViews'))->setPaper('A4', 'portrait')->setWarnings(false)->save('Certificado.pdf');
         $pdfPath = public_path('Certificado.pdf');
         $pdf->stream($pdfPath);
         // return response()->json($pdf->stream('users.pdf'));
