@@ -2,7 +2,7 @@
   <div class="img">
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CContainer class="d-flex content-center min-vh-100">
-      <CRow class="w-45">
+      <CRow class="col-md-6">
         <CCol>
           <CCardGroup>
             <CCard class="p-4 rounded-1">

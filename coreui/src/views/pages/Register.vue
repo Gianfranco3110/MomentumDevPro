@@ -24,13 +24,7 @@
                   v-model="$v.dataUser.email.$model"
                 :is-valid="hasError($v.dataUser.email)"
                 />
-                <CTextarea
-                  addLabelClasses="required"
-                  rows="5"
-                  placeholder="Ingrese la dirección exacta"
-                  v-model="$v.dataUser.adress.$model"
-                  :is-valid="hasError($v.dataUser.adress)"
-                />
+                
                 <CRow >
                   <CCol md="2">
                     <!--<CSelect
@@ -81,9 +75,20 @@
                     ><CIcon name="cil-lock-locked"
                   /></template>
                 </CInput>
-                <CButton  :disabled="isDisabled" class="botonesP text-white w-auto text-center px-5 pt-2 pb-2  " type="submit"  block
-                  >Crear Cuenta</CButton
-                >
+                <CTextarea
+                  addLabelClasses="required"
+                  rows="5"
+                  placeholder="Ingrese la dirección exacta"
+                  v-model="$v.dataUser.adress.$model"
+                  :is-valid="hasError($v.dataUser.adress)"
+                />
+                <div class="d-flex justify-content-between mt-3">
+                  <CButton  :disabled="isDisabled" class="botonesP text-white w-auto text-center px-5 pt-2 pb-2  " type="submit"  block
+                    >Crear Cuenta</CButton>
+  
+                    <CButton @click="linkHome()"  class="btn btn-dark text-white w-auto text-center px-5 pt-2 pb-2  mt-0" type="submit"  block
+                    >Cancelar</CButton>
+                </div>
               </CForm>
             </CCardBody>
            <!-- <CCardFooter class="p-4">
@@ -170,6 +175,9 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+    linkHome() {
+      this.$router.push({ path: "/" });
     },
   },
 };

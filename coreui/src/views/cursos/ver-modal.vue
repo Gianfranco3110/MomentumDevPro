@@ -42,7 +42,7 @@
       </CCard>
       <template #footer>
         <CButton color="dark" @click="VerModal = false">
-          <CIcon name="cil-chevron-circle-left-alt" />&nbsp; SALIR
+          <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
         </CButton>
       </template>
     </CModal>

@@ -160,9 +160,7 @@
         </CCol>
       </CRow>
       <template #footer>
-        <CButton color="success" @click="CerrarLimpiar">
-          <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
-        </CButton>
+ 
         <CButton color="dark" @click="CerrarLimpiar">
           <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
         </CButton>

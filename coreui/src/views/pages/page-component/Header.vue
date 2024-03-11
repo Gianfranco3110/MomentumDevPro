@@ -1,18 +1,19 @@
 <template>
-    <header class=" navbar fixed-top navbar-expand-lg navbar-light bg-light px-4 header-main-modif">
-        <div class="w-100 d-flex justify-content-between  align-items-center">
-            <div>
+    <header class=" navbar fixed-top navbar-expand-lg navbar-light bg-light px-3 header-main-modif">
+        <div class="w-100 row ml-0 mr-0 d-flex justify-content-between  align-items-center">
+            <div class="col-md-2 col-sm-6 col-6">
                 <!--<a class="text-white navbar-brand" href="#">YareStylo</a>-->
                 <a class="text-white navbar-brand w-auto" href="#">
                     <div>
-                        <img class="w-50" src="https://teboribrows.com/wp-content/uploads/2022/09/Logo-Tebori-Brows.webp" alt="Logo Tebori Brows" >
+                        <img class="w-100" src="https://teboribrows.com/wp-content/uploads/2022/09/Logo-Tebori-Brows.webp" alt="Logo Tebori Brows" >
                     </div>
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                
             </div>
-            <div class="collapse navbar-collapse my-2"  id="navbarNavAltMarkup">
+            <button class="navbar-toggler offset-sm-4 " type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="col-md-8 col-sm-12 col-12 collapse navbar-collapse my-2"  id="navbarNavAltMarkup">
                 <div class="navbar-nav m-auto">
                 <a class="text-color-header nav-link active link-nav-mod" href="#">Inicio <span class="sr-only">(current)</span></a>
                 <a v-if="logueado" class="nav-link text-color-header" @click="goDashboard()">            
@@ -26,8 +27,9 @@
                 </a>
                 </div>
             </div>
-            <div>
-                <a href="tel:+34622341648" class="action_button top-bar-right-button ">Llamanos!</a>
+           
+            <div class="col-md-2 col-sm-12 col-12 my-2">
+                <a href="tel:+34622341648" class="action_button top-bar-right-button d-flex justify-content-center">Llamanos!</a>
             </div>
         </div>
     </header>

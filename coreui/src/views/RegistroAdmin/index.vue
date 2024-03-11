@@ -26,13 +26,7 @@
                   v-model="$v.dataUser.email.$model"
                 :is-valid="hasError($v.dataUser.email)"
                 />
-                <CTextarea
-                  addLabelClasses="required"
-                  rows="5"
-                  placeholder="Ingrese la dirección exacta"
-                  v-model="$v.dataUser.adress.$model"
-                  :is-valid="hasError($v.dataUser.adress)"
-                />
+              
                 <CRow >
                   <CCol md="2">
                     <!--<CSelect
@@ -81,7 +75,14 @@
                     ><CIcon name="cil-lock-locked"
                   /></template>
                 </CInput>
-                <CButton :disabled="isDisabled" type="submit" color="success" block
+                <CTextarea
+                  addLabelClasses="required"
+                  rows="5"
+                  placeholder="Ingrese la dirección exacta"
+                  v-model="$v.dataUser.adress.$model"
+                  :is-valid="hasError($v.dataUser.adress)"
+                />
+                <CButton :disabled="isDisabled" type="submit" class="btn botonesCan text-white" block
                   >CREAR USUARIO</CButton
                 >
               </CForm>
