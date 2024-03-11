@@ -9,6 +9,7 @@
       :show.sync="AddVideo"
     >
       <CRow>
+        <input type="hidden"  v-model="id" >
         <CCol sm="4">
           <CRow>
             <CCol sm="4">
@@ -89,6 +90,20 @@
             <template>
               <td class="center-cell">
                 <CButton
+                  v-show="!video.id == '' "
+                  shape="square"
+                  color="danger"
+                  size="sm"
+                  v-c-tooltip="'Cancelar Edición'"
+                  class="align-items-right m-3"
+                  @click="limpiarDatos"
+                  
+                >
+                  <CIcon name="cil-close" />
+                </CButton>
+              </td>
+              <td class="center-cell">
+                <CButton
                   shape="square"
                   color="success"
                   size="sm"
@@ -108,8 +123,7 @@
           <CDataTable
             :items="items"
             :fields="fields"
-            column-filter
-            :items-per-page="3"
+            :items-per-page="10"
             :noItemsView="tableText.noItemsViewText"
             :table-filter="tableText.tableFilterText"
             :items-per-page-select="tableText.itemsPerPageText"
@@ -125,7 +139,8 @@
                   class="mr-1"
                   square
                   size="sm"
-                  v-c-tooltip="'Ver'"
+                  v-c-tooltip="'Editar'"
+                  @click="editVideoCourse(item)"
                 >
                   <CIcon name="cil-search" />
                 </CButton>
@@ -175,7 +190,8 @@ function limpiarDatos() {
   this.video.description = "";
   this.video.url_video = "";
   this.video.section_id = 1;
-  this.video.order = 1;
+  this.video.order = "";
+  this.video.id = "";
 }
 
 const fields = [
@@ -217,6 +233,7 @@ function guardar() {
   let self = this;
   self.Loading = true;
   let formData = new FormData();
+  formData.append("id", self.video.id);
   formData.append("url_video", self.video.url_video);
   formData.append("description", self.video.description);
   formData.append("status_id", self.video.status_id);
@@ -238,10 +255,10 @@ function guardar() {
       }
     )
     .then(function(response) {
-      self.$toastr.success("Video agregado con extio!");
+      self.$toastr.success(response.data.messague);
       self.limpiarDatos();
       self.ListVideo(self.video.courses_id);
-      console.log(response);
+      console.log(response.data);
     })
     .catch(function(error) {
       self.Loading = false;
@@ -281,6 +298,7 @@ function ListVideo(id) {
           description: listado.description,
           section: listado.course_section.name,
           order: listado.order,
+          id_section: listado.course_section.id,
         })
       );
       console.log(response);
@@ -320,12 +338,13 @@ function data() {
   return {
     //MODELOS
     video: {
+      id:"",
       description: "",
       url_video: "",
       status_id: 1,
       courses_id: "",
       section_id: 1,
-      order: 1,
+      order: "",
     },
     // VARIABLES
     AddVideo: false,
@@ -387,6 +406,18 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
+    },
+    editVideoCourse(iten){
+      let self = this;
+      console.log("Editar"+iten.section);
+      console.log(iten);
+      this.video.id = iten.id;
+      this.video.description = iten.description;
+      this.video.url_video = iten.url_video;
+      this.video.section_id = iten.id_section;
+      this.video.order = iten.order;
+      
+      
     }
   },  
   watch: {

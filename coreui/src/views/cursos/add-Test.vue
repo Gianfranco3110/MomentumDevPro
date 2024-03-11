@@ -9,7 +9,7 @@
       :show.sync="AddTest"
     >
       <CRow>
-        <CCol sm="6">
+        <CCol sm="5">
           <!--
           <CCol sm="12">
             <div class="form-group form-row">
@@ -27,6 +27,7 @@
             </div>
           </CCol> -->
           <CCol sm="12">
+            <input type="hidden" v-model="test.id">
             <CTextarea
               addLabelClasses="required"
               rows="5"
@@ -35,6 +36,16 @@
               placeholder="Ingrese sus preguntas aqui.."
               v-model="test.question"
             />
+
+            <CSelect
+            addLabelClasses="required"
+            label="SECCIÓN"
+            :value.sync="test.section_id"
+            invalid-feedback="Campo requerido"
+            :plain="true"
+            :options="sections"
+          >
+          </CSelect>
           </CCol>
         </CCol>
         <!-- BOTON DE AGREGAR + -->
@@ -51,6 +62,18 @@
               >
                 <CIcon name="cil-plus" />
               </CButton>
+              <CButton
+                  v-show="!test.id == '' "
+                  shape="square"
+                  color="danger"
+                  size="sm"
+                  v-c-tooltip="'Cancelar Edición'"
+                  class="align-items-right m-3"
+                  @click="limpiarDatos"
+                  
+                >
+                  <CIcon name="cil-close" />
+                </CButton>
             </td>
           </template>
         </div>
@@ -58,8 +81,7 @@
           <CDataTable
             :items="items"
             :fields="fields"
-            column-filter
-            :items-per-page="3"
+            :items-per-page="10"
             :noItemsView="tableText.noItemsViewText"
             :table-filter="tableText.tableFilterText"
             :items-per-page-select="tableText.itemsPerPageText"
@@ -75,7 +97,8 @@
                   class="mr-1"
                   square
                   size="sm"
-                  v-c-tooltip="'Ver'"
+                  v-c-tooltip="'Editar'"
+                  @click="editTestCourse(item)"
                 >
                   <CIcon name="cil-search" />
                 </CButton>
@@ -117,7 +140,8 @@ const fields = [
     label: "#",
     _style: "width:1%;",
   },
-  { key: "question", label: "Pregunta" },
+  { key: "question", label: "PREGUNTA" },
+  { key: "seccion", label: "SECCIÓN" },
   {
     key: "DocsRoute",
     label: "",
@@ -143,6 +167,32 @@ const tableTextHelpers = {
 //LIMPIA LOS CAMPOS
 function limpiarDatos() {
   this.test.question = "";
+  this.test.id = "";
+  this.test.section_id = 1;
+  
+}
+//FUNCION PARA OBTENER LAS SECTIONES
+function getSections() {    
+    let self = this;
+    self.Loading = true;
+    axios
+      .get(
+        this.$apiAdress +
+          "/api/coursesvideos/listsections?token=" +
+          localStorage.getItem("api_token")
+      )
+      .then(function(response) {
+        console.log("Listas de sections");
+        console.log(response.data);
+        self.sections = response.data;
+        self.$emit("child-refresh", true);
+        self.Loading = false;        
+      })
+      .catch(function(error) {
+        console.log(error);
+        self.Loading = false;
+        //self.$router.push({ path: 'login' });
+      });
 }
 //GUARDA Y ACTUALIZA
 function guardar() {
@@ -152,6 +202,8 @@ function guardar() {
   formData.append("question", self.test.question);
   formData.append("status_id", self.test.status_id);
   formData.append("courses_id", self.test.courses_id);
+  formData.append("section_id", self.test.section_id);
+  formData.append("id", self.test.id);
 
   console.log(FormData);
   axios
@@ -205,6 +257,8 @@ function ListQuestion(id) {
           Nro: Nro++,
           id: listado.id,
           question: listado.question,
+          seccion: listado.course_section.name,
+          seccion_id: listado.course_section.id,
         })
       );
       console.log(response);
@@ -221,14 +275,17 @@ function data() {
     //MODELOS
     //MODELOS
     test: {
+      id: "",
       question: "",
       status_id: 1,
       courses_id: "",
+      section_id: "",
     },
     // VARIABLES
     AddTest: false,
     Loading: false,
     courses: [],
+    sections: [],
     tableText: Object.assign({}, tableTextHelpers),
   };
 }
@@ -249,6 +306,7 @@ export default {
     guardar,
     ListQuestion,
     limpiarDatos,
+    getSections,
     deleteTestCourse(iten){
       console.log(iten.id);
       let self = this;
@@ -268,6 +326,14 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
+    },
+    editTestCourse(iten){
+      let self = this;
+      console.log("Editar"+iten.seccion);
+      this.test.id = iten.id;
+      this.test.question = iten.question;
+      this.test.section_id = iten.seccion_id;
+      
     }
   },
   directives: UpperCase,
@@ -276,6 +342,7 @@ export default {
       if (this.modal) {
         this.AddTest = true;
         this.ListQuestion(this.modal.id);
+        this.getSections();
         this.test.courses_id = this.modal.id;
         console.log(this.modal);
         console.log(this.test.courses_id);
