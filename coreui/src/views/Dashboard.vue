@@ -53,7 +53,7 @@
           <iframe
             class="w-100"
             height="415"
-            src="https://www.youtube.com/embed/xo9ZPZRPEB8"
+            :src="ur_video_curso"
             title="YouTube video player"
             frameborder="10"
             allowfullscreen
@@ -108,7 +108,7 @@
                         v-for="video in videos"
                         :key="video.id_video"
                       >
-                        <p>Descripción: {{ video.description_video }}</p>
+                        <p @click="send_url_video(video.url_video)">Descripción: {{ video.description_video }}</p>
                         <p>Url: {{ video.url_video }}</p>
                       </CListGroupItem>
                     </CListGroup>
@@ -126,6 +126,10 @@
 
 <script>
 import axios from "axios";
+
+function send_url_video(val){
+  console.log('val',val);
+}
 
 function obtenerCourse() {
   let self = this;
@@ -157,6 +161,7 @@ export default {
       collapsedSection: null,
       Secciones: [],
       titleVideo: "",
+      ur_video_curso:"https://www.youtube.com/embed/xo9ZPZRPEB8"
      
     };
   },
@@ -175,6 +180,7 @@ export default {
       return $color;
     },
     obtenerCourse,
+    send_url_video
   },
 
   mounted: function () {
