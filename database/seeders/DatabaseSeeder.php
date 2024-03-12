@@ -31,7 +31,8 @@ class DatabaseSeeder extends Seeder
             ExampleSeeder::class,
             BREADSeeder::class,
             EmailSeeder::class,
-            CourseSectionSeeder::class
+            CourseSectionSeeder::class,
+            CourseSeeder::class
         ]);
     }
 }
