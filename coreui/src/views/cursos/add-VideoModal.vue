@@ -142,7 +142,7 @@
                   v-c-tooltip="'Editar'"
                   @click="editVideoCourse(item)"
                 >
-                  <CIcon name="cil-search" />
+                  <CIcon name="cil-pencil" />
                 </CButton>
                 <CButton
                   color="danger"
