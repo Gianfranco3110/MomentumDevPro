@@ -31,25 +31,25 @@
 		<!--Section Course off the website-->
 		<div id="seccion-cursos">
 			<div class="container">
-				<CCard>
-					<CCardHeader>
+				<CCard class="bg-transparent border-0">
+					<CCardHeader class="bg-transparent">
 						<strong>
 							CURSOS MAS POPULARES
 						</strong>
 					</CCardHeader>
-					<CCardBody>
+					<CCardBody class="px-0">
 						<CRow>
 							<template>
-								<CCol md="6" lg="4" v-for="(item, index) in Cursositems" :key="index">
-									<div class="card" style="width: 18rem;">
+								<CCol md="6" lg="4" v-for="(item, index) in Cursositems" :key="index" class="d-flex justify-content-center">
+									<div class="card cursor-pointer border-0 course_box" style="width: 19rem;">
 										<img :src="$apiAdress +'/storage/courses/'+ item.image" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img"/>
 
-										<div class="card-body">
-											<h5 class="card-title">{{ item.CourseName }}</h5>
-											<p class="card-text">${{ item.price }}</p>
+										<div class="card-body text-center pb-5">
+											<h5 class="card-title fw-bold">{{ item.CourseName }}</h5>
+											<p class="card-text text-muted">{{ item.description }}</p>
+											<small class="card-text"><b>${{ item.price }}</b></small>
 										</div>
 									</div>
-									lo nueevo
 								</CCol>
 							</template>
 						</CRow>
