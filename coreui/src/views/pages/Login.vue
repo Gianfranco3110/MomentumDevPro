@@ -1,5 +1,56 @@
 <template>
-  <div class="img">
+  <section class="vh-100" style="background-color: #C38154;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-12">
+          <div class="card" style="border-radius: 1rem;">
+            <div class="row g-0">
+              <div class="col-md-6 col-lg-5 d-none d-md-block">
+                <img src="../../../public/login1.jpg"
+                  alt="login form" class="img-fluid h-100 img-adapte" style="border-radius: 1rem 0 0 1rem;" />
+              </div>
+              <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                <div class="card-body p-4 p-lg-5 text-black">
+  
+                  <form @submit.prevent="login" method="POST">
+  
+                    <div class="d-flex align-items-center mb-3 pb-1">
+                      <i class="fas fa-cubes fa-2x me-3 cursor-pointer" style="color: #ff6219;"></i>
+                      <span class="h1 fw-bold mb-0">Logo</span>
+                    </div>
+  
+                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Iniciar sesión en su cuenta</h5>
+  
+                    <div class="form-outline mb-3">
+                      <label class="form-label" >Correo</label>
+                      <input type="email" placeholder="Ingrese el correo electrónico"  v-model="email" class="form-control form-control-lg" />
+                    </div>
+  
+                    <div class="form-outline mb-4">
+                      <label class="form-label">Contraseña</label>
+                      <input type="password" placeholder="Ingrese su contraseña" v-model="password" class="form-control form-control-lg" />
+                    </div>
+  
+                    <div class="pt-1 mb-4">
+                      <button  type="submit" @click.prevent="login" class="btn botonesP btn-lg btn-block text-white">Iniciar</button>
+                    </div>
+  
+                    <!--<a class="small text-muted" href="#!">Has olvidado tu contraseña?</a>-->
+                    <p class="mb-5 pb-lg-2" style="color: #393f81;">No tienes una cuenta? <a href="#"
+                        style="color: #393f81;" @click="goRegister()">Registrar aquí</a></p>
+             
+                  </form>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--<div class="img">
+    <div class="overlay"></div>
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CContainer class="d-flex content-center min-vh-100">
       <CRow class="col-md-6">
@@ -49,30 +100,12 @@
                 </CForm>
               </CCardBody>
             </CCard>
-            <!--<CCard
-              style="background-color:#4B4BAF"
-              text-color="white"
-              class="text-center py-5"
-              body-wrapper
-            >
-              <h2>Regístrate</h2>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
-              <CButton
-                color="primary"
-                class="active mt-3"
-                @click="goRegister()"
-              >
-                Registrar!
-              </CButton>
-            </CCard> -->
+    
           </CCardGroup>
         </CCol>
       </CRow>
     </CContainer>
-  </div>
+  </div>-->
 </template>
 
 <script>
@@ -122,6 +155,21 @@ export default {
 </script>
 <style scoped>
 .img {
-  background: url("../../../public/Login.jpg");
+  background: url("../../../public/login2.jpg");
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Ajusta el valor 0.5 para la opacidad deseada */
 }
 </style>

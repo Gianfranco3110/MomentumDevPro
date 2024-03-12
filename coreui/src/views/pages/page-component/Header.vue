@@ -16,7 +16,7 @@
             <div class="col-md-8 col-sm-12 col-12 collapse navbar-collapse my-2"  id="navbarNavAltMarkup">
                 <div class="navbar-nav m-auto">
                 <a class="text-color-header nav-link active link-nav-mod" href="#">Inicio <span class="sr-only">(current)</span></a>
-                <a v-if="logueado" class="nav-link text-color-header" @click="goDashboard()">            
+                <a v-if="logueado" class="nav-link text-color-header link-nav-mod" @click="goDashboard()">            
                     Panel de control            
                 </a>
                 <a v-if="logueado == false" class="nav-link text-color-header link-nav-mod" @click="goLogin()">              
