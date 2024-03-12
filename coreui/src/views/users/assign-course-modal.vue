@@ -28,7 +28,7 @@
       </CCard>
 
       <template #footer>
-        <CButton color="success" @click="AssignCourse">
+        <CButton class="btn botonesCan text-white" @click="AssignCourse">
           <CIcon name="cil-check-circle" />&nbsp; ASIGNAR
         </CButton>
         <CButton color="dark" @click="AddModal = false">

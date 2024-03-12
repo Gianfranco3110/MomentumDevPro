@@ -12,6 +12,7 @@ $color-afable-extreme: #F9E0BB;
 }
 h1,h2,h3,h4,h5,p,span,a{
   font-family: "Playfair Display", serif !important; 
+  letter-spacing: 1px;
 }
 
 
@@ -54,6 +55,18 @@ label.required:before {
 
 .click-file {
   cursor: pointer;
+}
+.cursor-pointer{
+  cursor: pointer;
+}
+.course_box{
+  transition: all .3s;
+}
+
+.course_box:hover {
+  box-shadow: 5px 10px 20px hsla(0,0%,53.3%,.46);
+  cursor: pointer;
+  transform: scale(1.02);
 }
 
 #cropp-img-img {

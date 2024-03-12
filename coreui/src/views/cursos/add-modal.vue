@@ -105,7 +105,7 @@
       </CRow>
 
       <template #footer>
-        <CButton color="success" :disabled="isDisabled" @click="evaluaStatus">
+        <CButton class="btn botonesCan text-white" :disabled="isDisabled" @click="evaluaStatus">
           <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
         </CButton>
         <CButton color="dark" @click="CerrarLimpiar">

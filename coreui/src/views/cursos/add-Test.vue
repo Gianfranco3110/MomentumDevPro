@@ -118,9 +118,7 @@
         </CCol>
       </CRow>
       <template #footer>
-        <CButton color="success">
-          <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
-        </CButton>
+       
         <CButton color="dark" @click="AddTest = false">
           <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
         </CButton>

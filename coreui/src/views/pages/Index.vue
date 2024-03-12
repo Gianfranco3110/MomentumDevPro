@@ -1,61 +1,12 @@
 <template>
 	<div
 		class="home">
-		<!--<header class="botonesP navbar fixed-top navbar-expand-lg navbar-light bg-light px-3">
-				       <div class="container">
-				          <a class="text-white navbar-brand" href="#">YareStylo</a>
-				          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-				            <span class="navbar-toggler-icon"></span>
-				          </button>
-				          <div class="collapse navbar-collapse my-2" style="float:right" id="navbarNavAltMarkup">
-				            <div class="navbar-nav ml-auto">
-				              <a class="text-white nav-link active" href="#">Inicio <span class="sr-only">(current)</span></a>
-				              <a v-if="logueado" class="nav-link text-white" @click="goDashboard()">            
-				                Panel de control            
-				              </a>
-				              <a v-if="logueado == false" class="nav-link text-white" @click="goLogin()">              
-				                  Iniciar Sesión              
-				              </a>
-				              <a v-if="logueado == false" class="nav-link text-white" @click="goRegister()">              
-				                  Registrate              
-				              </a>
-				            </div>
-				          </div>
-				       </div>
-				    </header>-->
-		<Headers/>
-		<!--<div id="carousel-home" class="carousel slide" data-ride="carousel">
-				      <div class="carousel-inner">
-				        <div class="carousel-item active">
-				          <img src="img/slider1.jpg" class="d-block w-100" alt="..." />
-				        </div>
-				        <div class="carousel-item">
-				          <img src="img/slider2.jpg" class="d-block w-100" alt="..." />
-				        </div>
-				        <div class="carousel-item">
-				          <img src="img/slider3.jpg" class="d-block w-100" alt="..." />
-				        </div>
-				      </div>
-				      <a
-				        class="carousel-control-prev"
-				        href="#carousel-home"
-				        role="button"
-				        data-slide="prev"
-				      >
-				        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				        <span class="sr-only">Previous</span>
-				      </a>
-				      <a
-				        class="carousel-control-next"
-				        href="#carousel-home"
-				        role="button"
-				        data-slide="next"
-				      >
-				        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-				        <span class="sr-only">Next</span>
-				      </a>
-				    </div>-->
 
+		<!--Header off the website-->
+		<Headers/>
+		<!--End Header off the website-->
+
+		<!--section video off the website-->
 		<section class="section mcb-section mcb-section-video-maim has-video" style="">
 			<div class="section_video">
 				<video poster="" autoplay="true" loop="true" muted="muted" playsinline="true"><source type="video/mp4" src="https://teboribrows.com/wp-content/uploads/2021/09/shutterstock_1055920118.mov"></video>
@@ -75,28 +26,30 @@
 				</div>
 			</div>
 		</section>
+		<!--End section video off the website-->
 
+		<!--Section Course off the website-->
 		<div id="seccion-cursos">
 			<div class="container">
-				<CCard>
-					<CCardHeader>
+				<CCard class="bg-transparent border-0">
+					<CCardHeader class="bg-transparent">
 						<strong>
 							CURSOS MAS POPULARES
 						</strong>
 					</CCardHeader>
-					<CCardBody>
+					<CCardBody class="px-0">
 						<CRow>
 							<template>
-								<CCol md="6" lg="4" v-for="(item, index) in Cursositems" :key="index">
-									<div class="card" style="width: 18rem;">
+								<CCol md="6" lg="4" v-for="(item, index) in Cursositems" :key="index" class="d-flex justify-content-center">
+									<div class="card cursor-pointer border-0 course_box" style="width: 19rem;">
 										<img :src="$apiAdress +'/storage/courses/'+ item.image" class="bd-placeholder-img card-img-top" width="100%" height="180" aria-label="Placeholder: Image cap" role="img"/>
 
-										<div class="card-body">
-											<h5 class="card-title">{{ item.CourseName }}</h5>
-											<p class="card-text">${{ item.price }}</p>
+										<div class="card-body text-center pb-5">
+											<h5 class="card-title fw-bold">{{ item.CourseName }}</h5>
+											<p class="card-text text-muted">{{ item.description }}</p>
+											<small class="card-text"><b>${{ item.price }}</b></small>
 										</div>
 									</div>
-									lo nueevo
 								</CCol>
 							</template>
 						</CRow>
@@ -104,54 +57,28 @@
 				</CCard>
 			</div>
 		</div>
+		<!--End Section Course off the website-->
+
+		<!--Btn whatsapp float off the website-->
 		<div>
 			<a target="_blank" href="https://api.whatsapp.com/send?phone=584245064512&text=Hola que tál, me interesa obtener información de los cursos" class="btn p-0 floating-button">
 				<i class="text-white fab fa-whatsapp w-auto"></i>
 			</a>
 		</div>
-		<!--<div id="seccion-productos">
-				      <div class="container">
-				        <CCard>
-				          <CCardHeader>
-				            <strong>
-				              TODOS LOS PRODUCTOS
-				            </strong>
-				          </CCardHeader>
-				          <CCardBody>
-				            <CRow>
-				              <template>
-				                <CCol md="6" lg="4" v-for="(item, index) in Productitems" :key="index">
-				                  <div class="card" style="width: 18rem;">
-				                    <img
-				                      :src="$apiAdress + '/storage/products/'+ item.image"
-				                      class="bd-placeholder-img card-img-top"
-				                      width="100%"
-				                      height="180"
-				                      aria-label="Placeholder: Image cap"
-				                      role="img"
-				                    />
-				
-				                    <div class="card-body">
-				                      <h5 class="card-title">{{ item.title }}</h5>
-				                      <p class="card-text">${{ item.price }}</p>
-				                    </div>
-				                  </div>
-				                </CCol>
-				              </template>
-				            </CRow>
-				          </CCardBody>
-				        </CCard>
-				      </div>
-				    </div>-->
+		<!--End Btn whatsapp float off the website-->
 
+		<!--Footer off the website-->
 		<footer id="footer" class="text-white">
 			<div class="container container-footer">
 				<div class="row pt-5 pb-5">
           <div class="col-md-3">
 						<div class="footer-seccion">
               <div class="footer-msj-div">
-                Expertos en <br>
-                Belleza Natural
+				<ul class="p-0 mb-0">
+					<li>Expertos en</li>
+					<li>Belleza Natural</li>
+				</ul>
+               
                 <div class="social-links-footer">
                   <ul class="pl-0">
                   <li><a href="https://www.instagram.com/teboribrows/" target="_blank"><img decoding="async" src="../../../public/img/instagram.webp" alt="instagram"></a></li>
@@ -164,45 +91,46 @@
 						</div>
 					</div>
 					<div class="col-md-3">
+					
 						<div class="footer-seccion">
-							<ul class="list-group">
-								<li class="list-group-item footer-title">
-									<h3 class="mb-4">Link</h3>
-								</li>
-								<li class="list-group-item link-hover-footer pt-0">
-									INICIO
-								</li>
-								<li class="list-group-item link-hover-footer pt-0">
-									INICIAR SESIÓN
-								</li>
-								<li class="list-group-item link-hover-footer pt-0">
-									REGISTRATE
-								</li>
-							</ul>
+							<div class="div-footer-h">
+								<h4>Link</h4>
+								<ul class="pl-0">
+									<li class="list-group-item link-hover-footer pt-0">
+										<a href="#" class="text-white">INICIO</a>
+									</li>
+									<li class="list-group-item link-hover-footer pt-0">
+										<a href="#" class="text-white">INICIAR SESIÓN</a>
+									</li>
+									<li class="list-group-item link-hover-footer pt-0">
+										<a href="#" class="text-white">REGISTRATE</a>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="footer-seccion">
 							<div class="div-footer-h">
-                <h4>Horarios</h4>
-                <ul class="pl-0">
-                  <li>LUN - VIE:  10AM - 20PM</li>
-                  <li>SÁBADOS:  11AM - 15PM</li>
-                  <li>DÓMINGOS:  CERRADO</li>
-                </ul>
-              </div>
+								<h4>Horarios</h4>
+								<ul class="pl-0">
+								<li>LUN - VIE:  10AM - 20PM</li>
+								<li>SÁBADOS:  11AM - 15PM</li>
+								<li>DÓMINGOS:  CERRADO</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="footer-seccion">
-              <div class="div-footer-h">
-                <h4>Información</h4>
-                <ul class="info-iconos pl-0">
-                <li><a href="https://g.page/TeboriBrows?share" class="text-white" target="_blank">Calle del General Díaz Porlier, 57, 28006 Madrid</a></li>
-                <li><a href="tel:+34622341648" target="_blank" class="text-white">622 341 648</a></li>
-                <li><a href="mailto:clientes@teboribrows.com" class="text-white" target="_blank">clientes@teboribrows.com</a></li>
-                </ul>
-              </div>
+							<div class="div-footer-h">
+								<h4>Información</h4>
+								<ul class="info-iconos pl-0">
+								<li><a href="https://g.page/TeboriBrows?share" class="text-white" target="_blank">Calle del General Díaz Porlier, 57, 28006 Madrid</a></li>
+								<li><a href="tel:+34622341648" target="_blank" class="text-white">(0412) 000 00 00</a></li>
+								<li><a href="mailto:clientes@teboribrows.com" class="text-white" target="_blank">clientes@teboribrows.com</a></li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -215,13 +143,8 @@
 				</div>
 			</div>
 		</footer>
-
-
-		
+		<!--End Footer off the website-->
 	</div>
-	<!--  
-		  
-		  -->
 </template>
 
 <script>
@@ -363,6 +286,7 @@
 	}
 	.section.has-video .section_wrapper {
 		position: relative;
+		height: 70vh;
 	}
 	.one.mcb-wrap {
 		width: 100%;
@@ -391,7 +315,7 @@
 	}
 	.h2-xxl {
 		font-size: 80px;
-		line-height: 90px;
+		/* line-height: 90px; */
 		font-family: "Playfair display";
 		color: white;
 	}

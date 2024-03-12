@@ -34,7 +34,7 @@
                       ><CIcon name="cil-lock-locked"
                     /></template>
                   </CInput>
-                  <CButton color="success" block @click="changePassword()"
+                  <CButton class="btn botonesCan text-white" block @click="changePassword()"
                     >CAMBIAR CONTRASEÑA</CButton
                   >
                 </CForm>

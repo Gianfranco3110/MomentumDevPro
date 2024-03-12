@@ -54,7 +54,7 @@
     </CDropdownItem> 
     -->
     <CDropdownItem @click="logout()">
-      <CIcon name="cil-lock-locked" /> Logout
+      <CIcon name="cil-lock-locked" /> Cerrar Sessión
     </CDropdownItem>
   </CDropdown>
 </template>
