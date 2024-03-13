@@ -97,9 +97,9 @@ class Courses_videoController extends Controller
     public function viewcoursestart($id_curso,$id_user)
     {
         
-        //return response()->json($id_user);
+        //return response()->json($id_curso);
         $videos = course_video::where('courses_id', $id_curso)
-            ->where('users_id', $id_user)
+            //->where('users_id', $id_user)
             ->with(['courseSection' => function ($query) {
                 $query->select('id', 'name', 'orden')->orderBy('orden');
             }, 'courses:id,courseName'])
