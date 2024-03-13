@@ -64,7 +64,6 @@
               </CCol>
               <CCol md="6">
                 <CRow>
-                  <CCol md="3"> </CCol>
                   <CCol md="3">
                     <CButton
                       v-c-tooltip="'Cambiar Status'"
@@ -90,6 +89,14 @@
                       ><CIcon name="cil-X" />
                     </CButton>
                   </CCol>
+                  <CCol md="3">
+                    <CButton
+                      v-c-tooltip="'Ver curso'"
+                      color="danger"
+                      @click="obtenerCourse(item.id)"
+                      ><CIcon name="cil-note" />
+                    </CButton>
+                  </CCol>
                 </CRow>
               </CCol>
             </CRow>
@@ -104,6 +111,34 @@ import axios from "axios";
 import General from "@/_mixins/general";
 import AgreModal from "./edit-userCourses-modal";
 
+function obtenerCourse(id_curso) {
+  console.log("id", id_curso);
+  let self = this;
+  self.Loading = true;
+  /* const data =  {
+    id_curso: id_curso,
+    id_user: localStorage.getItem("id")
+  }; */	
+  axios
+    .get(
+      this.$apiAdress +
+        "/api/viewcoursestart/" +
+        id_curso  +"/"+ localStorage.getItem("id") +
+        "?token=" +
+        localStorage.getItem("api_token")
+    )
+    .then(function (response) {
+      console.log("response", response);
+      self.Secciones = response.data.groupedVideos;
+      self.titleVideo = response.data.courseName;
+      console.log("Secciones", self.Secciones);
+      self.Loading = false;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
 function GetPdf() {
   let self = this;
   self.Loading = true;
@@ -116,12 +151,12 @@ function GetPdf() {
         "?token=" +
         localStorage.getItem("api_token")
     )
-    .then(function(response) {
+    .then(function (response) {
       listado = response.data;
       self.Loading = false;
       self.getCourses();
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.log(error);
       console.log(listado);
       self.getCourses();
@@ -142,10 +177,12 @@ export default {
       items: [],
       AddModal: false,
       refrescarComponente: false,
+      titleVideo: "",
+      Secciones: [],
     };
   },
   watch: {
-    refrescarComponente: function() {
+    refrescarComponente: function () {
       if (this.refrescarComponente) {
         this.getCourses();
         this.refrescarComponente = false;
@@ -153,6 +190,7 @@ export default {
     },
   },
   methods: {
+    obtenerCourse,
     GetPdf,
     getBadge(status) {
       return status === "Pagado"
@@ -179,11 +217,11 @@ export default {
             _method: "DELETE",
           }
         )
-        .then(function(response) {
+        .then(function (response) {
           self.getCourses();
           self.Loading = false;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
           self.Loading = false;
           //self.$router.push({ path: '/login' });
@@ -201,18 +239,18 @@ export default {
             "?token=" +
             localStorage.getItem("api_token")
         )
-        .then(function(response) {
+        .then(function (response) {
           self.items = response.data;
           console.log(response.data);
           self.Loading = false;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
           //self.$router.push({ path: "/login" });
         });
     },
   },
-  mounted: function() {
+  mounted: function () {
     this.getCourses();
   },
 };
