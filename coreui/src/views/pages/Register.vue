@@ -1,5 +1,117 @@
 <template>
-  <div class="d-flex align-items-center min-vh-100">
+  <section class="vh-100" style="background-color: #C38154;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-12">
+          <div class="card" style="border-radius: 1rem;">
+            <div class="row g-0">
+              <div class="col-md-6 col-lg-5 d-none d-md-block">
+                <img src="../../../public/register.jpg"
+                  alt="login form" class="img-fluid h-100 img-adapte" style="border-radius: 1rem 0 0 1rem;" />
+              </div>
+              <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                
+                <div class="card-body p-4 p-lg-5 text-black">
+                  <h4 class="fw-normal mb-3" style="letter-spacing: 1px;">Crea tu cuenta</h4>
+                  <form  @submit.prevent="register" method="POST">
+                    <div class="form-outline mb13">
+                      <label class="form-label" >Nombres</label>
+                      <CInput
+                          placeholder="Ingrese su nombre"
+                          autocomplete="username" size="lg"
+                          v-model="$v.dataUser.name.$model"
+                        :is-valid="hasError($v.dataUser.name)"
+                        >
+                      </CInput>
+                    </div>
+
+                    <div class="form-outline mb-1">
+                      <label class="form-label" >Correo</label>
+                      <CInput
+                          placeholder="Ingrese el correo"
+                          size="lg"
+                          v-model="$v.dataUser.email.$model"
+                        :is-valid="hasError($v.dataUser.email)"
+                        />
+                    </div>
+
+                    <div class="form-outline mb-1">
+                      <label class="form-label" >Documento de identidad</label>
+                      <CRow >
+                        <CCol md="3">
+                          <select v-model="dataUser.type_document" class="form-select form-control form-control-lg" aria-label="Default select example">
+                            <option value="V" selected>V</option>
+                            <option value="E">E</option>
+                          </select>
+                        </CCol>
+                        <CCol md="9">
+                          <CInput
+                            placeholder="Numero de documento"
+                            size="lg"
+                            v-model="$v.dataUser.number_document.$model"
+                          :is-valid="hasError($v.dataUser.number_document)"
+                          >
+                          </CInput>
+                        </CCol>
+                      </CRow>
+                    </div>
+  
+                    <div class="form-outline mb-1">
+                      <label class="form-label">Contraseña</label>
+                        <CInput
+                        placeholder="Ingrese la contraseña"
+                        size="lg"
+                        type="password"
+                        v-model="$v.dataUser.password.$model"
+                        :is-valid="hasError($v.dataUser.password)"
+                      >
+                      </CInput>
+                    </div>
+
+                    <div class="form-outline mb-1">
+                      <label class="form-label">Confirmacón de Contraseña</label>
+                        <CInput
+                        placeholder="Confirmar contraseña"
+                        type="password"
+                        size="lg"
+                        class="mb-4"
+                        v-model="$v.dataUser.confirmPassword.$model"
+                        :is-valid="hasError($v.dataUser.confirmPassword)"
+                        invalid-feedback="Debe coincidir con la contraseña"
+                      >
+                      </CInput>
+                    </div>
+
+                    <div class="form-outline mb-2">
+                      <label class="form-label">Dirección</label>
+                        <CTextarea
+                          size="lg"
+                          addLabelClasses="required"
+                          rows="3"
+                          placeholder="Ingrese la dirección exacta"
+                          v-model="$v.dataUser.adress.$model"
+                          :is-valid="hasError($v.dataUser.adress)"
+                        />
+                    </div>
+
+                    <div class="pt-1 mb-4">
+                      <button  type="submit" :disabled="isDisabled" class="btn botonesP btn-lg btn-block text-white">Iniciar</button>
+                    </div>
+  
+                    <!--<a class="small text-muted" href="#!">Has olvidado tu contraseña?</a>-->
+                    <p class=" pb-lg-2" style="color: #393f81;">Ya tienes cuenta? <a href="#"
+                        style="color: #393f81;" @click="goLogin()">Ingresa aquí</a></p>
+             
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<!--<div class="d-flex align-items-center min-vh-100">
     <CContainer fluid>
       <CRow class="justify-content-center">
         <CCol md="4">
@@ -27,11 +139,7 @@
                 
                 <CRow >
                   <CCol md="2">
-                    <!--<CSelect
-                      :options="[{'V':'V'},{'E':'E'},]"
-                      v-model="$v.dataUser.type_document.$model"
-                      :is-valid="hasError($v.dataUser.type_document)"
-                    />-->
+             
                     <select v-model="dataUser.type_document" class="form-select form-control" aria-label="Default select example">
                       <option value="V" selected>V</option>
                       <option value="E">E</option>
@@ -91,25 +199,12 @@
                 </div>
               </CForm>
             </CCardBody>
-           <!-- <CCardFooter class="p-4">
-              <CRow>
-                <CCol col="6">
-                  <CButton @click="Sweet" block color="facebook">
-                    Facebook
-                  </CButton>
-                </CCol>
-                <CCol col="6">
-                  <CButton block color="twitter">
-                    Twitter
-                  </CButton>
-                </CCol>
-              </CRow>
-            </CCardFooter>-->
+        
           </CCard>
         </CCol>
       </CRow>
     </CContainer>
-  </div>
+  </div>-->
 </template>
 
 <script>
@@ -178,6 +273,9 @@ export default {
     },
     linkHome() {
       this.$router.push({ path: "/" });
+    },
+    goLogin() {
+      this.$router.push({ path: "/login" });
     },
   },
 };

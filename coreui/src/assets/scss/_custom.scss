@@ -62,6 +62,9 @@ label.required:before {
 .course_box{
   transition: all .3s;
 }
+.img-adapte{
+  object-fit: cover;
+}
 
 .course_box:hover {
   box-shadow: 5px 10px 20px hsla(0,0%,53.3%,.46);
