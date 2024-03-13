@@ -9,7 +9,7 @@
       :show.sync="AddVideo"
     >
       <CRow>
-        <input type="hidden"  v-model="id" >
+        <input type="hidden" v-model="id" />
         <CCol sm="4">
           <CRow>
             <CCol sm="4">
@@ -46,14 +46,14 @@
             </CCol>
           </CRow>
           <CInput
-               invalid-feedback="Campo requerido"
-                addLabelClasses="required"
-                type="number"
-                placeholder="0"
-                label="Nº DE ORDEN"
-                v-model="$v.video.order.$model"
-                :is-valid="hasError($v.video.order)"
-              />
+            invalid-feedback="Campo requerido"
+            addLabelClasses="required"
+            type="number"
+            placeholder="0"
+            label="Nº DE ORDEN"
+            v-model="$v.video.order.$model"
+            :is-valid="hasError($v.video.order)"
+          />
 
           <CSelect
             addLabelClasses="required"
@@ -90,14 +90,13 @@
             <template>
               <td class="center-cell">
                 <CButton
-                  v-show="!video.id == '' "
+                  v-show="!video.id == ''"
                   shape="square"
                   color="danger"
                   size="sm"
                   v-c-tooltip="'Cancelar Edición'"
                   class="align-items-right m-3"
                   @click="limpiarDatos"
-                  
                 >
                   <CIcon name="cil-close" />
                 </CButton>
@@ -132,7 +131,7 @@
             sorter
             pagination
           >
-            <template #DocsRoute="{item}">
+            <template #DocsRoute="{ item }">
               <td class="py-2">
                 <CButton
                   color="dark"
@@ -160,7 +159,6 @@
         </CCol>
       </CRow>
       <template #footer>
- 
         <CButton color="dark" @click="CerrarLimpiar">
           <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
         </CButton>
@@ -252,13 +250,13 @@ function guardar() {
         },
       }
     )
-    .then(function(response) {
+    .then(function (response) {
       self.$toastr.success(response.data.messague);
       self.limpiarDatos();
       self.ListVideo(self.video.courses_id);
       console.log(response.data);
     })
-    .catch(function(error) {
+    .catch(function (error) {
       self.Loading = false;
       if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
         for (let key in error.response.data.errors) {
@@ -285,9 +283,11 @@ function ListVideo(id) {
         "?token=" +
         localStorage.getItem("api_token")
     )
-    .then(function(response) {
+    .then(function (response) {
       listado = response.data;
-      let Nro = 1;
+      console.log("listado", listado);
+
+      console.log("aenmtro qui");
       self.items = listado.map((listado) =>
         Object.assign({}, self.items, {
           // Nro: Nro++,
@@ -299,44 +299,44 @@ function ListVideo(id) {
           id_section: listado.course_section.id,
         })
       );
-      console.log(response);
+
       self.Loading = false;
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.log(error);
       //self.$router.push({ path: "/login" });
     });
 }
 
 //FUNCION PARA OBTENER LAS SECTIONES
-function getSections() {    
-    let self = this;
-    self.Loading = true;
-    axios
-      .get(
-        this.$apiAdress +
-          "/api/coursesvideos/listsections?token=" +
-          localStorage.getItem("api_token")
-      )
-      .then(function(response) {
-        console.log("Listas de sections");
-        console.log(response.data);
-        self.sections = response.data;
-        self.$emit("child-refresh", true);
-        self.Loading = false;        
-      })
-      .catch(function(error) {
-        console.log(error);
-        self.Loading = false;
-        //self.$router.push({ path: 'login' });
-      });
+function getSections() {
+  let self = this;
+  self.Loading = true;
+  axios
+    .get(
+      this.$apiAdress +
+        "/api/coursesvideos/listsections?token=" +
+        localStorage.getItem("api_token")
+    )
+    .then(function (response) {
+      console.log("Listas de sections");
+      console.log(response.data);
+      self.sections = response.data;
+      self.$emit("child-refresh", true);
+      self.Loading = false;
+    })
+    .catch(function (error) {
+      console.log(error);
+      self.Loading = false;
+      //self.$router.push({ path: 'login' });
+    });
 }
 
 function data() {
   return {
     //MODELOS
     video: {
-      id:"",
+      id: "",
       description: "",
       url_video: "",
       status_id: 1,
@@ -385,42 +385,40 @@ export default {
     CerrarLimpiar,
     getSections,
     ListVideo,
-    deleteVideoCourse(iten){
+    deleteVideoCourse(iten) {
       let self = this;
       console.log(iten.id);
       axios
-      .post(
-        this.$apiAdress +
-          "/api/coursesvideos/updatestatus?token=" +
-          localStorage.getItem("api_token"),{id_video:iten.id}
-        ,
-        
-      )
-      .then(function(response) {
-        console.log(response);
-        self.$toastr.success("Video quitado con extio!");
-        self.ListVideo(self.video.courses_id);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+        .post(
+          this.$apiAdress +
+            "/api/coursesvideos/updatestatus?token=" +
+            localStorage.getItem("api_token"),
+          { id_video: iten.id }
+        )
+        .then(function (response) {
+          console.log(response);
+          self.$toastr.success("Video quitado con extio!");
+          self.ListVideo(self.video.courses_id);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
-    editVideoCourse(iten){
+    editVideoCourse(iten) {
       let self = this;
-      console.log("Editar"+iten.section);
+      console.log("Editar" + iten.section);
       console.log(iten);
       this.video.id = iten.id;
       this.video.description = iten.description;
       this.video.url_video = iten.url_video;
       this.video.section_id = iten.id_section;
       this.video.order = iten.order;
-      
-      
-    }
-  },  
+    },
+  },
   watch: {
-    modal: function() {
+    modal: function () {
       if (this.modal) {
+        console.log("modal", this.modal);
         this.AddVideo = true;
         this.ListVideo(this.modal.id);
         this.getSections();
@@ -435,8 +433,6 @@ export default {
       }
     },
   },
-  mounted:{
-
-  }
+  mounted: {},
 };
 </script>

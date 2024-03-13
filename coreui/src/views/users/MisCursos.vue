@@ -28,8 +28,8 @@
                   </div>
                 </CCol>  
                 -->
-      <CCol md="12" v-for="(item, index) in items" :key="index">
-        <div class="card">
+      <CCol v-if="!show_curso"  md="12">
+        <div class="card"  v-for="(item, index) in items" :key="index">
           <div class="card-body">
             <CRow>
               <CCol md="6">
@@ -54,15 +54,18 @@
                     <CBadge :color="getBadge(item.status)">{{
                       item.status
                     }}</CBadge>
-                  
                   </CCol>
-                 
                 </CRow>
               </CCol>
               <CCol md="6">
                 <CRow>
                   <CCol md="12 " class="text-end">
-                    <button  @click="viewsCourseUser(item.course_id)"  class="btn btn-success"> Ver </button>
+                    <button
+                      @click="viewsCourseUser(item.course_id)"
+                      class="btn btn-success"
+                    >
+                      Ver
+                    </button>
                   </CCol>
                 </CRow>
               </CCol>
@@ -70,12 +73,128 @@
           </div>
         </div>
       </CCol>
+      <div 
+        class="col-md-12"
+        v-if="show_curso"
+        >
+        <CRow class="w-100">
+          <CCol sm="6" class="row"> 
+            <iframe
+              class="w-100"
+              height="415"
+              :src="ur_video_curso"
+              title="YouTube video player"
+              frameborder="10"
+              allowfullscreen
+            ></iframe>
+            <CCol sm="3">
+              <CButton color="success">
+                <CIcon name="cil-check-circle" />&nbsp; Leccion anterior
+              </CButton>
+            </CCol>
+            <CCol sm="3">
+              <CButton id="next" color="dark">
+                <CIcon name="cil-chevron-circle-left-alt" />&nbsp; Leccion
+                siguiente
+              </CButton>
+            </CCol>
+          </CCol>
+
+          <CCol sm="6">
+            <div class="card">
+              <div class="card-header h4 text-center mb-0">
+                {{ titleVideo }}
+              </div>
+              <div class="card-body pt-0 pb-0">
+                <ol
+                  v-for="(videos, sectionName) in Secciones"
+                  :key="sectionName"
+                  class="list-group list-group-numbered"
+                >
+                  <li class="b-b-ligth px-0 list-group-item">
+                    <div
+                      class="w-100 d-flex justify-content-between align-items-start"
+                    >
+                      <div
+                        @click="
+                          collapsedSection =
+                            collapsedSection === sectionName
+                              ? null
+                              : sectionName
+                        "
+                      >
+                        <div class="fw-bold text-bold customs-section">
+                          {{ sectionName }}
+                        </div>
+                      </div>
+                      <span class="badge bg-primary rounded-pill text-white">
+                        {{ videos.length }}
+                      </span>
+                    </div>
+                    <CCollapse :show="collapsedSection === sectionName">
+                      <CListGroup>
+                        <CListGroupItem
+                          v-for="video in videos"
+                          :key="video.id_video"
+                        >
+                          <p class="customs-section" @click="send_url_video(video.url_video)">
+                            Descripción: {{ video.description_video }}
+                          </p>
+                          
+                        </CListGroupItem>
+                      </CListGroup>
+                    </CCollapse>
+                  </li>
+                </ol>
+              </div>
+              <div class="card-footer text-body-secondary">2 days ago</div>
+            </div>
+          </CCol>
+        </CRow>
+      </div>
     </CRow>
   </div>
 </template>
 <script>
 import axios from "axios";
 import General from "@/_mixins/general";
+
+function viewsCourseUser(id_curso) {
+  console.log("id", id_curso);
+  let self = this;
+  self.Loading = true;
+  /* const data =  {
+    id_curso: id_curso,
+    id_user: localStorage.getItem("id")
+  }; */
+  axios
+    .get(
+      this.$apiAdress +
+        "/api/viewcoursestart/" +
+        id_curso +
+        "/" +
+        localStorage.getItem("id") +
+        "?token=" +
+        localStorage.getItem("api_token")
+    )
+    .then(function (response) {
+      console.log("response", response);
+      self.Secciones = response.data.groupedVideos;
+      self.titleVideo = response.data.courseName;
+      console.log("Secciones", self.Secciones);
+      self.Loading = false;
+      self.show_curso = true;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+function send_url_video(val){
+  console.log('val',val);
+  this.ur_video_curso = val;
+}
+
 export default {
   name: "UserCourses",
   mixins: [General],
@@ -86,9 +205,15 @@ export default {
     return {
       Loading: false,
       items: [],
+      ur_video_curso: "https://www.youtube.com/embed/xo9ZPZRPEB8",
+      Secciones: [],
+      titleVideo: "",
+      show_curso : false,
+      collapsedSection: null,
     };
   },
   methods: {
+    send_url_video,
     getCourses() {
       let self = this;
       self.Loading = true;
@@ -100,24 +225,26 @@ export default {
             "?token=" +
             localStorage.getItem("api_token")
         )
-        .then(function(response) {
+        .then(function (response) {
           self.items = response.data;
           console.log("response.data");
           console.log(response.data);
           self.Loading = false;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
           //self.$router.push({ path: "/login" });
         });
     },
-    viewsCourseUser(id_course){
-      console.log("ver curso");
-      console.log("id curso."+id_course);
-    }
+    viewsCourseUser,
   },
-  mounted: function() {
+  mounted: function () {
     this.getCourses();
   },
 };
 </script>
+<style scoped>
+.customs-section{
+  cursor: pointer;
+}
+</style>
