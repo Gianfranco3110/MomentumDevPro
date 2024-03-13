@@ -94,10 +94,12 @@ class Courses_videoController extends Controller
     }
 
     //TRAE EL CURSO CON SUS VIDEOS PARA INICIAR
-    public function viewcoursestart($id)
+    public function viewcoursestart($id_curso,$id_user)
     {
-        //return response()->json($id);
-        $videos = course_video::where('courses_id', $id)
+        
+        //return response()->json($id_user);
+        $videos = course_video::where('courses_id', $id_curso)
+            ->where('users_id', $id_user)
             ->with(['courseSection' => function ($query) {
                 $query->select('id', 'name', 'orden')->orderBy('orden');
             }, 'courses:id,courseName'])
@@ -105,26 +107,29 @@ class Courses_videoController extends Controller
             ->sortBy(function ($video) {
                 return $video->courseSection->orden;
             });
-
-        //return response ($videos);
-        $courseName = $videos->first()->courses->courseName;
-
-        $groupedVideos = $videos->groupBy('courseSection.name')->map(function ($videos) {
-            return $videos->sortBy('order')->map(function ($video) {
-                return [
-                    'id_video' => $video->id,
-                    'description_video' => $video->description,
-                    'url_video' => $video->url_video,
-                    'orden' => $video->order,
-                    'course_name' => $video->courses->courseName
-
-                ];
-            })->values();
-        });
-
-        return response()->json([
-            'groupedVideos' => $groupedVideos,
-            'courseName' => $courseName
-        ]);
+            
+        if($videos->count() > 0){
+            $courseName = $videos->first()->courses->courseName;
+            $groupedVideos = $videos->groupBy('courseSection.name')->map(function ($videos) {
+                return $videos->sortBy('order')->map(function ($video) {
+                    return [
+                        'id_video' => $video->id,
+                        'description_video' => $video->description,
+                        'url_video' => $video->url_video,
+                        'orden' => $video->order,
+                        'course_name' => $video->courses->courseName
+    
+                    ];
+                })->values();
+            });
+    
+            return response()->json([
+                'groupedVideos' => $groupedVideos,
+                'courseName' => $courseName
+            ]);
+        }else{
+            return response()->json('No existe informacion');
+        }
+        
     }
 }
