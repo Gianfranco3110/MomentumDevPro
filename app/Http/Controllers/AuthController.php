@@ -30,8 +30,15 @@ class AuthController extends Controller
             'email'     => 'required|email|unique:users',
             'password'  => 'required|min:4|confirmed',
             'type_document'  => 'required',
-            'number_document'  => 'required|numeric',
+            'number_document'  => 'required|numeric|unique:users',
             'adress_all'  => 'required',
+        ], [], [
+            'name' => 'nombre',
+            'email' => 'correo',
+            'password' => 'contraseña',
+            'type_document' => 'tipo de documento',
+            'number_document' => 'numero de documento',
+            'adress_all' => 'direccíon',
         ]);
         if ($validate->fails()){
             return response()->json([
@@ -59,10 +66,24 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        $validate = Validator::make($request->all(), [
+            'email'     => 'required|email',
+            'password'  => 'required',
+        ], [], [
+            'email' => 'correo',
+            'password' => 'contraseña',
+        ]);
+
+        if ($validate->fails()){
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validate->errors()
+            ], 422);
+        }
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Unauthorized','messague'=>"Verifique sus datos"], 401);
         }
 
         return $this->respondWithToken($token, $request->email);

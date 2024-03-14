@@ -36,6 +36,11 @@ class Courses_videoController extends Controller
                 'numeric',
                 Rule::unique('course_videos', 'order')->ignore($request->id, 'id')->where('status_id',1)->where('course_section_id',$request->section_id)
             ],
+        ], [], [
+            'description' => 'descripción',
+            'url_video' => 'link del video',
+            'section_id' => 'sección',
+            'order' => 'nº de orden',
         ]);
         $user = auth()->userOrFail();
         $text_op = "";
@@ -96,7 +101,7 @@ class Courses_videoController extends Controller
     //TRAE EL CURSO CON SUS VIDEOS PARA INICIAR
     public function viewcoursestart($id_curso,$id_user)
     {
-        
+
         //return response()->json($id_curso);
         $videos = course_video::where('courses_id', $id_curso)
             //->where('users_id', $id_user)
@@ -107,7 +112,7 @@ class Courses_videoController extends Controller
             ->sortBy(function ($video) {
                 return $video->courseSection->orden;
             });
-            
+
         if($videos->count() > 0){
             $courseName = $videos->first()->courses->courseName;
             $groupedVideos = $videos->groupBy('courseSection.name')->map(function ($videos) {
@@ -118,11 +123,11 @@ class Courses_videoController extends Controller
                         'url_video' => $video->url_video,
                         'orden' => $video->order,
                         'course_name' => $video->courses->courseName
-    
+
                     ];
                 })->values();
             });
-    
+
             return response()->json([
                 'groupedVideos' => $groupedVideos,
                 'courseName' => $courseName
@@ -130,6 +135,6 @@ class Courses_videoController extends Controller
         }else{
             return response()->json('No existe informacion');
         }
-        
+
     }
 }
