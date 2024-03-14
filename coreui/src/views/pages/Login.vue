@@ -23,12 +23,18 @@
   
                     <div class="form-outline mb-3">
                       <label class="form-label" >Correo</label>
-                      <input type="email" placeholder="Ingrese el correo electrónico"  v-model="email" class="form-control form-control-lg" />
+                      <input type="email" placeholder="Ingrese el correo electrónico"  v-model="email" :class="classInvaEmail" class="form-control form-control-lg"   />
+                      <div class="invalid-feedback">
+                        {{ msgErrorEmail }}
+                      </div>
                     </div>
   
                     <div class="form-outline mb-4">
                       <label class="form-label">Contraseña</label>
-                      <input type="password" placeholder="Ingrese su contraseña" v-model="password" class="form-control form-control-lg" />
+                      <input type="password" placeholder="Ingrese su contraseña" v-model="password" :class="classInvaPass" class="form-control form-control-lg" />
+                      <div class="invalid-feedback">
+                        {{ msgErrorPassword }}
+                      </div>
                     </div>
   
                     <div class="pt-1 mb-4">
@@ -118,6 +124,10 @@ export default {
       email: "",
       password: "",
       Loading: false,
+      classInvaEmail: "",
+      classInvaPass: "",
+      msgErrorEmail: "",
+      msgErrorPassword:""
     };
   },
   methods: {
@@ -135,6 +145,7 @@ export default {
         .then(function(response) {
           self.email = "";
           self.password = "";
+          self.classInvaEmail = "";
           localStorage.setItem("api_token", response.data.access_token);
           localStorage.setItem("roles", response.data.roles);
           localStorage.setItem("email", response.data.email);
@@ -146,8 +157,46 @@ export default {
         })
         .catch(function(error) {
           self.Loading = false;
-          self.$toastr.warning("¡Error, please check your password!");
-          console.log(error);
+          if (error.response) {
+            if (error.response.status === 401) {
+              console.error('Error 401: Unauthorized');
+              console.error('Error:', error.response.data.messague);
+              self.$toastr.error(`¡Error, ${error.response.data.messague}!`);
+              self.classInvaEmail = "is-invalid";
+              self.classInvaPass = "is-invalid";
+              self.msgErrorEmail = "";
+              self.msgErrorPassword = "";
+
+            } else if (error.response.status === 422) {
+              console.error('Error:', error.response.data);
+
+              if ('email' in error.response.data.errors) {
+                self.classInvaEmail = "is-invalid";
+                self.msgErrorEmail = error.response.data.errors.email[0];
+              }else{
+                self.classInvaEmail = "is-valid";
+              }
+
+
+              if ('password' in error.response.data.errors) {
+                self.classInvaPass = "is-invalid";
+                self.msgErrorPassword = error.response.data.errors.password[0];
+              }else{
+                self.classInvaPass = "is-valid";
+              }
+
+              console.error('Error 419: Authentication Timeout');
+            } else if (error.response.status === 500) {
+              console.error('Error 500: Internal Server Error');
+              self.$toastr.danger(`¡Error, ${error.response.data.messague}!`);
+            } else {
+              console.error('Error:', error.response.data);
+            }
+          } else {
+            console.error('Error:', error.message);
+          }
+          
+          
         });
     },
   },

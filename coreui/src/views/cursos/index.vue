@@ -177,6 +177,7 @@ function ListCurso() {
 function data() {
   return {
     items: [],
+    id:"",
     Loading: false,
     AddModal: false,
     refrescarCurso: false,
@@ -191,7 +192,7 @@ function data() {
 export default {
   name: "index",
   mixins: [General],
-  data,
+  data:data,
   components: {
     AgreModal,
     VeModal,

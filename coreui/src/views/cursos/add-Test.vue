@@ -284,6 +284,7 @@ function data() {
     Loading: false,
     courses: [],
     sections: [],
+    items: [],
     tableText: Object.assign({}, tableTextHelpers),
   };
 }

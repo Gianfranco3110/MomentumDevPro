@@ -12,6 +12,7 @@
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 
                 <div class="card-body p-4 p-lg-5 text-black">
+                 
                   <h4 class="fw-normal mb-3" style="letter-spacing: 1px;">Crea tu cuenta</h4>
                   <form  @submit.prevent="register" method="POST">
                     <div class="form-outline mb13">
@@ -32,6 +33,7 @@
                           size="lg"
                           v-model="$v.dataUser.email.$model"
                         :is-valid="hasError($v.dataUser.email)"
+                        :invalid-feedback="msgErrorEmail"
                         />
                     </div>
 
@@ -232,6 +234,7 @@ export default {
       type_document: "V",
       number_document: ""
     },
+    msgErrorEmail:""
 
     };
   },
@@ -269,6 +272,26 @@ export default {
         })
         .catch(function(error) {
           console.log(error);
+          if (error.response) {
+            if (error.response.status === 422) {
+              console.error('Error:', error.response.data);
+              if ('email' in error.response.data.errors) {
+                // self.classInvaEmail = "is-invalid";
+                self.msgErrorEmail = error.response.data.errors.email[0];
+                self.$toastr.defaultPosition = "toast-bottom-left";
+                self.$toastr.error(`${error.response.data.errors.email[0]}`,"!Upss, Tienes un problema¡");
+              }else{
+                // self.classInvaEmail = "is-valid";
+                self.msgErrorEmail = "";
+              }
+
+              if (error.response.data.errors.number_document) {
+                self.msgError = error.response.data.errors.number_document[0];
+                self.$toastr.error(`${error.response.data.errors.number_document[0]}`,"!Upss, Tienes un problema¡");
+                
+              }
+            }
+          }
         });
     },
     linkHome() {

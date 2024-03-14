@@ -5,11 +5,14 @@
       :title="tituloModal"
       :closeOnBackdrop="false"
       color="dark"
-      size="xxl"
+      size="xl"
       :show.sync="AddVideo"
     >
+    <CAlert color="danger" :show="numAlerError" closeButton>
+      {{ msgError }}
+    </CAlert>
       <CRow>
-        <input type="hidden" v-model="id" />
+        <input type="hidden" v-model="video.id" />
         <CCol sm="4">
           <CRow>
             <CCol sm="4">
@@ -257,7 +260,19 @@ function guardar() {
       console.log(response.data);
     })
     .catch(function (error) {
+      self.numAlerError = 0;
       self.Loading = false;
+      if (error.response.status === 422) {
+        console.error('Error:', error.response.data);
+
+        if ('order' in error.response.data.errors) {
+            self.$toastr.error(error.response.data.errors.order[0],"!Upps, Tienes Un Error¡");
+            self.msgError = error.response.data.errors.order[0];
+            self.numAlerError = 10;
+        }else{
+          self.msgError = "";
+        }
+      }
       if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
         for (let key in error.response.data.errors) {
           if (error.response.data.errors.hasOwnProperty(key)) {
@@ -354,6 +369,8 @@ function data() {
     tableText: Object.assign({}, tableTextHelpers),
     items: [],
     sections: [],
+    msgError:"",
+    numAlerError:0
   };
 }
 //COMPUTED
@@ -433,6 +450,5 @@ export default {
       }
     },
   },
-  mounted: {},
 };
 </script>

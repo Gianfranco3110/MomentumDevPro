@@ -1,6 +1,6 @@
 <template>
   <div>
-    <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
+    <loading-overlay :active="dataUser.Loading" :is-full-page="true" loader="bars" />
     <CContainer>
       <CRow class="justify-content-center">
         <CCol md="7">
@@ -9,6 +9,9 @@
               <b>REGISTRO DE USUARIOS</b>
             </CCardHeader>
             <CCardBody class="p-4">
+              <CAlert color="danger" :show="showAlerError"  closeButton>
+                {{ msgError }}
+              </CAlert>
               <CForm @submit.prevent="register" method="POST">
                 <CInput
                   placeholder="Usuario"
@@ -67,9 +70,9 @@
                   placeholder="Repeat password"
                   type="password"
                   prependHtml="<i class='cui-lock-locked'></i>"
-                  autocomplete="new-password"
                   class="mb-4"
                   v-model="dataUser.confirmPassword"
+                  :is-valid="hasError($v.dataUser.confirmPassword)"
                 >
                   <template #prepend-content
                     ><CIcon name="cil-lock-locked"
@@ -154,6 +157,8 @@ export default {
       type_document: "V",
       number_document: ""
     },
+    showAlerError:0,
+    msgError: "",
 
       /*name: "",
       email: "",
@@ -205,13 +210,21 @@ export default {
             }
             if (error.response.data.errors.email) {
               console.log("error email",error.response.data.errors.email[0]);
-              this.Sweet("Error",error.response.data.errors.email[0])
+              self.msgError = error.response.data.errors.email[0];
+              self.showAlerError = 10;
+              self.$toastr.error("¡Error! "+error.response.data.errors.email[0]);
             }
-            self.$toastr.danger("¡Error al agregar producto!");
+
+            if (error.response.data.errors.number_document) {
+              console.log("error number_document",error.response.data.errors.number_document[0]);
+              self.msgError = error.response.data.errors.number_document[0];
+              self.showAlerError = 10;
+              self.$toastr.error("¡Error! "+error.response.data.errors.number_document[0]);
+            }
           } else {
             console.log("Error");
             console.log(error);
-            self.$toastr.danger("¡Error al agregar producto!");
+            // self.$toastr.danger("¡Error al agregar producto!");
           }
           self.dataUser.Loading = false;
         });
