@@ -28,8 +28,8 @@
                   </div>
                 </CCol>  
                 -->
-      <CCol v-if="!show_curso"  md="12">
-        <div class="card"  v-for="(item, index) in items" :key="index">
+      <CCol v-if="!show_curso" md="12">
+        <div class="card" v-for="(item, index) in items" :key="index">
           <div class="card-body">
             <CRow>
               <CCol md="6">
@@ -73,12 +73,9 @@
           </div>
         </div>
       </CCol>
-      <div 
-        class="col-md-12"
-        v-if="show_curso"
-        >
+      <div class="col-md-12" v-if="show_curso">
         <CRow class="w-100">
-          <CCol sm="6" class="row"> 
+          <CCol sm="6" class="row">
             <iframe
               class="w-100"
               height="415"
@@ -88,7 +85,7 @@
               allowfullscreen
             ></iframe>
             <CCol sm="3">
-              <CButton color="success">
+              <CButton @click="move_video()" color="success">
                 <CIcon name="cil-check-circle" />&nbsp; Leccion anterior
               </CButton>
             </CCol>
@@ -137,10 +134,12 @@
                           v-for="video in videos"
                           :key="video.id_video"
                         >
-                          <p class="customs-section" @click="send_url_video(video.url_video)">
+                          <p
+                            class="customs-section"
+                            @click="send_url_video(video.url_video)"
+                          >
                             Descripción: {{ video.description_video }}
                           </p>
-                          
                         </CListGroupItem>
                       </CListGroup>
                     </CCollapse>
@@ -158,6 +157,32 @@
 <script>
 import axios from "axios";
 import General from "@/_mixins/general";
+
+function move_video() {
+  console.log("1");
+  if (this.secciones && this.ur_video_curso) {
+    for (let key in this.Secciones) {
+      console.log("2");
+      console.log("seccion", this.secciones[key]);
+      let seccion = this.secciones[key];
+      console.log("seccion", seccion);
+      for (let i = 0; i < seccion.length; i++) {
+        console.log("3");
+        if (seccion[i].url_video === ur_video_curso) {
+          // Verificamos si hay un siguiente elemento en la sección
+          if (i < seccion.length - 1) {
+            let siguienteURL = seccion[i + 1].url_video;
+            this.ur_video_curso = siguienteURL;
+            console.log("La URL del video siguiente es: " + siguienteURL);
+          } else {
+            console.log("No hay un video siguiente en esta sección.");
+          }
+          break; // Salimos del bucle una vez encontramos la URL actual
+        }
+      }
+    }
+  }
+}
 
 function viewsCourseUser(id_curso) {
   console.log("id", id_curso);
@@ -190,8 +215,8 @@ function viewsCourseUser(id_curso) {
     });
 }
 
-function send_url_video(val){
-  console.log('val',val);
+function send_url_video(val) {
+  console.log("val", val);
   this.ur_video_curso = val;
 }
 
@@ -208,11 +233,12 @@ export default {
       ur_video_curso: "https://www.youtube.com/embed/xo9ZPZRPEB8",
       Secciones: [],
       titleVideo: "",
-      show_curso : false,
+      show_curso: false,
       collapsedSection: null,
     };
   },
   methods: {
+    move_video,
     send_url_video,
     getCourses() {
       let self = this;
@@ -244,7 +270,7 @@ export default {
 };
 </script>
 <style scoped>
-.customs-section{
+.customs-section {
   cursor: pointer;
 }
 </style>
