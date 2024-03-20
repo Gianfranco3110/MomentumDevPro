@@ -10,6 +10,9 @@ export default () => {
             number_document: { required, especiales, maxLength: maxLength(256),numeric },
             type_document: { required },
             adress: { required },
+            // value_stated: { required },
+            // value_municipality: { required },
+            street: { required },
             email: { required, especiales, maxLength: maxLength(256),email },
             password:{required,  minLength: minLength(5)},
             confirmPassword: { required, sameAsPassword: sameAs('password') }
