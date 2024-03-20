@@ -87,6 +87,8 @@ class UsersController extends Controller
     public function updatePassword(Request $request){
         $validate = Validator::make($request->all(), [
             'password'  => 'required|min:4|confirmed',
+        ], [], [
+            'password' => 'contraseña',
         ]);
         if ($validate->fails()){
             return response()->json([

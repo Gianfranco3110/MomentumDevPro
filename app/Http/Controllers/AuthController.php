@@ -32,6 +32,9 @@ class AuthController extends Controller
             'type_document'  => 'required',
             'number_document'  => 'required|numeric|unique:users',
             'adress_all'  => 'required',
+            'stated'  => 'required',
+            // 'municipality'  => 'required',
+            'street'=>'required'
         ], [], [
             'name' => 'nombre',
             'email' => 'correo',
@@ -39,6 +42,9 @@ class AuthController extends Controller
             'type_document' => 'tipo de documento',
             'number_document' => 'numero de documento',
             'adress_all' => 'direccíon',
+            'stated' => 'estado',
+            'street' => 'calle',
+            // 'municipality' => 'municipio',
         ]);
         if ($validate->fails()){
             return response()->json([
@@ -55,6 +61,9 @@ class AuthController extends Controller
         $user->adress_all = $request->adress_all;
         $user->type_document = $request->type_document;
         $user->number_document = $request->number_document;
+        $user->stated = $request->stated;
+        $user->municipality = $request->municipality;
+        $user->street = $request->street;
         $user->save();
         return response()->json(['status' => 'success'], 200);
     }

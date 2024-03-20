@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\userCourses;
@@ -13,7 +14,7 @@ class UserCourseController extends Controller
    public function index($id){
         $courses = DB::table('users_courses')->join('courses', 'courses.id', '=', 'users_courses.curso_id')
         ->join('users', 'users.id', '=', 'users_courses.usuario_id')
-        ->select('courses.id','courses.id as course_id','courses.CourseName','courses.image','users.id','users.name as Usuario','users.email','users_courses.Video_actual as Video', 'users_courses.id as Vinculo', 'users_courses.status')
+        ->select('courses.id','courses.id as course_id','courses.daysofvalidity','courses.CourseName','courses.image','users.id','users.name as Usuario','users.email','users_courses.Video_actual as Video', 'users_courses.id as Vinculo', 'users_courses.status')
         ->where('users_courses.usuario_id','=',$id)
         ->get();
         return response()->json( $courses );
@@ -21,11 +22,17 @@ class UserCourseController extends Controller
 
     public function changeStatus(Request $request, $id){
         $validatedData = $request->validate([
-        'status'             => 'required'
+        'status'             => 'required',
+        'daysofvalidity'             => 'required|numeric'
         ]);
         $vinculo = userCourses::find($id);
         $vinculo->status      = $request->input('status');
         $vinculo->save();
+        $couser = Course::find($vinculo->curso_id);
+        $couser->daysofvalidity      = $request->input('daysofvalidity');
+        $couser->save();
+        // $vinculo->daysofvalidity      = $request->input('daysofvalidity');
+
         return response()->json( ['estado' => 'success'] );
     }
 
