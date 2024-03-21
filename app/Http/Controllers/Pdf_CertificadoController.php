@@ -84,4 +84,20 @@ class Pdf_CertificadoController extends Controller
         // return response()->json(['certificado_url' => $pdfUrl]);
 
 	}
+
+    //FUNCION PARA SUBIR IMG
+    public function uploadImage(Request $request)
+    {
+        $validate = request()->validate([
+            'image'          => "required"
+        ]);
+        if ($request->hasFile('image')) {
+            $image_path = $request->file('image');
+            $image_path_name = "cetificado.png";
+            // Storage::disk('public')->put('curso/' . $image_path_name, File::get($image_path));
+            $image_path->move(public_path('certificado-templete'), $image_path_name);
+            return response()->json(['path' => $image_path_name]);
+        }
+        return response()->json(['path' => 'error']);
+    }
 }

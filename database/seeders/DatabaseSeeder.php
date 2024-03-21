@@ -32,7 +32,8 @@ class DatabaseSeeder extends Seeder
             BREADSeeder::class,
             EmailSeeder::class,
             CourseSectionSeeder::class,
-            CourseSeeder::class
+            CourseSeeder::class,
+            StateSeeder::class
         ]);
     }
 }

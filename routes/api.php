@@ -67,12 +67,17 @@ Route::group(['middleware' => ['api']], function ($router) {
 
     //RUTA QUE SE ENCARGA DE IMPRIMIR LOS CERTIFICADOS
     Route::post('usercertificado', 'Pdf_CertificadoController@getPDF');
+    Route::post('usercertificado/img/upload', 'Pdf_CertificadoController@uploadImage');
 
     Route::resource('resource/{table}/resource', 'ResourceController');
     Route::get('media/storage','MediaController@getStoragePath');
 
     //RUTA PARA ENVIAR TODOS LOS DATOS DE UN CURSO EN ESPECIFICO
     Route::get('viewcoursestart/{id_curso}/{id_user}', 'Courses_videoController@viewcoursestart');
+
+
+      //RUTA PARA TRAER LOS ESTADOS Y MUNICIPIOS
+    Route::get('states', 'CountriesController@states');
 
     Route::group(['middleware' => 'admin'], function ($router) {
 
