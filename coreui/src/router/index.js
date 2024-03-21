@@ -34,6 +34,9 @@ const cursos = () => import("@/views/cursos/index");
 //CONSTANTE PARA REGISTRAR USUARIOS DESDE EL DASHBOARD
 const registro = () => import("@/views/RegistroAdmin/index");
 
+//configuracion de certificado
+const CertificadoConfig = () => import("@/views/certificado-config/index");
+
 //Roles
 const Roles = () => import("@/views/roles/Roles");
 const Role = () => import("@/views/roles/Role");
