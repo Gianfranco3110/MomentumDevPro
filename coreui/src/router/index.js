@@ -73,6 +73,9 @@ const Resource = () => import("@/views/resources/Resource");
 const EditResource = () => import("@/views/resources/EditResource");
 const DeleteResource = () => import("@/views/resources/DeleteResource");
 
+//configuracion de certificado
+const CertificadoConfig = () => import("@/views/certificado-config/index");
+
 //Email
 const Emails = () => import("@/views/email/Emails");
 const CreateEmail = () => import("@/views/email/CreateEmail");
@@ -415,6 +418,22 @@ function configRoutes() {
             {
               path: "",
               component: MisCursos,
+            },
+          ],
+        },
+        {
+          path: "certificado",
+          name: "certificado",
+          meta: { label: "Configuración de certificado" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "",
+              component: CertificadoConfig,
             },
           ],
         },
