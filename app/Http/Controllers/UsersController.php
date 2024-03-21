@@ -70,7 +70,7 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = DB::table('users')
-        ->select('users.id', 'users.name', 'users.email', 'users.menuroles as roles', 'users.status','users.number_document','users.type_document','users.adress_all')
+        ->select('users.id', 'users.name','users.email','users.stated', 'users.municipality','users.street', 'users.menuroles as roles', 'users.status','users.number_document','users.type_document','users.adress_all')
         ->where('users.id', '=', $id)
         ->first();
         return response()->json( $user );
@@ -114,6 +114,8 @@ class UsersController extends Controller
             'adress'      => 'required',
             'type_document'      => 'required|max:1',
             'number_document'      => 'required|numeric',
+            'street'      => 'required',
+            'stated'      => 'required',
         ]);
         $user = User::find($id);
         $user->name       = $request->input('name');
@@ -121,6 +123,9 @@ class UsersController extends Controller
         $user->adress_all      = $request->input('adress');
         $user->type_document      = $request->input('type_document');
         $user->number_document      = $request->input('number_document');
+        $user->street      = $request->input('street');
+        $user->stated      = $request->input('stated');
+        $user->municipality      = $request->input('municipality');
         $user->save();
         //$request->session()->flash('message', 'Successfully updated user');
         return response()->json( ['status' => 'success',"messague"=>"Usuario editado correctamente."] );
