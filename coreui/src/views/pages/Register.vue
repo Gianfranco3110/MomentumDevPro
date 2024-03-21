@@ -1,5 +1,5 @@
 <template>
-  <section class="vh-100" style="background-color: #C38154;">
+  <section  style="background-color: #C38154;">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-xl-12">
@@ -16,10 +16,10 @@
                   <h4 class="fw-normal mb-3" style="letter-spacing: 1px;">Crea tu cuenta</h4>
                   <form  @submit.prevent="register" method="POST">
                     <div class="form-outline mb13">
-                      <label class="form-label" >Nombres</label>
+                      <label class="form-label mb-1 required" >Nombres</label>
                       <CInput
                           placeholder="Ingrese su nombre"
-                          autocomplete="username" size="lg"
+                          autocomplete="username" 
                           v-model="$v.dataUser.name.$model"
                         :is-valid="hasError($v.dataUser.name)"
                         >
@@ -27,10 +27,9 @@
                     </div>
 
                     <div class="form-outline mb-1">
-                      <label class="form-label" >Correo</label>
+                      <label class="form-label mb-1 required" >Correo</label>
                       <CInput
                           placeholder="Ingrese el correo"
-                          size="lg"
                           v-model="$v.dataUser.email.$model"
                         :is-valid="hasError($v.dataUser.email)"
                         :invalid-feedback="msgErrorEmail"
@@ -38,10 +37,10 @@
                     </div>
 
                     <div class="form-outline mb-1">
-                      <label class="form-label" >Documento de identidad</label>
+                      <label class="form-label mb-1 required" >Documento de identidad</label>
                       <CRow >
                         <CCol md="3">
-                          <select v-model="dataUser.type_document" class="form-select form-control form-control-lg" aria-label="Default select example">
+                          <select v-model="dataUser.type_document" class="form-select form-control " aria-label="Default select example">
                             <option value="V" selected>V</option>
                             <option value="E">E</option>
                           </select>
@@ -49,7 +48,6 @@
                         <CCol md="9">
                           <CInput
                             placeholder="Numero de documento"
-                            size="lg"
                             v-model="$v.dataUser.number_document.$model"
                           :is-valid="hasError($v.dataUser.number_document)"
                           >
@@ -59,10 +57,9 @@
                     </div>
   
                     <div class="form-outline mb-1">
-                      <label class="form-label">Contraseña</label>
+                      <label class="form-label mb-1 required">Contraseña</label>
                         <CInput
                         placeholder="Ingrese la contraseña"
-                        size="lg"
                         type="password"
                         v-model="$v.dataUser.password.$model"
                         :is-valid="hasError($v.dataUser.password)"
@@ -70,12 +67,11 @@
                       </CInput>
                     </div>
 
-                    <div class="form-outline mb-1">
-                      <label class="form-label">Confirmacón de Contraseña</label>
+                    <div class="form-outline mb-1 ">
+                      <label class="form-label mb-1 required">Confirmacón de Contraseña</label>
                         <CInput
                         placeholder="Confirmar contraseña"
                         type="password"
-                        size="lg"
                         class="mb-4"
                         v-model="$v.dataUser.confirmPassword.$model"
                         :is-valid="hasError($v.dataUser.confirmPassword)"
@@ -83,11 +79,49 @@
                       >
                       </CInput>
                     </div>
+                    <CRow >
+
+                    <CCol md="6">
+                      <label class="form-label mb-1 required">Estado</label>
+                      <CSelect
+                      addLabelClasses="required"
+                      :value.sync="dataUser.value_stated"
+                      invalid-feedback="Campo requerido"
+                      :plain="true"
+                      :options="stated"
+                      @change="changeGetMunici()"
+                    >
+                    </CSelect>
+                    </CCol>
+                    <CCol md="6">
+                      <label class="form-label mb-1 required">Municipio</label>
+                      <CSelect
+                      addLabelClasses="required"
+                      :value.sync="dataUser.value_municipality"
+                      invalid-feedback="Campo requerido"
+                      :plain="true"
+                      :options="municipality"
+                    >
+                    </CSelect>
+                    </CCol>
+
+                    </CRow>
+                    <div class="form-outline mb-1">
+                      <label class="form-label mb-1 required">Calle</label>
+                      <CInput
+                      addLabelClasses="required"
+                      placeholder="calle"
+                      type="text"
+                      v-model="$v.dataUser.street.$model"
+                    :is-valid="hasError($v.dataUser.street)"
+                    >
+                
+                    </CInput>
+                    </div>
 
                     <div class="form-outline mb-2">
-                      <label class="form-label">Dirección</label>
+                      <label class="form-label mb-1 required">Dirección</label>
                         <CTextarea
-                          size="lg"
                           addLabelClasses="required"
                           rows="3"
                           placeholder="Ingrese la dirección exacta"
@@ -232,9 +266,13 @@ export default {
       confirmPassword: "",
       adress: "",
       type_document: "V",
-      number_document: ""
+      number_document: "",
+      value_stated: "",
+      value_municipality: "",
     },
-    msgErrorEmail:""
+    msgErrorEmail:"",
+    stated: [],
+    municipality: [],
 
     };
   },
@@ -245,6 +283,9 @@ export default {
   directives: UpperCase,
   validations() {
     return Registerval()
+  },
+  mounted: function() {
+     this.getStateds()
   },
   methods: {
     register() {
@@ -258,6 +299,9 @@ export default {
           type_document: self.dataUser.type_document,
           number_document: self.dataUser.number_document,
           adress_all: self.dataUser.adress,
+          stated: self.dataUser.value_stated,
+          municipality: self.dataUser.value_municipality,
+          street: self.dataUser.street,
         })
         .then(function(response) {
           self.dataUser.name = "";
@@ -267,6 +311,7 @@ export default {
           self.dataUser.type_document = "V";
           self.dataUser.number_document = "";
           self.dataUser.adress = "";
+          self.dataUser.street = "";
           console.log(response);
           self.$router.push({ path: "/login" });
         })
@@ -300,6 +345,13 @@ export default {
     goLogin() {
       this.$router.push({ path: "/login" });
     },
+    async getStateds() {
+      this.stated = await this.getStated();
+    },
+    async changeGetMunici(){
+      console.log(this.dataUser.value_stated);
+      this.municipality = await this.getMunicipality(this.dataUser.value_stated);
+    }
   },
 };
 </script>

@@ -87,7 +87,7 @@ export default {
           self.password = "";
           (self.password_confirmation = ""), (self.Loading = false);
           console.log(e);
-          self.$toastr.danger("¡Error al actualizar contraseña!");
+          self.$toastr.error("¡Error al actualizar contraseña!");
         });
     },
   },

@@ -16,7 +16,15 @@
             :plain="true"
             :options="statuses"
           >
-          </CSelect>     
+          </CSelect>  
+          <CInput
+            type="number"
+            placeholder="Dias de vigencia"
+            invalid-feedback="Campo requerido solo enteros"
+            label="DIAS DE VIGENCIA"
+            v-model="VinculoData.daysofvalidity"
+            maxlength="10"
+          />   
         </CCardBody>
       </CCard>
 
@@ -44,6 +52,7 @@ function data() {
     VinculoData: {
       id: 1,
       status: '',
+      daysofvalidity: '',
     },
     courses: [],
     statuses: ['Pagado','No pagado'],
@@ -63,6 +72,8 @@ export default {
         if (this.modal != false) {
           this.VinculoData.id = this.modal.Vinculo;
           this.VinculoData.status = this.modal.status;    
+          this.VinculoData.daysofvalidity = this.modal.daysofvalidity;    
+          console.log(this.modal);
         }
         this.$emit("cerrarModal");
       }
@@ -79,7 +90,8 @@ export default {
             localStorage.getItem("api_token"),
           {
             _method: 'PUT',
-            status : self.VinculoData.status
+            status : self.VinculoData.status,
+            daysofvalidity : self.VinculoData.daysofvalidity
           }
         )
         .then(function(response) {

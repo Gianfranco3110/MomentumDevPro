@@ -179,6 +179,22 @@ function configRoutes() {
             },
           ],
         },
+        {
+          path: "certificado",
+          name: "certificado",
+          meta: { label: "Configuración de certificado" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "",
+              component: CertificadoConfig,
+            },
+          ],
+        },
         //Ruta de Products
         // {
         //   path: "products",

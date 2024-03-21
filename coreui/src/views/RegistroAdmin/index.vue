@@ -14,7 +14,9 @@
               </CAlert>
               <CForm @submit.prevent="register" method="POST">
                 <CInput
-                  placeholder="Usuario"
+                  addLabelClasses="required"
+                  label="NOMBRE"
+                  placeholder="Nombre"
                   prependHtml="<i class='cui-user'></i>"
                   autocomplete="Usuario"
                   v-model="$v.dataUser.name.$model"
@@ -23,7 +25,9 @@
                   <template #prepend-content><CIcon name="cil-user"/></template>
                 </CInput>
                 <CInput
-                  placeholder="Email"
+                  addLabelClasses="required"
+                  label="CORREO"
+                  placeholder="Correo"
                   prepend="@"
                   autocomplete="email"
                   v-model="$v.dataUser.email.$model"
@@ -31,6 +35,9 @@
                 />
               
                 <CRow >
+                  <CCol md="12">
+                    <label  class="required"> IDENTIFICACIÓN </label>
+                  </CCol>
                   <CCol md="2">
                     <!--<CSelect
                       :options="[{'V':'V'},{'E':'E'},]"
@@ -42,7 +49,7 @@
                       <option value="E">E</option>
                     </select>
                   </CCol>
-                  <CCol md="10">
+                  <CCol md="10" class="pl-0">
                     <CInput
                       placeholder="Numero de documento"
                       prependHtml="<i class='cui-user'></i>"
@@ -55,7 +62,9 @@
                   </CCol>
                 </CRow>
                 <CInput
-                  placeholder="Password"
+                  addLabelClasses="required"
+                  label="CONTRASEÑA"
+                  placeholder="Contraseña"
                   type="password"
                   prependHtml="<i class='cui-lock-locked'></i>"
                   autocomplete="new-password"
@@ -67,7 +76,9 @@
                   /></template>
                 </CInput>
                 <CInput
-                  placeholder="Repeat password"
+                  addLabelClasses="required"
+                  label="CONFIRMAR CONTRASEÑA"
+                  placeholder="Confirmar contraseña"
                   type="password"
                   prependHtml="<i class='cui-lock-locked'></i>"
                   class="mb-4"
@@ -78,13 +89,55 @@
                     ><CIcon name="cil-lock-locked"
                   /></template>
                 </CInput>
+                <CRow >
+
+                  <CCol md="6">
+                    <CSelect
+                    addLabelClasses="required"
+                    label="ESTADO"
+                    :value.sync="dataUser.value_stated"
+                    invalid-feedback="Campo requerido"
+                    :plain="true"
+                    :options="stated"
+                    @change="changeGetMunici()"
+                  >
+                  </CSelect>
+                  </CCol>
+                  <CCol md="6">
+                    <CSelect
+                    addLabelClasses="required"
+                    label="MUNICIPIO"
+                    :value.sync="dataUser.value_municipality"
+                    invalid-feedback="Campo requerido"
+                    :plain="true"
+                    :options="municipality"
+                  >
+                  </CSelect>
+                  </CCol>
+                 
+                </CRow>
+                <CInput
+                  addLabelClasses="required"
+                  label="CALLE"
+                  placeholder="calle"
+                  type="text"
+                  prependHtml="<i class='cui-lock-location'></i>"
+                  v-model="$v.dataUser.street.$model"
+                :is-valid="hasError($v.dataUser.street)"
+                >
+                  <template #prepend-content
+                    ><CIcon name="cil-location-pin-check" /></template>
+                </CInput>
+
                 <CTextarea
+                label="DIRECCIÓN"
                   addLabelClasses="required"
                   rows="5"
                   placeholder="Ingrese la dirección exacta"
                   v-model="$v.dataUser.adress.$model"
                   :is-valid="hasError($v.dataUser.adress)"
                 />
+             
                 <CButton :disabled="isDisabled" type="submit" class="btn botonesCan text-white" block
                   >CREAR USUARIO</CButton
                 >
@@ -155,8 +208,14 @@ export default {
       Loading: false,
       adress: "",
       type_document: "V",
-      number_document: ""
+      number_document: "",
+      value_stated: "",
+      value_municipality: "",
+      number_document: "",
+      street:""
     },
+    stated: [],
+    municipality: [],
     showAlerError:0,
     msgError: "",
 
@@ -173,6 +232,9 @@ export default {
   },
   directives: UpperCase,
   validations: Registerval,
+  mounted: function() {
+     this.getStateds()
+  },
   methods: {
     Sweet,
     register() {
@@ -187,6 +249,10 @@ export default {
           type_document: self.dataUser.type_document,
           number_document: self.dataUser.number_document,
           adress_all: self.dataUser.adress,
+          stated: self.dataUser.value_stated,
+          municipality: self.dataUser.value_municipality,
+          street: self.dataUser.street,
+          
         })
         .then(function(response) {
           self.dataUser.Loading = false;
@@ -198,8 +264,10 @@ export default {
           self.dataUser.type_document = "V";
           self.dataUser.number_document = "";
           self.dataUser.adress = "";
+          self.dataUser.street = "";
           console.log(response);
           self.$toastr.success("¡Usuario registrado con exito!");
+          this.$v.$reset();
         })
         .catch(function(error) {
           if (error.response.status === 422) {
@@ -229,8 +297,15 @@ export default {
           self.dataUser.Loading = false;
         });
     },
+    async getStateds() {
+      this.stated = await this.getStated();
+    },
+    async changeGetMunici(){
+      console.log(this.dataUser.value_stated);
+      this.municipality = await this.getMunicipality(this.dataUser.value_stated);
+    }
    
   },
-  
+ 
 };
 </script>

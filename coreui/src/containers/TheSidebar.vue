@@ -67,6 +67,13 @@
           </a>
         </strong>
       </li>
+      <li class="c-sidebar-nav-item" v-if="isAdmin">
+        <strong>
+          <a class="c-sidebar-nav-link" href="#/certificado">
+            <CIcon size="lg" name="cil-address-card" class="mr-2" /> CERTIFICADO
+          </a>
+        </strong>
+      </li>
     </ul>
   </CSidebar>
 </template>
