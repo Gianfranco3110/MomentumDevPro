@@ -120,7 +120,6 @@ export default {
         self.adress = response.data.adress_all;
         self.type_document = response.data.type_document;
         self.number_document = response.data.number_document;
-
     }).catch(function (error) {
         console.log(error);
         self.$router.push({ path: '/login' });

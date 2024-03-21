@@ -281,6 +281,7 @@ function guardar() {
         }
       }
     });
+    this.$v.$reset();
 }
 
 //LISTAR VIDEOS
