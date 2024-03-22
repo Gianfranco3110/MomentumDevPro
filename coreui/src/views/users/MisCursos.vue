@@ -1,33 +1,12 @@
 <template>
   <div id="cursos-usuario">
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
-    <h1>Mis cursos</h1>
+    <div v-if="!show_curso">
+      <h2>Mis cursos</h2>
+      <hr />
+    </div>
 
-    <hr />
     <CRow>
-      <!--
-            <CCol md="4" v-for="(item, index) in items" :key="index">
-                  <div class="card" style="width: 18rem;">
-                    <img
-                      :src="$apiAdress +'/storage/courses/'+ item.image"
-                      class="bd-placeholder-img card-img-top"
-                      width="100%"
-                      height="180"
-                      aria-label="Placeholder: Image cap"
-                      role="img"
-                    />
-
-                    <div class="card-body">
-                      <h5 class="card-title">{{ item.CourseName }}</h5>
-                      <CRow class="mt-2">
-                        <CCol style="text-align:Center">
-                            <a href="#" class="btn btn-success">Ver curso</a>
-                        </CCol>
-                      </CRow>
-                    </div>
-                  </div>
-                </CCol>  
-                -->
       <CCol v-if="!show_curso" md="12">
         <div class="card" v-for="(item, index) in items" :key="index">
           <div class="card-body">
@@ -84,13 +63,13 @@
               frameborder="10"
               allowfullscreen
             ></iframe>
-            <CCol sm="3">
-              <CButton @click="move_video()" color="success">
+            <CCol sm="6" class="pl-0 mt-3">
+              <CButton @click="move_video(1)" color="success">
                 <CIcon name="cil-check-circle" />&nbsp; Leccion anterior
               </CButton>
             </CCol>
-            <CCol sm="3">
-              <CButton id="next" color="dark">
+            <CCol sm="6" class="text-end pr-0 mt-3">
+              <CButton @click="move_video(2)" id="next" color="dark">
                 <CIcon name="cil-chevron-circle-left-alt" />&nbsp; Leccion
                 siguiente
               </CButton>
@@ -158,27 +137,55 @@
 import axios from "axios";
 import General from "@/_mixins/general";
 
-function move_video() {
-  console.log("1");
-  if (this.secciones && this.ur_video_curso) {
-    for (let key in this.Secciones) {
-      console.log("2");
-      console.log("seccion", this.secciones[key]);
-      let seccion = this.secciones[key];
-      console.log("seccion", seccion);
-      for (let i = 0; i < seccion.length; i++) {
-        console.log("3");
-        if (seccion[i].url_video === ur_video_curso) {
-          // Verificamos si hay un siguiente elemento en la sección
-          if (i < seccion.length - 1) {
-            let siguienteURL = seccion[i + 1].url_video;
-            this.ur_video_curso = siguienteURL;
-            console.log("La URL del video siguiente es: " + siguienteURL);
-          } else {
-            console.log("No hay un video siguiente en esta sección.");
-          }
-          break; // Salimos del bucle una vez encontramos la URL actual
-        }
+function move_video(val) {
+  let currentSection = null;
+  let currentIndex = -1;
+
+  // Encontrar la sección y el índice del video actual
+  for (let section of Object.keys(this.Secciones)) {
+    let index = this.Secciones[section].findIndex(
+      (video) => video.url_video === this.ur_video_curso
+    );
+    if (index !== -1) {
+      currentSection = section;
+      currentIndex = index;
+      break;
+    }
+  }
+
+  if (currentSection === null || currentIndex === -1) {
+    return; // No se encontró el video actual
+  }
+
+  if (val === 1) {
+    // Video anterior
+    if (currentIndex > 0) {
+      this.ur_video_curso =
+        this.Secciones[currentSection][currentIndex - 1].url_video;
+    } else {
+      // Ir al último video de la sección anterior
+      let prevSection = Object.keys(this.Secciones)[
+        Object.keys(this.Secciones).indexOf(currentSection) - 1
+      ];
+      if (prevSection) {
+        this.ur_video_curso =
+          this.Secciones[prevSection][
+            this.Secciones[prevSection].length - 1
+          ].url_video;
+      }
+    }
+  } else {
+    // Video siguiente
+    if (currentIndex < this.Secciones[currentSection].length - 1) {
+      this.ur_video_curso =
+        this.Secciones[currentSection][currentIndex + 1].url_video;
+    } else {
+      // Ir al primer video de la siguiente sección
+      let nextSection = Object.keys(this.Secciones)[
+        Object.keys(this.Secciones).indexOf(currentSection) + 1
+      ];
+      if (nextSection) {
+        this.ur_video_curso = this.Secciones[nextSection][0].url_video;
       }
     }
   }
@@ -206,7 +213,6 @@ function viewsCourseUser(id_curso) {
       console.log("response", response);
       self.Secciones = response.data.groupedVideos;
       self.titleVideo = response.data.courseName;
-      console.log("Secciones", self.Secciones);
       self.Loading = false;
       self.show_curso = true;
     })
@@ -230,7 +236,7 @@ export default {
     return {
       Loading: false,
       items: [],
-      ur_video_curso: "https://www.youtube.com/embed/xo9ZPZRPEB8",
+      ur_video_curso: "",
       Secciones: [],
       titleVideo: "",
       show_curso: false,

@@ -12,7 +12,7 @@ const onlyMayusText = helpers.regex('alpha', /^[A-Z\s]+$/);
 const onlyMayusTextEspecial = helpers.regex('alpha', /^[A-ZÑ -.,´\s]+$/);
 const UtcZone = helpers.regex('alpha', /^([+-](?:2[0-3]|[01][0-9]):[0-5][0-9])$/);
 const cellphone = (value) => /(^[+]{1})([\d]{11,15})+$/g.test(value);
-const especiales = helpers.regex('alpha', /^[-\/\\a-zA-Z.,;0-9@ -#():]+$/);
+const especiales = helpers.regex('alpha', /^[-\/\\a-zA-Z.,;0-9@ -#():Ññ]+$/);
 const decimalEspecial = (value) => /^(\d+(.{1}\d{2})?)$/.test(value);
 const inputColor = helpers.regex('alpha', /^#([A-F0-9]{6}|[A-F0-9]{3})$/);
 const phoneTest = (value) => /^[\d]{4}[-]?\d{7}$|^[\+\d]{2,4}[-]?\d{7,11}$/.test(value);

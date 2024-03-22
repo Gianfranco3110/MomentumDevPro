@@ -1,134 +1,14 @@
 <template>
   <div>
-    <!--
-    <CCardGroup class="mb-4">
-      <CRow lg="12" style="width:100%">
-        <CCol sm="6" lg="3">
-          <CWidgetProgressIcon
-            header="87.500"
-            text="Visitors"
-            color="info"
-            inverse
-          >
-            <CIcon name="cil-people" height="36" />
-          </CWidgetProgressIcon>
-        </CCol>
-        <CCol sm="6" lg="3">
-          <CWidgetProgressIcon
-            header="385"
-            text="New Clients"
-            color="success"
-            inverse
-          >
-            <CIcon name="cil-userFollow" height="36" />
-          </CWidgetProgressIcon>
-        </CCol>
-        <CCol sm="6" lg="3">
-          <CWidgetProgressIcon
-            header="1238"
-            text="Products sold"
-            color="warning"
-            inverse
-          >
-            <CIcon name="cil-basket" height="36" />
-          </CWidgetProgressIcon>
-        </CCol>
-        <CCol sm="6" lg="3">
-          <CWidgetProgressIcon
-            header="28%"
-            text="Returning Visitors"
-            color="primary"
-            inverse
-          >
-            <CIcon name="cil-chartPie" height="36" />
-          </CWidgetProgressIcon>
-        </CCol>
-      </CRow>
-    </CCardGroup>
--->
-
-    <div>
-      <CRow class="w-100">
-        <CCol sm="6">
-          <iframe
-            class="w-100"
-            height="415"
-            :src="ur_video_curso"
-            title="YouTube video player"
-            frameborder="10"
-            allowfullscreen
-          ></iframe>
-          <br />
-          <br />
-          <CCol sm="3">
-            <CButton color="success">
-              <CIcon name="cil-check-circle" />&nbsp; Leccion anterior
-            </CButton>
-          </CCol>
-          <CCol sm="3">
-            <CButton id="next" color="dark">
-              <CIcon name="cil-chevron-circle-left-alt" />&nbsp; Leccion
-              siguiente
-            </CButton>
-          </CCol>
-        </CCol>
-
-        <CCol sm="6">
-          <div class="card">
-            <div class="card-header h4 text-center mb-0">
-                {{ titleVideo }}
-            </div>
-            <div class="card-body pt-0 pb-0">
-              <ol
-                v-for="(videos, sectionName) in Secciones"
-                :key="sectionName"
-                class="list-group list-group-numbered"
-              >
-                <li class="b-b-ligth px-0 list-group-item">
-                  <div
-                    class="w-100 d-flex justify-content-between align-items-start"
-                  >
-                    <div
-                      @click="
-                        collapsedSection =
-                          collapsedSection === sectionName ? null : sectionName
-                      "
-                    >
-                      <div class="fw-bold text-bold customs-section">
-                        {{ sectionName }}
-                      </div>
-                    </div>
-                    <span class="badge bg-primary rounded-pill text-white">
-                      {{ videos.length }}
-                    </span>
-                  </div>
-                  <CCollapse :show="collapsedSection === sectionName">
-                    <CListGroup>
-                      <CListGroupItem
-                        v-for="video in videos"
-                        :key="video.id_video"
-                      >
-                        <p @click="send_url_video(video.url_video)">Descripción: {{ video.description_video }}</p>
-                        <p>Url: {{ video.url_video }}</p>
-                      </CListGroupItem>
-                    </CListGroup>
-                  </CCollapse>
-                </li>
-              </ol>
-            </div>
-            <div class="card-footer text-body-secondary">2 days ago</div>
-          </div>
-        </CCol>
-      </CRow>
-    </div>
+    <CRow class="w-100"> </CRow>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 
-function send_url_video(val){
-  console.log('val',val);
+function send_url_video(val) {
+  console.log("val", val);
 }
 
 function obtenerCourse() {
@@ -145,7 +25,7 @@ function obtenerCourse() {
     .then(function (response) {
       console.log("response", response);
       self.Secciones = response.data.groupedVideos;
-      self.titleVideo = response.data.courseName
+      self.titleVideo = response.data.courseName;
       console.log("Secciones", self.Secciones);
       self.Loading = false;
     })
@@ -161,8 +41,7 @@ export default {
       collapsedSection: null,
       Secciones: [],
       titleVideo: "",
-      ur_video_curso:"https://www.youtube.com/embed/xo9ZPZRPEB8"
-     
+      ur_video_curso: "https://www.youtube.com/embed/xo9ZPZRPEB8",
     };
   },
   methods: {
@@ -180,7 +59,7 @@ export default {
       return $color;
     },
     obtenerCourse,
-    send_url_video
+    send_url_video,
   },
 
   mounted: function () {
@@ -213,12 +92,7 @@ export default {
 #next {
   float: right;
 }
-.customs-section{
+.customs-section {
   cursor: pointer;
 }
 </style>
-
-
-
-
-

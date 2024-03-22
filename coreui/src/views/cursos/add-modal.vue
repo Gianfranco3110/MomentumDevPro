@@ -209,8 +209,8 @@ function guardar() {
       })
       .catch(function(error) {
         self.Loading = false;
-        self.$toastr.warning("¡Error, please try later!");
-        if (error.response.data.message == "The given data was invalid.") {
+        self.$toastr.warning("¡Error, por favor vuelva intentar!");
+        if (error.response.data.message == "Datos invalidos.") {
           self.message = "";
           for (let key in error.response.data.errors) {
             if (error.response.data.errors.hasOwnProperty(key)) {
@@ -261,6 +261,7 @@ function guardar() {
         }
       });
   }
+  this.$v.$reset();
 }
 //LIMPIA LOS CAMPOS
 function limpiarDatos() {
