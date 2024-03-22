@@ -36,4 +36,21 @@ class Course extends Model
         return $this->belongsTo('App\Models\Status', 'status_id');
     }
 
+    public function coursevideo()
+    {
+        return $this->hasMany('App\Models\course_video', 'courses_id');
+    }
+
+    public function coursestudent()
+    {
+        return $this->hasMany('App\Models\userCourses', 'curso_id');
+    }
+
+    public static function video_resentation()
+    {
+        return course_video::where('course_section_id',1)->orderBy('order', 'asc')->first();
+    }
+
+
+
 }

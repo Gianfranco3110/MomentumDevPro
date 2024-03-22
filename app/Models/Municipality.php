@@ -11,7 +11,7 @@ class Municipality extends Model
 
     protected $fillable = [
         'city_name',
-        'state_id'
+        'states_id'
     ];
 
     public function states() {

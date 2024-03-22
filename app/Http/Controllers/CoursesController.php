@@ -171,4 +171,19 @@ class CoursesController extends Controller
         }
         return response()->json(['status' => 'success']);
     }
+
+    function details(Request $request) {
+        if ($request->input('course_id')) {
+            $course_id=$request->input('course_id');
+            $course = Course::where('id',$course_id)->with('coursevideo','coursestudent')->first();
+            $course['count_video']= $course->coursevideo->count();
+            $course['count_estudent']= $course->coursestudent->count();
+            $course['video_presentation']= Course::video_resentation();
+            $data = [
+                'course'=>$course
+            ];
+            return response()->json($data, 200);
+
+        }
+    }
 }

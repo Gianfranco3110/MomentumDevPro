@@ -15,7 +15,7 @@ class userCourses extends Model
         return $this->belongsTo('App\Models\User', 'users_id')->withTrashed();
     }
 
-    
+
     public function courses()
     {
         return $this->belongsTo('App\Models\course', 'courses_id');
