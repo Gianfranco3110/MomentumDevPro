@@ -178,7 +178,7 @@ class CoursesController extends Controller
             $course = Course::where('id',$course_id)->with('coursevideo','coursestudent')->first();
             $course['count_video']= $course->coursevideo->count();
             $course['count_estudent']= $course->coursestudent->count();
-            $course['video_presentation']= Course::video_resentation();
+            $course['video_presentation']= Course::video_resentation($course_id);
             $data = [
                 'course'=>$course
             ];

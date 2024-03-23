@@ -46,9 +46,9 @@ class Course extends Model
         return $this->hasMany('App\Models\userCourses', 'curso_id');
     }
 
-    public static function video_resentation()
+    public static function video_resentation($id)
     {
-        return course_video::where('course_section_id',1)->orderBy('order', 'asc')->first();
+        return course_video::where('course_section_id',1)->where('courses_id',$id)->orderBy('order', 'asc')->first();
     }
 
 
