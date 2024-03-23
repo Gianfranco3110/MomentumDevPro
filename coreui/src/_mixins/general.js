@@ -154,6 +154,26 @@ async function getMunicipality(municipality) {
 
 }
 
+function formLinkIframeVideo(linkValue) {
+  let dataResp="";
+  let url = new URL(linkValue);
+  let host = url.host;
+  let hostName = host.split('.')[1];
+  if (hostName == 'youtube') {
+
+    // Extraer el ID del video de la URL
+    let videoId = linkValue.split('v=')[1];
+
+    // Construir la nueva URL embebida
+     dataResp = 'https://www.youtube.com/embed/' + videoId;
+
+  }else{
+    dataResp = url;
+  }
+  console.log(dataResp);
+  return dataResp;
+}
+
 async function getCourseDetailsLanding(id_course) {
   var course_resp = [];
 
@@ -179,7 +199,8 @@ export default {
     statusSelectColor,
     getStated,
     getMunicipality,
-    getCourseDetailsLanding
+    getCourseDetailsLanding,
+    formLinkIframeVideo
   },
   computed: {
     desactivado

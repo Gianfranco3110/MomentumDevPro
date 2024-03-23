@@ -1,4 +1,5 @@
 <template>
+
   <div class="home">
     <!--Header off the website-->
     <Headers />
@@ -9,6 +10,7 @@
       class="section mcb-section mcb-section-video-maim has-video"
       style=""
     >
+    <modalCourseDetails :modal="VerModalCourseDetail" @cerrarModal="VerModalCourseDetail = false" />
       <div class="section_video">
         <video
           poster=""
@@ -62,7 +64,7 @@
                   <div
                     class="card cursor-pointer border-0 course_box"
                     style="width: 19rem"
-                    @click="detail_curso(item.id)"
+                    @click="VerModalCourseDetail = item"
                   >
                     <img
                       :src="$apiAdress + '/storage/courses/' + item.image"
@@ -110,14 +112,17 @@ import { freeSet } from "@coreui/icons";
 import General from "@/_mixins/general";
 import Headers from "../../containers/Header.vue";
 import Footer from "../../containers/TheFooter.vue";
+import modalCourseDetails from "./modalCourseDetails";
 
 function detail_curso(id) {
-  this.$router.push({
-    name: "singleCourse",
-    params: {
-      id: id,
-    },
-  });
+  console.log(id);
+  // this.$router.push({
+  //   name: "singleCourse",
+  //   params: {
+  //     id: id,
+  //   },
+  // });
+  this.modalCourseDetails = true;
 }
 
 export default {
@@ -127,6 +132,7 @@ export default {
   components: {
     Headers,
     Footer,
+    modalCourseDetails
   },
   data() {
     return {
@@ -142,6 +148,7 @@ export default {
       perPage: 5,
       user: "",
       logueado: false,
+      VerModalCourseDetail: false,
     };
   },
   methods: {
