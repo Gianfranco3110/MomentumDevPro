@@ -34,7 +34,12 @@ class Courses_videoController extends Controller
             [
                 'required',
                 'numeric',
-                Rule::unique('course_videos', 'order')->ignore($request->id, 'id')->where('status_id',1)->where('course_section_id',$request->section_id)
+                Rule::unique('course_videos', 'order')
+                ->ignore($request->id, 'id')
+                ->where(function ($query) use ($request) {
+                    $query->where('course_section_id', $request->section_id)
+                          ->where('courses_id', $request->courses_id);
+                })
             ],
         ], [], [
             'description' => 'descripción',
