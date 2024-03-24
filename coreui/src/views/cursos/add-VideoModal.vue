@@ -239,6 +239,7 @@ function guardar() {
   formData.append("courses_id", self.video.courses_id);
   formData.append("section_id", self.video.section_id);
   formData.append("order", self.video.order);
+  formData.append("_method", "POST");
 
   console.log(FormData);
   axios

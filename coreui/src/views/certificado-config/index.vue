@@ -1,55 +1,70 @@
 <template>
   <div class="container">
-    <CRow class="mt-2">
-      <CCol sm="12" class="mb-4">
-        <div class="custom-input-file mt-3">
-          <input
-            class="input-file mb-4"
-            label="Imagen del curso"
-            type="file"
-            name="imagen"
-            id="image"
-            accept="image/*"
-            @change="getImage"
-            placeholder="Cargar Imagen de fondo"
-          />
-          Imagen de fondo...
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Carga tu imagen de fondo aquí</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <div class="custom-input-file mt-3">
+              <input
+                class="input-file mb-4"
+                label="Imagen del curso"
+                type="file"
+                name="imagen"
+                id="image"
+                accept="image/*"
+                @change="getImage"
+                placeholder="Cargar Imagen de fondo"
+              />
+              Imagen de fondo...
+            </div>
+          </div>
+          <div class="card-footer">
+            <CButton @click="guardar" class="btn botonesCan text-white mr-4">
+              <CIcon name="cil-check-circle" />&nbsp; GUARDAR CANBIOS
+            </CButton>
+            <CButton
+              @click="limpiarDatos"
+              color="dark"
+              v-if="imagenMiniatura != ''"
+            >
+              <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
+            </CButton>
+          </div>
         </div>
-      </CCol>
-      <!-- MOSTRAR IMAGEN EN MINIATURA -->
-      <CCol sm="12" class="container">
-        <figure v-if="imagenMiniatura != ''">
-          <img
-            id="imagenMiniatura"
-            :src="imagenM"
-            class="w-100"
-            alt="Course Picture"
-          />
-        </figure>
-      </CCol>
-      <CCol sm="12" v-if="imagenMiniatura == ''">
-        <img
-          :src="this.$apiAdress + '/certificado-templete/cetificado.png'"
-          class="bd-placeholder-img card-img-top w-100"
-          aria-label="Placeholder: Image cap"
-          role="img"
-        />
-      </CCol>
-    </CRow>
-    <CRow class="mt-2">
-      <CCol sm="12">
-        <CButton @click="guardar" class="btn botonesCan text-white mr-4">
-          <CIcon name="cil-check-circle" />&nbsp; GUARDAR CANBIOS
-        </CButton>
-        <CButton
-          @click="limpiarDatos"
-          color="dark"
-          v-if="imagenMiniatura != ''"
-        >
-          <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
-        </CButton>
-      </CCol>
-    </CRow>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+
+            <CRow class="mt-2">
+      
+              <!-- MOSTRAR IMAGEN EN MINIATURA -->
+              <CCol v-if="imagenMiniatura != ''" sm="12" class="container">
+                <figure >
+                  <img
+                    id="imagenMiniatura"
+                    :src="imagenM"
+                    class="w-100"
+                    alt="Course Picture"
+                  />
+                </figure>
+              </CCol>
+              <CCol sm="12" v-if="imagenMiniatura == ''">
+                <img
+                  :src="this.$apiAdress + '/certificado-templete/cetificado.png'"
+                  class="bd-placeholder-img card-img-top w-100"
+                  aria-label="Placeholder: Image cap"
+                  role="img"
+                />
+              </CCol>
+            </CRow>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -118,8 +133,10 @@ function guardar() {
     )
     .then(function (response) {
       console.log(response.data);
-      self.$toastr.success("¡Curso actualizado con exito!");
+      self.$toastr.success("¡Imagen cargado correctamente!");
       self.Loading = false;
+      self.imagenMiniatura = "";
+      this.$forceUpdate();
     })
     .catch(function (error) {
       console.log(error);
