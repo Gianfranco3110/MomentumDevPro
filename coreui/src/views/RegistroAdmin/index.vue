@@ -296,6 +296,7 @@ export default {
           }
           self.dataUser.Loading = false;
         });
+        this.$v.$reset();
     },
     async getStateds() {
       this.stated = await this.getStated();

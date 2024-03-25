@@ -10,29 +10,6 @@
       @child-refresh="refrescarComponente = true"
     />
     <CRow>
-      <!--
-            <CCol md="4" v-for="(item, index) in items" :key="index">
-                  <div class="card" style="width: 18rem;">
-                    <img
-                      :src="$apiAdress +'/storage/courses/'+ item.image"
-                      class="bd-placeholder-img card-img-top"
-                      width="100%"
-                      height="180"
-                      aria-label="Placeholder: Image cap"
-                      role="img"
-                    />
-
-                    <div class="card-body">
-                      <h5 class="card-title">{{ item.CourseName }}</h5>
-                      <CRow class="mt-2">
-                        <CCol style="text-align:Center">
-                            <a href="#" class="btn btn-success">Ver curso</a>
-                        </CCol>
-                      </CRow>
-                    </div>
-                  </div>
-                </CCol>  
-                -->
       <CCol md="12" v-for="(item, index) in items" :key="index">
         <div class="card">
           <div class="card-body">
