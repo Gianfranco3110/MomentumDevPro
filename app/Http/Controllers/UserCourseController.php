@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\course_video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\userCourses;
@@ -18,6 +19,21 @@ class UserCourseController extends Controller
         ->where('users_courses.usuario_id','=',$id)
         ->get();
         return response()->json( $courses );
+    }
+
+    public function course_user($id){
+
+        $userCourses = userCourses::with(['courses.coursevideo' => function ($query) {
+            $query->where('course_section_id', 1)->where('status_id', 1)->orderBy('created_at', 'desc')->first();
+        }])->where('usuario_id', $id)->get();
+
+        $userCourses->transform(function ($userCourse) {
+            $userCourse['video_presentation'] = Controller::formLinkIframeVideo($userCourse->courses->coursevideo[0]->url_video ?? null);
+            unset($userCourse->courses->coursevideo);
+            return $userCourse;
+        });
+
+        return response()->json($userCourses);
     }
 
     public function changeStatus(Request $request, $id){

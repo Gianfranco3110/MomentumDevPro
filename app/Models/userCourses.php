@@ -8,6 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class userCourses extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'usuario_id',
+        'curso_id',
+        'Fecha_registro',
+        'Fecha_vence',
+        'Fecha_aprobado',
+        'Fecha_compra',
+        'Fecha_sesion',
+        'Usuario_aprueba',
+        'Video_actual',
+    ];
+
     protected $table = 'users_courses';
 
     public function user()
@@ -18,7 +31,11 @@ class userCourses extends Model
 
     public function courses()
     {
-        return $this->belongsTo('App\Models\course', 'courses_id');
+        return $this->belongsTo('App\Models\course', 'curso_id');
     }
 
+    public function coursevideo()
+    {
+        return $this->hasMany('App\Models\course_video', 'courses_id');
+    }
 }
