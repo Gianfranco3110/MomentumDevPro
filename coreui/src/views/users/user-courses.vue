@@ -77,7 +77,7 @@
                     <CButton
                       v-c-tooltip="'Generar certificado'"
                       color="success"
-                      @click="GetPdf"
+                      @click="GetPdf(item.course_id)"
                       ><CIcon name="cil-cloud-download" />
                     </CButton>
                   </CCol>
@@ -104,20 +104,28 @@ import axios from "axios";
 import General from "@/_mixins/general";
 import AgreModal from "./edit-userCourses-modal";
 
-function GetPdf() {
+function GetPdf(course_id) {
+  console.log("Pedro " + course_id);
   let self = this;
   self.Loading = true;
   let listado = [];
   self.items = [];
   axios
-    .get(
+    .post(
       this.$apiAdress +
         "/api/usercertificado" +
         "?token=" +
-        localStorage.getItem("api_token")
+        localStorage.getItem("api_token"),
+        {
+          user_id: localStorage.getItem("id"),
+          course_id: course_id,
+        }
     )
     .then(function (response) {
+      console.log(response.data);
       listado = response.data;
+
+      window.open(response.data.certificado_url, '_blank');
       self.Loading = false;
       self.getCourses();
     })

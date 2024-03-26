@@ -106,7 +106,7 @@
                   <CCol md="6">
                     <CSelect
                     addLabelClasses="required"
-                    label="MUNICIPIO"
+                    label="CIUDAD"
                     :value.sync="dataUser.value_municipality"
                     invalid-feedback="Campo requerido"
                     :plain="true"
