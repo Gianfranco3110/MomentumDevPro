@@ -11,28 +11,7 @@ function send_url_video(val) {
   console.log("val", val);
 }
 
-function obtenerCourse() {
-  let self = this;
-  self.Loading = true;
-  axios
-    .get(
-      this.$apiAdress +
-        "/api/viewcoursestart/" +
-        localStorage.getItem("id") +
-        "?token=" +
-        localStorage.getItem("api_token")
-    )
-    .then(function (response) {
-      console.log("response", response);
-      self.Secciones = response.data.groupedVideos;
-      self.titleVideo = response.data.courseName;
-      console.log("Secciones", self.Secciones);
-      self.Loading = false;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-}
+
 export default {
   name: "Dashboard",
   data() {
@@ -58,7 +37,6 @@ export default {
       }
       return $color;
     },
-    obtenerCourse,
     send_url_video,
   },
 
@@ -66,7 +44,7 @@ export default {
     if (localStorage.getItem("roles") == "user,admin") {
       this.isAdmin = true;
     }
-    this.obtenerCourse();
+    
     /*
     let self = this;
     self.Loading = true;

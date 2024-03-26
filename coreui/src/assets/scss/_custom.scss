@@ -173,3 +173,7 @@ label.required:before {
   // color: $color-active !important;
 
 }
+
+input[type="checkbox"] {
+  cursor: pointer;
+}

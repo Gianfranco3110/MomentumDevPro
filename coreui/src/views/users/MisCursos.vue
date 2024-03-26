@@ -63,6 +63,7 @@
               frameborder="10"
               allowfullscreen
             ></iframe>
+            <Quick :show="show_task" :data="data_task" :tipo="'1'" />
             <CCol sm="6" class="pl-0 mt-3">
               <CButton @click="move_video(1)" color="success">
                 <CIcon name="cil-check-circle" />&nbsp; Leccion anterior
@@ -103,25 +104,51 @@
                           {{ sectionName }}
                         </div>
                       </div>
-                      <span class="badge bg-primary rounded-pill text-white">
-                        {{ videos.length }}
+                      <span
+                        @click="
+                          collapsedSection =
+                            collapsedSection === sectionName
+                              ? null
+                              : sectionName
+                        "
+                        class="rounded-pill text-black cursor-pointer"
+                      >
+                        <CIcon name="cil-caret-bottom" />
                       </span>
                     </div>
-                    <CCollapse :show="collapsedSection === sectionName">
+                    <CCollapse
+                      id="customs-li"
+                      :show="collapsedSection === sectionName"
+                    >
                       <CListGroup>
                         <CListGroupItem
                           v-for="video in videos"
                           :key="video.id_video"
                         >
-                          <p
-                            class="customs-section"
-                            @click="send_url_video(video.url_video)"
-                          >
-                            Descripción: {{ video.description_video }}
-                          </p>
+                          <div class="flex d-flex">
+                            <input
+                              type="checkbox"
+                              @click="selectVideo(video.id_video)"
+                            />
+
+                            <p
+                              class="customs-section ml-2 mt-3"
+                              @click="send_url_video(video.url_video)"
+                            >
+                              Descripción: {{ video.description_video }}
+                            </p>
+                          </div>
                         </CListGroupItem>
                       </CListGroup>
-                      <Quick :show="show_task" :data="data_task" :tipo="'1'" />
+                      <p
+                        v-if="
+                          videos.length > 0 &&
+                          videos[0].additional_data.length > 0
+                        "
+                      >
+                        Iniciar cuestionario:
+                        {{ videos[0].additional_data[0].question }}
+                      </p>
                     </CCollapse>
                   </li>
                 </ol>
@@ -132,7 +159,6 @@
         </CRow>
       </div>
     </CRow>
-    
   </div>
 </template>
 <script>
@@ -247,31 +273,24 @@ export default {
       show_task: true,
       data_task: [
         {
-          
           title: "hola input",
         },
         {
-         
           title: "hola check",
         },
         {
-          
           title: "hola check",
         },
         {
-          
           title: "hola check",
         },
         {
-          
           title: "hola check",
         },
         {
-          
           title: "hola check",
         },
         {
-          
           title: "hola check",
         },
       ],
@@ -312,5 +331,9 @@ export default {
 <style scoped>
 .customs-section {
   cursor: pointer;
+}
+#customs-li li {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 </style>
