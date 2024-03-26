@@ -49,6 +49,7 @@ Route::group(['middleware' => ['api']], function ($router) {
     Route::post('usercourses/create','UserCourseController@create');
     Route::put('usercourses/{id}/changestatus','UserCourseController@changeStatus');
     Route::get('usercourses/{id}','UserCourseController@index');
+    Route::get('usercourses/list/{id}','UserCourseController@course_user');
     Route::delete('usercourses/{id}','UserCourseController@destroy');
     //ROUTE PARA GENERAR PDF
     Route::get('usercourses/pdf','UserCourseController@generatePDF');

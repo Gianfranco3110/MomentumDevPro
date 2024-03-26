@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 use App\Models\RoleHierarchy;
+use Illuminate\Support\Facades\Hash;
 
 class UsersAndNotesSeeder extends Seeder
 {
@@ -19,7 +20,7 @@ class UsersAndNotesSeeder extends Seeder
      */
     public function run()
     {
-        $numberOfUsers = 10;
+        $numberOfUsers = 3;
         $numberOfNotes = 100;
         $usersIds = array();
         $statusIds = array();
@@ -38,7 +39,7 @@ class UsersAndNotesSeeder extends Seeder
             'role_id' => $userRole->id,
             'hierarchy' => 2,
         ]);
-        $guestRole = Role::create(['name' => 'guest']); 
+        $guestRole = Role::create(['name' => 'guest']);
         RoleHierarchy::create([
             'role_id' => $guestRole->id,
             'hierarchy' => 3,
@@ -57,11 +58,14 @@ class UsersAndNotesSeeder extends Seeder
         ]);
         array_push($statusIds, DB::getPdo()->lastInsertId());
         /*  insert users   */
-        $user = User::create([ 
+        $user = User::create([
             'name' => 'admin',
             'email' => 'admin@admin.com',
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'adress_all' => $faker->address(),
+            'type_document' => "V",
+            'number_document' => "051651645",
+            'password' => Hash::make("password"), // password
             'remember_token' => Str::random(10),
             'menuroles' => 'user,admin',
             'status' => 'Active'
@@ -71,12 +75,15 @@ class UsersAndNotesSeeder extends Seeder
         for($i = 0; $i<$numberOfUsers; $i++){
             $user = User::create([
                 'name' => $faker->name(),
+                'adress_all' => $faker->address(),
+                'type_document' => "V",
+                'number_document' => "12002623262",
                 'email' => $faker->unique()->safeEmail(),
                 'email_verified_at' => now(),
-                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'password' => Hash::make("123456"), // password
                 'remember_token' => Str::random(10),
                 'menuroles' => 'user',
-                'status' => $userStatus[ random_int(0,count($userStatus) - 1) ]
+                'status' => $userStatus[0]
             ]);
             $user->assignRole('user');
             array_push($usersIds, $user->id);

@@ -27,6 +27,16 @@ class Courses_videoController extends Controller
     // GUARDA-ASOCIA LOS VIDEOS
     public function store(Request $request)
     {
+        if ($request->id == "") {
+            $courseVideo = course_video::where('order', $request->order)
+            ->where('course_section_id', $request->section_id)
+            ->where('courses_id', $request->courses_id)
+            ->where('status_id',$request->status_id)
+            ->count();
+            if ($courseVideo>0) {
+                return response()->json(['status' => 422,'message'=>"El numero de orden ya se encuentra registrado"],$status = 200);
+            }
+        }
         $validatedData = $request->validate([
             'description'       => 'required|max:365',
             'url_video'         => 'required|max:200',
@@ -35,12 +45,7 @@ class Courses_videoController extends Controller
             [
                 'required',
                 'numeric',
-                Rule::unique('course_videos', 'order')
-                ->ignore($request->id, 'id')
-                ->where(function ($query) use ($request) {
-                    $query->where('course_section_id', $request->section_id)
-                          ->where('courses_id', $request->courses_id);
-                })
+
             ],
         ], [], [
             'description' => 'descripción',
@@ -48,6 +53,8 @@ class Courses_videoController extends Controller
             'section_id' => 'sección',
             'order' => 'nº de orden',
         ]);
+        // return response($request);
+
         $user = auth()->userOrFail();
         $text_op = "";
         if ($request->id == "") {
@@ -73,7 +80,7 @@ class Courses_videoController extends Controller
         }
 
         if ($query) {
-            return response()->json(['status' => 'success', "messague" => $text_op], $status = 200);
+            return response()->json(['status' => 200, "messague" => $text_op], $status = 200);
         }
         return response()->json(['status' => 'Error en la query.'], $status = 500);
     }
