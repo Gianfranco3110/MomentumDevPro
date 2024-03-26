@@ -10,10 +10,9 @@
       class="section mcb-section mcb-section-video-maim has-video"
       style=""
     >
-    <modalCourseDetails :modal="VerModalCourseDetail" @cerrarModal="VerModalCourseDetail = false" />
+    <modalCourseDetails :modal="VerModalCourseDetail"  />
       <div class="section_video">
         <video
-          poster=""
           autoplay="true"
           loop="true"
           muted="muted"

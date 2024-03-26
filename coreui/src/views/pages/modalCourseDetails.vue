@@ -1,12 +1,23 @@
 <template>
-  <div>
+  <div >
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CModal
       :title="tituloModal"
       color="dark"
       size="lg"
+      :closeOnBackdrop="false"
       :show.sync="VerModalCourseDetail"
     >
+    <div slot="header" class="w-100">
+      <b-btn
+        size="sm"
+        class="float-right"
+        variant="primary"
+        @click="VerModalCourseDetail = false"
+      >
+        Close
+      </b-btn>
+    </div>
     
       <div class="row g-0 p-2">
         <div class="col-md-12 col-lg-12 d-none d-md-block">
@@ -52,11 +63,12 @@
                       
                         <div>
                         <button
+                            @click="comprar(course)"
                             type="button"
                             class="btn btn-info w-100 d-flex align-items-center"
                         >
                             <CIcon class="mr-2" name="cil-cart" /> Comprar ,
-                            <strom class="h5 mb-0">${{ course.price }} USD</strom>
+                            <strong class="h5 mb-0">${{ course.price }} USD</strong>
                         </button>
                         </div>
                         <ul class="course-stats ml-0 pl-0 mb-3">
@@ -129,20 +141,24 @@ export default {
   },
   watch: {
     modal: async function () {
+      console.log("Pepito",this.VerModalCourseDetail);
       if (this.modal) {
         this.Loading= true;
         this.VerModalCourseDetail = true;
-        console.log(this.modal.CourseName);
+        // console.log(this.modal);
         //   this.tituloModal = this.modal.id;
-        this.$emit("cerrarModal");
+
+
         let dataResp = await this.getCourseDetailsLanding(this.modal.id);
         this.course = dataResp.course;
+        localStorage.setItem('course', JSON.stringify(this.course));
         console.log(dataResp.course.video_presentation);
         this.ur_video_curso = dataResp.course.video_presentation==null? false :this.formLinkIframeVideo(dataResp.course.video_presentation.url_video);
-        console.log(this.modal);
         this.Loading= false;
       }
-    },
+      this.$emit("cerrarModal");     
+    }
+  
   },
   methods: {
     infoCourse(){
@@ -154,9 +170,33 @@ export default {
                 id: this.course.id,
                 },
             });
+    },
+    comprar(course){
+      console.log(localStorage.getItem("id"));
+
+      if (localStorage.getItem("id") === null) {
+        this.$router.push({
+                name: "Auth",
+            });
+      } else if (localStorage.getItem("id") === '' || localStorage.getItem("id") === null || localStorage.getItem("id") === undefined) {
+        this.$router.push({
+                name: "Auth",
+            });
+      } else {
+          console.log('La variable existe en el almacenamiento local con el valor: ' + localStorage.getItem("id"));
+          // localStorage.removeItem("course");
+      }
+
+    },
+    hola(){
+      console.log("Hola");
     }
+    
   },
-  mounted: function () {},
+  mounted: function () {
+    console.log("montado");
+  },
+
 };
 </script>
   <style scoped>
