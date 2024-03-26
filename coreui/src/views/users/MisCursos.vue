@@ -7,7 +7,7 @@
     </div>
 
     <CRow>
-      <CCol v-if="!show_curso" md="12">
+      <!--<CCol v-if="!show_curso" md="12">
         <div class="card" v-for="(item, index) in items" :key="index">
           <div class="card-body">
             <CRow>
@@ -51,7 +51,7 @@
             </CRow>
           </div>
         </div>
-      </CCol>
+      </CCol>-->
       <div class="col-md-12" v-if="show_curso">
         <CRow class="w-100">
           <CCol sm="6" class="row">
@@ -159,6 +159,44 @@
         </CRow>
       </div>
     </CRow>
+    <div  v-if="!show_curso" class="">
+      <div class="row">
+        <div class="col-lg-3 col-md-3" v-for="(item, index) in items" :key="index" @click="viewsCourseUser(item.course_id)">
+          <div class="card border-0 course_box"  >
+            <!--<img src="..." class="card-img-top" alt="...">-->
+            <iframe
+            v-if="item.video_presentation!=null"
+            class="h-video-list bd-placeholder-img card-img-top"
+    
+            :src="item.video_presentation"
+            title="YouTube video player"
+            frameborder="10"
+            allowfullscreen
+          ></iframe>
+          <img
+            v-if="item.video_presentation==null"
+            :src="$apiAdress + '/storage/courses/img_default.webp'"
+                class="bd-placeholder-img card-img-top"
+                width="100%"
+                aria-label="Placeholder: Image cap"
+                role="img"
+            />
+            <div class="card-body">
+              
+              <h5 class="card-title"><b>{{item.name}}</b></h5>
+              <p class="card-text">{{item.description}}</p>
+              <CBadge  color="success" v-if="item.status"> Pagado</CBadge>
+              <CBadge v-if="!item.status" color="warning"> Pendiente por pagar</CBadge>
+            </div>
+            <div class="card-footer ">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
   </div>
 </template>
 <script>
@@ -299,27 +337,29 @@ export default {
   methods: {
     move_video,
     send_url_video,
-    getCourses() {
+    async getCourses() {
       let self = this;
-      self.Loading = true;
-      axios
-        .get(
-          this.$apiAdress +
-            "/api/usercourses/" +
-            localStorage.getItem("id") +
-            "?token=" +
-            localStorage.getItem("api_token")
-        )
-        .then(function (response) {
-          self.items = response.data;
-          console.log("response.data");
-          console.log(response.data);
-          self.Loading = false;
-        })
-        .catch(function (error) {
-          console.log(error);
-          //self.$router.push({ path: "/login" });
-        });
+      // self.Loading = true;
+      // axios
+      //   .get(
+      //     this.$apiAdress +
+      //       "/api/usercourses/" +
+      //       localStorage.getItem("id") +
+      //       "?token=" +
+      //       localStorage.getItem("api_token")
+      //   )
+      //   .then(function (response) {
+      //     self.items = response.data;
+      //     console.log("response.data");
+      //     console.log(response.data);
+      //     self.Loading = false;
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //     //self.$router.push({ path: "/login" });
+      //   });
+
+      self.items = await self.getCourseUserAll(localStorage.getItem("id"));
     },
     viewsCourseUser,
   },

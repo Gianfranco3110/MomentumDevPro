@@ -22,7 +22,7 @@
           </div>
           <div class="card-footer">
             <CButton @click="guardar" class="btn botonesCan text-white mr-4">
-              <CIcon name="cil-check-circle" />&nbsp; GUARDAR CANBIOS
+              <CIcon name="cil-check-circle" />&nbsp; GUARDAR CAMBIOS
             </CButton>
             <CButton
               @click="limpiarDatos"

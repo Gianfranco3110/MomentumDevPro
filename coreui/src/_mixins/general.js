@@ -192,6 +192,34 @@ async function getCourseDetailsLanding(id_course) {
   return course_resp;
 
 }
+
+async function getCourseUserAll(id_user) {
+  var municipality_resp = [];
+
+  await axios.get(this.$apiAdress+"/api/usercourses/list/"+id_user, {
+    headers: {
+      "Accept": "application/json",
+    }
+  }).then(async function (response) {
+
+      let muni_resp = response.data;
+      let municipality_nw = muni_resp.map((muni_resp) =>
+        Object.assign({}, municipality_nw, {
+          name: muni_resp.courses.CourseName,
+          course_id: muni_resp.curso_id,
+          description: muni_resp.courses.description,
+          video_presentation: muni_resp.video_presentation,
+          status: muni_resp.status == "Pagado"?true:false,
+        })
+      );
+      municipality_resp = municipality_resp.concat(municipality_nw);
+      // console.log(course_resp);
+  }).catch(function (error) {
+      console.log("axios1" + error)
+      return false;
+  });
+  return municipality_resp;
+}
 export default {
   methods: {
     getBadge,
@@ -200,7 +228,8 @@ export default {
     getStated,
     getMunicipality,
     getCourseDetailsLanding,
-    formLinkIframeVideo
+    formLinkIframeVideo,
+    getCourseUserAll
   },
   computed: {
     desactivado

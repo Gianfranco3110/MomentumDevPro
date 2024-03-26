@@ -169,11 +169,12 @@ label.required:before {
 .text-end{
   text-align: end !important;
 }
-.text-color-header{
-  // color: $color-active !important;
 
-}
+
 
 input[type="checkbox"] {
   cursor: pointer;
+}
+.h-video-list{
+  height: 14vw;
 }

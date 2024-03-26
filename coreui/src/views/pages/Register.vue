@@ -94,7 +94,7 @@
                     </CSelect>
                     </CCol>
                     <CCol md="6">
-                      <label class="form-label mb-1 required">Municipio</label>
+                      <label class="form-label mb-1 required">Ciudad</label>
                       <CSelect
                       addLabelClasses="required"
                       :value.sync="dataUser.value_municipality"

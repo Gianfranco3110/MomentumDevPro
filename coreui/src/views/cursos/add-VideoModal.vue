@@ -177,10 +177,11 @@ import VideoVal from "@/_validations/videos/VideoVal";
 import axios from "axios";
 
 function CerrarLimpiar() {
-  this.video = {
-    description: "",
-    url_video: "",
-  };
+  this.video.description = "";
+  this.video.url_video = "";
+  this.video.section_id = 1;
+  this.video.order = "";
+  this.video.id = "";
   this.AddVideo = false;
 }
 
@@ -255,10 +256,18 @@ function guardar() {
       }
     )
     .then(function (response) {
-      self.$toastr.success(response.data.messague);
-      self.limpiarDatos();
-      self.ListVideo(self.video.courses_id);
-      console.log(response.data);
+
+      if (response.data.status == 200) {
+        self.$toastr.success(response.data.messague);
+        self.limpiarDatos();
+        self.ListVideo(self.video.courses_id);
+        console.log(response.data);
+      }else if(response.data.status == 422){
+        self.$toastr.error(response.data.message);
+        // self.limpiarDatos();
+        // self.ListVideo(self.video.courses_id);
+      }
+      self.Loading = false;
     })
     .catch(function (error) {
       self.numAlerError = 0;
