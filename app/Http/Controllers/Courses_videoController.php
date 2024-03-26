@@ -114,7 +114,7 @@ class Courses_videoController extends Controller
     //TRAE EL CURSO CON SUS VIDEOS PARA INICIAR
     public function viewcoursestart($id_curso,$id_user)
     {
-
+       
         //return response()->json($id_curso);
         $videos = course_video::where('courses_id', $id_curso)
             //->where('users_id', $id_user)
@@ -128,10 +128,11 @@ class Courses_videoController extends Controller
         
         if($videos->count() > 0){
             $courseName = $videos->first()->courses->courseName;
-           
+            $courseId = $videos->first()->courses->id;
+            $firstVideoUrl = $videos->first()->url_video; 
             $groupedVideos = $videos->groupBy('courseSection.name')->map(function ($videos) use ($id_curso) {
                 return $videos->sortBy('order')->map(function ($video) use ($id_curso) {
-                    $additionalData = User_questions::where('courses_id', $id_curso)
+                    $question_user = User_questions::where('courses_id', $id_curso)
                     ->where('course_section_id', $video->course_section_id)
                     ->select('course_section_id', 'question')
                     ->get();
@@ -141,14 +142,17 @@ class Courses_videoController extends Controller
                         'description_video' => $video->description,
                         'url_video' => $video->url_video,
                         'orden' => $video->order,
-                        'additional_data' => $additionalData
+                        'course_section_id' => $video->course_section_id,
+                        'question_user' => $question_user,
                     ];
                 })->values();
             });
 
             return response()->json([
                 'groupedVideos' => $groupedVideos,
-                'courseName' => $courseName
+                'courseName' => $courseName,
+                'first_video_url' => $firstVideoUrl,
+                'course_id' => $courseId
             ]);
         }else{
             return response()->json('No existe informacion');
