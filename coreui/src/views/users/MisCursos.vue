@@ -1,379 +1,96 @@
 <template>
   <div id="cursos-usuario">
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
-    <div v-if="!show_curso">
+    <div>
       <h2>Mis cursos</h2>
       <hr />
     </div>
-
-    <CRow>
-      <!--<CCol v-if="!show_curso" md="12">
-        <div class="card" v-for="(item, index) in items" :key="index">
-          <div class="card-body">
-            <CRow>
-              <CCol md="6">
-                <CRow>
-                  <CCol md="3">
-                    <img
-                      :src="$apiAdress + '/storage/courses/' + item.image"
-                      class="bd-placeholder-img card-img-top"
-                      width="80"
-                      height="80"
-                      aria-label="Placeholder: Image cap"
-                      role="img"
-                    />
-                  </CCol>
-                  <CCol md="3">
-                    {{ item.CourseName }}
-                  </CCol>
-                  <CCol md="3">
-                    {{ item.Video }}
-                  </CCol>
-                  <CCol md="3">
-                    <CBadge :color="getBadge(item.status)">{{
-                      item.status
-                    }}</CBadge>
-                  </CCol>
-                </CRow>
-              </CCol>
-              <CCol md="6">
-                <CRow>
-                  <CCol md="12 " class="text-end">
-                    <button
-                      @click="viewsCourseUser(item.course_id)"
-                      class="btn btn-success"
-                    >
-                      Ver
-                    </button>
-                  </CCol>
-                </CRow>
-              </CCol>
-            </CRow>
-          </div>
-        </div>
-      </CCol>-->
-      <div class="col-md-12" v-if="show_curso">
-        <CRow class="w-100">
-          <CCol sm="6" class="row">
+    <div class="">
+      <div class="row">
+        <div
+          class="col-lg-3 col-md-3"
+          v-for="(item, index) in items"
+          :key="index"
+          @click="send_id_curso(item.course_id)"
+        >
+          <div class="card border-0 course_box">
+            <!--<img src="..." class="card-img-top" alt="...">-->
             <iframe
-              class="w-100"
-              height="415"
-              :src="ur_video_curso"
+              v-if="item.video_presentation != null"
+              class="h-video-list bd-placeholder-img card-img-top"
+              :src="item.video_presentation"
               title="YouTube video player"
               frameborder="10"
               allowfullscreen
             ></iframe>
-            <Quick :show="show_task" :data="data_task" :tipo="'1'" />
-            <CCol sm="6" class="pl-0 mt-3">
-              <CButton @click="move_video(1)" color="success">
-                <CIcon name="cil-check-circle" />&nbsp; Leccion anterior
-              </CButton>
-            </CCol>
-            <CCol sm="6" class="text-end pr-0 mt-3">
-              <CButton @click="move_video(2)" id="next" color="dark">
-                <CIcon name="cil-chevron-circle-left-alt" />&nbsp; Leccion
-                siguiente
-              </CButton>
-            </CCol>
-          </CCol>
-
-          <CCol sm="6">
-            <div class="card">
-              <div class="card-header h4 text-center mb-0">
-                {{ titleVideo }}
-              </div>
-              <div class="card-body pt-0 pb-0">
-                <ol
-                  v-for="(videos, sectionName) in Secciones"
-                  :key="sectionName"
-                  class="list-group list-group-numbered"
-                >
-                  <li class="b-b-ligth px-0 list-group-item">
-                    <div
-                      class="w-100 d-flex justify-content-between align-items-start"
-                    >
-                      <div
-                        @click="
-                          collapsedSection =
-                            collapsedSection === sectionName
-                              ? null
-                              : sectionName
-                        "
-                      >
-                        <div class="fw-bold text-bold customs-section">
-                          {{ sectionName }}
-                        </div>
-                      </div>
-                      <span
-                        @click="
-                          collapsedSection =
-                            collapsedSection === sectionName
-                              ? null
-                              : sectionName
-                        "
-                        class="rounded-pill text-black cursor-pointer"
-                      >
-                        <CIcon name="cil-caret-bottom" />
-                      </span>
-                    </div>
-                    <CCollapse
-                      id="customs-li"
-                      :show="collapsedSection === sectionName"
-                    >
-                      <CListGroup>
-                        <CListGroupItem
-                          v-for="video in videos"
-                          :key="video.id_video"
-                        >
-                          <div class="flex d-flex">
-                            <input
-                              type="checkbox"
-                              @click="selectVideo(video.id_video)"
-                            />
-
-                            <p
-                              class="customs-section ml-2 mt-3"
-                              @click="send_url_video(video.url_video)"
-                            >
-                              Descripción: {{ video.description_video }}
-                            </p>
-                          </div>
-                        </CListGroupItem>
-                      </CListGroup>
-                      <p
-                        v-if="
-                          videos.length > 0 &&
-                          videos[0].additional_data.length > 0
-                        "
-                      >
-                        Iniciar cuestionario:
-                        {{ videos[0].additional_data[0].question }}
-                      </p>
-                    </CCollapse>
-                  </li>
-                </ol>
-              </div>
-              <div class="card-footer text-body-secondary">2 days ago</div>
-            </div>
-          </CCol>
-        </CRow>
-      </div>
-    </CRow>
-    <div  v-if="!show_curso" class="">
-      <div class="row">
-        <div class="col-lg-3 col-md-3" v-for="(item, index) in items" :key="index" @click="viewsCourseUser(item.course_id)">
-          <div class="card border-0 course_box"  >
-            <!--<img src="..." class="card-img-top" alt="...">-->
-            <iframe
-            v-if="item.video_presentation!=null"
-            class="h-video-list bd-placeholder-img card-img-top"
-    
-            :src="item.video_presentation"
-            title="YouTube video player"
-            frameborder="10"
-            allowfullscreen
-          ></iframe>
-          <img
-            v-if="item.video_presentation==null"
-            :src="$apiAdress + '/storage/courses/img_default.webp'"
-                class="bd-placeholder-img card-img-top"
-                width="100%"
-                aria-label="Placeholder: Image cap"
-                role="img"
+            <img
+              v-if="item.video_presentation == null"
+              :src="$apiAdress + '/storage/courses/img_default.webp'"
+              class="bd-placeholder-img card-img-top"
+              width="100%"
+              aria-label="Placeholder: Image cap"
+              role="img"
             />
             <div class="card-body">
-              
-              <h5 class="card-title"><b>{{item.name}}</b></h5>
-              <p class="card-text">{{item.description}}</p>
-              <CBadge  color="success" v-if="item.status"> Pagado</CBadge>
-              <CBadge v-if="!item.status" color="warning"> Pendiente por pagar</CBadge>
+              <h5 class="card-title">
+                <b>{{ item.name }}</b>
+              </h5>
+              <p class="card-text">{{ item.description }}</p>
+              <CBadge color="success" v-if="item.status"> Pagado</CBadge>
+              <CBadge v-if="!item.status" color="warning">
+                Pendiente por pagar</CBadge
+              >
             </div>
-            <div class="card-footer ">
+            <div class="card-footer">
               <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  style="width: 25%"
+                  aria-valuenow="25"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  25%
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>  
+    </div>
   </div>
 </template>
 <script>
-import axios from "axios";
 import General from "@/_mixins/general";
-import Quick from "../../components/Quick.vue";
 
-function move_video(val) {
-  let currentSection = null;
-  let currentIndex = -1;
-
-  // Encontrar la sección y el índice del video actual
-  for (let section of Object.keys(this.Secciones)) {
-    let index = this.Secciones[section].findIndex(
-      (video) => video.url_video === this.ur_video_curso
-    );
-    if (index !== -1) {
-      currentSection = section;
-      currentIndex = index;
-      break;
-    }
-  }
-
-  if (currentSection === null || currentIndex === -1) {
-    return; // No se encontró el video actual
-  }
-
-  if (val === 1) {
-    // Video anterior
-    if (currentIndex > 0) {
-      this.ur_video_curso =
-        this.Secciones[currentSection][currentIndex - 1].url_video;
-    } else {
-      // Ir al último video de la sección anterior
-      let prevSection = Object.keys(this.Secciones)[
-        Object.keys(this.Secciones).indexOf(currentSection) - 1
-      ];
-      if (prevSection) {
-        this.ur_video_curso =
-          this.Secciones[prevSection][
-            this.Secciones[prevSection].length - 1
-          ].url_video;
-      }
-    }
-  } else {
-    // Video siguiente
-    if (currentIndex < this.Secciones[currentSection].length - 1) {
-      this.ur_video_curso =
-        this.Secciones[currentSection][currentIndex + 1].url_video;
-    } else {
-      // Ir al primer video de la siguiente sección
-      let nextSection = Object.keys(this.Secciones)[
-        Object.keys(this.Secciones).indexOf(currentSection) + 1
-      ];
-      if (nextSection) {
-        this.ur_video_curso = this.Secciones[nextSection][0].url_video;
-      }
-    }
-  }
-}
-
-function viewsCourseUser(id_curso) {
-  console.log("id", id_curso);
-  let self = this;
-  self.Loading = true;
-  /* const data =  {
-    id_curso: id_curso,
-    id_user: localStorage.getItem("id")
-  }; */
-  axios
-    .get(
-      this.$apiAdress +
-        "/api/viewcoursestart/" +
-        id_curso +
-        "/" +
-        localStorage.getItem("id") +
-        "?token=" +
-        localStorage.getItem("api_token")
-    )
-    .then(function (response) {
-      console.log("response", response);
-      self.Secciones = response.data.groupedVideos;
-      self.titleVideo = response.data.courseName;
-      self.Loading = false;
-      self.show_curso = true;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-}
-
-function send_url_video(val) {
-  console.log("val", val);
-  this.ur_video_curso = val;
+function send_id_curso(id) {
+  this.$router.push({
+    name: "show_course_user",
+    params: {
+      id: id,
+    },
+  });
 }
 
 export default {
   name: "UserCourses",
   mixins: [General],
-  components: {
-    Quick,
-  },
   data: () => {
     return {
       Loading: false,
       items: [],
-      ur_video_curso: "",
-      Secciones: [],
-      titleVideo: "",
-      show_curso: false,
-      collapsedSection: null,
-      show_task: true,
-      data_task: [
-        {
-          title: "hola input",
-        },
-        {
-          title: "hola check",
-        },
-        {
-          title: "hola check",
-        },
-        {
-          title: "hola check",
-        },
-        {
-          title: "hola check",
-        },
-        {
-          title: "hola check",
-        },
-        {
-          title: "hola check",
-        },
-      ],
     };
   },
   methods: {
-    move_video,
-    send_url_video,
+    send_id_curso,
     async getCourses() {
       let self = this;
-      // self.Loading = true;
-      // axios
-      //   .get(
-      //     this.$apiAdress +
-      //       "/api/usercourses/" +
-      //       localStorage.getItem("id") +
-      //       "?token=" +
-      //       localStorage.getItem("api_token")
-      //   )
-      //   .then(function (response) {
-      //     self.items = response.data;
-      //     console.log("response.data");
-      //     console.log(response.data);
-      //     self.Loading = false;
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //     //self.$router.push({ path: "/login" });
-      //   });
-
       self.items = await self.getCourseUserAll(localStorage.getItem("id"));
     },
-    viewsCourseUser,
   },
   mounted: function () {
     this.getCourses();
   },
 };
 </script>
-<style scoped>
-.customs-section {
-  cursor: pointer;
-}
-#customs-li li {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-</style>

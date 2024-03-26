@@ -1,5 +1,5 @@
-<template v-if="show">
-  <div class="col-md-12">
+<template>
+  <div v-if="show" class="col-md-12">
     <div class="card">
       <div class="card-header">
         <h4>AQUI VA LA SECCION DE TEST : {{ title }}</h4>
@@ -32,7 +32,10 @@ export default {
   name: "quick",
   data,
   props: {
-    show: Boolean,
+    show: {
+      type: Boolean,
+      default : false
+    },
     data: Array,
     tipo: String
   },

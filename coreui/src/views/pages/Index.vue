@@ -125,6 +125,11 @@ function detail_curso(id) {
   this.modalCourseDetails = true;
 }
 
+function cerrarModal() {
+  this.VerModalCourseDetail = true;
+}
+
+
 export default {
   name: "Index",
   mixins: [General],
@@ -152,6 +157,7 @@ export default {
     };
   },
   methods: {
+    cerrarModal,
     detail_curso,
     getRowCount(Productitems) {
       return Productitems.length;

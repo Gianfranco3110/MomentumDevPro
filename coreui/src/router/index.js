@@ -10,6 +10,11 @@ const Dashboard = () => import("@/views/Dashboard");
 //Detalle del curso
 const detailcoruse = () => import("@/views/pages/courseDetail");
 
+//CURSO PARA MOSTRAR AL USUARIO MODULO PAPA
+const courseShow = () => import("@/views/users/course-show");
+
+
+
 // Views - Pages
 const Page404 = () => import("@/views/pages/Page404");
 const Page500 = () => import("@/views/pages/Page500");
@@ -179,6 +184,12 @@ function configRoutes() {
             {
               path: "",
               component: MisCursos,
+            },
+            {
+              path: ":id",
+              meta: { label: "Mostrar curso" },
+              name: "show_course_user",
+              component: courseShow
             },
           ],
         },
