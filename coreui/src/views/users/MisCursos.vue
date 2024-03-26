@@ -121,6 +121,7 @@
                           </p>
                         </CListGroupItem>
                       </CListGroup>
+                      <Quick :show="show_task" :data="data_task" :tipo="'1'" />
                     </CCollapse>
                   </li>
                 </ol>
@@ -174,6 +175,7 @@
 <script>
 import axios from "axios";
 import General from "@/_mixins/general";
+import Quick from "../../components/Quick.vue";
 
 function move_video(val) {
   let currentSection = null;
@@ -268,7 +270,7 @@ export default {
   name: "UserCourses",
   mixins: [General],
   components: {
-    General,
+    Quick,
   },
   data: () => {
     return {
@@ -279,6 +281,37 @@ export default {
       titleVideo: "",
       show_curso: false,
       collapsedSection: null,
+      show_task: true,
+      data_task: [
+        {
+          
+          title: "hola input",
+        },
+        {
+         
+          title: "hola check",
+        },
+        {
+          
+          title: "hola check",
+        },
+        {
+          
+          title: "hola check",
+        },
+        {
+          
+          title: "hola check",
+        },
+        {
+          
+          title: "hola check",
+        },
+        {
+          
+          title: "hola check",
+        },
+      ],
     };
   },
   methods: {
