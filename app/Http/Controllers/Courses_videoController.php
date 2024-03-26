@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\course_video;
+use App\Models\User_questions;
 use App\Models\Status;
 use Illuminate\Validation\Rule;
 
@@ -117,18 +118,23 @@ class Courses_videoController extends Controller
             ->sortBy(function ($video) {
                 return $video->courseSection->orden;
             });
-
+        
         if($videos->count() > 0){
             $courseName = $videos->first()->courses->courseName;
-            $groupedVideos = $videos->groupBy('courseSection.name')->map(function ($videos) {
-                return $videos->sortBy('order')->map(function ($video) {
+           
+            $groupedVideos = $videos->groupBy('courseSection.name')->map(function ($videos) use ($id_curso) {
+                return $videos->sortBy('order')->map(function ($video) use ($id_curso) {
+                    $additionalData = User_questions::where('courses_id', $id_curso)
+                    ->where('course_section_id', $video->course_section_id)
+                    ->select('course_section_id', 'question')
+                    ->get();
+
                     return [
                         'id_video' => $video->id,
                         'description_video' => $video->description,
                         'url_video' => $video->url_video,
                         'orden' => $video->order,
-                        'course_name' => $video->courses->courseName
-
+                        'additional_data' => $additionalData
                     ];
                 })->values();
             });
