@@ -171,6 +171,10 @@ label.required:before {
 }
 
 
+
+input[type="checkbox"] {
+  cursor: pointer;
+}
 .h-video-list{
   height: 14vw;
 }
