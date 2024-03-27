@@ -57,6 +57,12 @@ class UsersAndNotesSeeder extends Seeder
             'class' => 'danger',
         ]);
         array_push($statusIds, DB::getPdo()->lastInsertId());
+
+        DB::table('status')->insert([
+            'name' => 'Expirado',
+            'class' => 'info',
+        ]);
+        array_push($statusIds, DB::getPdo()->lastInsertId());
         /*  insert users   */
         $user = User::create([
             'name' => 'admin',

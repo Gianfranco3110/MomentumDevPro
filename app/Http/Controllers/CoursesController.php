@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File; //PREGUNTAR SOBRE ESTE USE
 use App\Models\Course;
 use App\Models\Status;
-
+use App\Models\userCourses;
 
 class CoursesController extends Controller
 {
@@ -19,7 +19,7 @@ class CoursesController extends Controller
         $courses = DB::table('courses')->join('users', 'users.id', '=', 'courses.users_id')
             ->join('status', 'status.id', '=', 'courses.status_id')
             ->select('courses.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
-            ->where('status_id', '=', 1)
+            ->where('status_id', '=', [1,3])
             ->limit(6)
             ->get();
         return response()->json($courses);
@@ -105,7 +105,7 @@ class CoursesController extends Controller
             $image_path_name = time() . $image_path->getClientOriginalName();
             Storage::disk('public')->put('courses/' . $image_path_name, File::get($image_path));
         }
-
+        $currentDate = now();
         $user = auth()->userOrFail();
         $query = Course::create([
             'price' => $request->input('price'),
@@ -113,7 +113,7 @@ class CoursesController extends Controller
             'CourseName' => $request->input('CourseName'),
             'status_id' => 1,
             'users_id' => $user->id,
-            'applies_to_date' => date('Y/m/d'),
+            'applies_to_date' => $currentDate->addDays($request->input('daysofvalidity'))->format('Y-m-d'),
             'daysofvalidity' => $request->input('daysofvalidity'),
             'image' =>$request->hasFile('image')?$image_path_name:"img_default.webp",
         ]);
@@ -145,6 +145,7 @@ class CoursesController extends Controller
             'image'             => 'required',
             'status_id'         => 'required',
         ]);
+        $currentDate = now();
         $courses = Course::find($id);
         if ($request->hasFile('image')) {
             $image_path = $request->file('image');
@@ -157,7 +158,7 @@ class CoursesController extends Controller
         $courses->status_id       = $request->input('status_id');
         $courses->daysofvalidity  = $request->input('daysofvalidity');
         $courses->CourseName      = $request->input('CourseName');
-        $courses->applies_to_date = date('Y/m/d');
+        $courses->applies_to_date = $currentDate->addDays($request->input('daysofvalidity'))->format('Y-m-d');
         $courses->save();
         return response()->json(['status' => 'success']);
     }
@@ -185,5 +186,13 @@ class CoursesController extends Controller
             return response()->json($data, 200);
 
         }
+    }
+
+    function valueDateExpirate(Request $request) {
+        $validatedData = $request->validate([
+            'user_id'             => 'required|numeric',
+        ]);
+        userCourses::verificarCursoExpirado($request->user_id);
+        return response()->json(["return"=>true]);
     }
 }

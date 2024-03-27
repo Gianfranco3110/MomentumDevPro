@@ -23,9 +23,11 @@ class UserCourseController extends Controller
 
     public function course_user($id){
 
+        userCourses::verificarCursoExpirado($id);
+
         $userCourses = userCourses::with(['courses.coursevideo' => function ($query) {
             $query->where('course_section_id', 1)->where('status_id', 1)->orderBy('created_at', 'desc')->first();
-        }])->where('usuario_id', $id)->get();
+        },'courses.status'])->where('usuario_id', $id)->get();
 
         $userCourses->transform(function ($userCourse) {
             $userCourse['video_presentation'] = Controller::formLinkIframeVideo($userCourse->courses->coursevideo[0]->url_video ?? null);
@@ -41,11 +43,14 @@ class UserCourseController extends Controller
         'status'             => 'required',
         'daysofvalidity'             => 'required|numeric'
         ]);
+        $currentDate = now();
         $vinculo = userCourses::find($id);
         $vinculo->status      = $request->input('status');
         $vinculo->save();
         $couser = Course::find($vinculo->curso_id);
         $couser->daysofvalidity      = $request->input('daysofvalidity');
+        $couser->applies_to_date = $request->input('daysofvalidity')<0 ? $currentDate->format('Y-m-d') : $currentDate->addDays($request->input('daysofvalidity'))->format('Y-m-d');
+        $couser->status_id = $request->input('daysofvalidity')<=0 ? 3 :1;
         $couser->save();
         // $vinculo->daysofvalidity      = $request->input('daysofvalidity');
 

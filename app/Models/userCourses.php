@@ -38,4 +38,16 @@ class userCourses extends Model
     {
         return $this->hasMany('App\Models\course_video', 'courses_id');
     }
+
+    public static function verificarCursoExpirado($user_id)
+    {
+        $course = self::where('usuario_id',$user_id)->with('courses')->get();
+        $currentDate = now();
+        foreach ($course as $key => $value) {
+            $applies_to_date = \Carbon\Carbon::parse($value->courses->applies_to_date);
+            if ($applies_to_date->lessThan($currentDate)) {
+                Course::where('id',$value->courses->id)->update(["status_id"=>3]);
+            }
+        }
+    }
 }

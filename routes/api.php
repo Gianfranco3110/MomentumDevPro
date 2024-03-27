@@ -44,6 +44,7 @@ Route::group(['middleware' => ['api']], function ($router) {
     Route::get('courses/mycourses','CoursesController@misCursos');
     Route::resource('courses', 'CoursesController');
     Route::get('courses/details/landig', 'CoursesController@details');
+    Route::post('courses/verificarfecha', 'CoursesController@valueDateExpirate');
 
     //ROUTES PARA VINCULACION CURSO-USUARIO
     Route::post('usercourses/create','UserCourseController@create');
