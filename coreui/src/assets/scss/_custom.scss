@@ -178,3 +178,9 @@ input[type="checkbox"] {
 .h-video-list{
   height: 14vw;
 }
+
+@media (max-width: 750px) {
+  .h-video-list{
+    height: 60vw;
+  }
+}

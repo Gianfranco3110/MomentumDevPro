@@ -80,6 +80,7 @@ export default {
         localStorage.setItem('email', '');
         localStorage.setItem("name", '');
         localStorage.setItem("id", '');
+        localStorage.removeItem("course");
         self.$router.push({ path: '/login' });
       }).catch(function (error) {
         console.log(error); 

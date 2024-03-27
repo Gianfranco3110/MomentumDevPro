@@ -156,8 +156,14 @@ export default {
           localStorage.setItem("id", response.data.id);
           console.log(response.data);
           self.Loading = false;
-
-          self.$router.push({ path: "dashboard" });
+          
+          if (localStorage.getItem("course") === null) {
+            self.$router.push({ path: "dashboard" });
+          }else{
+            self.AssignCourse();
+            self.$router.push({ path: "/" });
+          }
+      
         })
         .catch(function(error) {
           self.Loading = false;
@@ -203,6 +209,55 @@ export default {
           
         });
     },
+    AssignCourse() {
+      let self = this;
+      self.Loading = true;
+      const dataCourse = JSON.parse(localStorage.getItem("course"));
+      axios
+        .post(
+          this.$apiAdress +
+            "/api/usercourses/create?token=" +
+            localStorage.getItem("api_token"),
+          {
+            course_id: dataCourse.id,
+            user_id: localStorage.getItem("id"),
+            status: '',
+          }
+        )
+        .then(function(response) {
+          console.log(response.data);
+          self.Loading = false;
+          // self.AddModal = false;
+          self.$toastr.success("¡Curso asignado con exito!");
+         
+        })
+        .catch(function(error) {
+            // Capturar y manejar los errores
+          if (error.response) {
+            // Error de respuesta del servidor
+            const errorDetails = {
+              status: error.response.status,
+              data: error.response.data,
+            };
+            console.log(errorDetails);
+            
+            // Manejar errores específicos
+            if ([404, 422, 500].includes(error.response.status)) {
+              // Manejar errores 404, 422, 500
+              // console.log("Error " + error.response.status + ": " + error.response.data);
+              self.$toastr.warning("¡"+error.response.data.messague+"!");
+            }
+          } else if (error.request) {
+            // Error de solicitud (sin respuesta del servidor)
+            console.log("Error de solicitud:", error.request);
+          } else {
+            // Otros errores
+            console.log("Error:", error.message);
+          }
+          self.Loading = false;
+          
+        });
+    }
   },
 };
 </script>

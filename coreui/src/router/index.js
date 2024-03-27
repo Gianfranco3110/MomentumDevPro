@@ -174,6 +174,7 @@ function configRoutes() {
         //Ruta de Mis Cursos
         {
           path: "mis-cursos",
+          name:"miscursos",
           meta: { label: "Mis Cursos" },
           component: {
             render(c) {

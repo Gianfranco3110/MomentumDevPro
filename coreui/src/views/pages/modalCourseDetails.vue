@@ -8,14 +8,13 @@
       :closeOnBackdrop="false"
       :show.sync="VerModalCourseDetail"
     >
-    <div slot="header" class="w-100">
+    <div slot="header" class="w-100 text-end">
       <b-btn
-        size="sm"
-        class="float-right"
-        variant="primary"
-        @click="VerModalCourseDetail = false"
+      size="sm"
+        class=" btn bg-transparent p-1  b-0"
+        @click="cerrarModal"
       >
-        Close
+        <CIcon class="text-white" name="cil-x" />
       </b-btn>
     </div>
     
@@ -156,7 +155,6 @@ export default {
         this.ur_video_curso = dataResp.course.video_presentation==null? false :this.formLinkIframeVideo(dataResp.course.video_presentation.url_video);
         this.Loading= false;
       }
-      this.$emit("cerrarModal");     
     }
   
   },
@@ -173,7 +171,7 @@ export default {
     },
     comprar(course){
       console.log(localStorage.getItem("id"));
-
+      localStorage.setItem('comprar', 1);
       if (localStorage.getItem("id") === null) {
         this.$router.push({
                 name: "Auth",
@@ -183,18 +181,67 @@ export default {
                 name: "Auth",
             });
       } else {
-          console.log('La variable existe en el almacenamiento local con el valor: ' + localStorage.getItem("id"));
+          this.AssignCourse();
           // localStorage.removeItem("course");
       }
 
     },
-    hola(){
-      console.log("Hola");
-    }
+    cerrarModal(){
+      this.VerModalCourseDetail = false;
+      localStorage.removeItem("course");
+    },
+    AssignCourse() {
+      let self = this;
+      self.Loading = true;
+      axios
+        .post(
+          this.$apiAdress +
+            "/api/usercourses/create?token=" +
+            localStorage.getItem("api_token"),
+          {
+            course_id: this.course.id,
+            user_id: localStorage.getItem("id"),
+            status: '',
+          }
+        )
+        .then(function(response) {
+          console.log(response.data);
+          self.Loading = false;
+          // self.AddModal = false;
+          self.$toastr.success("¡Curso asignado con exito!");
+          self.$router.push({ path: "mis-cursos" });
+        })
+        .catch(function(error) {
+            // Capturar y manejar los errores
+          if (error.response) {
+            // Error de respuesta del servidor
+            const errorDetails = {
+              status: error.response.status,
+              data: error.response.data,
+            };
+            console.log(errorDetails);
+            
+            // Manejar errores específicos
+            if ([404, 422, 500].includes(error.response.status)) {
+              // Manejar errores 404, 422, 500
+              // console.log("Error " + error.response.status + ": " + error.response.data);
+              self.$toastr.warning("¡"+error.response.data.messague+"!");
+            }
+          } else if (error.request) {
+            // Error de solicitud (sin respuesta del servidor)
+            console.log("Error de solicitud:", error.request);
+          } else {
+            // Otros errores
+            console.log("Error:", error.message);
+          }
+          self.Loading = false;
+          
+        });
+    },
     
   },
   mounted: function () {
-    console.log("montado");
+    this.cerrarModal();
   },
 
 };
