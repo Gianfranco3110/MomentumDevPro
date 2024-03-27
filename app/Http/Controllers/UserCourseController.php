@@ -55,6 +55,9 @@ class UserCourseController extends Controller
     public function create(Request $request){
 
         $user = auth()->userOrFail();
+        if (count(userCourses::where('curso_id', $request->input('course_id'))->where('usuario_id', $request->input('user_id'))->get())) {
+            return response()->json(['messague' => 'Este curso ya lo tienes asignado'],422);
+        }
         $query = DB::table('users_courses')->insert([
             'usuario_id' => $request->input('user_id'),
             'curso_id' => $request->input('course_id'),
