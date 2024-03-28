@@ -145,7 +145,7 @@ export default {
           email: self.email,
           password: self.password,
         })
-        .then(function(response) {
+        .then( async function(response) {
           self.email = "";
           self.password = "";
           self.classInvaEmail = "";
@@ -160,8 +160,8 @@ export default {
           if (localStorage.getItem("course") === null) {
             self.$router.push({ path: "dashboard" });
           }else{
-            self.AssignCourse();
-            self.$router.push({ path: "/" });
+            await self.AssignCourse();
+            
           }
       
         })
@@ -227,6 +227,7 @@ export default {
         .then(function(response) {
           console.log(response.data);
           self.Loading = false;
+          self.$router.push({ path: "mis-cursos" });
           // self.AddModal = false;
           self.$toastr.success("¡Curso asignado con exito!");
          

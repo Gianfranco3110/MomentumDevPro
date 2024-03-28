@@ -2,16 +2,28 @@
   <div id="cursos-usuario">
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <div>
-      <h2>Mis cursos</h2>
+      <div class="row d-flex align-items-center">
+          <div class="col-md-9">
+            <h2 class="mb-0">Mis cursos</h2>
+          </div>
+          <div class="col-md-3">
+            <div>
+              <div class="input-group ">
+                <input  class="form-control" type="text" v-model="searchQuery" placeholder="Buscar curso...">
+                <span class="input-group-text" id="basic-addon1"><CIcon name="cil-search" /></span>
+              </div>
+            </div>
+          </div>
+      </div>
       <hr />
     </div>
     <div class="">
       <div class="row">
         <div
           class="col-lg-3 col-md-3"
-          v-for="(item, index) in items"
+          v-for="(item, index) in filteredItems"
           :key="index"
-          @click="send_id_curso(item.course_id)"
+          @click="send_id_curso(item)"
         >
           <div class="card border-0 course_box">
             <!--<img src="..." class="card-img-top" alt="...">-->
@@ -32,6 +44,7 @@
               role="img"
             />
             <div class="card-body">
+              <span class="badge rounded-pill bg-primary py-1 px-2 text-white mb-2" :class="'bg-'+item.status_video_class" style="border-radius: 0% !important;">{{item.status_video}}</span>
               <h5 class="card-title">
                 <b>{{ item.name }}</b>
               </h5>
@@ -64,13 +77,24 @@
 <script>
 import General from "@/_mixins/general";
 
-function send_id_curso(id) {
-  this.$router.push({
-    name: "show_course_user",
-    params: {
-      id: id,
-    },
-  });
+function send_id_curso(curso) {
+    if(curso.status){
+      if(curso.status_id_video == 1){
+        this.$router.push({
+          name: "show_course_user",
+          params: {
+            id: curso.course_id,
+          },
+        });
+      }else if(curso.status_id_video == 2){
+        this.alertNotifi("CURSO INACTIVO","El curso "+curso.name+", se encuentra inactivo, debes comunicarte con el administrador.");
+      }else if(curso.status_id_video == 3){
+        this.alertNotifi("CURSO EXPIRADO","El curso "+curso.name+" expiró, debes comunicarte con el administrador.");
+      }
+    }else{
+      this.alertNotifi("CURSO PENDIENTE POR PAGAR","El curso "+curso.name+", esta pendiente por cancelar, debes comunicarte con el administrador.");
+    }
+ 
 }
 
 export default {
@@ -80,7 +104,18 @@ export default {
     return {
       Loading: false,
       items: [],
+      searchQuery: ''
     };
+  },
+  computed: {
+    filteredItems() {
+      return this.items.filter(item => {
+        return (
+          item.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          item.description.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
+      });
+    }
   },
   methods: {
     send_id_curso,
@@ -88,6 +123,20 @@ export default {
       let self = this;
       self.items = await self.getCourseUserAll(localStorage.getItem("id"));
     },
+    alertNotifi(title,text){
+      this.$swal
+      .fire({
+        title,
+        text,
+        icon: "warning",
+        showCancelButton: false,
+        confirmButtonColor: "#3085d6",
+        confirmButtonText: "Cerrar",
+      })
+      .then((result) => {
+       console.log("Hola")
+      });
+    }
   },
   mounted: function () {
     this.getCourses();

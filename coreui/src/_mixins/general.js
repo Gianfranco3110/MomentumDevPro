@@ -210,6 +210,9 @@ async function getCourseUserAll(id_user) {
           description: muni_resp.courses.description,
           video_presentation: muni_resp.video_presentation,
           status: muni_resp.status == "Pagado"?true:false,
+          status_video: muni_resp.courses.status.name,
+          status_id_video: muni_resp.courses.status.id,
+          status_video_class: muni_resp.courses.status.class,
         })
       );
       municipality_resp = municipality_resp.concat(municipality_nw);
