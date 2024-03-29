@@ -46,9 +46,18 @@ class CoursesController extends Controller
     }
 
     //FUNCION PARA SACAR UNA LISTA DE LOS CURSOS PERO SOLO EL NOMBRE Y EL ID
-    public function nameCourses()
+    public function nameCourses(Request $request)
     {
-        $courses = DB::table('courses')->select('courses.CourseName as label', 'courses.id as value')->get();
+        $user_id = $request->input('user_id');
+        if ($user_id) {
+
+            $userCoursesIds = UserCourses::where('usuario_id', $user_id)->pluck('curso_id')->toArray();
+            $courses = Course::select('CourseName as label', 'id as value')
+                        ->whereNotIn('id', $userCoursesIds)
+                        ->get();
+        }else{
+            $courses = DB::table('courses')->select('courses.CourseName as label', 'courses.id as value')->get();
+        }
         return response()->json($courses);
     }
 
@@ -115,7 +124,7 @@ class CoursesController extends Controller
             'users_id' => $user->id,
             'applies_to_date' => $currentDate->addDays($request->input('daysofvalidity'))->format('Y-m-d'),
             'daysofvalidity' => $request->input('daysofvalidity'),
-            'image' =>$request->hasFile('image')?$image_path_name:"img_default.webp",
+            'image' =>$request->hasFile('image')?$image_path_name:"default.jpg",
         ]);
         if ($query) {
             return response()->json(['status' => 'success']);

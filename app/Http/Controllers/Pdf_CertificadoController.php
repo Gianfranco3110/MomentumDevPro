@@ -79,9 +79,9 @@ class Pdf_CertificadoController extends Controller
         $pdfPath = public_path('Certificado.pdf');
         $pdf->stream($pdfPath);
         // return response()->json($pdf->stream('users.pdf'));
-        return $pdf->stream('certificado.pdf');
-        // $pdfUrl = asset('Certificado.pdf');
-        // return response()->json(['certificado_url' => $pdfUrl]);
+        // return $pdf->stream('certificado.pdf');
+        $pdfUrl = asset('Certificado.pdf');
+        return response()->json(['certificado_url' => $pdfUrl]);
 
 	}
 

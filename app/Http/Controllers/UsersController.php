@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\userCourses;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,9 +30,17 @@ class UsersController extends Controller
     public function index()
     {
         $you = auth()->user()->id;
-        $users = DB::table('users')
-        ->select('users.id', 'users.name','users.number_document','users.type_document','users.adress_all', 'users.email', 'users.menuroles as roles', 'users.status', 'users.email_verified_at as registered')
+        // $users = DB::table('users')
+        // ->select('users.id', 'users.name','users.number_document','users.type_document','users.adress_all', 'users.email', 'users.menuroles as roles', 'users.status', 'users.email_verified_at as registered')
+        // ->whereNull('deleted_at')
+        // ->get();
+        // foreach ($users as $key => $value) {
+        //     $users[$key]->count_cursos = userCourses::where('usuario_id', $value->id)->count();
+        // }
+
+        $users = User::select('id', 'name', 'number_document', 'type_document', 'adress_all', 'email', 'menuroles as roles', 'status', 'email_verified_at as registered')
         ->whereNull('deleted_at')
+        ->withCount('userCourses')
         ->get();
         return response()->json( compact('users', 'you') );
     }
