@@ -2,7 +2,7 @@
   <div>
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CModal
-      title="Cambiar Status"
+      title="Cambiar Estatus"
       :closeOnBackdrop="false"
       color="dark"
       size="lg"
@@ -11,7 +11,7 @@
       <CCard no-header>
         <CCardBody>          
           <CSelect
-            label="STATUS"
+            label="ESTATUS"
             :value.sync="VinculoData.status"
             :plain="true"
             :options="statuses"

@@ -205,7 +205,7 @@ export default {
   data: () => {
     return {
       items: [],
-      fields: [
+      fields_: [
         "id",
         "cedula",
         "name",

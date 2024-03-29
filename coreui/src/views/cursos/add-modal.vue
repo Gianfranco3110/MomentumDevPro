@@ -14,7 +14,7 @@
             addLabelClasses="required"
             placeholder="Nombre del curso"
             invalid-feedback="Campo requerido"
-            label="NOMBRE DEL CURSO"
+            label="Nombre del curso"
             v-model="$v.curso.CourseName.$model"
             :is-valid="hasError($v.curso.CourseName)"
           />
@@ -25,7 +25,7 @@
             type="number"
             placeholder="Dias de vigencia"
             invalid-feedback="Campo requerido solo enteros"
-            label="DIAS DE VIGENCIA"
+            label="Días de vigencia"
             v-model="$v.curso.daysofvalidity.$model"
             :is-valid="hasError($v.curso.daysofvalidity)"
             maxlength="10"
@@ -37,7 +37,7 @@
             type="number"
             placeholder="0"
             invalid-feedback="Campo requerido {0,00}"
-            label="PRECIO DEL CURSO"
+            label="Precio del curso"
             v-model="$v.curso.price.$model"
             :is-valid="hasError($v.curso.price)"
           />
@@ -48,7 +48,7 @@
             v-uppercase
             rows="5"
             invalid-feedback="Campo requerido. {A..Z ,-.*-/#}"
-            label="DESCRIPCION DEL CURSO"
+            label="Descripción del curso"
             maxlength="256"
             placeholder="Ingrese su descripción aqui.."
             v-model="$v.curso.description.$model"
@@ -95,7 +95,7 @@
         <CCol sm="12" v-if="actualizar">
           <br />
           <CSelect
-            label="Status"
+            label="Estatus"
             :value.sync="curso.status_id"
             :plain="true"
             :options="statuses"
@@ -370,11 +370,11 @@ export default {
         this.limpiarDatos();
         this.AddModal = true;
         if (this.modal == true) {
-          this.tituloModal = "NUEVO CURSO";
+          this.tituloModal = "Nuevo curso";
           this.actualizar = false;
         } else {
           this.actualizar = true;
-          this.tituloModal = "EDITAR CURSO";
+          this.tituloModal = "Editar curso";
           this.curso.id = this.modal.id;
           this.curso.CourseName = this.modal.CourseName;
           this.curso.description = this.modal.description;

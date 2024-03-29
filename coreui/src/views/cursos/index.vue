@@ -22,7 +22,7 @@
             color="dark"
             @click="AddModal = true"
           >
-            <CIcon name="cil-playlist-add" />&nbsp; NUEVO CURSO
+            <CIcon name="cil-playlist-add" />&nbsp; Nuevo curso
           </CButton>
           <CCol sm="12">
             <CDataTable

@@ -173,19 +173,14 @@ ul {
 
 ul.info-iconos li {
   padding-left: 45px !important;
-  background-image: url("");
+ 
   background-position: top 0px left;
   background-repeat: no-repeat;
   background-size: 30px;
   margin-bottom: 11px !important;
   height: 51px;
 }
-ul.info-iconos li:first-child {
-  background-image: url("") !important;
-}
-ul.info-iconos li:last-child {
-  background-image: url("") !important;
-}
+
 .text-footer-botom {
   font-size: 20px;
   font-family: "Playfair Display", -apple-system, BlinkMacSystemFont, "Segoe UI",
