@@ -67,6 +67,8 @@ Route::group(['middleware' => ['api']], function ($router) {
     Route::get('coursestest/list/{id}', 'User_questionController@index');
     Route::post('coursestest/store','User_questionController@store');
     Route::post('coursestest/updatestatus','User_questionController@changeStatus');
+    Route::get('coursestest/listfieldsquestion/{id}', 'User_questionController@fieldsquestion');
+
 
     //RUTA QUE SE ENCARGA DE IMPRIMIR LOS CERTIFICADOS
     Route::post('usercertificado', 'Pdf_CertificadoController@getPDF');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User_questions;
+use App\Models\fields_for_simple_selection;
 use App\Models\Status;
 
 class User_questionController extends Controller
@@ -19,9 +20,10 @@ class User_questionController extends Controller
         return response()->json( $User_questions );
 
     }
-     // GUARDA-ASOCIA LOS VIDEOS
+     // GUARDA-ASOCIA LOS TEST
      public function store(Request $request)
      {
+        //return ($request->input('options'));
          $validatedData = $request->validate([
              'question'       => 'required|max:365',
              'courses_id'         => 'required|max:200',
@@ -30,25 +32,52 @@ class User_questionController extends Controller
          $text_r = "";
          if ($request->id == "") {
             //$user = auth()->userOrFail();
-            $query=DB::table('User_questions')->insert([
-                'question' => $request->input('question'),
-                'courses_id' => $request->input('courses_id'),
-                'status_id' => intval($request->input('status_id')),
-                'course_section_id' => $request->input('section_id')
-            ]);
+            $userQuestion = new User_questions();
+            $userQuestion->question = $request->input('question');
+            $userQuestion->courses_id = $request->input('courses_id');
+            $userQuestion->status_id = intval($request->input('status_id'));
+            $userQuestion->course_section_id = $request->input('section_id');
+            $userQuestion->type_question = $request->input('type_question');
+            $userQuestion->save();
+
             $text_r = "Agregado correctamente";
+            if (!empty($request->input('options'))) {
+                $options = $request->input('options');
+                $count = count($options);
+                for ($i = 0; $i < $count; $i++) {
+                    fields_for_simple_selection::create([
+                        'id_user_questions' => $userQuestion->id,
+                        'options' => $options[$i]
+                    ]);
+                }
+            } else {
+                return response()->json(['message' => "Error, hubo un error creando las opciones del test.", 'status' => 422], 201);
+            }
          }else{
-            $query = User_questions::where('id',$request->id)->update([
+            $userQuestion = User_questions::where('id',$request->id)->update([
                 'question'=>$request->input('question'),
                 'course_section_id'=>$request->input('section_id'),
+                'type_question' => $request->input('type_question')
             ]);
-            $text_r = "Editado correctamente";
-         }
 
-         if($query){
-             return response()->json( ['status' => 'success',"messague"=>$text_r] );
-          }
-          return response()->json(['status' => 'Error en la query.']);
+            fields_for_simple_selection::where('id_user_questions', $request->id)->delete();
+            if (!empty($request->input('options'))) {
+                $options = $request->input('options');
+                $count = count($options);
+                for ($i = 0; $i < $count; $i++) {
+                    fields_for_simple_selection::create([
+                        'id_user_questions' => $request->id,
+                        'options' => $options[$i]
+                    ]);
+                }
+            }
+            $text_r = "Editado correctamente";
+        }
+
+        if($userQuestion){
+             return response()->json( ['status' => 'success',"message"=>$text_r] );
+        }
+        return response()->json(['status' => 'Error en la query.']);
      }
 
     /**
@@ -69,5 +98,13 @@ class User_questionController extends Controller
             return response()->json(['status' => 'Error en la query.']);
         }
 
+    }
+
+    public function fieldsquestion ($id){
+        $result = fields_for_simple_selection::select('options as text')
+            ->where('id_user_questions', '=', $id)
+            ->get()
+            ->toArray();
+        return response()->json($result);
     }
 }
