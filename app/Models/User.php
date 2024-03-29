@@ -35,7 +35,7 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
-    }    
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -67,10 +67,16 @@ class User extends Authenticatable implements JWTSubject
     protected $dates = [
         'deleted_at'
     ];
-    
+
     protected $guard_name = 'api';
 
-    protected $attributes = [ 
+    protected $attributes = [
         'menuroles' => 'user',
     ];
+
+
+    public function userCourses()
+    {
+        return $this->hasMany('App\Models\userCourses', 'usuario_id');
+    }
 }
