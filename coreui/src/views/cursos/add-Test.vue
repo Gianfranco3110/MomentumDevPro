@@ -67,17 +67,6 @@
               >
                 <CIcon name="cil-plus" />
               </CButton>
-              <CButton
-                v-show="!test.id == ''"
-                shape="square"
-                color="danger"
-                size="sm"
-                v-c-tooltip="'Cancelar Edición'"
-                class="align-items-right m-3"
-                @click="limpiarDatos"
-              >
-                <CIcon name="cil-close" />
-              </CButton>
             </td>
           </template>
         </div>
@@ -399,13 +388,11 @@ export default {
           .post(
             this.$apiAdress +
               "/api/coursestest/updatestatus?token=" +
-              localStorage.getItem("api_token"),{id:iten.id}
-            ,
-            
+              localStorage.getItem("api_token"),{id:item.id}
           )
           .then(function(response) {
             console.log(response);
-            self.$toastr.success("Video quitado con extio!");
+            self.$toastr.success("Video eliminado con extio!");
             self.ListQuestion(self.test.courses_id);
           })
           .catch(function(error) {
@@ -413,7 +400,6 @@ export default {
           });
         }
       });
-      
     },
     editTestCourse(item) {
       console.log('item',item);
