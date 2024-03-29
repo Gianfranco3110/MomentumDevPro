@@ -10,42 +10,47 @@
     >
       <CRow>
         <CCol sm="5">
-          <!--
-          <CCol sm="12">
-            <div class="form-group form-row">
-              <label class="text-right col-form-label required" for="origen"
-                >Cursos</label
-              >
-              <div class="col-sm-6 input-group-sm">
-                <CSelect
-                  :value.sync="courseData.course_id"
-                  :plain="true"
-                  :options="courses"
-                >
-                </CSelect>
-              </div>
-            </div>
-          </CCol> -->
-          <CCol sm="12">
-            <input type="hidden" v-model="test.id">
+          <CCol class="mt-3">
+            <input type="hidden" v-model="test.id" />
             <CTextarea
               addLabelClasses="required"
               rows="5"
-              label="INGRESE LA PREGUNTA PARA EL TEST"
+              label="Ingrese la pregunta para el test"
               maxlength="256"
               placeholder="Ingrese sus preguntas aqui.."
               v-model="test.question"
             />
-
+          </CCol>
+          <CCol>
             <CSelect
-            addLabelClasses="required"
-            label="SECCIÓN"
-            :value.sync="test.section_id"
-            invalid-feedback="Campo requerido"
-            :plain="true"
-            :options="sections"
-          >
-          </CSelect>
+              addLabelClasses="required"
+              label="Tipo de test"
+              :value.sync="test.type_questions_id"
+              invalid-feedback="Campo requerido"
+              :plain="true"
+              :options="type_questions_options"
+              @change="handler_type_question(test.type_questions_id)"
+            >
+            </CSelect>
+          </CCol>
+          <CCol v-if="show_section_options">
+            <label class="required" for="add-option">Agregar opciones</label>
+            <vue-tags-input
+              v-model="tag"
+              placeholder="Agregar opciones"
+              :tags="tags_options"
+              @tags-changed="(newTags) => (tags_options = newTags)"
+            />
+          </CCol>
+          <CCol class="mt-3">
+            <CSelect
+              addLabelClasses="required"
+              label="Sección"
+              :value.sync="test.section_id"
+              invalid-feedback="Campo requerido"
+              :plain="true"
+              :options="sections"
+            />
           </CCol>
         </CCol>
         <!-- BOTON DE AGREGAR + -->
@@ -63,17 +68,16 @@
                 <CIcon name="cil-plus" />
               </CButton>
               <CButton
-                  v-show="!test.id == '' "
-                  shape="square"
-                  color="danger"
-                  size="sm"
-                  v-c-tooltip="'Cancelar Edición'"
-                  class="align-items-right m-3"
-                  @click="limpiarDatos"
-                  
-                >
-                  <CIcon name="cil-close" />
-                </CButton>
+                v-show="!test.id == ''"
+                shape="square"
+                color="danger"
+                size="sm"
+                v-c-tooltip="'Cancelar Edición'"
+                class="align-items-right m-3"
+                @click="limpiarDatos"
+              >
+                <CIcon name="cil-close" />
+              </CButton>
             </td>
           </template>
         </div>
@@ -90,7 +94,7 @@
             sorter
             pagination
           >
-            <template #DocsRoute="{item}">
+            <template #DocsRoute="{ item }">
               <td class="py-2">
                 <CButton
                   color="dark"
@@ -118,7 +122,6 @@
         </CCol>
       </CRow>
       <template #footer>
-       
         <CButton color="dark" @click="AddTest = false">
           <CIcon name="cil-chevron-circle-left-alt" />&nbsp; CANCELAR
         </CButton>
@@ -131,6 +134,7 @@
 import axios from "axios";
 import General from "@/_mixins/general";
 import UpperCase from "@/_validations/uppercase-directive";
+import VueTagsInput from "@johmun/vue-tags-input";
 
 const fields = [
   {
@@ -140,6 +144,7 @@ const fields = [
   },
   { key: "question", label: "PREGUNTA" },
   { key: "seccion", label: "SECCIÓN" },
+  { key: "type_question", label: "TIPO" },
   {
     key: "DocsRoute",
     label: "",
@@ -167,30 +172,32 @@ function limpiarDatos() {
   this.test.question = "";
   this.test.id = "";
   this.test.section_id = 1;
-  
+  this.test.type_questions_id = 1
+  this.tags_options = [];
+  this.show_section_options = false;
 }
 //FUNCION PARA OBTENER LAS SECTIONES
-function getSections() {    
-    let self = this;
-    self.Loading = true;
-    axios
-      .get(
-        this.$apiAdress +
-          "/api/coursesvideos/listsections?token=" +
-          localStorage.getItem("api_token")
-      )
-      .then(function(response) {
-        console.log("Listas de sections");
-        console.log(response.data);
-        self.sections = response.data;
-        self.$emit("child-refresh", true);
-        self.Loading = false;        
-      })
-      .catch(function(error) {
-        console.log(error);
-        self.Loading = false;
-        //self.$router.push({ path: 'login' });
-      });
+function getSections() {
+  let self = this;
+  self.Loading = true;
+  axios
+    .get(
+      this.$apiAdress +
+        "/api/coursesvideos/listsections?token=" +
+        localStorage.getItem("api_token")
+    )
+    .then(function (response) {
+      console.log("Listas de sections");
+      console.log(response.data);
+      self.sections = response.data;
+      self.$emit("child-refresh", true);
+      self.Loading = false;
+    })
+    .catch(function (error) {
+      console.log(error);
+      self.Loading = false;
+      //self.$router.push({ path: 'login' });
+    });
 }
 //GUARDA Y ACTUALIZA
 function guardar() {
@@ -201,9 +208,11 @@ function guardar() {
   formData.append("status_id", self.test.status_id);
   formData.append("courses_id", self.test.courses_id);
   formData.append("section_id", self.test.section_id);
+  formData.append("type_question", self.test.type_questions_id);
   formData.append("id", self.test.id);
+  self.tags_options.map((item) => (formData.append("options[]", item.text)));
 
-  console.log(FormData);
+  //return;
   axios
     .post(
       this.$apiAdress +
@@ -216,13 +225,14 @@ function guardar() {
         },
       }
     )
-    .then(function(response) {
+    .then(function (response) {
       self.$toastr.success("Video agregado con extio!");
       self.limpiarDatos();
       self.ListQuestion(self.test.courses_id);
       console.log(response);
     })
-    .catch(function(error) {
+    .catch(function (error) {
+      self.Loading = true;
       if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
         for (let key in error.response.data.errors) {
           if (error.response.data.errors.hasOwnProperty(key)) {
@@ -232,6 +242,41 @@ function guardar() {
       }
     });
 }
+
+//Controla el select de tipo de question
+function handler_type_question(id) {
+  console.log("valor", id);
+  if (id == 3) {
+    this.show_section_options = true;
+  } else {
+    this.show_section_options = false;
+    this.tags_options = [];
+  }
+  
+}
+
+function list_Fields(id){
+  let self = this;
+  self.Loading = true;
+  axios
+    .get(
+      this.$apiAdress +
+        "/api/coursestest/listfieldsquestion/" +
+        id +
+        "?token=" +
+        localStorage.getItem("api_token")
+    )
+    .then(function (response) {   
+      self.tags_options = response.data
+      self.Loading = false;
+    })
+    .catch(function (error) {
+      console.log(error);
+      self.Loading = false;
+    });
+
+}
+
 
 //LISTAR VIDEOS
 function ListQuestion(id) {
@@ -247,8 +292,9 @@ function ListQuestion(id) {
         "?token=" +
         localStorage.getItem("api_token")
     )
-    .then(function(response) {
+    .then(function (response) {
       listado = response.data;
+      console.log('listado',listado);
       let Nro = 1;
       self.items = listado.map((listado) =>
         Object.assign({}, self.items, {
@@ -257,12 +303,14 @@ function ListQuestion(id) {
           question: listado.question,
           seccion: listado.course_section.name,
           seccion_id: listado.course_section.id,
+          type_question : listado.type_question === '1' ?  'Subir img' : listado.type_question === '2' ?  'Escribir respuesta' : 'Selección simple',
+          id_type : Number(listado.type_question)
         })
       );
       console.log(response);
       self.Loading = false;
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.log(error);
       //self.$router.push({ path: "/login" });
     });
@@ -278,20 +326,41 @@ function data() {
       status_id: 1,
       courses_id: "",
       section_id: "",
+      type_questions_id: "",
     },
     // VARIABLES
+    tag: "",
+    tags_options: [],
     AddTest: false,
     Loading: false,
     courses: [],
     sections: [],
+    type_questions_options: [
+      {
+        label: "Subir img",
+        value: 1,
+      },
+      {
+        label: "Escribir respuesta",
+        value: 2,
+      },
+      {
+        label: "Selección simple",
+        value: 3,
+      },
+    ],
     items: [],
     tableText: Object.assign({}, tableTextHelpers),
+    show_section_options: false,
   };
 }
 export default {
   name: "add-modal",
   mixins: [General],
   data,
+  components: {
+    VueTagsInput,
+  },
   props: {
     modal: null,
     fields: {
@@ -302,42 +371,49 @@ export default {
     },
   },
   methods: {
+    list_Fields,
+    handler_type_question,
     guardar,
     ListQuestion,
     limpiarDatos,
     getSections,
-    deleteTestCourse(iten){
-      console.log(iten.id);
+    deleteTestCourse(item) {
+      console.log(item.id);
       let self = this;
       axios
-      .post(
-        this.$apiAdress +
-          "/api/coursestest/updatestatus?token=" +
-          localStorage.getItem("api_token"),{id:iten.id}
-        ,
-        
-      )
-      .then(function(response) {
-        console.log(response);
-        self.$toastr.success("Video quitado con extio!");
-        self.ListQuestion(self.test.courses_id);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+        .post(
+          this.$apiAdress +
+            "/api/coursestest/updatestatus?token=" +
+            localStorage.getItem("api_token"),
+          { id: item.id }
+        )
+        .then(function (response) {
+          console.log(response);
+          self.$toastr.success("Video quitado con extio!");
+          self.ListQuestion(self.test.courses_id);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
-    editTestCourse(iten){
-      let self = this;
-      console.log("Editar"+iten.seccion);
-      this.test.id = iten.id;
-      this.test.question = iten.question;
-      this.test.section_id = iten.seccion_id;
-      
-    }
+    editTestCourse(item) {
+      console.log('item',item);
+      console.log("Editar" + item.seccion);
+      this.test.id = item.id;
+      this.test.question = item.question;
+      this.test.section_id = item.seccion_id;
+      this.test.type_questions_id  = item.id_type
+      if(item.id_type == 3 ){
+        this.show_section_options = true;
+        this.list_Fields(item.id);
+      }else{
+        this.show_section_options = false;
+      }
+    },
   },
   directives: UpperCase,
   watch: {
-    modal: function() {
+    modal: function () {
       if (this.modal) {
         this.AddTest = true;
         this.ListQuestion(this.modal.id);
@@ -351,3 +427,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.vue-tags-input {
+  max-width: 100% !important;
+}
+</style>

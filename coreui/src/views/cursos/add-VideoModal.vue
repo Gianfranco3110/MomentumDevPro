@@ -20,7 +20,7 @@
                 addLabelClasses="required"
                 placeholder="Nombre del curso"
                 invalid-feedback="Campo requerido"
-                label="NOMBRE DEL CURSO"
+                label="Nombre del curso"
                 v-model="CourseName"
                 disabled
               />
@@ -31,7 +31,7 @@
                 type="number"
                 placeholder="Dias de vigencia"
                 invalid-feedback="Campo requerido solo enteros"
-                label="DIAS DE VIGENCIA"
+                label="Días de vigencia"
                 v-model="daysofvalidity"
                 disabled
               />
@@ -42,7 +42,7 @@
                 type="number"
                 placeholder="0"
                 invalid-feedback="Campo requerido {0,00}"
-                label="PRECIO DEL CURSO"
+                label="Precio del curso"
                 v-model="price"
                 disabled
               />
@@ -53,14 +53,14 @@
             addLabelClasses="required"
             type="number"
             placeholder="0"
-            label="Nº DE ORDEN"
+            label="Nº de orden"
             v-model="$v.video.order.$model"
             :is-valid="hasError($v.video.order)"
           />
 
           <CSelect
             addLabelClasses="required"
-            label="SECCIÓN"
+            label="Sección"
             :value.sync="video.section_id"
             invalid-feedback="Campo requerido"
             :plain="true"
@@ -72,7 +72,7 @@
             addLabelClasses="required"
             placeholder="Url del video"
             invalid-feedback="Campo requerido"
-            label="URL DEL VIDEO"
+            label="Ruta del video"
             v-model="$v.video.url_video.$model"
             :is-valid="hasError($v.video.url_video)"
           />
@@ -81,7 +81,7 @@
             addLabelClasses="required"
             rows="4"
             invalid-feedback="Campo requerido. {A..Z ,-.*-/#}"
-            label="DESCRIPCION DEL VIDEO"
+            label="Descripción del video"
             maxlength="256"
             placeholder="Ingrese su descripción aqui.."
             v-model="$v.video.description.$model"

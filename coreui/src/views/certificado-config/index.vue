@@ -4,8 +4,7 @@
       <div class="col-sm-6">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Carga tu imagen de fondo aquí</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <h5 class="card-title">Imagén del certificado</h5>
             <div class="custom-input-file mt-3">
               <input
                 class="input-file mb-4"
@@ -15,9 +14,8 @@
                 id="image"
                 accept="image/*"
                 @change="getImage"
-                placeholder="Cargar Imagen de fondo"
               />
-              Imagen de fondo...
+              Imagen de fondo
             </div>
           </div>
           <div class="card-footer">

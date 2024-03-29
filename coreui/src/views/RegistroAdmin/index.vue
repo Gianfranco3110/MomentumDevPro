@@ -15,7 +15,7 @@
               <CForm @submit.prevent="register" method="POST">
                 <CInput
                   addLabelClasses="required"
-                  label="NOMBRE"
+                  label="Nombre"
                   placeholder="Nombre"
                   prependHtml="<i class='cui-user'></i>"
                   autocomplete="Usuario"
@@ -26,7 +26,7 @@
                 </CInput>
                 <CInput
                   addLabelClasses="required"
-                  label="CORREO"
+                  label="Correo"
                   placeholder="Correo"
                   prepend="@"
                   autocomplete="email"
@@ -36,7 +36,7 @@
               
                 <CRow >
                   <CCol md="12">
-                    <label  class="required"> IDENTIFICACIÓN </label>
+                    <label  class="required"> Identificacion </label>
                   </CCol>
                   <CCol md="2">
                     <!--<CSelect
@@ -63,7 +63,7 @@
                 </CRow>
                 <CInput
                   addLabelClasses="required"
-                  label="CONTRASEÑA"
+                  label="Contraseña"
                   placeholder="Contraseña"
                   type="password"
                   prependHtml="<i class='cui-lock-locked'></i>"
@@ -77,7 +77,7 @@
                 </CInput>
                 <CInput
                   addLabelClasses="required"
-                  label="CONFIRMAR CONTRASEÑA"
+                  label="Confirmar contraseña"
                   placeholder="Confirmar contraseña"
                   type="password"
                   prependHtml="<i class='cui-lock-locked'></i>"
@@ -94,7 +94,7 @@
                   <CCol md="6">
                     <CSelect
                     addLabelClasses="required"
-                    label="ESTADO"
+                    label="Estado"
                     :value.sync="dataUser.value_stated"
                     invalid-feedback="Campo requerido"
                     :plain="true"
@@ -106,7 +106,7 @@
                   <CCol md="6">
                     <CSelect
                     addLabelClasses="required"
-                    label="CIUDAD"
+                    label="Ciudad"
                     :value.sync="dataUser.value_municipality"
                     invalid-feedback="Campo requerido"
                     :plain="true"
@@ -118,7 +118,7 @@
                 </CRow>
                 <CInput
                   addLabelClasses="required"
-                  label="CALLE"
+                  label="Calle"
                   placeholder="calle"
                   type="text"
                   prependHtml="<i class='cui-lock-location'></i>"
@@ -130,10 +130,10 @@
                 </CInput>
 
                 <CTextarea
-                label="DIRECCIÓN"
+                label="Dirección"
                   addLabelClasses="required"
                   rows="5"
-                  placeholder="Ingrese la dirección exacta"
+                  placeholder="Ingrese algun punto de referencía"
                   v-model="$v.dataUser.adress.$model"
                   :is-valid="hasError($v.dataUser.adress)"
                 />

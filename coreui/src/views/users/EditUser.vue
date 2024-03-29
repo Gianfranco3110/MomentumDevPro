@@ -14,14 +14,14 @@
             >
               ({{dismissCountDown}}) {{ message }}
             </CAlert>
-            <CInput type="text" label="NOMBRE" placeholder="Name" disabled v-model="name"></CInput>
-            <CInput type="text" label="CORREO" placeholder="Email" disabled v-model="email"></CInput>
+            <CInput type="text" label="Nombre" placeholder="Name" disabled v-model="name"></CInput>
+            <CInput type="text" label="Correo" placeholder="Email" disabled v-model="email"></CInput>
             <CRow >
 
             <CCol md="6">
               <CSelect
               addLabelClasses="required"
-              label="ESTADO"
+              label="Estado"
               :value.sync="value_stated"
               invalid-feedback="Campo requerido"
               :plain="true"
@@ -33,7 +33,7 @@
             <CCol md="6">
               <CSelect
               addLabelClasses="required"
-              label="MUNICIPIO"
+              label="Ciudad"
               :value.sync="value_municipality"
               invalid-feedback="Campo requerido"
               :plain="true"
