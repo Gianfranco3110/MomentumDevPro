@@ -70,7 +70,8 @@ export default {
         this.AddModal = true;
         if (this.modal != false) {
           this.user_name = this.modal.name;
-          this.courseData.user_id = this.modal.id;          
+          this.courseData.user_id = this.modal.id;  
+          this.getCourseSelect();
         }
         this.$emit("cerrarModal");
       }
@@ -98,27 +99,31 @@ export default {
           self.$toastr.warning("¡Error al asignar curso!");
         });
     },
+    getCourseSelect(){
+      let self = this;
+      self.Loading = true;
+      axios
+        .get(
+          this.$apiAdress +
+            "/api/courses/list?user_id="+self.courseData.user_id+"&&?token=" +
+            localStorage.getItem("api_token")
+        )
+        .then(function(response) {
+          self.courses = response.data;
+          console.log(response.data);
+          self.$emit("child-refresh", true);
+          self.Loading = false;        
+        })
+        .catch(function(error) {
+          console.log(error);
+          self.Loading = false;
+          //self.$router.push({ path: 'login' });
+        });
+    }
   },
   computed: {},
   mounted: function() {    
-    let self = this;
-    self.Loading = true;
-    axios
-      .get(
-        this.$apiAdress +
-          "/api/courses/list?token=" +
-          localStorage.getItem("api_token")
-      )
-      .then(function(response) {
-        self.courses = response.data;
-        self.$emit("child-refresh", true);
-        self.Loading = false;        
-      })
-      .catch(function(error) {
-        console.log(error);
-        self.Loading = false;
-        //self.$router.push({ path: 'login' });
-      });
+
   },
 };
 </script>

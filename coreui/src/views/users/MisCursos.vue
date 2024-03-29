@@ -37,14 +37,14 @@
             ></iframe>
             <img
               v-if="item.video_presentation == null"
-              :src="$apiAdress + '/storage/courses/img_default.webp'"
+              :src="$apiAdress + '/storage/courses/default.jpg'"
               class="bd-placeholder-img card-img-top"
               width="100%"
               aria-label="Placeholder: Image cap"
               role="img"
             />
             <div class="card-body">
-              <span class="badge rounded-pill bg-primary py-1 px-2 text-white mb-2" :class="'bg-'+item.status_video_class" style="border-radius: 0% !important;">{{item.status_video}}</span>
+              <span v-if="item.status_id_video == 3" class="badge rounded-pill bg-primary py-1 px-2 text-white mb-2" :class="'bg-'+item.status_video_class" style="border-radius: 0% !important;">{{item.status_video}}</span>
               <h5 class="card-title">
                 <b>{{ item.name }}</b>
               </h5>

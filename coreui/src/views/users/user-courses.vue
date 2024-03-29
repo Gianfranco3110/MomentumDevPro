@@ -54,7 +54,7 @@
                     <CButton
                       v-c-tooltip="'Generar certificado'"
                       color="success"
-                      @click="GetPdf(item.course_id)"
+                      @click="GetPdf(item.course_id,item.usuario_id)"
                       ><CIcon name="cil-cloud-download" />
                     </CButton>
                   </CCol>
@@ -81,7 +81,7 @@ import axios from "axios";
 import General from "@/_mixins/general";
 import AgreModal from "./edit-userCourses-modal";
 
-function GetPdf(course_id) {
+function GetPdf(course_id,user_id) {
   console.log("Pedro " + course_id);
   let self = this;
   self.Loading = true;
@@ -94,7 +94,7 @@ function GetPdf(course_id) {
         "?token=" +
         localStorage.getItem("api_token"),
         {
-          user_id: localStorage.getItem("id"),
+          user_id: user_id,
           course_id: course_id,
         }
     )

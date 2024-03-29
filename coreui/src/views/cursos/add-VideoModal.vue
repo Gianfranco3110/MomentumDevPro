@@ -92,17 +92,7 @@
           <div class="card-header" align="right">
             <template>
               <td class="center-cell">
-                <CButton
-                  v-show="!video.id == ''"
-                  shape="square"
-                  color="danger"
-                  size="sm"
-                  v-c-tooltip="'Cancelar Edición'"
-                  class="align-items-right m-3"
-                  @click="limpiarDatos"
-                >
-                  <CIcon name="cil-close" />
-                </CButton>
+             
               </td>
               <td class="center-cell">
                 <CButton
@@ -114,7 +104,7 @@
                   @click="guardar"
                   :disabled="isDisabled"
                 >
-                  <CIcon name="cil-plus" />
+                  <CIcon name="cil-plus" /> Guarda
                 </CButton>
               </td>
             </template>
@@ -416,21 +406,36 @@ export default {
     deleteVideoCourse(iten) {
       let self = this;
       console.log(iten.id);
-      axios
-        .post(
-          this.$apiAdress +
-            "/api/coursesvideos/updatestatus?token=" +
-            localStorage.getItem("api_token"),
-          { id_video: iten.id }
-        )
-        .then(function (response) {
-          console.log(response);
-          self.$toastr.success("Video quitado con extio!");
-          self.ListVideo(self.video.courses_id);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      this.$swal
+      .fire({
+        title: "ELIMINAR VIDEO",
+        text: "¿ ESTAS SEGURO QUE DECEAS ELIMINAR ESTE VIDEO ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, Eliminar!",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          axios
+          .post(
+            this.$apiAdress +
+              "/api/coursesvideos/updatestatus?token=" +
+              localStorage.getItem("api_token"),
+            { id_video: iten.id }
+          )
+          .then(function (response) {
+            console.log(response);
+            self.$toastr.success("Video quitado con extio!");
+            self.ListVideo(self.video.courses_id);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        }
+      });
+ 
     },
     editVideoCourse(iten) {
       let self = this;

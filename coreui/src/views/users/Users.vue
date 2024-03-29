@@ -81,7 +81,7 @@
                 </CButton>
 
                 <CButton
-                  v-if="you != item.id"
+                  v-if="you != item.id && item.count_cursos > 0"
                   color="success"
                   square
                   size="sm"
@@ -168,7 +168,7 @@ const fields = [
   {
     key: "id",
     label: "ID",
-    _style: "width:1%;",
+    _style: "width:1%;"
   },
   { key: "cedula", label: "IDENTIFICACIÓN" },
   { key: "name", label: "NOMBRES" },
@@ -207,6 +207,7 @@ export default {
       items: [],
       fields_: [
         "id",
+        "cedula",
         "name",
         "registered",
         "roles",
@@ -327,6 +328,7 @@ export default {
         )
         .then(function(response) {
           listado = response.data.users;
+          console.log(listado);
           self.items = listado.map((listado) =>
             Object.assign({}, self.items, {
               id: listado.id,
@@ -335,6 +337,7 @@ export default {
               roles: listado.roles,
               status: listado.status,
               number_document: listado.number_document,
+              count_cursos: listado.user_courses_count,
               type_document: listado.type_document,
               adress_all: listado.adress_all ==null?"Sín dirección asignado":listado.adress_all,
               cedula: listado.number_document==null? "--------------------" : listado.type_document+"-"+listado.number_document,

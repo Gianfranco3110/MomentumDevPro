@@ -104,7 +104,7 @@
                   v-c-tooltip="'Editar'"
                   @click="editTestCourse(item)"
                 >
-                  <CIcon name="cil-search" />
+                  <CIcon name="cil-pencil" />
                 </CButton>
                 <CButton
                   color="danger"
@@ -231,11 +231,14 @@ function guardar() {
       self.ListQuestion(self.test.courses_id);
       console.log(response);
     })
-    .catch(function (error) {
-      self.Loading = true;
-      if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
+    .catch(function(error) {
+      self.Loading = false;
+      console.log(error.response.data);
+      if (error.response.data.message) {
         for (let key in error.response.data.errors) {
           if (error.response.data.errors.hasOwnProperty(key)) {
+            console.log(error.response.data.errors[key][0]);
+            self.$toastr.error(error.response.data.errors[key][0]);
             self.message += error.response.data.errors[key][0] + "  ";
           }
         }
@@ -380,21 +383,37 @@ export default {
     deleteTestCourse(item) {
       console.log(item.id);
       let self = this;
-      axios
-        .post(
-          this.$apiAdress +
-            "/api/coursestest/updatestatus?token=" +
-            localStorage.getItem("api_token"),
-          { id: item.id }
-        )
-        .then(function (response) {
-          console.log(response);
-          self.$toastr.success("Video quitado con extio!");
-          self.ListQuestion(self.test.courses_id);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      this.$swal
+      .fire({
+        title: "ELIMINAR TEST",
+        text: "¿ ESTAS SEGURO QUE DECEAS ELIMINAR ESTE TEST ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, Eliminar!",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          axios
+          .post(
+            this.$apiAdress +
+              "/api/coursestest/updatestatus?token=" +
+              localStorage.getItem("api_token"),{id:iten.id}
+            ,
+            
+          )
+          .then(function(response) {
+            console.log(response);
+            self.$toastr.success("Video quitado con extio!");
+            self.ListQuestion(self.test.courses_id);
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+        }
+      });
+      
     },
     editTestCourse(item) {
       console.log('item',item);

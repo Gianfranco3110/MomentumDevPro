@@ -31,7 +31,7 @@
           ></iframe>
           <img
             v-if="!ur_video_curso"
-            :src="$apiAdress + '/storage/courses/img_default.webp'"
+            :src="$apiAdress + '/storage/courses/default.jpg'"
                 class="bd-placeholder-img card-img-top"
                 width="100%"
                 aria-label="Placeholder: Image cap"
@@ -201,7 +201,7 @@ export default {
           {
             course_id: this.course.id,
             user_id: localStorage.getItem("id"),
-            status: '',
+            status: 'No pagado',
           }
         )
         .then(function(response) {
