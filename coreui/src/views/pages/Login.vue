@@ -221,7 +221,7 @@ export default {
           {
             course_id: dataCourse.id,
             user_id: localStorage.getItem("id"),
-            status: '',
+            status: 'No pagado',
           }
         )
         .then(function(response) {

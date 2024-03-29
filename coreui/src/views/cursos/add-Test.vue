@@ -46,37 +46,27 @@
             :options="sections"
           >
           </CSelect>
+           <!-- BOTON DE AGREGAR + -->
+            <div class="center-end d-flex justify-content-end">
+              <template>
+                <td class="">
+                  <CButton
+                    shape="square"
+                    color="success"
+                    size="sm"
+                    v-c-tooltip="'Añadir test'"
+                    class="align-items-right"
+                    @click="guardar"
+                  >
+                    <CIcon name="cil-plus" /> Guardar
+                  </CButton>
+                  
+                </td>
+              </template>
+            </div>
           </CCol>
         </CCol>
-        <!-- BOTON DE AGREGAR + -->
-        <div>
-          <template>
-            <td class="center-cell">
-              <CButton
-                shape="square"
-                color="success"
-                size="sm"
-                v-c-tooltip="'Añadir test'"
-                class="align-items-right"
-                @click="guardar"
-              >
-                <CIcon name="cil-plus" />
-              </CButton>
-              <CButton
-                  v-show="!test.id == '' "
-                  shape="square"
-                  color="danger"
-                  size="sm"
-                  v-c-tooltip="'Cancelar Edición'"
-                  class="align-items-right m-3"
-                  @click="limpiarDatos"
-                  
-                >
-                  <CIcon name="cil-close" />
-                </CButton>
-            </td>
-          </template>
-        </div>
+       
         <CCol>
           <CDataTable
             :items="items"
@@ -100,7 +90,7 @@
                   v-c-tooltip="'Editar'"
                   @click="editTestCourse(item)"
                 >
-                  <CIcon name="cil-search" />
+                  <CIcon name="cil-pencil" />
                 </CButton>
                 <CButton
                   color="danger"
@@ -223,9 +213,13 @@ function guardar() {
       console.log(response);
     })
     .catch(function(error) {
-      if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
+      self.Loading = false;
+      console.log(error.response.data);
+      if (error.response.data.message) {
         for (let key in error.response.data.errors) {
           if (error.response.data.errors.hasOwnProperty(key)) {
+            console.log(error.response.data.errors[key][0]);
+            self.$toastr.error(error.response.data.errors[key][0]);
             self.message += error.response.data.errors[key][0] + "  ";
           }
         }
@@ -309,22 +303,37 @@ export default {
     deleteTestCourse(iten){
       console.log(iten.id);
       let self = this;
-      axios
-      .post(
-        this.$apiAdress +
-          "/api/coursestest/updatestatus?token=" +
-          localStorage.getItem("api_token"),{id:iten.id}
-        ,
-        
-      )
-      .then(function(response) {
-        console.log(response);
-        self.$toastr.success("Video quitado con extio!");
-        self.ListQuestion(self.test.courses_id);
+      this.$swal
+      .fire({
+        title: "ELIMINAR TEST",
+        text: "¿ ESTAS SEGURO QUE DECEAS ELIMINAR ESTE TEST ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, Eliminar!",
       })
-      .catch(function(error) {
-        console.log(error);
+      .then((result) => {
+        if (result.isConfirmed) {
+          axios
+          .post(
+            this.$apiAdress +
+              "/api/coursestest/updatestatus?token=" +
+              localStorage.getItem("api_token"),{id:iten.id}
+            ,
+            
+          )
+          .then(function(response) {
+            console.log(response);
+            self.$toastr.success("Video quitado con extio!");
+            self.ListQuestion(self.test.courses_id);
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+        }
       });
+      
     },
     editTestCourse(iten){
       let self = this;
