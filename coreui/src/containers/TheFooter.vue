@@ -187,13 +187,13 @@ ul.info-iconos li {
     Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
 }
 .footer-copyright-seccion {
-  background-color: #864a39;
+  background-color: #202020;
   border-top: 1px solid #f9e0bb5e;
   padding-bottom: 15px;
 }
 
 #footer {
-  background-color: #864a39;
+  background-color: #202020;
 }
 /*--------------------------------------------------------------End Footer--------------------------------------------------------------*/
 </style>

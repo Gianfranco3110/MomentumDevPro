@@ -74,9 +74,9 @@
                       role="img"
                     />
 
-                    <div class="card-body text-center pb-5">
+                    <div class="card-body text-center pb-5 botonesP">
                       <h5 class="card-title fw-bold">{{ item.CourseName }}</h5>
-                      <p class="card-text text-muted">{{ item.description }}</p>
+                      <p class="card-text">{{ item.description }}</p>
                       <small class="card-text"
                         ><b>${{ item.price }}</b></small
                       >

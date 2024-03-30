@@ -43,7 +43,7 @@
                 <CRow>
                   <CCol md="3">
                     <CButton
-                      v-c-tooltip="'Cambiar Status'"
+                      v-c-tooltip="'Cambiar Estatus'"
                       color="info"
                       @click="AddModal = item"
                     >

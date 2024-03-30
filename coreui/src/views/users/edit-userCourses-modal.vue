@@ -103,7 +103,7 @@ export default {
         .catch(function(error) {
           console.log(error);
           self.Loading = false;
-          self.$toastr.warning("¡Error al cambiar status!");
+          self.$toastr.warning("¡Error al cambiar Etatus!");
         });
     },
   },

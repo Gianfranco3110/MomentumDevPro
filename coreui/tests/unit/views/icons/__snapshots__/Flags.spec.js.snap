@@ -1380,7 +1380,7 @@ exports[`Flags.vue renders correctly 1`] = `
           tag="div"
         >
           <cicon-stub
-            content="301 201,<g fill-rule='nonzero' fill='none'><path fill='#EA2839' d='M.5.5h300v50H.5z'/><path fill='#1A206D' d='M.5 50.5h300v50H.5z'/><path fill='#FFD500' d='M.5 100.5h300v50H.5z'/><path fill='#00A551' d='M.5 150.5h300v50H.5z'/></g>"
+            content="301 201,<g fill-rule='nonzero' fill='none'><path fill='#EA2839' d='M.5.5h300v50H.5z'/><path fill='#1A206D' d='M.5 50.5h300v50H.5z'/><path fill='#DCBA0F' d='M.5 100.5h300v50H.5z'/><path fill='#00A551' d='M.5 150.5h300v50H.5z'/></g>"
             height="42"
           />
            
@@ -2160,7 +2160,7 @@ exports[`Flags.vue renders correctly 1`] = `
           tag="div"
         >
           <cicon-stub
-            content="301 201,<g fill-rule='nonzero' fill='none'><path fill='#005BBB' d='M.5.5h300v200H.5z'/><path fill='#FFD500' d='M.5 100.5h300v100H.5z'/></g>"
+            content="301 201,<g fill-rule='nonzero' fill='none'><path fill='#005BBB' d='M.5.5h300v200H.5z'/><path fill='#DCBA0F' d='M.5 100.5h300v100H.5z'/></g>"
             height="42"
           />
            

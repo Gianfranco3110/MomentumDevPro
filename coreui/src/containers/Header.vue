@@ -150,7 +150,7 @@ export default {
 }
 
 .action_button.top-bar-right-button:hover {
-  background-color: #c38154 !important;
+  background-color: #202020 !important;
 }
 .action_button.top-bar-right-button {
   font-family: "Poppins", sans-serif;
@@ -164,8 +164,8 @@ export default {
 }
 .action_button,
 .action_button:hover {
-  background-color: #884a39;
-  color: #ffff;
+  background-color: #202020;
+  color: #DCBA0F;
 }
 .header-main-modif {
   background-color: #fff;

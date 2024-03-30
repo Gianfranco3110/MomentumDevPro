@@ -92,9 +92,6 @@
           <div class="card-header" align="right">
             <template>
               <td class="center-cell">
-             
-              </td>
-              <td class="center-cell">
                 <CButton
                   shape="square"
                   color="success"
@@ -104,7 +101,7 @@
                   @click="guardar"
                   :disabled="isDisabled"
                 >
-                  <CIcon name="cil-plus" /> Guarda
+                  <CIcon name="cil-plus" /> Guardar
                 </CButton>
               </td>
             </template>
