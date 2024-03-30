@@ -170,8 +170,8 @@ export default {
           if (error.response) {
             if (error.response.status === 401) {
               console.error('Error 401: Unauthorized');
-              console.error('Error:', error.response.data.messague);
-              self.$toastr.error(`¡Error, ${error.response.data.messague}!`);
+              console.error('Error:', error.response.data.message);
+              self.$toastr.error(`¡Error, ${error.response.data.message}!`);
               self.classInvaEmail = "is-invalid";
               self.classInvaPass = "is-invalid";
               self.msgErrorEmail = "";
@@ -198,7 +198,7 @@ export default {
               console.error('Error 419: Authentication Timeout');
             } else if (error.response.status === 500) {
               console.error('Error 500: Internal Server Error');
-              self.$toastr.danger(`¡Error, ${error.response.data.messague}!`);
+              self.$toastr.danger(`¡Error, ${error.response.data.message}!`);
             } else {
               console.error('Error:', error.response.data);
             }
@@ -246,7 +246,7 @@ export default {
             if ([404, 422, 500].includes(error.response.status)) {
               // Manejar errores 404, 422, 500
               // console.log("Error " + error.response.status + ": " + error.response.data);
-              self.$toastr.warning("¡"+error.response.data.messague+"!");
+              self.$toastr.warning("¡"+error.response.data.message+"!");
             }
           } else if (error.request) {
             // Error de solicitud (sin respuesta del servidor)

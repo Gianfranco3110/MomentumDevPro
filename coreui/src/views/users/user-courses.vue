@@ -154,27 +154,43 @@ export default {
     },
     borrarVinculo(id) {
       let self = this;
-      self.Loading = true;
-      axios
-        .post(
-          this.$apiAdress +
-            "/api/usercourses/" +
-            id +
-            "?token=" +
-            localStorage.getItem("api_token"),
-          {
-            _method: "DELETE",
-          }
-        )
-        .then(function (response) {
-          self.getCourses();
-          self.Loading = false;
-        })
-        .catch(function (error) {
-          console.log(error);
-          self.Loading = false;
-          //self.$router.push({ path: '/login' });
-        });
+      this.$swal
+      .fire({
+        title: "ELIMINAR CURSO",
+        text: "¿ ESTAS SEGURO QUE DECEAS QUITAR ESTE CURSO ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, Eliminar!",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          self.Loading = true;
+          axios
+          .post(
+            this.$apiAdress +
+              "/api/usercourses/" +
+              id +
+              "?token=" +
+              localStorage.getItem("api_token"),
+            {
+              _method: "DELETE",
+            }
+          )
+          .then(function (response) {
+            self.getCourses();
+            self.Loading = false;
+          })
+          .catch(function (error) {
+            console.log(error);
+            self.Loading = false;
+            //self.$router.push({ path: '/login' });
+          });
+        }
+      });
+
+     
     },
 
     getCourses() {

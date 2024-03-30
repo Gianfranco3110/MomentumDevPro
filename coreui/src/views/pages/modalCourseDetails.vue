@@ -228,7 +228,7 @@ export default {
             if ([404, 422, 500].includes(error.response.status)) {
               // Manejar errores 404, 422, 500
               // console.log("Error " + error.response.status + ": " + error.response.data);
-              self.$toastr.warning("¡"+error.response.data.messague+"!");
+              self.$toastr.warning("¡"+error.response.data.message+"!");
             }
           } else if (error.request) {
             // Error de solicitud (sin respuesta del servidor)
