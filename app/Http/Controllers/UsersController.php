@@ -137,7 +137,7 @@ class UsersController extends Controller
         $user->municipality      = $request->input('municipality');
         $user->save();
         //$request->session()->flash('message', 'Successfully updated user');
-        return response()->json( ['status' => 'success',"messague"=>"Usuario editado correctamente."] );
+        return response()->json( ['status' => 'success',"message"=>"Usuario editado correctamente."] );
     }
 
     /**

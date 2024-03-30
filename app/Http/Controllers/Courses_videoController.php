@@ -15,7 +15,7 @@ class Courses_videoController extends Controller
     //LISTA
     public function index($id)
     {
-        $course_videos = course_video::where('courses_id', '=', $id)->where('status_id', '=', 1)->orderBy('order', 'asc')->with(['courseSection' =>  function ($query) {
+        $course_videos = course_video::where('courses_id', '=', $id)->where('status_id', '=', 1)->orderBy('course_section_id', 'asc')->with(['courseSection' =>  function ($query) {
             $query->select('id', 'name');
         }, 'courses:id,courseName'])->get();
 
@@ -80,7 +80,7 @@ class Courses_videoController extends Controller
         }
 
         if ($query) {
-            return response()->json(['status' => 200, "messague" => $text_op], $status = 200);
+            return response()->json(['status' => 200, "message" => $text_op], $status = 200);
         }
         return response()->json(['status' => 'Error en la query.'], $status = 500);
     }
@@ -114,7 +114,7 @@ class Courses_videoController extends Controller
     //TRAE EL CURSO CON SUS VIDEOS PARA INICIAR
     public function viewcoursestart($id_curso,$id_user)
     {
-       
+
         //return response()->json($id_curso);
         $videos = course_video::where('courses_id', $id_curso)
             //->where('users_id', $id_user)
@@ -125,11 +125,11 @@ class Courses_videoController extends Controller
             ->sortBy(function ($video) {
                 return $video->courseSection->orden;
             });
-        
+
         if($videos->count() > 0){
             $courseName = $videos->first()->courses->courseName;
             $courseId = $videos->first()->courses->id;
-            $firstVideoUrl = $videos->first()->url_video; 
+            $firstVideoUrl = $videos->first()->url_video;
             $groupedVideos = $videos->groupBy('courseSection.name')->map(function ($videos) use ($id_curso) {
                 return $videos->sortBy('order')->map(function ($video) use ($id_curso) {
                     $question_user = User_questions::where('courses_id', $id_curso)
