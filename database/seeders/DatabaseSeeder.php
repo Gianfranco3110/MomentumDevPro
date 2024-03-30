@@ -33,7 +33,8 @@ class DatabaseSeeder extends Seeder
             EmailSeeder::class,
             CourseSectionSeeder::class,
             CourseSeeder::class,
-            StateSeeder::class
+            CourseVideoSeeder::class,
+            // StateSeeder::class
         ]);
     }
 }
