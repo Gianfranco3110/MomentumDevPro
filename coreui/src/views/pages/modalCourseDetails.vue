@@ -143,7 +143,7 @@ export default {
       console.log("Pepito",this.VerModalCourseDetail);
       if (this.modal) {
         this.Loading= true;
-        this.VerModalCourseDetail = true;
+      
         // console.log(this.modal);
         //   this.tituloModal = this.modal.id;
 
@@ -154,13 +154,15 @@ export default {
         console.log(dataResp.course.video_presentation);
         this.ur_video_curso = dataResp.course.video_presentation==null? false :this.formLinkIframeVideo(dataResp.course.video_presentation.url_video);
         this.Loading= false;
+        this.VerModalCourseDetail = true;
+        this.$emit("cerrarModal");
       }
     }
   
   },
   methods: {
     infoCourse(){
-        // this.VerModalCourseDetail = false;
+        this.VerModalCourseDetail = false;
         // console.log("hola");
           this.$router.push({
                 name: "singleCourse",
@@ -188,6 +190,7 @@ export default {
     },
     cerrarModal(){
       this.VerModalCourseDetail = false;
+      this.$emit("cerrarModal");
       localStorage.removeItem("course");
     },
     AssignCourse() {
@@ -241,7 +244,7 @@ export default {
     
   },
   mounted: function () {
-    this.cerrarModal();
+    // this.cerrarModal();
   },
 
 };

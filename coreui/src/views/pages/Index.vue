@@ -10,7 +10,7 @@
       class="section mcb-section mcb-section-video-maim has-video"
       style=""
     >
-    <modalCourseDetails :modal="VerModalCourseDetail"  />
+    <modalCourseDetails :modal="VerModalCourseDetail"   @cerrarModal="VerModalCourseDetail = false" />
       <div class="section_video">
         <video
           autoplay="true"
@@ -62,7 +62,7 @@
                 >
                   <div
                     class="card cursor-pointer border-0 course_box"
-                    style="width: 19rem"
+                  
                     @click="VerModalCourseDetail = item"
                   >
                     <img
@@ -76,7 +76,7 @@
 
                     <div class="card-body text-center pb-5 botonesP">
                       <h5 class="card-title fw-bold">{{ item.CourseName }}</h5>
-                      <p class="card-text">{{ item.description }}</p>
+                      <p class="card-text">{{ truncateDescription(item.description,120) }}</p>
                       <small class="card-text"
                         ><b>${{ item.price }}</b></small
                       >
@@ -121,12 +121,10 @@ function detail_curso(id) {
   //     id: id,
   //   },
   // });
-  this.modalCourseDetails = true;
+  // this.modalCourseDetails = true;
 }
 
-function cerrarModal() {
-  this.VerModalCourseDetail = true;
-}
+
 
 
 export default {
@@ -156,7 +154,6 @@ export default {
     };
   },
   methods: {
-    cerrarModal,
     detail_curso,
     getRowCount(Productitems) {
       return Productitems.length;
@@ -200,6 +197,12 @@ export default {
           console.log(error);
         });
     },
+    truncateDescription(text, limit) {
+      if (text.length <= limit) {
+        return text;
+      }
+      return text.substring(0, limit) + "...";
+    }
   },
   mounted: function () {
     this.getCourses();
