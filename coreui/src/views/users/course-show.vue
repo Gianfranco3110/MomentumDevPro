@@ -120,7 +120,7 @@ function move_video(val) {
   // Encontrar la sección y el índice del video actual
   for (let section of Object.keys(this.Secciones)) {
     let index = this.Secciones[section].findIndex(
-      (video) => video.url_video === this.ur_video_curso
+      (video) => this.formLinkIframeVideo(video.url_video) === this.ur_video_curso
     );
     if (index !== -1) {
       currentSection = section;
@@ -137,7 +137,7 @@ function move_video(val) {
     // Video anterior
     if (currentIndex > 0) {
       this.ur_video_curso =
-        this.Secciones[currentSection][currentIndex - 1].url_video;
+        this.formLinkIframeVideo(this.Secciones[currentSection][currentIndex - 1].url_video);
     } else {
       // Ir al último video de la sección anterior
       let prevSection = Object.keys(this.Secciones)[
@@ -145,23 +145,23 @@ function move_video(val) {
       ];
       if (prevSection) {
         this.ur_video_curso =
-          this.Secciones[prevSection][
+          this.formLinkIframeVideo(this.Secciones[prevSection][
             this.Secciones[prevSection].length - 1
-          ].url_video;
+          ].url_video);
       }
     }
   } else {
     // Video siguiente
     if (currentIndex < this.Secciones[currentSection].length - 1) {
       this.ur_video_curso =
-        this.Secciones[currentSection][currentIndex + 1].url_video;
+        this.formLinkIframeVideo(this.Secciones[currentSection][currentIndex + 1].url_video);
     } else {
       // Ir al primer video de la siguiente sección
       let nextSection = Object.keys(this.Secciones)[
         Object.keys(this.Secciones).indexOf(currentSection) + 1
       ];
       if (nextSection) {
-        this.ur_video_curso = this.Secciones[nextSection][0].url_video;
+        this.ur_video_curso = this.formLinkIframeVideo(this.Secciones[nextSection][0].url_video);
       }
     }
   }
