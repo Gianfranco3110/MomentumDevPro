@@ -43,14 +43,14 @@
               aria-label="Placeholder: Image cap"
               role="img"
             />
-            <div class="card-body">
+            <div class="card-body botonesP">
               <span v-if="item.status_id_video == 3" class="badge rounded-pill bg-primary py-1 px-2 text-white mb-2" :class="'bg-'+item.status_video_class" style="border-radius: 0% !important;">{{item.status_video}}</span>
-              <h5 class="card-title">
-                <b>{{ item.name }}</b>
+              <h5 class="card-title text-white">
+                {{ item.name }}
               </h5>
               <p class="card-text">{{ item.description }}</p>
-              <CBadge color="success" v-if="item.status"> Pagado</CBadge>
-              <CBadge v-if="!item.status" color="warning">
+              <CBadge class="text-white" color="success" v-if="item.status"> Pagado</CBadge>
+              <CBadge class="text-white"  v-if="!item.status" color="warning">
                 Pendiente por pagar</CBadge
               >
             </div>

@@ -38,12 +38,12 @@
                 role="img"
             />
         </div>
-        <div class="col-md-12 col-lg-12 d-flex align-items-center">
+        <div class="customs-body col-md-12 col-lg-12 d-flex align-items-center">
             <div class="row">
                 <div class="col-md-8">
                     <div class="card-body px-0 text-black">
-                        <span class="badge bg-warning">TOP VENTAS</span>
-                        <h2>{{ course.CourseName }}</h2>
+                        <span class="badge bg-warning text-white">TOP VENTAS</span>
+                        <h2 class="text-white">{{ course.CourseName }}</h2>
                         <p class="lead">
                         {{ course.description }}
                         </p>
@@ -258,6 +258,7 @@ export default {
   position: relative;
   padding: 0 0 6px 24px;
   font-size: 0.8125rem;
+  color: white !important;
 }
 .course-stats li i {
   position: absolute;
@@ -283,5 +284,8 @@ export default {
 }
 .content-top {
   margin-top: 4vw;
+}
+.customs-body{
+  background-color: #202020 !important; ;
 }
 </style>

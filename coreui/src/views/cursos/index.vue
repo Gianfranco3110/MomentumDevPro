@@ -39,9 +39,9 @@
             >
               <template #status="{item}">
                 <td>
-                  <CBadge :color="getBadge(item.status)">{{
-                    item.status
-                  }}</CBadge>
+                  <CBadge class="text-white" :color="getBadge(item.status)">
+                    {{item.status}}
+                    </CBadge>
                 </td>
               </template>
               <template #Detalle="{ item }">

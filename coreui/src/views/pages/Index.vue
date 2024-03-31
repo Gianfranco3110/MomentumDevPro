@@ -47,8 +47,8 @@
     <div id="seccion-cursos">
       <div class="container">
         <CCard class="bg-transparent border-0">
-          <CCardHeader class="bg-transparent">
-            <strong> CURSOS MAS POPULARES </strong>
+          <CCardHeader class="botonesP text-white">
+            <b> CURSOS MAS POPULARES </b>
           </CCardHeader>
           <CCardBody class="px-0">
             <CRow>
@@ -65,6 +65,7 @@
                   
                     @click="VerModalCourseDetail = item"
                   >
+                  <div>
                     <img
                       :src="$apiAdress + '/storage/courses/' + item.image"
                       class="bd-placeholder-img card-img-top"
@@ -73,13 +74,17 @@
                       aria-label="Placeholder: Image cap"
                       role="img"
                     />
+                  </div>
+                    
 
-                    <div class="card-body text-center pb-5 botonesP">
-                      <h5 class="card-title fw-bold">{{ item.CourseName }}</h5>
-                      <p class="card-text">{{ truncateDescription(item.description,120) }}</p>
-                      <small class="card-text"
-                        ><b>${{ item.price }}</b></small
-                      >
+                    <div class="card-body  pb-5 botonesP">
+                      <div class="text-justify">
+                        <h5 class="card-title fw-bold">{{ item.CourseName }}</h5>
+                      <p class="card-text text-white">{{ truncateDescription(item.description,120) }}</p>
+                      </div>
+                     <div class="text-end mt-3">
+                        <h5 class="text-white">${{ item.price }}</h5>
+                     </div>
                     </div>
                   </div>
                 </CCol>
