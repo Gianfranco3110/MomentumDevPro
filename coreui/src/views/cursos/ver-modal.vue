@@ -17,6 +17,7 @@
             height="200px"
             aria-label="Placeholder: Image cap"
             role="img"
+            style="object-fit: cover;"
           />
         </CCardHeader>
         <CCardBody>

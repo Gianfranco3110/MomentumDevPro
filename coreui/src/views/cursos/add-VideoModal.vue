@@ -245,7 +245,7 @@ function guardar() {
     .then(function (response) {
 
       if (response.data.status == 200) {
-        self.$toastr.success(response.data.messague);
+        self.$toastr.success(response.data.message);
         self.limpiarDatos();
         self.ListVideo(self.video.courses_id);
         console.log(response.data);

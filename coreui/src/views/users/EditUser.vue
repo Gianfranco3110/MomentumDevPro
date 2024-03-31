@@ -144,7 +144,7 @@ export default {
             municipality: self.value_municipality,
         })
         .then(function (response) {
-            self.message = response.data.messague;
+            self.message = response.data.message;
             self.showAlert();
         }).catch(function (error) {
             console.log(error);
