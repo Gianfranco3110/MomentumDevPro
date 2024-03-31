@@ -1,5 +1,5 @@
 <template>
-  <section class="vh-100" style="background-color: #C38154;">
+  <section class="vh-100" style="background-color: #202020;">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-xl-12">
@@ -19,7 +19,7 @@
                       <span class="h1 fw-bold mb-0">Logo</span>
                     </div>
   
-                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Iniciar sesión en su cuenta</h5>
+                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; color:black !important">Iniciar sesión en su cuenta</h5>
   
                     <div class="form-outline mb-3">
                       <label class="form-label" >Correo</label>
@@ -42,7 +42,7 @@
                     </div>
   
                     <!--<a class="small text-muted" href="#!">Has olvidado tu contraseña?</a>-->
-                    <p class="mb-5 pb-lg-2" style="color: #393f81;">No tienes una cuenta? <a href="#"
+                    <p class="mb-5 pb-lg-2" style="color:black !important;">No tienes una cuenta? <a href="#"
                         style="color: #393f81;" @click="goRegister()">Registrar aquí</a></p>
              
                   </form>

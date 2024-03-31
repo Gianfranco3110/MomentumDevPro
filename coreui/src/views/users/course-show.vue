@@ -265,4 +265,7 @@ export default {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
+#customs-li p{
+  color: black !important;
+}
 </style>

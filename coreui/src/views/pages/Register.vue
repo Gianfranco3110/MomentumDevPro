@@ -1,5 +1,5 @@
 <template>
-  <section  style="background-color: #C38154;">
+  <section  style="background-color: #202020;">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-xl-12">
@@ -13,7 +13,7 @@
                 
                 <div class="card-body p-4 p-lg-5 text-black">
                  
-                  <h4 class="fw-normal mb-3" style="letter-spacing: 1px;">Crea tu cuenta</h4>
+                  <h4 class="fw-normal mb-3" style="letter-spacing: 1px; color:black !important">Crea tu cuenta</h4>
                   <form  @submit.prevent="register" method="POST">
                     <div class="form-outline mb13">
                       <label class="form-label mb-1 required" >Nombres</label>
@@ -135,7 +135,7 @@
                     </div>
   
                     <!--<a class="small text-muted" href="#!">Has olvidado tu contraseña?</a>-->
-                    <p class=" pb-lg-2" style="color: #393f81;">Ya tienes cuenta? <a href="#"
+                    <p class=" pb-lg-2" style="color:black !important;">Ya tienes cuenta? <a href="#"
                         style="color: #393f81;" @click="goLogin()">Ingresa aquí</a></p>
              
                   </form>
