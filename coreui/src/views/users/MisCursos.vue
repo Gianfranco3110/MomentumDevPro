@@ -3,10 +3,10 @@
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <div>
       <div class="row d-flex align-items-center">
-          <div class="col-md-9">
-            <h2 class="mb-0">Mis cursos</h2>
-          </div>
-          <div class="col-md-3">
+          <CCardHeader class="text-center botonesP text-white col-md-10">
+            <b>Mis cursos</b>
+          </CCardHeader>
+          <div class="col-md-2">
             <div>
               <div class="input-group ">
                 <input  class="form-control" type="text" v-model="searchQuery" placeholder="Buscar curso...">
@@ -43,14 +43,14 @@
               aria-label="Placeholder: Image cap"
               role="img"
             />
-            <div class="card-body">
+            <div class="card-body botonesP">
               <span v-if="item.status_id_video == 3" class="badge rounded-pill bg-primary py-1 px-2 text-white mb-2" :class="'bg-'+item.status_video_class" style="border-radius: 0% !important;">{{item.status_video}}</span>
-              <h5 class="card-title">
-                <b>{{ item.name }}</b>
+              <h5 class="card-title text-white">
+                {{ item.name }}
               </h5>
               <p class="card-text">{{ item.description }}</p>
-              <CBadge color="success" v-if="item.status"> Pagado</CBadge>
-              <CBadge v-if="!item.status" color="warning">
+              <CBadge class="text-white" color="success" v-if="item.status"> Pagado</CBadge>
+              <CBadge class="text-white"  v-if="!item.status" color="warning">
                 Pendiente por pagar</CBadge
               >
             </div>

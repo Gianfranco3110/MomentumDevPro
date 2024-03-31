@@ -118,7 +118,7 @@
             :items-per-page-select="tableText.itemsPerPageText"
             hover
             small
-            sorter
+            
             pagination
           >
             <template #DocsRoute="{ item }">
