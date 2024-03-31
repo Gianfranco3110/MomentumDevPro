@@ -29,7 +29,7 @@
         </CCol>
         <CCol sm="6">
           <div class="card">
-            <div class="card-header h4 text-center mb-0">
+            <div class="card-header h4 text-center mb-0 botonesP text-white">
               {{ titleVideo }}
             </div>
             <div class="card-body pt-0 pb-0">
