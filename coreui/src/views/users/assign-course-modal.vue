@@ -51,7 +51,7 @@ function data() {
     courseData: {
       course_id: 1,
       user_id: 1,
-      status: '',
+      status: 'No pagado',
     },
     courses: [],
     statuses: ['Pagado','No pagado'],

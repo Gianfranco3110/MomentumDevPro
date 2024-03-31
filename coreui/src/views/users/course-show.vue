@@ -191,7 +191,7 @@ function viewsCourseUser(id_curso) {
       console.log("response", response);
       self.Secciones = response.data.groupedVideos;
       self.titleVideo = response.data.courseName;
-      self.ur_video_curso = response.data.first_video_url;
+      self.ur_video_curso =  self.formLinkIframeVideo(response.data.first_video_url);
       self.Loading = false;
     })
     .catch(function (error) {
@@ -200,7 +200,7 @@ function viewsCourseUser(id_curso) {
 }
 
 function send_url_video(val) {
-  this.ur_video_curso = val;
+  this.ur_video_curso = this.formLinkIframeVideo(val);
   this.show_curso = true;
   this.show_task = false;
 }
