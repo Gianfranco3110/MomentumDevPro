@@ -1,9 +1,9 @@
 <template>
   <div id="cursos-usuario">
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
-    <h1>Cursos del usuario</h1>
-
-    <hr />
+     <CCardHeader class="text-center botonesP text-white">
+        <b>Cursos del usuario</b>
+      </CCardHeader>
     <AgreModal
       :modal="AddModal"
       @cerrarModal="AddModal = false"
@@ -33,9 +33,9 @@
                     {{ item.Video }}
                   </CCol>
                   <CCol md="3">
-                    <CBadge :color="getBadge(item.status)">{{
-                      item.status
-                    }}</CBadge>
+                    <CBadge class="text-white" :color="getBadge(item.status)">
+                      {{item.status}}
+                    </CBadge>
                   </CCol>
                 </CRow>
               </CCol>

@@ -3,10 +3,10 @@
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <div>
       <div class="row d-flex align-items-center">
-          <div class="col-md-9">
-            <h2 class="mb-0">Mis cursos</h2>
-          </div>
-          <div class="col-md-3">
+          <CCardHeader class="text-center botonesP text-white col-md-10">
+            <b>Mis cursos</b>
+          </CCardHeader>
+          <div class="col-md-2">
             <div>
               <div class="input-group ">
                 <input  class="form-control" type="text" v-model="searchQuery" placeholder="Buscar curso...">
