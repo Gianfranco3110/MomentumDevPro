@@ -80,6 +80,8 @@ Route::group(['middleware' => ['api']], function ($router) {
     //RUTA PARA ENVIAR TODOS LOS DATOS DE UN CURSO EN ESPECIFICO
     Route::get('viewcoursestart/{id_curso}/{id_user}', 'Courses_videoController@viewcoursestart');
 
+    //RUTA SECCIONES DE CURSOS
+    Route::resource('course-sections',"CourseSectionController");
 
       //RUTA PARA TRAER LOS ESTADOS Y MUNICIPIOS
     Route::get('states', 'CountriesController@states');
