@@ -36,6 +36,9 @@
           <a class="text-color-header nav-link active link-nav-mod" href="#"
             >Inicio <span class="sr-only">(current)</span></a
           >
+          <a class="text-color-header nav-link  link-nav-mod" href="#"  @click="goCourseAll()"
+            >Cursos <span class="sr-only">(current)</span></a
+          >
           <a
             v-if="logueado"
             class="nav-link text-color-header link-nav-mod"
@@ -102,6 +105,9 @@ export default {
     },
     goDashboard() {
       this.$router.push({ path: "Dashboard" });
+    },
+    goCourseAll() {
+      this.$router.push({ path: "courseall" });
     },
   },
   mounted() {

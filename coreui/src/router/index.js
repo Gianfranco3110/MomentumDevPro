@@ -10,6 +10,9 @@ const Dashboard = () => import("@/views/Dashboard");
 //Detalle del curso
 const detailcoruse = () => import("@/views/pages/courseDetail");
 
+//muestra de todos los cursos
+const courseAll = () => import("@/views/pages/courseAll");
+
 //CURSO PARA MOSTRAR AL USUARIO MODULO PAPA
 const courseShow = () => import("@/views/users/course-show");
 
@@ -35,6 +38,9 @@ const products = () => import("@/views/products/index");
 
 //Cursos
 const cursos = () => import("@/views/cursos/index");
+
+//Cursos secciones
+const cursosSection = () => import("@/views/course-section/indexViews");
 
 //CONSTANTE PARA REGISTRAR USUARIOS DESDE EL DASHBOARD
 const registro = () => import("@/views/RegistroAdmin/index");
@@ -168,6 +174,22 @@ function configRoutes() {
             {
               path: "",
               component: cursos,
+            },
+          ],
+        },
+        {
+          path: "cursos/secciones",
+          name: "cursoseccion",
+          meta: { label: "cursos secciones" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "",
+              component: cursosSection,
             },
           ],
         },
@@ -318,6 +340,11 @@ function configRoutes() {
       path: "/login",
       name: "Auth",
       component: Login,
+    },
+    {
+      path: "/courseall",
+      name: "cursosall",
+      component: courseAll,
     },
     {
       path: "/coursesingle/:id",

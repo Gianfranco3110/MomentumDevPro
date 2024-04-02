@@ -31,6 +31,13 @@
       </li>
       <li class="c-sidebar-nav-item" v-if="isAdmin">
         <strong>
+          <a class="c-sidebar-nav-link" href="#/cursos/secciones">
+            <CIcon size="lg" name="cil-education" class="mr-2" /> CURSOS SECCIONES
+          </a>
+        </strong>
+      </li>
+      <li class="c-sidebar-nav-item" v-if="isAdmin">
+        <strong>
           <a class="c-sidebar-nav-link" href="#/users">
             <CIcon name="cil-user" class="mr-2" /> USUARIOS
           </a>
