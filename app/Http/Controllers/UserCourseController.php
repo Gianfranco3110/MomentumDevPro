@@ -27,7 +27,7 @@ class UserCourseController extends Controller
 
         $userCourses = userCourses::with(['courses.coursevideo' => function ($query) {
             $query->where('course_section_id', 1)->where('status_id', 1)->orderBy('created_at', 'desc')->first();
-        },'courses.status'])->where('usuario_id', $id)->get();
+        },'courses.status'])->where('usuario_id', $id)->whereIn('status', ["Pagado","No pagado"])->get();
 
         $userCourses->transform(function ($userCourse) {
             $userCourse['video_presentation'] = Controller::formLinkIframeVideo($userCourse->courses->coursevideo[0]->url_video ?? null);
@@ -101,7 +101,9 @@ class UserCourseController extends Controller
     {
         $vinculo = userCourses::find($id);
         if($vinculo){
-            $vinculo->delete();
+            $vinculo->status = "Inactivo";
+            $vinculo->save();
+            // $vinculo->delete();
         }
         return response()->json( ['status' => 'success'] );
     }

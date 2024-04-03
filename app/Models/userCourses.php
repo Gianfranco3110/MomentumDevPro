@@ -19,6 +19,7 @@ class userCourses extends Model
         'Fecha_sesion',
         'Usuario_aprueba',
         'Video_actual',
+        'status',
     ];
 
     protected $table = 'users_courses';

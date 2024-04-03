@@ -14,14 +14,24 @@ class CoursesController extends Controller
 {
 
     //FUNCION PARA MOSTRAR LOS CURSOS
-    public function index()
+    public function index(Request $request)
     {
-        $courses = DB::table('courses')->join('users', 'users.id', '=', 'courses.users_id')
+        $optLimit = $request->input('limit');
+        if ($optLimit) {
+            $courses = DB::table('courses')->join('users', 'users.id', '=', 'courses.users_id')
             ->join('status', 'status.id', '=', 'courses.status_id')
             ->select('courses.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
             ->where('status_id', '=', [1,3])
-            ->limit(6)
             ->get();
+        }else{
+
+            $courses = DB::table('courses')->join('users', 'users.id', '=', 'courses.users_id')
+                ->join('status', 'status.id', '=', 'courses.status_id')
+                ->select('courses.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
+                ->where('status_id', '=', [1,3])
+                ->limit(6)
+                ->get();
+        }
         return response()->json($courses);
     }
 
