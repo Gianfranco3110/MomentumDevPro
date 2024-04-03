@@ -33,7 +33,7 @@
         id="navbarNavAltMarkup"
       >
         <div class="navbar-nav m-auto">
-          <a class="text-color-header nav-link active link-nav-mod" href="#"
+          <a class="text-color-header nav-link active link-nav-mod"  @click="goHome" href="#"
             >Inicio <span class="sr-only">(current)</span></a
           >
           <a class="text-color-header nav-link  link-nav-mod" href="#"  @click="goCourseAll()"
@@ -108,6 +108,9 @@ export default {
     },
     goCourseAll() {
       this.$router.push({ path: "courseall" });
+    },
+    goHome() {
+      this.$router.push({ path: "/" });
     },
   },
   mounted() {

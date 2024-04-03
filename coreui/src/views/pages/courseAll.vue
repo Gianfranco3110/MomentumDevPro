@@ -167,7 +167,7 @@
             axios
             .get(
                 this.$apiAdress +
-                "/api/courses?token=" +
+                "/api/courses?limit=all&&token=" +
                 localStorage.getItem("api_token")
             )
             .then(function (response) {
