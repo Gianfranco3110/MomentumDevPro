@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PasswordReset;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\userCourses;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\URL as FacadesURL;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use PharIo\Manifest\Url;
 
 class UsersController extends Controller
 {
@@ -153,5 +160,48 @@ class UsersController extends Controller
             $user->delete();
         }
         return response()->json( ['status' => 'success'] );
+    }
+
+
+    public function forgetPassword(Request $request) {
+        return response($request);
+        try {
+            $request->validate(['email' => 'required|email']);
+
+            $user = User::where('email', $request->email)->first();
+
+            if (!$user) {
+                return response()->json(['error' => 'El email proporcionado no pertenece a ningún usuario'], 404);
+            }
+
+            $token = Str::random(60);
+            $user->update(['remember_token' => $token]);
+
+            $domain = FacadesURL::to('/');
+            $url = $domain."/reset-password?token?=".$token;
+
+            $data['url']= $url;
+            $data['email']= $request->email;
+            $data['title']= "Cambio de contraseña";
+            $data['body']= "Porfavor haz click aqui para cambiar contraseña";
+
+            Mail::send('emails.forgot_password', ['token' => $token], function ($message) use ($user) {
+                $message->to($user->email)->subject('Recuperar contraseña');
+            });
+
+            $datetime = Carbon::row()->format('Y-m-d H:i:s');
+
+            PasswordReset::updateOrCreate(['email'=>$request->email],[
+                'email'=>$request->email,
+                'token'=>$token,
+                'created_ad'=>$datetime
+            ]);
+
+            return response()->json(['message' => 'Correo de recuperación de contraseña enviado']);
+
+
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
 }

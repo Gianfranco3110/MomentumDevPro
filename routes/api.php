@@ -23,6 +23,7 @@ Route::group(['middleware' => ['api']], function ($router) {
     Route::post('refresh', 'AuthController@refresh');
     Route::post('register', 'AuthController@register');
 
+
     Route::put('user/password/change','UsersController@updatePassword');
     Route::get('user/logged','UsersController@userLogged');
 
@@ -45,6 +46,10 @@ Route::group(['middleware' => ['api']], function ($router) {
     Route::resource('courses', 'CoursesController');
     Route::get('courses/details/landig', 'CoursesController@details');
     Route::post('courses/verificarfecha', 'CoursesController@valueDateExpirate');
+
+
+    Route::post('user/forget-password','AuthController@forgetPassword');
+    Route::post('user/password/reset','AuthController@resetPassword');
 
     //ROUTES PARA VINCULACION CURSO-USUARIO
     Route::post('usercourses/create','UserCourseController@create');
@@ -85,6 +90,9 @@ Route::group(['middleware' => ['api']], function ($router) {
 
       //RUTA PARA TRAER LOS ESTADOS Y MUNICIPIOS
     Route::get('states', 'CountriesController@states');
+
+
+
 
     Route::group(['middleware' => 'admin'], function ($router) {
 

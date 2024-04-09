@@ -6,6 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
+use App\Models\PasswordReset;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\URL as FacadesURL;
+use Illuminate\Support\Str;
+
 
 class AuthController extends Controller
 {
@@ -16,7 +23,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register','forgetPassword','resetPassword']]);
     }
 
     /**
@@ -140,5 +147,133 @@ class AuthController extends Controller
             'name' => $user->name,
             'id' => $user->id,
         ]);
+    }
+
+    /**
+     * Get a JWT via given credentials.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function forgetPassword(Request $request) {
+        // return response($request);
+        try {
+
+            $validate = Validator::make($request->all(), [
+                'email'     => 'required|email',
+            ], [], [
+                'email' => 'correo',
+            ]);
+
+            if ($validate->fails()){
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => $validate->errors()
+                ], 422);
+            }
+
+            $user = User::where('email', $request->email)->first();
+
+            if (!$user) {
+                return response()->json(['message' => 'El email proporcionado no pertenece a ningún usuario','return'=>false], 200);
+            }
+
+            $token = Str::random(100);
+
+            // $user->update(['remember_token' => $token]);
+
+            $domain = Controller::LINK_CLIENT;
+            $url = $domain."#/reset-password/".$token."/".$user->id;
+
+            $data['url']= $url;
+            $data['user']= $user;
+            $data['title']= "Cambio de contraseña";
+            $data['body']= "Porfavor haz click aqui para cambiar contraseña";
+
+
+            $data['adress_company']= "1912  Mcwhorter Road, FL 11223";
+            $data['phone_company']= "+58412-000-00-00";
+            $data['email_company']= "empresa@gmail.com";
+
+            $data['link_facebook']= "#";
+            $data['link_twitter']= "#";
+            $data['link_instagram']= "#";
+            $data['link_linkedin']= "#";
+
+
+            Mail::send('email.forgot_password', $data, function ($message) use ($user) {
+                $message->to($user->email)->subject('Recuperar contraseña');
+            });
+
+            $datetime = date('Y-m-d H:i:s');
+
+            PasswordReset::updateOrCreate(['email'=>$request->email],[
+                'email'=>$request->email,
+                'token'=>$token,
+                'created_at'=>$datetime
+            ]);
+
+            return response()->json(['message' => 'Correo de recuperación de contraseña enviado','return'=>true]);
+
+
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+
+     /**
+     * Get a JWT via given credentials.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function resetPassword(Request $request){
+        $validate = Validator::make($request->all(), [
+            'password'  => 'required|min:4|confirmed',
+            'password_confirmation'  => 'required|min:4',
+        ], [], [
+            'password' => 'contraseña',
+            'password_confirmation' => 'confirmar contraseña',
+        ]);
+        if ($validate->fails()){
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validate->errors()
+            ], 422);
+        }
+
+
+
+        $verificar_token = PasswordReset::where('token', $request->token)->first();
+
+        if ($verificar_token) {
+            $created_at = $verificar_token->created_at;
+            $hora_expiracion = $created_at->addHour(); // Añade una hora a la hora de creación
+
+            if (Carbon::now()->gt($hora_expiracion)) {
+                // Token ha expirado
+                return response()->json(['status' => 'error',"return"=>false,"message"=>"Link de cambio contraseña expió"], 200);
+            } else {
+                // Token válido
+                $user = User::find($request->user_id);
+                if (!$user) {
+                    return response()->json(['message' => 'Usuario no encontrado'], 404);
+                }
+
+                $user->password = bcrypt($request->password);
+                $user->save();
+
+                PasswordReset::where('token', $request->token)->delete();
+
+                return response()->json(['status' => 'success',"return"=>true,"message"=>"Contraseña actualizada con éxito."], 200);
+            }
+        } else {
+            // Token no encontrado
+            return response()->json(['message' => 'Link de cambio contraseña expió, o ya fue útilizado.'], 404);
+        }
+
+
+
+
+
     }
 }

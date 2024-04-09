@@ -13,6 +13,7 @@ use App\Models\userCourses;
 class CoursesController extends Controller
 {
 
+
     //FUNCION PARA MOSTRAR LOS CURSOS
     public function index(Request $request)
     {

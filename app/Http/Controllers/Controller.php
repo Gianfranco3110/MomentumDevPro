@@ -12,6 +12,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    const LINK_CLIENT = "http://localhost:8080";
+
 
     public static function formLinkIframeVideo($linkValue)
     {
