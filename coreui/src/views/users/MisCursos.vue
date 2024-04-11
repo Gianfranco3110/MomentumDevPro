@@ -143,3 +143,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+iframe{
+  height: 30vh !important;
+}
+img{
+  height: 30vh !important;
+}
+</style>

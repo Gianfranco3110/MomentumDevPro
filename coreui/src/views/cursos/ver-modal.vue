@@ -20,22 +20,22 @@
             style="object-fit: cover;"
           />
         </CCardHeader>
-        <CCardBody>
+        <CCardBody class="botonesP">
           <div class="row">
             <CCol sm="3">
-              <H4> NOMBRE</H4>
+              <H4 class="text-white"> NOMBRE</H4>
               <p>{{ CourseName }}</p>
             </CCol>
             <CCol sm="3">
-              <H4> DESCRIPCION</H4>
+              <H4 class="text-white"> DESCRIPCION</H4>
               <p>{{ description }}</p>
             </CCol>
             <CCol sm="3">
-              <H4> DIAS VALIDO</H4>
+              <H4 class="text-white"> DIAS VALIDO</H4>
               <p>{{ daysofvalidity }}</p>
             </CCol>
             <CCol sm="3">
-              <H4> PRECIO</H4>
+              <H4 class="text-white"> PRECIO</H4>
               <p>{{ price }}</p>
             </CCol>
           </div>

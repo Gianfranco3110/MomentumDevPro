@@ -6,7 +6,7 @@
         <CCol v-if="show_curso" sm="6" class="row">
           <iframe
             class="w-100"
-            height="415"
+             height="415"
             :src="ur_video_curso"
             title="YouTube video player"
             frameborder="10"

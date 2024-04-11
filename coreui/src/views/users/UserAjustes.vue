@@ -25,12 +25,12 @@
                     /></template>
                   </CInput>
                   <CInput
-                    placeholder="Repetetir contraseña"
+                    placeholder="Repetir contraseña"
                     type="password"
                     prependHtml="<i class='cui-lock-locked'></i>"
                     autocomplete="confirm-password"
                     class="mb-4"
-                     label="Repetetir contraseña"
+                     label="Repetir contraseña"
                     v-model="password_confirmation"
                   >
                     <template #prepend-content
