@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,8 @@ use Illuminate\Http\Request;
 
 
 Route::group(['middleware' => ['api']], function ($router) {
+
+    Route::get('email/verify/{id}', 'AuthController@verify')->name('verification.verify');
 
     Route::get('menu', 'MenuController@index');
 

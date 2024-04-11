@@ -23,7 +23,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register','forgetPassword','resetPassword']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register','forgetPassword','resetPassword','verify']]);
     }
 
     /**
@@ -64,7 +64,7 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->status = 'Active';
-        $user->email_verified_at = now();
+        // $user->email_verified_at = now();
         $user->adress_all = $request->adress_all;
         $user->type_document = $request->type_document;
         $user->number_document = $request->number_document;
@@ -72,6 +72,7 @@ class AuthController extends Controller
         $user->municipality = $request->municipality;
         $user->street = $request->street;
         $user->save();
+        $user->sendEmailVerificationNotification();
         return response()->json(['status' => 'success'], 200);
     }
 
@@ -274,6 +275,23 @@ class AuthController extends Controller
 
 
 
+
+    }
+
+    public function verify($id, Request $request) {
+        if (!$request->hasValidSignature()) {
+            return response()->json([
+                'status' => false,
+                'message' => "Verifikasi email gagal",
+            ], 400);
+        }
+        $user = User::findOrFail($id);
+
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
+
+        return redirect()->to(Controller::LINK_CLIENT."/#/verificado");
 
     }
 }
