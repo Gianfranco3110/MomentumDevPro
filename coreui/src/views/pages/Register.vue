@@ -276,6 +276,7 @@ export default {
 
     };
   },
+  name:"Register",
   mixins: [General],
   computed: {
     isDisabled,
@@ -343,7 +344,7 @@ export default {
       this.$router.push({ path: "/" });
     },
     goLogin() {
-      this.$router.push({ path: "/login" });
+      this.$router.push({ path: "login" });
     },
     async getStateds() {
       this.stated = await this.getStated();

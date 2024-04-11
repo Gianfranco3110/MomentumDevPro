@@ -10,6 +10,9 @@ const Dashboard = () => import("@/views/Dashboard");
 //Detalle del curso
 const detailcoruse = () => import("@/views/pages/courseDetail");
 
+//muestra de todos los cursos
+const courseAll = () => import("@/views/pages/courseAll");
+
 //CURSO PARA MOSTRAR AL USUARIO MODULO PAPA
 const courseShow = () => import("@/views/users/course-show");
 
@@ -19,6 +22,11 @@ const courseShow = () => import("@/views/users/course-show");
 const Page404 = () => import("@/views/pages/Page404");
 const Page500 = () => import("@/views/pages/Page500");
 const Login = () => import("@/views/pages/Login");
+
+const VerificSuccess = () => import("@/views/pages/VerificSuccess");
+
+const ResetPassword = () => import("@/views/pages/ResetPassword");
+
 const Register = () => import("@/views/pages/Register");
 const Index = () => import("@/views/pages/Index");
 
@@ -35,6 +43,9 @@ const products = () => import("@/views/products/index");
 
 //Cursos
 const cursos = () => import("@/views/cursos/index");
+
+//Cursos secciones
+const cursosSection = () => import("@/views/course-section/indexViews");
 
 //CONSTANTE PARA REGISTRAR USUARIOS DESDE EL DASHBOARD
 const registro = () => import("@/views/RegistroAdmin/index");
@@ -168,6 +179,22 @@ function configRoutes() {
             {
               path: "",
               component: cursos,
+            },
+          ],
+        },
+        {
+          path: "cursos/secciones",
+          name: "cursoseccion",
+          meta: { label: "cursos secciones" },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "",
+              component: cursosSection,
             },
           ],
         },
@@ -320,6 +347,16 @@ function configRoutes() {
       component: Login,
     },
     {
+      path: "/reset-password/:token/:id",
+      name: "ResetPassword",
+      component: ResetPassword,
+    },
+    {
+      path: "/courseall",
+      name: "cursosall",
+      component: courseAll,
+    },
+    {
       path: "/coursesingle/:id",
       name: "singleCourse",
       component: detailcoruse,
@@ -328,6 +365,11 @@ function configRoutes() {
       path: "/register",
       name: "Register",
       component: Register,
+    },
+    {
+      path: "/verificado",
+      name: "verificado",
+      component: VerificSuccess,
     },
     {
       path: "*",

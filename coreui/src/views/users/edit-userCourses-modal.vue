@@ -51,7 +51,7 @@ function data() {
     user_name: "",
     VinculoData: {
       id: 1,
-      status: '',
+      status: 'Pagado',
       daysofvalidity: '',
     },
     courses: [],

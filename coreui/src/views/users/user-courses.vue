@@ -74,6 +74,7 @@
         </div>
       </CCol>
     </CRow>
+    
   </div>
 </template>
 <script>
@@ -148,7 +149,7 @@ export default {
         ? "danger"
         : status === "Pending"
         ? "warning"
-        : status === "Banned"
+        : status === "Inactivo"
         ? "danger"
         : "primary";
     },
