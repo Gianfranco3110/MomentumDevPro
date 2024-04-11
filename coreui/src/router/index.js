@@ -22,6 +22,9 @@ const courseShow = () => import("@/views/users/course-show");
 const Page404 = () => import("@/views/pages/Page404");
 const Page500 = () => import("@/views/pages/Page500");
 const Login = () => import("@/views/pages/Login");
+
+const VerificSuccess = () => import("@/views/pages/VerificSuccess");
+
 const ResetPassword = () => import("@/views/pages/ResetPassword");
 
 const Register = () => import("@/views/pages/Register");
@@ -362,6 +365,11 @@ function configRoutes() {
       path: "/register",
       name: "Register",
       component: Register,
+    },
+    {
+      path: "/verificado",
+      name: "verificado",
+      component: VerificSuccess,
     },
     {
       path: "*",
