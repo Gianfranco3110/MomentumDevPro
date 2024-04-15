@@ -12,7 +12,12 @@
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 
                 <div class="card-body p-4 p-lg-5 text-black">
-                 
+                  <div class="d-flex align-items-center mb-3 pb-1" @click="linkHome">
+                      
+                      <img  src="../../../public/logo_alterno/logo alterno color negro.png"
+                  alt="login form" class="img-fluid w-75" style="border-radius: 1rem 0 0 1rem;" />
+                      
+                    </div>
                   <h4 class="fw-normal mb-3" style="letter-spacing: 1px; color:black !important">Crea tu cuenta</h4>
                   <form  @submit.prevent="register" method="POST">
                     <div class="form-outline mb13">

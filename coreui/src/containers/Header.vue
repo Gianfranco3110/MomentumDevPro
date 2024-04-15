@@ -11,8 +11,8 @@
           <div>
             <img
               class="w-100"
-              src="https://teboribrows.com/wp-content/uploads/2022/09/Logo-Tebori-Brows.webp"
-              alt="Logo Tebori Brows"
+              src="../../public/logo_alterno/logo alterno color negro.png"
+              alt="Logo Yeretzi Ocanto De Sanchez"
             />
           </div>
         </a>

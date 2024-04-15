@@ -80,21 +80,21 @@
           <div class="footer-seccion">
             <div class="div-footer-h">
               <h4>Información</h4>
-              <ul class="info-iconos pl-0">
-                <li>
+              <ul class="info-iconos text-left pl-0">
+                <li class="pe-0" style="padding-left: 0 !important;">
                   <a
                     href="https://g.page/TeboriBrows?share"
                     class="text-white"
                     target="_blank"
                     >Calle del General Díaz Porlier, 57, 28006 Madrid</a
                   >
-                </li>
-                <li>
+                </li style="padding-left: 0 !important;">
+                <li style="padding-left: 0 !important;">
                   <a href="tel:+34622341648" target="_blank" class="text-white"
                     >(0412) 000 00 00</a
                   >
                 </li>
-                <li>
+                <li style="padding-left: 0 !important;">
                   <a
                     href="mailto:clientes@teboribrows.com"
                     class="text-white"
