@@ -55,6 +55,7 @@ function data() {
     },
     courses: [],
     statuses: ['Pagado','No pagado'],
+    asignado: false
   };
 }
 export default {
@@ -63,6 +64,7 @@ export default {
   data,
   props: {
     modal: null,
+    refrescarComponente:null
   },
   watch: {
     modal: function() {
@@ -76,6 +78,7 @@ export default {
         this.$emit("cerrarModal");
       }
     },
+  
   },
   methods: {
     AssignCourse() {
@@ -92,6 +95,10 @@ export default {
           self.Loading = false;
           self.AddModal = false;
           self.$toastr.success("¡Curso asignado con exito!");
+          self.asignado =true
+          
+          // Emitir un evento para notificar al componente padre
+          self.$emit('curso-asignado');
         })
         .catch(function(error) {
           console.log(error);
