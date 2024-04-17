@@ -17,8 +17,10 @@
                   <form @submit.prevent="login" method="POST">
   
                     <div class="d-flex align-items-center mb-3 pb-1" @click="goHome">
-                      <i class="fas fa-cubes fa-2x me-3 cursor-pointer" style="color: #ff6219;"></i>
-                      <span class="h1 fw-bold mb-0">Logo</span>
+                      
+                      <img  src="../../../public/logo_alterno/logo alterno color negro.png"
+                  alt="login form" class="img-fluid w-75" style="border-radius: 1rem 0 0 1rem;" />
+                      
                     </div>
   
                     <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; color:black !important">{{textTitleLogin}}</h5>

@@ -7,7 +7,8 @@
     @update:show="(value) => $store.commit('set', ['sidebarShow', value])"
   >
     <CSidebarBrand class="d-md-down-none" to="/">
-      <h3>YareStylo</h3>
+      <img  src="../../public/logo_alterno/logo alterno color oro.png"
+                  alt="login form" class="img-fluid w-75"  />
     </CSidebarBrand>
     <!-- <CRenderFunction flat :content-to-render="nav"/>
     <CSidebarMinimizer

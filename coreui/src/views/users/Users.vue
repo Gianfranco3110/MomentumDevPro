@@ -7,6 +7,7 @@
 
     <CCard>
       <AgreModal
+        ref="refModalAsignarCourse"
             :modal="AddModal"
             @cerrarModal="AddModal = false"
             @child-refresh="refrescarComponente = true"
@@ -354,7 +355,7 @@ export default {
     },
     redirect(){
       this.$router.push({ path: "/Registro" });
-    }
+    },
   },
   watch: {
     refrescarComponente: function() {
@@ -366,6 +367,11 @@ export default {
   },
   mounted: function() {
     this.getUsers();
+    
+     // Escuchar el evento del hijo para actualizar la lista de usuarios
+    this.$refs.refModalAsignarCourse.$on('curso-asignado', () => {
+      this.getUsers();
+    });
   },
 };
 </script>
