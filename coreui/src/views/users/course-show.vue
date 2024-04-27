@@ -6,7 +6,7 @@
         <CCol v-if="show_curso" sm="6" class="row">
           <iframe
             class="w-100"
-             height="415"
+            height="415"
             :src="ur_video_curso"
             title="YouTube video player"
             frameborder="10"
@@ -25,7 +25,7 @@
           </CCol>
         </CCol>
         <CCol v-if="show_task" sm="6">
-          <Quick :show="show_task" :data="data_task" :tipo="'1'" />
+          <Quick :show="show_task" :data="data_task" :tipo="type_question" />
         </CCol>
         <CCol sm="6">
           <div class="card">
@@ -74,7 +74,7 @@
                         <div class="flex d-flex">
                           <input
                             type="checkbox"
-                            @click="selectVideo(video.id_video)"
+                            @click="selectVideo(video.url_video)"
                           />
 
                           <p
@@ -87,7 +87,7 @@
                       </CListGroupItem>
                     </CListGroup>
                     <p
-                      @click="show_question(videos[0].course_section_id)"
+                      @click="show_question(videos[0].question_user)"
                       v-if="
                         videos.length > 0 && videos[0].question_user.length > 0
                       "
@@ -112,6 +112,29 @@ import Quick from "../../components/Quick.vue";
 import General from "@/_mixins/general";
 import axios from "axios";
 
+function selectVideo(url) {
+  console.log("id", url);
+  let self = this;
+  self.Loading = true;
+  axios
+    .post(
+      this.$apiAdress +
+        "/api/position/urlcurso/?token=" +
+        localStorage.getItem("api_token"),
+      {
+        course_id: this.$route.params.id,
+        url: url,
+      }
+    )
+    .then(function (response) {
+      console.log(response);
+      self.Loading = false;
+    })
+    .catch(function (error) {
+      console.log(error);
+      self.Loading = false;
+    });
+}
 
 function move_video(val) {
   let currentSection = null;
@@ -120,7 +143,8 @@ function move_video(val) {
   // Encontrar la sección y el índice del video actual
   for (let section of Object.keys(this.Secciones)) {
     let index = this.Secciones[section].findIndex(
-      (video) => this.formLinkIframeVideo(video.url_video) === this.ur_video_curso
+      (video) =>
+        this.formLinkIframeVideo(video.url_video) === this.ur_video_curso
     );
     if (index !== -1) {
       currentSection = section;
@@ -136,42 +160,72 @@ function move_video(val) {
   if (val === 1) {
     // Video anterior
     if (currentIndex > 0) {
-      this.ur_video_curso =
-        this.formLinkIframeVideo(this.Secciones[currentSection][currentIndex - 1].url_video);
+      this.ur_video_curso = this.formLinkIframeVideo(
+        this.Secciones[currentSection][currentIndex - 1].url_video
+      );
     } else {
       // Ir al último video de la sección anterior
       let prevSection = Object.keys(this.Secciones)[
         Object.keys(this.Secciones).indexOf(currentSection) - 1
       ];
       if (prevSection) {
-        this.ur_video_curso =
-          this.formLinkIframeVideo(this.Secciones[prevSection][
-            this.Secciones[prevSection].length - 1
-          ].url_video);
+        this.ur_video_curso = this.formLinkIframeVideo(
+          this.Secciones[prevSection][this.Secciones[prevSection].length - 1]
+            .url_video
+        );
       }
     }
   } else {
     // Video siguiente
     if (currentIndex < this.Secciones[currentSection].length - 1) {
-      this.ur_video_curso =
-        this.formLinkIframeVideo(this.Secciones[currentSection][currentIndex + 1].url_video);
+      this.ur_video_curso = this.formLinkIframeVideo(
+        this.Secciones[currentSection][currentIndex + 1].url_video
+      );
     } else {
       // Ir al primer video de la siguiente sección
       let nextSection = Object.keys(this.Secciones)[
         Object.keys(this.Secciones).indexOf(currentSection) + 1
       ];
       if (nextSection) {
-        this.ur_video_curso = this.formLinkIframeVideo(this.Secciones[nextSection][0].url_video);
+        this.ur_video_curso = this.formLinkIframeVideo(
+          this.Secciones[nextSection][0].url_video
+        );
       }
     }
   }
 }
 
-function show_question(id_seccion) {
-  console.log('show_question',id_seccion);
+function show_question(question) {
   this.show_curso = false;
   this.show_task = true;
 
+  this.type_question = question[0].type_question;
+  if (this.type_question === "3") {
+    //showQuestionMultiple(question[0].id);
+    const vm = this;
+    vm.Loading = true;
+
+    axios
+      .get(
+        vm.$apiAdress +
+          "/api/questionfields/listoptionsquestion/" +
+          this.$route.params.id +
+          "/" +
+          vm.type_question +
+          "/" +
+          "?token=" +
+          localStorage.getItem("api_token")
+      )
+      .then(function (response) {
+        console.log("responsePreguntas", response.data);
+        vm.data_task = response.data;
+        console.log('vm',vm.data_task);
+        vm.Loading = false;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  } else this.data_task = question;
 }
 
 function viewsCourseUser(id_curso) {
@@ -191,8 +245,32 @@ function viewsCourseUser(id_curso) {
       console.log("response", response);
       self.Secciones = response.data.groupedVideos;
       self.titleVideo = response.data.courseName;
-      self.ur_video_curso =  self.formLinkIframeVideo(response.data.first_video_url);
+      self.ur_video_curso = self.formLinkIframeVideo(
+        response.data.first_video_url
+      );
       self.Loading = false;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+function showQuestionMultiple(id_question) {
+  console.log("id_question", id_question);
+
+  this.Loading = true;
+  axios
+    .get(
+      this.$apiAdress +
+        "/api/questionfields/listoptionsquestion/" +
+        id_question +
+        "?token=" +
+        localStorage.getItem("api_token")
+    )
+    .then(function (response) {
+      console.log("responsePreguntas", response);
+      this.data_task = response.data;
+      this.Loading = false;
     })
     .catch(function (error) {
       console.log(error);
@@ -221,29 +299,8 @@ export default {
       collapsedSection: null,
       show_task: false,
       id_curso: "",
-      data_task: [
-        {
-          title: "hola input",
-        },
-        {
-          title: "hola check",
-        },
-        {
-          title: "hola check",
-        },
-        {
-          title: "hola check",
-        },
-        {
-          title: "hola check",
-        },
-        {
-          title: "hola check",
-        },
-        {
-          title: "hola check",
-        },
-      ],
+      type_question: "",
+      data_task: null,
     };
   },
   methods: {
@@ -251,6 +308,8 @@ export default {
     move_video,
     send_url_video,
     viewsCourseUser,
+    showQuestionMultiple,
+    selectVideo,
   },
   mounted: function () {
     this.viewsCourseUser(this.$route.params.id);
@@ -265,7 +324,7 @@ export default {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
-#customs-li p{
+#customs-li p {
   color: black !important;
 }
 </style>

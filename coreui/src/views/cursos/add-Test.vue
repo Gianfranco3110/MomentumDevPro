@@ -41,6 +41,14 @@
               :tags="tags_options"
               @tags-changed="(newTags) => (tags_options = newTags)"
             />
+            <CInput
+              addLabelClasses="required"
+              placeholder="Opción valida"
+              invalid-feedback="Campo requerido"
+              label="Respuesta"
+              class="mt-3"
+              v-model="test.valid_option"
+          />
           </CCol>
           <CCol class="mt-3">
             <CSelect
@@ -198,6 +206,7 @@ function guardar() {
   formData.append("courses_id", self.test.courses_id);
   formData.append("section_id", self.test.section_id);
   formData.append("type_question", self.test.type_questions_id);
+  formData.append("valid_option", self.test.valid_option);
   formData.append("id", self.test.id);
   self.tags_options.map((item) => (formData.append("options[]", item.text)));
 
@@ -215,7 +224,7 @@ function guardar() {
       }
     )
     .then(function (response) {
-      self.$toastr.success("Video agregado con extio!");
+      self.$toastr.success("Cuestionario agregado con extio!");
       self.limpiarDatos();
       self.ListQuestion(self.test.courses_id);
       console.log(response);
@@ -319,6 +328,7 @@ function data() {
       courses_id: "",
       section_id: "",
       type_questions_id: "",
+      valid_option: ""
     },
     // VARIABLES
     tag: "",
