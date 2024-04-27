@@ -6,7 +6,7 @@
       </div>
       <div class="card-body mb-3">
         <div v-if="tipo === '1'" class="col-md-12 row">
-          <div v-for="(item, index) in data" :key="index" class="col-md-12">
+          <div v-for="(item, index) in data" :key="index" class="col-md-12 mb-5">
             <h5 for="ask-title-file">{{ item.question }}</h5>
             <div class="custom-input-file mt-3">
               <input
@@ -16,10 +16,20 @@
                 name="imagen"
                 id="image"
                 accept="image/*"
-                placeholder="product picture"
+                placeholder="test picture"
+                @change="getImage($event, item.id)"
               />
               Imagen del cuestionario...
             </div>
+            <CCol class="mt-3" sm="4">
+              <figure v-if="imagenMiniatura[item.id]">
+                <img
+                  :src="imagenMiniatura[item.id]"
+                  width="200"
+                  height="200"
+                />
+              </figure>
+            </CCol>
           </div>
         </div>
         <div v-if="tipo === '2'" class="col-md-12 row">
@@ -29,7 +39,7 @@
         </div>
         <div v-if="tipo === '3'">
           <div v-for="(pregunta, index) in data" :key="index" class="mb-5">
-            <pre>{{pregunta.selectedOption}}</pre>
+            <pre>{{ pregunta.selectedOption }}</pre>
             <h5 class="mb-2">{{ pregunta.userQuestion }}</h5>
             <div class="row">
               <div
@@ -37,7 +47,9 @@
                 :key="i"
                 class="col-md-4 mt-3"
               >
-                <label :for="'ask-title-multiple-' + index + '-' + i">{{ opcion.option}}</label>
+                <label :for="'ask-title-multiple-' + index + '-' + i">{{
+                  opcion.option
+                }}</label>
                 <input
                   class="ml-2"
                   type="radio"
@@ -62,44 +74,59 @@
 
 <script>
 import General from "@/_mixins/general";
-import axios from 'axios'
+import axios from "axios";
 
-function updateSelectedOption(pregunta, selectedOption){
-        pregunta.selectedOption = selectedOption;
-        const existingAnswerIndex = this.selectedAnswers.findIndex(answer => answer.id_question === pregunta.id_question);
-        
-        if(existingAnswerIndex !== -1) {
-            this.selectedAnswers[existingAnswerIndex].answer = selectedOption;
-        } else {
-            this.selectedAnswers.push({ id_question: pregunta.id_question, answer: selectedOption });
-        }
-        console.log('answer',this.selectedAnswers);
+function updateSelectedOption(pregunta, selectedOption) {
+  pregunta.selectedOption = selectedOption;
+  const existingAnswerIndex = this.selectedAnswers.findIndex(
+    (answer) => answer.id_question === pregunta.id_question
+  );
+
+  if (existingAnswerIndex !== -1) {
+    this.selectedAnswers[existingAnswerIndex].answer = selectedOption;
+  } else {
+    this.selectedAnswers.push({
+      id_question: pregunta.id_question,
+      answer: selectedOption,
+    });
+  }
+  console.log("answer", this.selectedAnswers);
 }
 //data
 function data() {
   return {
     // VARIABLES
     title: "",
-    answer: {},
+    answer: [],
     selectedAnswers: [],
+    imageNueva: null,
+    imagenMiniatura: [],
+    imagenesSeleccionadas: [],
   };
 }
 
 function sendAnswer() {
- 
   const self = this;
   let data = "";
-  if(this.tipo === '3'){
+  if (this.tipo === "3") {
     data = this.selectedAnswers;
-  }else if(this.tipo === '2'){
-    data = this.answer;
+  } else if (this.tipo === "2") {
+    const respuestas = [];
+    for (const id in this.answer) {
+      respuestas.push({ id_question: id, answer: this.answer[id] });
+    }
+    data = respuestas;
+  } else {
+    data = this.imagenesSeleccionadas;
   }
+  console.log("data", data);
+  return;
   //self.dataUser.Loading = true;
   axios
     .post(self.$apiAdress + "/api/answer/store", {
       tipo: self.tipo,
       answer: data,
-      id_user:localStorage.getItem("id")
+      id_user: localStorage.getItem("id"),
     })
     .then(function (response) {
       console.log("response", response);
@@ -127,7 +154,38 @@ export default {
   },
   methods: {
     sendAnswer,
-    updateSelectedOption
+    updateSelectedOption,
+    getImage(event, id) {
+      //Asignamos la imagen a  nuestra data
+      let file = event.target.files[0];
+
+      // Verificar si ya hay una imagen para esta pregunta en el array
+      const existingImageIndex = this.imagenesSeleccionadas.findIndex(
+        (img) => img.id_question === id
+      );
+
+      if (existingImageIndex !== -1) {
+        // Si ya existe una imagen para esta pregunta, reemplazarla
+        this.imagenesSeleccionadas[existingImageIndex].answer = file;
+      } else {
+        // Si no existe una imagen para esta pregunta, agregar una nueva
+        this.imagenesSeleccionadas.push({ id_question: id, answer: file });
+      }
+      this.cargarImagen(file, id);
+    },
+
+    cargarImagen(file, id) {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        this.$set(this.imagenMiniatura, id, e.target.result); // Asociar la miniatura con el id de la pregunta
+      };
+      reader.readAsDataURL(file);
+    },
+  },
+  computed: {
+    imagenM() {
+      return this.imagenMiniatura;
+    },
   },
 };
 </script>
