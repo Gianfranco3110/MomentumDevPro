@@ -57,6 +57,16 @@ class UserCourseController extends Controller
         return response()->json( ['estado' => 'success'] );
     }
 
+    public function positionCurso(Request $request){
+        //return response ($request->input('url'));
+        $UserCourses = userCourses::Where('curso_id',$request->input('course_id'));
+        $UserCourses->Video_actual = $request->input('url');
+        $UserCourses->save();
+        if($UserCourses){
+            return response()->json( ['status' => 'success'] );
+        }
+
+    }
     public function create(Request $request){
 
         $user = auth()->userOrFail();

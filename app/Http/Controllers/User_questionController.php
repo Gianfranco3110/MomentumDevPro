@@ -38,6 +38,7 @@ class User_questionController extends Controller
             $userQuestion->status_id = intval($request->input('status_id'));
             $userQuestion->course_section_id = $request->input('section_id');
             $userQuestion->type_question = $request->input('type_question');
+            $userQuestion->valid_option = $request->input('valid_option');
             $userQuestion->save();
 
             $text_r = "Agregado correctamente";
@@ -107,4 +108,62 @@ class User_questionController extends Controller
             ->toArray();
         return response()->json($result);
     }
+
+    public function questionfields ($id_curso, $id_question){
+        //return response ($id_curso);
+        $userQuestion = User_questions::where('id', $id_question)->select('valid_option', 'question', 'id')->first();
+
+        $options = fields_for_simple_selection::where('id_user_questions', $id_question)->pluck('options');
+
+        $optionsArray = json_decode($options, true);
+        $questions = [];
+        foreach ($optionsArray as $option) {
+            $questions[] = [
+                'question' => $option,
+                'userQuestion' => $userQuestion->question
+            ];
+        }
+        $insertIndex = rand(0, count($questions));
+
+        array_splice($questions, $insertIndex, 0, [
+            [
+                'question' => $userQuestion->valid_option,
+                'userQuestion' => $userQuestion->question
+            ]
+            ]);
+        return response()->json($questions);
+    }
+    
+    public function questionfieldsAux ($id_curso, $type_question){
+        //return response ($id_question);
+
+        $userQuestions = User_questions::where('type_question', $type_question)
+            ->where('courses_id', $id_curso)
+            ->select('user_questions.id', 'user_questions.valid_option', 'user_questions.question', DB::raw('GROUP_CONCAT(fields_for_simple_selections.options) as options'))
+            ->join('fields_for_simple_selections', 'user_questions.id', '=', 'fields_for_simple_selections.id_user_questions')
+            ->groupBy('user_questions.id', 'user_questions.valid_option', 'user_questions.question')
+            ->get();
+
+        // Transformar los resultados
+        $questions = [];
+        foreach ($userQuestions as $userQuestion) {
+            $optionsArray = explode(',', $userQuestion->options);
+            $optionsArray[] = $userQuestion->valid_option; // Agregar valid_option al array de opciones
+            shuffle($optionsArray); // Mezclar las opciones
+            $options = [];
+            foreach ($optionsArray as $option) {
+                $options[] = ['option' => $option];
+            }
+            $questions[] = [
+            'options' => $options,
+
+            'userQuestion' => $userQuestion->question,
+            'id_question' => $userQuestion->id,
+            'selectedOption' =>  ""
+        ];
+        }
+
+        return response()->json($questions);
+    }
+
 }

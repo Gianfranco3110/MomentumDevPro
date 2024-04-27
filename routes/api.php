@@ -32,6 +32,9 @@ Route::group(['middleware' => ['api']], function ($router) {
 
     Route::resource('notes', 'NotesController');
 
+    //RUTA PARA GUARDAR LAS RESPUESTA DE LOS TEST
+    Route::post('answer/store','AnswerUserController@store');
+
 
     //ROUTE PARA CREAR PRODUCTOS ANTONIO
     Route::post('products/image/store','productsController@uploadImage');
@@ -60,6 +63,8 @@ Route::group(['middleware' => ['api']], function ($router) {
     Route::get('usercourses/{id}','UserCourseController@index');
     Route::get('usercourses/list/{id}','UserCourseController@course_user');
     Route::delete('usercourses/{id}','UserCourseController@destroy');
+    Route::post('position/urlcurso/', 'UserCourseController@positionCurso');
+
     //ROUTE PARA GENERAR PDF
     Route::get('usercourses/pdf','UserCourseController@generatePDF');
 
@@ -77,6 +82,9 @@ Route::group(['middleware' => ['api']], function ($router) {
     Route::post('coursestest/updatestatus','User_questionController@changeStatus');
     Route::get('coursestest/listfieldsquestion/{id}', 'User_questionController@fieldsquestion');
 
+    //RUTA ENVIA LAS OPCIONES DEL TEST CUANDO ES SELECCION SIMPLE
+    Route::get('questionfields/listoptionsquestion/{id_curso}/{id_question}', 'User_questionController@questionfieldsAux');
+
 
     //RUTA QUE SE ENCARGA DE IMPRIMIR LOS CERTIFICADOS
     Route::post('usercertificado', 'Pdf_CertificadoController@getPDF');
@@ -87,6 +95,8 @@ Route::group(['middleware' => ['api']], function ($router) {
 
     //RUTA PARA ENVIAR TODOS LOS DATOS DE UN CURSO EN ESPECIFICO
     Route::get('viewcoursestart/{id_curso}/{id_user}', 'Courses_videoController@viewcoursestart');
+
+    
 
     //RUTA SECCIONES DE CURSOS
     Route::resource('course-sections',"CourseSectionController");

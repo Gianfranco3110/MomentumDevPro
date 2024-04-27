@@ -134,7 +134,7 @@ class Courses_videoController extends Controller
                 return $videos->sortBy('order')->map(function ($video) use ($id_curso) {
                     $question_user = User_questions::where('courses_id', $id_curso)
                     ->where('course_section_id', $video->course_section_id)
-                    ->select('course_section_id', 'question')
+                    ->select('course_section_id', 'question', 'type_question','id')
                     ->get();
 
                     return [

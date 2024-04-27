@@ -19,7 +19,8 @@ class CreateUserQuestionsTable extends Migration
             $table->integer('courses_id')->unsigned();
             $table->integer('course_section_id')->unsigned();
             $table->integer('status_id')->unsigned();
-            $table->string('type_question');
+            $table->string('type_question')->nullable();
+            $table->string('valid_option')->nullable();
             $table->timestamps();
         });
     }
