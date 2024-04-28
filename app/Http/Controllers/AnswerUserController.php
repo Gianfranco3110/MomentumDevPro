@@ -9,9 +9,10 @@ class AnswerUserController extends Controller
 {
     public function store(Request $request)
     {
-        //return response ($request->input('id_user'));
+        return response ($request);
         if($request->input('tipo') === '1'){
            //Save img pedro
+
         }else{
             $data = $request->input('answer');
            foreach ($data as $item) {

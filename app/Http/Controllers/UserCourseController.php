@@ -58,11 +58,12 @@ class UserCourseController extends Controller
     }
 
     public function positionCurso(Request $request){
-        //return response ($request->input('url'));
-        $UserCourses = userCourses::Where('curso_id',$request->input('course_id'));
-        $UserCourses->Video_actual = $request->input('url');
-        $UserCourses->save();
-        if($UserCourses){
+        
+        $UserCourse = UserCourses::where('curso_id', $request->input('course_id'))->first();
+        if ($UserCourse) {
+            // Actualiza el atributo Video_actual y guarda el modelo
+            $UserCourse->Video_actual = $request->input('url');
+            $UserCourse->save();
             return response()->json( ['status' => 'success'] );
         }
 

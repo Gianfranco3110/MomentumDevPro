@@ -6,8 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\course_video;
 use App\Models\User_questions;
+use App\Models\userCourses;
+use App\Models\answerUser;
+
+
 use App\Models\Status;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+
 
 class Courses_videoController extends Controller
 {
@@ -137,6 +143,13 @@ class Courses_videoController extends Controller
                     ->select('course_section_id', 'question', 'type_question','id')
                     ->get();
 
+                    $question_user = $question_user->map(function ($question) use ($id_curso) {
+                        $question->user_answered = AnswerUser::where('question_id', $question->id)
+                            ->where('users_id', Auth::user()->id)
+                        ->exists();
+                        return $question;
+                    });
+                    
                     return [
                         'id_video' => $video->id,
                         'description_video' => $video->description,
@@ -148,6 +161,14 @@ class Courses_videoController extends Controller
                 })->values();
             });
 
+            $videoActual = UserCourses::where('usuario_id', $id_user)
+            ->where('curso_id', $id_curso)
+            ->value('video_actual');     
+          
+           // return response($videoActual);
+            if ($videoActual) {
+                $firstVideoUrl = $videoActual;
+            }
             return response()->json([
                 'groupedVideos' => $groupedVideos,
                 'courseName' => $courseName,
