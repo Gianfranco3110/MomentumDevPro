@@ -46,6 +46,7 @@
                       @click="
                         collapsedSection =
                           collapsedSection === sectionName ? null : sectionName
+                        
                       "
                     >
                       <div class="fw-bold text-bold customs-section">
@@ -80,21 +81,25 @@
                           <p
                             class="customs-section ml-2 mt-3"
                             @click="send_url_video(video.url_video)"
+                            
                           >
                             Descripción: {{ video.description_video }}
                           </p>
                         </div>
                       </CListGroupItem>
                     </CListGroup>
-                    <p
-                      @click="show_question(videos[0].question_user)"
-                      v-if="
-                        videos.length > 0 && videos[0].question_user.length > 0
-                      "
-                    >
-                      Iniciar cuestionario:
-                      {{ videos[0].question_user[0].question }}
-                    </p>
+                    <div class="col-md-12">
+                      <CButton
+                        class="btn-block botonesP text-white"
+                        v-if="
+                          videos.length > 0 &&
+                          videos[0].question_user.length > 0
+                        "
+                        @click="show_question(videos[0].question_user)"
+                      >
+                        <CIcon name="cil-task" />&nbsp; Iniciar cuestionario
+                      </CButton>
+                    </div>
                   </CCollapse>
                 </li>
               </ol>
@@ -182,6 +187,12 @@ function move_video(val) {
         this.Secciones[currentSection][currentIndex + 1].url_video
       );
     } else {
+      // Validar si el usuario ha respondido el cuestionario de la sección actual
+      if (!this.Secciones[currentSection].user_answered) {
+        alert("Debes completar el test de la sección actual antes de avanzar.");
+        return;
+      }
+
       // Ir al primer video de la siguiente sección
       let nextSection = Object.keys(this.Secciones)[
         Object.keys(this.Secciones).indexOf(currentSection) + 1
@@ -219,7 +230,7 @@ function show_question(question) {
       .then(function (response) {
         console.log("responsePreguntas", response.data);
         vm.data_task = response.data;
-        console.log('vm',vm.data_task);
+        console.log("vm", vm.data_task);
         vm.Loading = false;
       })
       .catch(function (error) {
@@ -278,6 +289,29 @@ function showQuestionMultiple(id_question) {
 }
 
 function send_url_video(val) {
+  let currentSection = null;
+
+  // Encontrar la sección actual
+  /*for (let section of Object.keys(this.Secciones)) {
+    let index = this.Secciones[section].findIndex(
+      (video) =>
+        this.formLinkIframeVideo(video.url_video) === this.ur_video_curso
+    );
+    if (index !== -1) {
+      currentSection = section;
+      break;
+    }
+  }
+
+  // Verificar si se está cambiando de sección
+  if (this.formLinkIframeVideo(val) !== this.ur_video_curso) {
+    let nextSection = Object.keys(this.Secciones)[Object.keys(this.Secciones).indexOf(currentSection) + 1];
+    if (nextSection && !this.Secciones[currentSection].user_answered) {
+      alert('Debes completar el test de la sección actual antes de cambiar de sección.');
+      return;
+    }
+  }
+*/
   this.ur_video_curso = this.formLinkIframeVideo(val);
   this.show_curso = true;
   this.show_task = false;
@@ -326,5 +360,8 @@ export default {
 }
 #customs-li p {
   color: black !important;
+}
+svg {
+  color: white !important;
 }
 </style>
