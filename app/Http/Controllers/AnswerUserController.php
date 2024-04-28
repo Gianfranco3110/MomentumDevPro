@@ -10,7 +10,7 @@ class AnswerUserController extends Controller
 {
     public function store(Request $request)
     {
-
+        // dd($request);
         if($request->input('tipo') === '1'){
             $data = $request->input('answer');
             $respDta = [];
