@@ -12,6 +12,7 @@ class AnswerUserController extends Controller
     {
         // dd($request);
         if($request->input('tipo') === '1'){
+            return response($request);
             $data = $request->input('answer');
             $respDta = [];
             foreach ($data as $key=>$item) {
