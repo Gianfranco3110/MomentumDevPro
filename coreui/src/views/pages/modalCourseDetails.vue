@@ -47,13 +47,7 @@
                         <p class="lead">
                         {{ course.description }}
                         </p>
-                        <div>
-                            <p class="more-info">
-                            <a href="#" @click="infoCourse">Más información
-                            <CIcon class="mr-2" name="cil-arrow-right" />
-                            </a></p>
-                        </div>
-                       
+                        
                     
                     </div>
                 </div>
@@ -87,11 +81,7 @@
                         </li>
                         <li class="pl-0">
                             <CIcon class="mr-2" name="cil-thumb-up" />
-                            100% valoraciones positivas (<a
-                            class="link-underlined"
-                            href="https://www.domestika.org/es/courses/5159-tipografia-de-marca-avanzada/reviews"
-                            >2</a
-                            >)
+                            100% valoraciones positivas 
                         </li>
                         <li class="pl-0">
                             <CIcon class="mr-2" name="cil-smile" />

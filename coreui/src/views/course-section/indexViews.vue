@@ -233,4 +233,8 @@
     },
   };
   </script>
-  <style scoped></style>
+<style scoped>
+svg{
+  color: white !important;
+}
+</style>

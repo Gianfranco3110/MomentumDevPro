@@ -92,13 +92,14 @@ export default {
           self.courseData
         )
         .then(function(response) {
+          // Emitir un evento para notificar al componente padre
+          self.$bus.$emit('cursoasignado');
           self.Loading = false;
           self.AddModal = false;
           self.$toastr.success("¡Curso asignado con exito!");
           self.asignado =true
           
-          // Emitir un evento para notificar al componente padre
-          self.$emit('curso-asignado');
+          
         })
         .catch(function(error) {
           console.log(error);
@@ -134,4 +135,8 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+svg{
+  color: white !important;
+}
+</style>

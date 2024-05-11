@@ -7,7 +7,7 @@
 
     <CCard>
       <AgreModal
-        ref="refModalAsignarCourse"
+            ref="refModalAsignarCourse"
             :modal="AddModal"
             @cerrarModal="AddModal = false"
             @child-refresh="refrescarComponente = true"
@@ -59,10 +59,10 @@
                 </CButton>
                 <CButton
                 v-if="you != item.id"
-                  color="danger"
+                  
                   square
                   size="sm"
-                  class="mr-1"
+                  class="mr-1 botonesCan text-white"
                   v-c-tooltip="'Eliminar'"
                   @click="deleteUser(item.id)"
                 >
@@ -367,11 +367,19 @@ export default {
   },
   mounted: function() {
     this.getUsers();
-    
+    console.log('asd',this.$refs);
      // Escuchar el evento del hijo para actualizar la lista de usuarios
-    this.$refs.refModalAsignarCourse.$on('curso-asignado', () => {
+    this.$bus.$on('cursoasignado', () => {
       this.getUsers();
     });
   },
+  destroyed() {
+    this.$bus.$off("curso-asignado");
+  },
 };
 </script>
+<style scoped>
+svg{
+  color: white !important;
+}
+</style>

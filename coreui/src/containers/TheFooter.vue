@@ -86,9 +86,9 @@
                     href="https://g.page/TeboriBrows?share"
                     class="text-white"
                     target="_blank"
-                    >Calle del General Díaz Porlier, 57, 28006 Madrid</a
+                    >Barquisimeto Estado Lara</a
                   >
-                </li style="padding-left: 0 !important;">
+                </li>
                 <li style="padding-left: 0 !important;">
                   <a href="tel:+34622341648" target="_blank" class="text-white"
                     >(0412) 000 00 00</a
@@ -96,10 +96,10 @@
                 </li>
                 <li style="padding-left: 0 !important;">
                   <a
-                    href="mailto:clientes@teboribrows.com"
+                    href="mailto:@yariestilospmu0@gmail.com"
                     class="text-white"
                     target="_blank"
-                    >clientes@teboribrows.com</a
+                    >Yaretzystilospmu@gmail.com</a
                   >
                 </li>
               </ul>

@@ -93,19 +93,21 @@
           </CCardBody>
         </CCard>
       </div>
-    </div>
-    <!--End Section Course off the website-->
+      <!--End Section Course off the website-->
     <!--Btn whatsapp float off the website-->
-    <div>
+    <div class="mx-5 floating-button">
       <a
         target="_blank"
-        href="https://api.whatsapp.com/send?phone=584245064512&text=Hola que tál, me interesa obtener información de los cursos"
-        class="btn p-0 floating-button"
+        href="https://api.whatsapp.com/send?phone=584125161828&text=*Hola Yaritzy*%0A*Información:* Estoy interesada en adquirir uno de tus cursos"
+        class="btn botonesP"
       >
+        <span class="mr-3">Agenda tu Cita</span>
         <i class="text-white fab fa-whatsapp w-auto"></i>
       </a>
     </div>
     <!--End Btn whatsapp float off the website-->
+    </div>
+    
     <Footer />
   </div>
 </template>
@@ -215,6 +217,10 @@ export default {
 };
 </script>
 <style scoped>
+svg {
+  color: white !important;
+}
+
 .c-header-brand {
   text-decoration: none;
 }
@@ -307,6 +313,11 @@ export default {
 }
 .two-third.column {
   width: 100%;
+}
+
+.customs-whatsaap{
+  z-index: 999;
+  text-align: end;
 }
 /*-------------End section video auto-------------*/
 </style>

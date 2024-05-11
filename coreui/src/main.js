@@ -14,8 +14,11 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import VueToastr2 from 'vue-toastr-2'
 import 'vue-toastr-2/dist/vue-toastr-2.min.css'
  
-window.toastr = require('toastr')
 
+window.toastr = require('toastr')
+export const EventBus = new Vue();
+
+Vue.prototype.$bus = new Vue();
 
 Vue.prototype.$apiAdress = 'http://127.0.0.1:8000'
 
@@ -26,6 +29,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(Vuelidate);
 Vue.use(VueToastr2)
+Vue.use(EventBus)
 
 Vue.component('loading-overlay', Loading);
 
