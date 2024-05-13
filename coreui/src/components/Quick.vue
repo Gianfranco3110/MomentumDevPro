@@ -1,12 +1,17 @@
 <template>
   <div v-if="show" class="col-md-12">
+    <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <div class="card customs-height">
       <div class="card-header botonesP text-center">
         <h4>Comprueba tus conocimientos {{ title }}</h4>
       </div>
       <div class="card-body mb-3">
         <div v-if="tipo === '1'" class="col-md-12 row">
-          <div v-for="(item, index) in data" :key="index" class="col-md-12 mb-5">
+          <div
+            v-for="(item, index) in data"
+            :key="index"
+            class="col-md-12 mb-5"
+          >
             <h5 for="ask-title-file">{{ item.question }}</h5>
             <div class="custom-input-file mt-3">
               <input
@@ -23,11 +28,7 @@
             </div>
             <CCol class="mt-3" sm="4">
               <figure v-if="imagenMiniatura[item.id]">
-                <img
-                  :src="imagenMiniatura[item.id]"
-                  width="200"
-                  height="200"
-                />
+                <img :src="imagenMiniatura[item.id]" width="200" height="200" />
               </figure>
             </CCol>
           </div>
@@ -102,6 +103,7 @@ function data() {
     imageNueva: null,
     imagenMiniatura: [],
     imagenesSeleccionadas: [],
+    Loading: false,
   };
 }
 
@@ -159,13 +161,16 @@ function sendAnswer() {
     .then(function (response) {
       console.log("response", response);
       self.$toastr.success("Respuesta enviadas con exito!");
-      this.$v.$reset();
-      //self.dataUser.Loading = false;
+      self.$v.$reset();
+      self.Loading = false;
+      // Emitir un evento para notificar al componente padre
+        self.$emit('send-answer');
     })
     .catch(function (error) {
       console.log("error", error);
-      //self.dataUser.Loading = false;
+      self.Loading = false;
     });
+
 }
 
 export default {

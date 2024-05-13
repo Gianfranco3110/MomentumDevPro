@@ -250,7 +250,7 @@ export default {
 </script>
 <style scoped>
 .custom-input-file {
-  background-color: #aa8caf;
+  background-color: #535d6d;
   color: #fff;
   cursor: pointer;
   font-size: 15px;
@@ -278,5 +278,8 @@ export default {
 }
 .block {
   cursor: pointer;
+}
+svg{
+  color:#b7b3b3 !important;
 }
 </style>

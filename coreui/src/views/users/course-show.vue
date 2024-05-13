@@ -13,19 +13,25 @@
             allowfullscreen
           ></iframe>
           <CCol sm="6" class="pl-0 mt-3">
-            <CButton @click="move_video(1)" color="success">
-              <CIcon name="cil-check-circle" />&nbsp; Leccion anterior
+            <CButton class="botonesCan text-white" @click="move_video(1)">
+              <CIcon name="cil-chevron-circle-left-alt" />&nbsp; Leccion
+              anterior
             </CButton>
           </CCol>
           <CCol sm="6" class="text-end pr-0 mt-3">
             <CButton @click="move_video(2)" id="next" color="dark">
-              <CIcon name="cil-chevron-circle-left-alt" />&nbsp; Leccion
+              <CIcon name="cil-chevron-circle-right-alt" />&nbsp; Leccion
               siguiente
             </CButton>
           </CCol>
         </CCol>
         <CCol v-if="show_task" sm="6">
-          <Quick :show="show_task" :data="data_task" :tipo="type_question" />
+          <Quick
+            ref="refModal_"
+            :show="show_task"
+            :data="data_task"
+            :tipo="type_question"
+          />
         </CCol>
         <CCol sm="6">
           <div class="card">
@@ -46,7 +52,6 @@
                       @click="
                         collapsedSection =
                           collapsedSection === sectionName ? null : sectionName
-                        
                       "
                     >
                       <div class="fw-bold text-bold customs-section">
@@ -81,7 +86,6 @@
                           <p
                             class="customs-section ml-2 mt-3"
                             @click="send_url_video(video.url_video)"
-                            
                           >
                             Descripción: {{ video.description_video }}
                           </p>
@@ -188,8 +192,18 @@ function move_video(val) {
       );
     } else {
       // Validar si el usuario ha respondido el cuestionario de la sección actual
-      if (!this.Secciones[currentSection].user_answered) {
-        alert("Debes completar el test de la sección actual antes de avanzar.");
+      if (!this.Secciones[currentSection][0].question_user[0].user_answered) {
+        console.log(
+          "s",
+          this.Secciones[currentSection][0].question_user[0].user_answered
+        );
+        this.$swal.fire({
+          title: "",
+          text: "Debes completar el test de la sección actual antes de avanzar.",
+          icon: "warning",
+          showCancelButton: false,
+          cancelButtonColor: "#d33",
+        });
         return;
       }
 
@@ -253,7 +267,6 @@ function viewsCourseUser(id_curso) {
         localStorage.getItem("api_token")
     )
     .then(function (response) {
-      console.log("response", response);
       self.Secciones = response.data.groupedVideos;
       self.titleVideo = response.data.courseName;
       self.ur_video_curso = self.formLinkIframeVideo(
@@ -347,6 +360,17 @@ export default {
   },
   mounted: function () {
     this.viewsCourseUser(this.$route.params.id);
+  },
+  created() {
+    this.$bus.$on("sendanswer", (data) => {
+      this.show_curso = true;
+      this.show_task = false;
+      this.move_video(2);
+      this.viewsCourseUser(this.$route.params.id);
+    });
+  },
+  destroyed() {
+    this.$bus.$off("sendanswer");
   },
 };
 </script>
