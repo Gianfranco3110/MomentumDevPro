@@ -211,6 +211,7 @@ export default {
   },
   mounted: function () {
     this.getCourses();
+    localStorage.removeItem("course");
   },
 };
 </script>

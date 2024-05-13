@@ -37,6 +37,7 @@ const EditUser = () => import("@/views/users/EditUser");
 const UserAjustes = () => import("@/views/users/UserAjustes");
 const MisCursos = () => import("@/views/users/MisCursos");
 const UserCourses = () => import("@/views/users/user-courses");
+const UserCoursesTest = () => import("@/views/users/user-courses-test-validate");
 
 //Products
 const products = () => import("@/views/products/index");
@@ -155,6 +156,15 @@ function configRoutes() {
               meta: { label: "Cursos de usuario" },
               name: "User Courses",
               component: UserCourses,
+              meta: {
+                requiresAdmin: true,
+              },
+            },
+            {
+              path: ":id/courses/:id_course/test-validate",
+              meta: { label: "Validar Test" },
+              name: "User Courses Test",
+              component: UserCoursesTest,
               meta: {
                 requiresAdmin: true,
               },

@@ -34,7 +34,7 @@
         </div>
         <div v-if="tipo === '2'" class="col-md-12 row">
           <div v-for="(item, index) in data" :key="index" class="col-md-12">
-            <CTextarea :label="item.question" v-model="answer[item.id]" />
+            <CTextarea :label="item.question" v-model="answer[item.id]"/>
           </div>
         </div>
         <div v-if="tipo === '3'">
@@ -118,9 +118,37 @@ function sendAnswer() {
     data = respuestas;
   } else {
     data = this.imagenesSeleccionadas;
+    // Crear un nuevo objeto FormData
+    const formData = new FormData();
+
+    // Agregar cada respuesta al FormData
+    data.forEach((answer, index) => {
+      formData.append(`answer[${index}][id_question]`, answer.id_question);
+      formData.append(`answer[${index}][answer]`, answer.answer);
+    });
+
+    // Agregar otros datos necesarios al FormData
+    formData.append('tipo', self.tipo);
+    formData.append('id_user', localStorage.getItem('id'));
+
+    // Realizar la petición POST con Axios
+    axios
+      .post(self.$apiAdress + '/api/answer/store', formData)
+      .then(function (response) {
+        console.log('response', response);
+        self.$toastr.success('Respuesta enviada con éxito!');
+        this.$v.$reset();
+        //self.dataUser.Loading = false;
+      })
+      .catch(function (error) {
+        console.log('error', error);
+        //self.dataUser.Loading = false;
+      });
+    
+      return;
   }
   console.log("data", data);
-  return;
+  
   //self.dataUser.Loading = true;
   axios
     .post(self.$apiAdress + "/api/answer/store", {

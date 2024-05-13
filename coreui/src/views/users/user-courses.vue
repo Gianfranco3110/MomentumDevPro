@@ -66,6 +66,14 @@
                       ><CIcon name="cil-X" />
                     </CButton>
                   </CCol>
+                  <CCol md="3">
+                    <CButton
+                      v-c-tooltip="'Validar Test'"
+                      color="warning"
+                      @click="courseUserTest(item.course_id)"
+                      ><CIcon name="cil-check-circle" />&nbsp;
+                    </CButton>
+                  </CCol>
                   
                 </CRow>
               </CCol>
@@ -214,6 +222,13 @@ export default {
           console.log(error);
           //self.$router.push({ path: "/login" });
         });
+    },
+    courseUserTest ( id ) {
+      let self = this;
+      console.log(id);
+      // const editLink = this.userCourseLink( id );
+      
+      this.$router.push({path: '/users/'+self.$route.params.id+'/courses/'+id+'/test-validate'});
     },
   },
   mounted: function () {
