@@ -149,7 +149,7 @@ class Courses_videoController extends Controller
                         ->exists();
                         return $question;
                     });
-                    
+
                     return [
                         'id_video' => $video->id,
                         'description_video' => $video->description,
@@ -163,9 +163,9 @@ class Courses_videoController extends Controller
 
             $videoActual = UserCourses::where('usuario_id', $id_user)
             ->where('curso_id', $id_curso)
-            ->value('video_actual');     
-          
-           // return response($videoActual);
+            ->value('video_actual');
+
+        //    return response($videoActual);
             if ($videoActual) {
                 $firstVideoUrl = $videoActual;
             }

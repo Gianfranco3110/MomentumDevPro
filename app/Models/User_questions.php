@@ -24,4 +24,9 @@ class User_questions extends Model
     {
         return $this->belongsTo('App\Models\CourseSection','course_section_id');
     }
+
+    public function answerusers()
+    {
+        return $this->hasMany('App\Models\answerUser', 'question_id');
+    }
 }

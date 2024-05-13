@@ -58,7 +58,7 @@ class UserCourseController extends Controller
     }
 
     public function positionCurso(Request $request){
-        
+
         $UserCourse = UserCourses::where('curso_id', $request->input('course_id'))->first();
         if ($UserCourse) {
             // Actualiza el atributo Video_actual y guarda el modelo
@@ -74,23 +74,32 @@ class UserCourseController extends Controller
         if (count(userCourses::where('curso_id', $request->input('course_id'))->where('usuario_id', $request->input('user_id'))->get())) {
             return response()->json(['message' => 'Este curso ya lo tienes asignado'],422);
         }
-        $query = DB::table('users_courses')->insert([
-            'usuario_id' => $request->input('user_id'),
-            'curso_id' => $request->input('course_id'),
-            'status' => $request->input('status'),
-            'Fecha_registro' => now(),
-            'Fecha_vence' => now(),
-            'Fecha_compra' => now(),
-            'Fecha_aprobado' => now(),
-            'Fecha_sesion' => now(),
-            'Usuario_aprueba' => $user->name,
-            'video_actual' => 'url'
-        ]);
+        $curso_videos = course_video::where('courses_id',$request->input('course_id'))->where('status_id',1)->where('course_section_id',1)->orderBy('order','asc')->get();
+        if (count($curso_videos)) {
 
-        if($query){
-            return response()->json( ['status' => 'success'] );
-         }
-         return response()->json(['status' => 'Error en la query.']);
+            $query = DB::table('users_courses')->insert([
+                'usuario_id' => $request->input('user_id'),
+                'curso_id' => $request->input('course_id'),
+                'status' => $request->input('status'),
+                'Fecha_registro' => now(),
+                'Fecha_vence' => now(),
+                'Fecha_compra' => now(),
+                'Fecha_aprobado' => now(),
+                'Fecha_sesion' => now(),
+                'Usuario_aprueba' => $user->name,
+                'video_actual' => $curso_videos[0]->url_video
+            ]);
+
+            if($query){
+                return response()->json( ['status' => 'success'] );
+             }
+             return response()->json(['status' => 'Error en la query.']);
+        }else{
+            return response()->json(['message' => 'El curso no tiene actualmente videos asignados'],422);
+        }
+
+
+
     }
 
     public function generatePDF(){

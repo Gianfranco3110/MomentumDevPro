@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User_questions;
 use App\Models\fields_for_simple_selection;
 use App\Models\Status;
+use Illuminate\Support\Facades\Storage;
 
 class User_questionController extends Controller
 {
@@ -16,7 +17,21 @@ class User_questionController extends Controller
         // $User_questions=DB::table('User_questions')->select('User_questions.*')->where('courses_id', '=', $id)->where('status_id', '=', 1)->get();
         $User_questions = User_questions::where('courses_id', '=', $id)->where('status_id', '=', 1)->with(['courseSection' =>  function ($query) {
             $query->select('id', 'name');
-        }, 'courses:id,courseName'])->get();
+        }, 'courses:id,courseName','answerusers'])->get();
+        if (count($User_questions)) {
+            foreach ($User_questions as $key => $value) {
+                if ($value->type_question == "1") {
+                    if (count($value->answerusers)) {
+                        foreach ($value->answerusers as $key => $answerusers) {
+                            // $path = public_path('imgquestion/user_'.$answerusers->users_id.'/question_'.$value->id.'/'.$answerusers->answer);
+                            $path = "/api/coursestest/img-verifi/".$answerusers->users_id."/".$value->id."/".$answerusers->answer;
+
+                            $answerusers['path_img']=$path;
+                        }
+                    }
+                }
+            }
+        }
         return response()->json( $User_questions );
 
     }
@@ -133,7 +148,7 @@ class User_questionController extends Controller
             ]);
         return response()->json($questions);
     }
-    
+
     public function questionfieldsAux ($id_curso, $type_question){
         //return response ($id_question);
 

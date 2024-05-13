@@ -78,6 +78,31 @@ Route::group(['middleware' => ['api']], function ($router) {
 
     //ROUTE PARA CREAR LAS PREGUNTAS-TEST DE LOS CURSOS
     Route::get('coursestest/list/{id}', 'User_questionController@index');
+
+    //ROUTE PARA OBTENER LAS IMG DE LOS TEST DE REPUESTAS
+    Route::get('coursestest/img-verifi/{id_user}/{id_course}/{img}', function ($id_user,$id_course,$img)
+    {
+
+        $path  = public_path('imgquestion/user_'.$id_user.'/question_'.$id_course.'/'.$img);
+
+        if (!File::exists($path))
+        {
+            abort(404);
+        }
+
+        $file = File::get($path);
+
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+
+        $response->header("Content-Type", $type);
+
+        return $response;
+
+    });
+
+
     Route::post('coursestest/store','User_questionController@store');
     Route::post('coursestest/updatestatus','User_questionController@changeStatus');
     Route::get('coursestest/listfieldsquestion/{id}', 'User_questionController@fieldsquestion');
@@ -96,7 +121,7 @@ Route::group(['middleware' => ['api']], function ($router) {
     //RUTA PARA ENVIAR TODOS LOS DATOS DE UN CURSO EN ESPECIFICO
     Route::get('viewcoursestart/{id_curso}/{id_user}', 'Courses_videoController@viewcoursestart');
 
-    
+
 
     //RUTA SECCIONES DE CURSOS
     Route::resource('course-sections',"CourseSectionController");

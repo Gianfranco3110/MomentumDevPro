@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\answerUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class AnswerUserController extends Controller
@@ -30,10 +31,14 @@ class AnswerUserController extends Controller
 
                     // Crear la estructura de carpetas si no existe
                     $carpeta = 'imgquestion/user_' . $request->input('id_user') . '/question_' . $item['id_question'];
-                    Storage::makeDirectory($carpeta);
+                    // Storage::makeDirectory($carpeta);
 
+                    if (!File::exists($carpeta)) {
+                        File::makeDirectory($carpeta, 0777, true);
+                    }
                     // Mover el archivo a la carpeta de almacenamiento
-                    $archivo->move(storage_path('app/' . $carpeta), $nombreArchivo);
+                    // $archivo->move(storage_path('app/' . $carpeta), $nombreArchivo);
+                    $archivo->move(public_path($carpeta), $nombreArchivo);
 
                     $AnswerUser->answer = $nombreArchivo;
                     $rutaGuardado = $carpeta . '/' . $nombreArchivo;
