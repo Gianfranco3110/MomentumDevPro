@@ -102,9 +102,20 @@ export default {
           
         })
         .catch(function(error) {
-          console.log(error);
+          console.log(error.response.data); // Imprimir los errores en formato JSON
           self.Loading = false;
-          self.$toastr.warning("¡Error al asignar curso!");
+       
+          
+          // Obtener los errores específicos
+          if (error.response.status === 422) {
+            console.log(error.response.data);
+            self.$toastr.warning(error.response.data.message);
+          } else if (error.response.status === 404) {
+            console.log("Error 404: Recurso no encontrado");
+          } else if (error.response.status === 500) {
+            console.log("Error 500: Error interno del servidor");
+          }
+          
         });
     },
     getCourseSelect(){
