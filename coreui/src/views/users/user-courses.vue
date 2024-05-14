@@ -1,8 +1,14 @@
 <template>
   <div id="cursos-usuario">
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
-     <CCardHeader class="text-center botonesP text-white">
-        <b>Cursos del usuario</b>
+     <CCardHeader class="text-center botonesP text-white row">
+        <b class="col-md-9">Cursos del usuario</b>
+        <div class="col-md-3">
+                <div class="input-group ">
+                    <input  class="form-control" @focus="handleFocus" @blur="handleBlur" type="text" v-model="searchQuery" placeholder="Buscar curso...">
+                    <span class="input-group-text" id="basic-addon1"><CIcon name="cil-search" /></span>
+                </div>
+                </div>
       </CCardHeader>
     <AgreModal
       :modal="AddModal"
@@ -10,7 +16,7 @@
       @child-refresh="refrescarComponente = true"
     />
     <CRow>
-      <CCol md="12" v-for="(item, index) in items" :key="index">
+      <CCol md="12" v-for="(item, index) in paginatedItems"  :key="index">
         <div class="card">
           <div class="card-body">
             <CRow>
@@ -82,7 +88,15 @@
         </div>
       </CCol>
     </CRow>
-    
+    <div v-if="totalPages>1">
+        <h3>Pagina: {{currentPage}}</h3>
+        <CPagination
+            :activePage.sync="currentPage"
+            :pages="totalPages"
+            size="lg"
+            align="center"
+        />
+    </div>
   </div>
 </template>
 <script>
@@ -138,6 +152,9 @@ export default {
       refrescarComponente: false,
       titleVideo: "",
       Secciones: [],
+      searchQuery: '',
+      itemsPerPage: 5,
+      currentPage: 1
     };
   },
   watch: {
@@ -230,9 +247,40 @@ export default {
       
       this.$router.push({path: '/users/'+self.$route.params.id+'/courses/'+id+'/test-validate'});
     },
+    handleFocus() {
+        // Lógica a ejecutar cuando el input recibe foco
+        console.log('Input enfocado');
+        this.currentPage = 1
+    },
+    handleBlur() {
+        // Lógica a ejecutar cuando el input pierde foco
+        console.log('Input desenfocado'+ this.items.length);
+        this.currentPage = 1;
+
+    }
   },
   mounted: function () {
     this.getCourses();
+  },
+  computed: {
+      filteredItems() {
+          return this.items.filter(item => {
+          return (
+          item.CourseName.toLowerCase().includes(this.searchQuery.toLowerCase())
+          );
+      });
+      },
+      paginatedItems() {
+          const startIndex = (this.currentPage - 1) * this.itemsPerPage; // 9 cursos por página
+          const endIndex = startIndex + this.itemsPerPage;
+          return this.filteredItems.slice(startIndex, endIndex);
+      },
+      totalPages() {
+          return Math.ceil(this.filteredItems.length / this.itemsPerPage);
+      },
+      totalCourse() {
+          return this.items.length;
+      }
   },
 };
 </script>
