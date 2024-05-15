@@ -348,9 +348,14 @@ export default {
           self.Loading = false;
         })
         .catch(function(error) {
-          console.log(error);
-          self.Loading = false;
-          self.$router.push({ path: "/login" });
+          console.log('error222',error.response.status);
+          if(error.response.status == 401){
+            self.Loading = false;
+            self.$router.push({ path: "/login" });
+            localStorage.clear();
+
+          }
+         
         });
     },
     redirect(){

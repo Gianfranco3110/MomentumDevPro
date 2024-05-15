@@ -37,11 +37,11 @@
               sorter
               pagination
             >
-              <template #status="{item}">
+              <template #status="{ item }">
                 <td>
                   <CBadge class="text-white" :color="getBadge(item.status)">
-                    {{item.status}}
-                    </CBadge>
+                    {{ item.status }}
+                  </CBadge>
                 </td>
               </template>
               <template #Detalle="{ item }">
@@ -151,7 +151,7 @@ function ListCurso() {
         "/api/courses/all?token=" +
         localStorage.getItem("api_token")
     )
-    .then(function(response) {
+    .then(function (response) {
       listado = response.data;
       self.items = listado.map((listado) =>
         Object.assign({}, self.items, {
@@ -167,7 +167,12 @@ function ListCurso() {
       console.log(response);
       self.Loading = false;
     })
-    .catch(function(error) {
+    .catch(function (error) {
+      if (error.response.status == 401) {
+        self.Loading = false;
+        self.$router.push({ path: "/login" });
+        localStorage.clear();
+      }
       console.log(error);
       self.$router.push({ path: "/login" });
     });
@@ -177,7 +182,7 @@ function ListCurso() {
 function data() {
   return {
     items: [],
-    id:"",
+    id: "",
     Loading: false,
     AddModal: false,
     refrescarCurso: false,
@@ -192,7 +197,7 @@ function data() {
 export default {
   name: "index",
   mixins: [General],
-  data:data,
+  data: data,
   components: {
     AgreModal,
     VeModal,
@@ -222,7 +227,7 @@ export default {
     },
   },
   watch: {
-    refrescarCurso: function() {
+    refrescarCurso: function () {
       if (this.refrescarCurso) {
         this.ListCurso();
         this.refrescarCurso = false;
@@ -235,7 +240,7 @@ export default {
 };
 </script>
 <style scoped>
-svg{
+svg {
   color: white !important;
 }
 </style>

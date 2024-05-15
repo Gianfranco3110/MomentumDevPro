@@ -83,7 +83,11 @@ export default {
         localStorage.removeItem("course");
         self.$router.push({ path: '/login' });
       }).catch(function (error) {
-        console.log(error); 
+         if(error.response.status == 401){
+            self.Loading = false;
+            self.$router.push({ path: "/login" });
+            localStorage.clear();
+          }
       });
     },
     goUsers(){
