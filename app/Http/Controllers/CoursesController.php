@@ -13,7 +13,11 @@ use App\Models\userCourses;
 class CoursesController extends Controller
 {
 
-
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'register','forgetPassword','resetPassword','verify']]);
+    }
+    
     //FUNCION PARA MOSTRAR LOS CURSOS
     public function index(Request $request)
     {
