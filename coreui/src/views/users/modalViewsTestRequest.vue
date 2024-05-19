@@ -70,7 +70,7 @@ export default {
     modal: function() {
       if (this.modal) {
         this.AddModal = true;
-          this.tituloModal = "Repuesta";
+          this.tituloModal = "Respuesta";
           this.request.text = this.modal.request;
           this.request.img = this.modal.url_img;
           this.request.type = this.modal.type_question_num;

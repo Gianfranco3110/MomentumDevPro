@@ -105,6 +105,7 @@ label.required:before {
   }
 }
 
+
 h3,h1,h4,h5,b,span,p{
   color:  #DCBA0F !important;
 }
@@ -187,4 +188,15 @@ input[type="checkbox"] {
 
 .c-icon{
   color: #202020 !important
+}
+
+.c-subheader ol li span {
+  color: black !important;
+}
+.c-subheader ol li a {
+  color: black !important;
+}
+
+.c-header-nav p {
+  color: black !important;
 }

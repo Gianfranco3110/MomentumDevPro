@@ -108,6 +108,8 @@ function data() {
 }
 
 function sendAnswer() {
+  console.log('1');
+  //return;
   const self = this;
   let data = "";
   if (this.tipo === "3") {
@@ -137,14 +139,13 @@ function sendAnswer() {
     axios
       .post(self.$apiAdress + '/api/answer/store', formData)
       .then(function (response) {
-        console.log('response', response);
         self.$toastr.success('Respuesta enviada con éxito!');
-        this.$v.$reset();
-        //self.dataUser.Loading = false;
+        self.$bus.$emit('sendanswer');
+        self.Loading = false;
       })
       .catch(function (error) {
         console.log('error', error);
-        //self.dataUser.Loading = false;
+        self.Loading = false;
       });
     
       return;
@@ -161,10 +162,12 @@ function sendAnswer() {
     .then(function (response) {
       console.log("response", response);
       self.$toastr.success("Respuesta enviadas con exito!");
-      self.$v.$reset();
+      //self.$v.$reset();
       self.Loading = false;
-      // Emitir un evento para notificar al componente padre
-        self.$emit('send-answer');
+      /* self.selectedAnswers = "";
+      self.answer = "";*/
+      //Emitir un evento para notificar al componente padre
+      self.$bus.$emit('sendanswer');
     })
     .catch(function (error) {
       console.log("error", error);

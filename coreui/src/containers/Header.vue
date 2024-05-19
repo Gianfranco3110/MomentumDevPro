@@ -63,7 +63,7 @@
         </div>
       </div>
 
-      <div class="col-md-2 col-sm-12 col-12 my-2">
+      <div class="col-md-2 col-sm-12 col-12 my-2 d-none d-md-block">
         <a
           href="tel:+34622341648"
           class="action_button top-bar-right-button d-flex justify-content-center"

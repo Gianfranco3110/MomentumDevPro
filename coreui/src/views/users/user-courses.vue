@@ -77,7 +77,7 @@
                       v-c-tooltip="'Validar Test'"
                       color="warning"
                       @click="courseUserTest(item.course_id)"
-                      ><CIcon name="cil-check-circle" />&nbsp;
+                      ><CIcon name="cil-check-circle" />
                     </CButton>
                   </CCol>
                   

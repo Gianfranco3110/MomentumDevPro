@@ -31,9 +31,8 @@
             <div class="column mcb-column mcb-item-video-text two-third">
               <div class="mcb-column-inner mcb-item-column-inner">
                 <div class="column_attr mfn-inline-editor">
-                  <h2 class="h2-xxl">
-                    La mejor formación<br />en Microblading
-                  </h2>
+                 <h1 class="d-block d-md-none">La mejor formación en Microblading</h1>
+                  <h2 class="h2-xxl d-none d-md-block">La mejor formación en Microblading</h2>
                 </div>
               </div>
             </div>

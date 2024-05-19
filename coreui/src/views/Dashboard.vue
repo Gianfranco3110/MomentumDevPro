@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <CRow class="w-100"> </CRow>
+  <div class="img-logo-dashboard">
+    <CRow class="w-100">
+      <img src="../../public/logo_alterno/logo alterno color oro.png" width="100%" height="100%" alt="logo">
+       </CRow>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+//import image from "../../public/logo_alterno/logo alterno color bronce"
 
-function send_url_video(val) {
-  console.log("val", val);
-}
+
 
 
 export default {
@@ -18,51 +18,13 @@ export default {
     return {
       isAdmin: false,
       collapsedSection: null,
-      Secciones: [],
-      titleVideo: "",
-      ur_video_curso: "https://www.youtube.com/embed/xo9ZPZRPEB8",
+      
     };
   },
-  methods: {
-    color(value) {
-      let $color;
-      if (value <= 25) {
-        $color = "info";
-      } else if (value > 25 && value <= 50) {
-        $color = "success";
-      } else if (value > 50 && value <= 75) {
-        $color = "warning";
-      } else if (value > 75 && value <= 100) {
-        $color = "danger";
-      }
-      return $color;
-    },
-    send_url_video,
-  },
-
   mounted: function () {
     if (localStorage.getItem("roles") == "user,admin") {
       this.isAdmin = true;
     }
-    
-    /*
-    let self = this;
-    self.Loading = true;
-    axios
-      .get(
-        this.$apiAdress +
-          "/api/courses/mycourses?token=" +
-          localStorage.getItem("api_token")
-      )
-      .then(function(response) {
-        self.items = response.data;
-        self.Loading = false;
-      })
-      .catch(function(error) {
-        console.log(error);
-        self.$router.push({ path: "/login" });
-      });
-      */
   },
 };
 </script>
@@ -72,5 +34,8 @@ export default {
 }
 .customs-section {
   cursor: pointer;
+}
+.img-logo-dashboard{
+  background-color: #202020 !important;
 }
 </style>

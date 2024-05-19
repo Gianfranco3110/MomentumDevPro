@@ -9,7 +9,7 @@
       <div class="seccion-cursos" id="seccion-cursos ">
         <div class="px-5">
           <CCard class="bg-transparent border-0">
-            <CCardHeader class="botonesP text-white row d-flex align-items-center">
+            <CCardHeader class="botonesP mt-5 mt-md-0 text-white row d-flex align-items-center">
                 <div class="col-md-8">
                     <p class="mb-0">{{totalCourse}} CURSOS DISPONIBLES </p>
 

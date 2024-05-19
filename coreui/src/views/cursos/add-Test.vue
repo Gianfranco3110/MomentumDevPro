@@ -172,6 +172,7 @@ function limpiarDatos() {
   this.test.type_questions_id = 1
   this.tags_options = [];
   this.show_section_options = false;
+  this.tag = "";
 }
 //FUNCION PARA OBTENER LAS SECTIONES
 function getSections() {
@@ -437,9 +438,10 @@ export default {
         console.log(this.modal);
         console.log(this.test.courses_id);
         this.$emit("cerrarModal");
+        this.limpiarDatos();
       }
     },
-  },
+  }
 };
 </script>
 <style scoped>

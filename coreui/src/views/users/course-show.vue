@@ -98,11 +98,13 @@
                         v-if="
                           videos.length > 0 &&
                           videos[0].question_user.length > 0
+                          && !videos[0].question_user[0].user_answered
                         "
                         @click="show_question(videos[0].question_user)"
                       >
                         <CIcon name="cil-task" />&nbsp; Iniciar cuestionario
                       </CButton>
+                      <pre>{{videos[0].question_user[0].user_answered}}</pre>
                     </div>
                   </CCollapse>
                 </li>
@@ -273,6 +275,7 @@ function viewsCourseUser(id_curso) {
         response.data.first_video_url
       );
       self.Loading = false;
+      console.log('1',response);
     })
     .catch(function (error) {
       console.log(error);
@@ -360,9 +363,7 @@ export default {
   },
   mounted: function () {
     this.viewsCourseUser(this.$route.params.id);
-  },
-  created() {
-    this.$bus.$on("sendanswer", (data) => {
+    this.$bus.$on('sendanswer', () => {
       this.show_curso = true;
       this.show_task = false;
       this.move_video(2);

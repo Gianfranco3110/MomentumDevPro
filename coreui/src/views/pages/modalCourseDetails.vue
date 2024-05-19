@@ -10,7 +10,7 @@
     >
     <div slot="header" class="w-100 text-end">
       <b-btn
-      size="sm"
+        size="sm"
         class=" btn bg-transparent p-1  b-0"
         @click="cerrarModal"
       >
@@ -73,7 +73,7 @@
                         </li>
                         <li v-if="course.count_video > 0" class="pl-0">
                             <CIcon class="mr-2" name="cil-subtitles" />
-                            {{ course.count_video }} lecciones (4h 40m)
+                            {{ course.count_video }} lecciones 
                         </li>
                         <li v-if="course.count_estudent > 0" class="pl-0">
                             <CIcon class="mr-2" name="cil-user" />
@@ -277,5 +277,8 @@ export default {
 }
 .customs-body{
   background-color: #202020 !important; ;
+}
+svg{
+  color: white !important;
 }
 </style>
