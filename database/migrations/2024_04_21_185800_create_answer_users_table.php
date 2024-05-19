@@ -18,6 +18,7 @@ class CreateAnswerUsersTable extends Migration
             $table->integer('users_id')->unsigned();
             $table->integer('question_id')->unsigned();
             $table->string("answer")->nullable();
+            $table->string("status")->nullable();
             $table->timestamps();
         });
     }

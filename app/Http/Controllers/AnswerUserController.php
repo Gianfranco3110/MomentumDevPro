@@ -11,16 +11,16 @@ class AnswerUserController extends Controller
 {
     public function store(Request $request)
     {
-        // dd($request);
+        //return response($request->input('tipo'));
         if($request->input('tipo') === '1'){
-            return response($request);
+            //return response($request);
             $data = $request->input('answer');
             $respDta = [];
             foreach ($data as $key=>$item) {
                 $AnswerUser = new AnswerUser();
                 $AnswerUser->users_id = $request->input('id_user');
                 $AnswerUser->question_id = $item['id_question'];
-
+                $AnswerUser->status = 'En revición';
                 // Guardar el nombre del archivo con su extensión
                 $archivo = $request->file('answer.' . $key . '.answer');
                 $nombreCampo = 'answer.' . $key . '.answer';
@@ -32,6 +32,7 @@ class AnswerUserController extends Controller
 
                     // Crear la estructura de carpetas si no existe
                     $carpeta = 'imgquestion/user_' . $request->input('id_user') . '/question_' . $item['id_question'];
+                    
                     // Storage::makeDirectory($carpeta);
 
                     if (!File::exists($carpeta)) {
@@ -60,11 +61,26 @@ class AnswerUserController extends Controller
                 $AnswerUser->users_id = $request->input('id_user');
                 $AnswerUser->question_id = $item['id_question'];
                 $AnswerUser->answer = $item['answer'];
+                $AnswerUser->status = 'En revición';
                 $AnswerUser->save();
                 $respDta[$key] = $AnswerUser;
             }
 
             return $AnswerUser ? response()->json(['message'=>"Operacón realizado con éxito", 'data'=>$respDta],200) : response()->json(['message'=>"Error al realizar esta operacón"],500);
+        }
+    }
+
+    public function validateanswer(Request $request)
+    {   
+        //return response($request);
+        $AnswerUser = answerUser::find($request->id_answer);
+         
+        $AnswerUser->status = $request->status;
+        $AnswerUser->save();
+        if ($AnswerUser) {
+            return response()->json(['status' => 'success']);
+        }else{
+            return response()->json(['status' => 'error']);
         }
     }
 }

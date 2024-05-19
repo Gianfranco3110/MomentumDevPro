@@ -34,7 +34,7 @@ Route::group(['middleware' => ['api']], function ($router) {
 
     //RUTA PARA GUARDAR LAS RESPUESTA DE LOS TEST
     Route::post('answer/store','AnswerUserController@store');
-
+    Route::post('answer/validate-answer','AnswerUserController@validateanswer');
 
     //ROUTE PARA CREAR PRODUCTOS ANTONIO
     Route::post('products/image/store','productsController@uploadImage');
