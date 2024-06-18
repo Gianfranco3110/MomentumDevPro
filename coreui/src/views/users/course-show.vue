@@ -7,11 +7,11 @@
           <iframe
             class="w-100"
             height="415"
-            :src="ur_video_curso"
-            title="YouTube video player"
+            :src="'https://player.vimeo.com/video/' + ur_video_curso"
+            title="Yari-cursos"
             frameborder="10"
             allowfullscreen
-          ></iframe>
+          />
           <CCol sm="6" class="pl-0 mt-3">
             <CButton class="botonesCan text-white" @click="move_video(1)">
               <CIcon name="cil-chevron-circle-left-alt" />&nbsp; Leccion
@@ -208,9 +208,7 @@ function move_video(val) {
         Object.keys(this.Secciones).indexOf(currentSection) + 1
       ];
       if (nextSection) {
-        this.ur_video_curso = this.formLinkIframeVideo(
-          this.Secciones[nextSection][0].url_video
-        );
+        this.ur_video_curso =this.Secciones[nextSection][0].url_video;
       }
     }
   }
@@ -264,7 +262,7 @@ function viewsCourseUser(id_curso) {
     .then(function (response) {
       self.Secciones = response.data.groupedVideos;
       self.titleVideo = response.data.courseName;
-      self.ur_video_curso = response.data.first_video_url
+      self.ur_video_curso = this.getVimeoId(response.data.first_video_url);
       self.Loading = false;
       console.log('1',response);
     })
@@ -324,6 +322,15 @@ function send_url_video(val) {
   this.show_task = false;
 }
 
+function getVimeoId(url) {
+    if (!url.includes('vimeo.com')) {
+      return null; // La URL no es de Vimeo
+    }
+    const parts = url.split('/');
+    const videoId = parts[parts.length - 2];
+    return videoId;
+  }
+
 export default {
   name: "Course-show-user",
   mixins: [General],
@@ -351,6 +358,7 @@ export default {
     viewsCourseUser,
     showQuestionMultiple,
     selectVideo,
+    getVimeoId
   },
   mounted: function () {
     this.viewsCourseUser(this.$route.params.id);
