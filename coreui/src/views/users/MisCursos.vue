@@ -30,7 +30,6 @@
           class="col-lg-3 col-md-3"
           v-for="(item, index) in filteredItems"
           :key="index"
-          
         >
           <div class="card border-0 course_box">
             <!--<img src="..." class="card-img-top" alt="...">-->
@@ -52,10 +51,7 @@
               role="img"
               @click="send_id_curso(item)"
             />
-            <div 
-              @click="send_id_curso(item)"
-              class="card-body botonesP"
-            >
+            <div @click="send_id_curso(item)" class="card-body botonesP">
               <span
                 v-if="item.status_id_video == 3"
                 class="badge rounded-pill bg-primary py-1 px-2 text-white mb-2"
@@ -75,9 +71,7 @@
               >
             </div>
             <div class="card-footer">
-              <div 
-                @click="send_id_curso(item)"
-                class="progress">
+              <div @click="send_id_curso(item)" class="progress">
                 <div
                   class="progress-bar"
                   role="progressbar"
@@ -90,11 +84,9 @@
                 </div>
               </div>
               <CCol @click="GetPdf(item.course_id)" sm="12" class="pl-0 mt-4">
-                <CButton 
-                  class="botonesCan text-white"
-                >
+                <CButton class="botonesCan text-white">
                   <CIcon name="cil-education" />
-                   Generar Certificado
+                  Generar Certificado
                 </CButton>
               </CCol>
             </div>
@@ -107,6 +99,7 @@
 <script>
 import General from "@/_mixins/general";
 import axios from "axios";
+
 
 function send_id_curso(curso) {
   if (curso.status) {
@@ -143,7 +136,7 @@ function send_id_curso(curso) {
 }
 
 function GetPdf(course_id) {
-  console.log("Pedro",course_id);
+  console.log("Pedro", course_id);
   let self = this;
   self.Loading = true;
   let listado = [];
@@ -154,16 +147,16 @@ function GetPdf(course_id) {
         "/api/usercertificado" +
         "?token=" +
         localStorage.getItem("api_token"),
-        {
-          user_id: localStorage.getItem("id"),
-          course_id: course_id,
-        }
+      {
+        user_id: localStorage.getItem("id"),
+        course_id: course_id,
+      }
     )
     .then(function (response) {
       console.log(response.data);
       listado = response.data;
 
-      window.open(response.data.certificado_url, '_blank');
+      window.open(response.data.certificado_url, "_blank");
       self.Loading = false;
       self.getCourses();
     })
@@ -231,7 +224,7 @@ iframe {
 img {
   height: 30vh !important;
 }
-svg{
+svg {
   color: white !important;
 }
 </style>

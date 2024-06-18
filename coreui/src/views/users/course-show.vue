@@ -155,7 +155,7 @@ function move_video(val) {
   for (let section of Object.keys(this.Secciones)) {
     let index = this.Secciones[section].findIndex(
       (video) =>
-        this.formLinkIframeVideo(video.url_video) === this.ur_video_curso
+        video.url_video === this.ur_video_curso
     );
     if (index !== -1) {
       currentSection = section;
@@ -171,27 +171,21 @@ function move_video(val) {
   if (val === 1) {
     // Video anterior
     if (currentIndex > 0) {
-      this.ur_video_curso = this.formLinkIframeVideo(
-        this.Secciones[currentSection][currentIndex - 1].url_video
-      );
+      this.ur_video_curso = this.Secciones[currentSection][currentIndex - 1].url_video;
+      ;
     } else {
       // Ir al último video de la sección anterior
       let prevSection = Object.keys(this.Secciones)[
         Object.keys(this.Secciones).indexOf(currentSection) - 1
       ];
       if (prevSection) {
-        this.ur_video_curso = this.formLinkIframeVideo(
-          this.Secciones[prevSection][this.Secciones[prevSection].length - 1]
-            .url_video
-        );
+        this.ur_video_curso = this.Secciones[prevSection][this.Secciones[prevSection].length - 1].url_video;
       }
     }
   } else {
     // Video siguiente
     if (currentIndex < this.Secciones[currentSection].length - 1) {
-      this.ur_video_curso = this.formLinkIframeVideo(
-        this.Secciones[currentSection][currentIndex + 1].url_video
-      );
+      this.ur_video_curso = this.Secciones[currentSection][currentIndex + 1].url_video;
     } else {
       // Validar si el usuario ha respondido el cuestionario de la sección actual
       if (!this.Secciones[currentSection][0].question_user[0].user_answered) {
@@ -223,23 +217,22 @@ function move_video(val) {
 }
 
 function show_question(question) {
-  this.show_curso = false;
-  this.show_task = true;
+  const vm = this;
+  vm.show_curso = false;
+  vm.show_task = true;
 
-  this.type_question = question[0].type_question;
-  if (this.type_question === "3") {
+  vm.type_question = question[0].type_question;
+  if (vm.type_question === "3") {
     //showQuestionMultiple(question[0].id);
-    const vm = this;
+   
     vm.Loading = true;
-
     axios
       .get(
         vm.$apiAdress +
           "/api/questionfields/listoptionsquestion/" +
-          this.$route.params.id +
+          vm.$route.params.id +
           "/" +
           vm.type_question +
-          "/" +
           "?token=" +
           localStorage.getItem("api_token")
       )
@@ -252,7 +245,7 @@ function show_question(question) {
       .catch(function (error) {
         console.log(error);
       });
-  } else this.data_task = question;
+  } else vm.data_task = question;
 }
 
 function viewsCourseUser(id_curso) {
@@ -271,9 +264,7 @@ function viewsCourseUser(id_curso) {
     .then(function (response) {
       self.Secciones = response.data.groupedVideos;
       self.titleVideo = response.data.courseName;
-      self.ur_video_curso = self.formLinkIframeVideo(
-        response.data.first_video_url
-      );
+      self.ur_video_curso = response.data.first_video_url
       self.Loading = false;
       console.log('1',response);
     })
@@ -328,7 +319,7 @@ function send_url_video(val) {
     }
   }
 */
-  this.ur_video_curso = this.formLinkIframeVideo(val);
+  this.ur_video_curso = val;
   this.show_curso = true;
   this.show_task = false;
 }

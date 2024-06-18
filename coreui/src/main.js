@@ -21,10 +21,10 @@ export const EventBus = new Vue();
 Vue.prototype.$bus = new Vue();
 
 //Local
-Vue.prototype.$apiAdress = 'http://127.0.0.1:8000'
+//Vue.prototype.$apiAdress = 'http://127.0.0.1:8000'
 
 //QA
-//Vue.prototype.$apiAdress = 'https://yariapi.furgoestacas.com'
+Vue.prototype.$apiAdress = 'https://yariapi.furgoestacas.com'
 
 Vue.config.performance = true
 Vue.use(CoreuiVue)
