@@ -191,13 +191,13 @@ class AuthController extends Controller
             $data['body']= "Porfavor haz click aqui para cambiar contraseña";
 
 
-            $data['adress_company']= "1912  Mcwhorter Road, FL 11223";
+            $data['adress_company']= "Barquisimeto Estado Lara";
             $data['phone_company']= "+58412-000-00-00";
-            $data['email_company']= "empresa@gmail.com";
+            $data['email_company']= "Yaretzystilospmu@gmail.com";
 
-            $data['link_facebook']= "#";
+            $data['link_facebook']= "https://www.facebook.com/TeboriBrows/";
             $data['link_twitter']= "#";
-            $data['link_instagram']= "#";
+            $data['link_instagram']= "https://www.instagram.com/teboribrows/";
             $data['link_linkedin']= "#";
 
 

@@ -156,21 +156,15 @@
                                                                 style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
                                                                 <p style="font-size: 14px; line-height: 140%;"><span
                                                                         style="font-size: 18px; line-height: 25.2px; color: #666666;">Hola,
-                                                                        {{ $user->name }}</span></p>
+                                                                        {{ $admin->name }}</span></p>
                                                                 <p style="font-size: 14px; line-height: 140%;">&nbsp;
                                                                 </p>
                                                                 <p style="font-size: 14px; line-height: 140%;"><span
-                                                                        style="font-size: 18px; line-height: 25.2px; color: #666666;">Le
-                                                                        hemos enviado este correo electrónico en
-                                                                        respuesta a su solicitud para restablecer su
-                                                                        contraseña en YareStylo.</span>
+                                                                        style="font-size: 18px; line-height: 25.2px; color: #666666;">El usuario: <b>{{ $user->name }}</b>, esta interesado en aplicar al siguiente curso ( <b>{{$course->CourseName}}</b> )</span>
                                                                 </p>
                                                                 <p style="font-size: 14px; line-height: 140%;">&nbsp;
                                                                 </p>
-                                                                <p style="font-size: 14px; line-height: 140%;"><span
-                                                                        style="font-size: 18px; line-height: 25.2px; color: #666666;">Para
-                                                                        restablecer su contraseña, siga el siguiente
-                                                                        enlace: </span></p>
+
                                                             </div>
 
                                                         </td>
@@ -192,8 +186,7 @@
                                                                     style="box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: rgb(32 32 32); border-radius: 1px;-webkit-border-radius: 1px; -moz-border-radius: 1px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
                                                                     <span
                                                                         style="display:block;padding:15px 40px;line-height:120%;"><span
-                                                                            style="font-size: 18px; line-height: 21.6px;">Restablecer
-                                                                            la contraseña</span></span>
+                                                                            style="font-size: 18px; line-height: 21.6px;">Validar</span></span>
                                                                 </a>
                                                                 <!--[if mso]></center></v:roundrect><![endif]-->
                                                             </div>

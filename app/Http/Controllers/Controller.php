@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class Controller extends BaseController
@@ -45,4 +47,37 @@ class Controller extends BaseController
 
         return $dataResp;
     }
+
+
+    public static function notificationAsingCourse($course,$user) {
+        $admins = User::where('menuroles', 'like', '%admin%')->get();
+
+        $domain = Controller::LINK_CLIENT;
+        $url = $domain."#/login";
+
+        $data['url']= $url;
+        $data["title"] = "curso asignado";
+
+        $data['user']= $user;
+        $data['course']= $course;
+        $data['body']= "Porfavor haz click aqui para cambiar contraseña";
+
+
+        $data['adress_company']= "Barquisimeto Estado Lara";
+        $data['phone_company']= "+58412-000-00-00";
+        $data['email_company']= "Yaretzystilospmu@gmail.com";
+
+        $data['link_facebook']= "https://www.facebook.com/TeboriBrows/";
+        $data['link_twitter']= "#";
+        $data['link_instagram']= "https://www.instagram.com/teboribrows/";
+        $data['link_linkedin']= "#";
+
+        foreach ($admins as $value) {
+            $data['admin']= $value;
+            Mail::send('email.notifications.asignationcourse', $data, function ($message) use ($value) {
+                $message->to($value->email)->subject('Notificación de compra');
+            });
+        }
+    }
 }
+

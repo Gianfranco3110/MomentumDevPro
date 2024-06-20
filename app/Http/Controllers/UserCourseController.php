@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\course_video;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\userCourses;
-
+use App\Notifications\AsignationCourseNotification;
+use Illuminate\Support\Facades\Mail;
 
 class UserCourseController extends Controller
 {
@@ -91,7 +93,14 @@ class UserCourseController extends Controller
             ]);
 
             if($query){
-                return response()->json( ['status' => 'success'] );
+
+                // Enviar notificacion al admin que un curso fue asignado (COMPRADO)
+                if (isset($request->notificationAsing)) {
+
+                    Controller::notificationAsingCourse(Course::find($request->input('course_id')),User::find($request->input('user_id')));
+                }
+
+                return response()->json( ['status' => 'success','notificar' => 'false'] );
              }
              return response()->json(['status' => 'Error en la query.']);
         }else{
