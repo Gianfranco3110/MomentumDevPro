@@ -195,6 +195,7 @@ export default {
             course_id: this.course.id,
             user_id: localStorage.getItem("id"),
             status: 'No pagado',
+            notificationAsing:true
           }
         )
         .then(function(response) {
