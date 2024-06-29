@@ -7,7 +7,7 @@
           <iframe
             class="w-100"
             height="415"
-            :src="'https://player.vimeo.com/video/' + ur_video_curso"
+            :src="ur_video_curso"
             title="Yari-cursos"
             frameborder="10"
             allowfullscreen
@@ -262,7 +262,7 @@ function viewsCourseUser(id_curso) {
     .then(function (response) {
       self.Secciones = response.data.groupedVideos;
       self.titleVideo = response.data.courseName;
-      self.ur_video_curso = this.getVimeoId(response.data.first_video_url);
+      self.ur_video_curso = response.data.first_video_url;
       self.Loading = false;
       console.log('1',response);
     })
@@ -322,15 +322,6 @@ function send_url_video(val) {
   this.show_task = false;
 }
 
-function getVimeoId(url) {
-    if (!url.includes('vimeo.com')) {
-      return null; // La URL no es de Vimeo
-    }
-    const parts = url.split('/');
-    const videoId = parts[parts.length - 2];
-    return videoId;
-  }
-
 export default {
   name: "Course-show-user",
   mixins: [General],
@@ -358,7 +349,6 @@ export default {
     viewsCourseUser,
     showQuestionMultiple,
     selectVideo,
-    getVimeoId
   },
   mounted: function () {
     this.viewsCourseUser(this.$route.params.id);
