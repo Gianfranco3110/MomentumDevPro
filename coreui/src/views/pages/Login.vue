@@ -286,6 +286,7 @@ export default {
             course_id: dataCourse.id,
             user_id: localStorage.getItem("id"),
             status: 'No pagado',
+            notificationAsing:true
           }
         )
         .then(function(response) {
