@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class User_questions extends Model
 {
     use HasFactory;
-    protected $table = 'User_questions';
+    protected $table = 'user_questions';
 
     public function status()
     {

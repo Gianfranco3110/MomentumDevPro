@@ -45,7 +45,7 @@ class Courses_videoController extends Controller
         }
         $validatedData = $request->validate([
             'description'       => 'required|max:365',
-            'url_video'         => 'required|max:200',
+            'url_video'         => 'required|max:1000',
             'section_id'         => 'required',
             'order'             =>
             [
