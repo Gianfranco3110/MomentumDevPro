@@ -24,7 +24,7 @@
                 <CRow>
                   <CCol md="3">
                     <img
-                      :src="$apiAdress + '/storage/courses/' + item.image"
+                      :src="$apiAdress + '/api/courses/img/' + item.image"
                       class="bd-placeholder-img card-img-top"
                       width="80"
                       height="80"
