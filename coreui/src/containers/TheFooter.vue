@@ -90,8 +90,8 @@
                   >
                 </li>
                 <li style="padding-left: 0 !important;">
-                  <a href="tel:+34622341648" target="_blank" class="text-white"
-                    >(0412) 000 00 00</a
+                  <a href="tel:+584245124623" target="_blank" class="text-white"
+                    >(0424) 512-46-23</a
                   >
                 </li>
                 <li style="padding-left: 0 !important;">

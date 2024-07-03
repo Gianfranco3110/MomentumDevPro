@@ -20,7 +20,7 @@
         >
           <source
             type="video/mp4"
-            src="https://teboribrows.com/wp-content/uploads/2021/09/shutterstock_1055920118.mov"
+            src="../../../public/home.mov"
           />
         </video>
       </div>
@@ -31,8 +31,8 @@
             <div class="column mcb-column mcb-item-video-text two-third">
               <div class="mcb-column-inner mcb-item-column-inner">
                 <div class="column_attr mfn-inline-editor">
-                 <h1 class="d-block d-md-none">La mejor formación en Microblading</h1>
-                  <h2 class="h2-xxl d-none d-md-block">La mejor formación en Microblading</h2>
+                 <h3 class="d-block d-md-none">La mejor formación en micropigmentacións</h3>
+                  <h1 class="d-none d-md-block customs-h1">La mejor formación en micropigmentación</h1>
                 </div>
               </div>
             </div>
@@ -97,7 +97,7 @@
     <div class="mx-5 floating-button">
       <a
         target="_blank"
-        href="https://api.whatsapp.com/send?phone=584125161828&text=*Hola Yaritzy*%0A*Información:* Estoy interesada en adquirir uno de tus cursos"
+        href="https://api.whatsapp.com/send?phone=584245124623&text=*Hola Yaritzy*%0A*Información:* Estoy interesada en adquirir uno de tus cursos"
         class="btn botonesP"
       >
         <span class="mr-3">Agenda tu Cita</span>
@@ -240,8 +240,7 @@ svg {
 /*-------------section video auto-------------*/
 .mcb-section-video-maim {
   padding-top: 130px;
-  padding-bottom: 100px;
-  background-image: url("../../../public/img/videohome/formacion-en-microblading-scaled.webp");
+  /* background-image: url("../../../public/img/videohome/formacion-en-microblading-scaled.webp")*/;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -268,17 +267,35 @@ svg {
   min-height: 100%;
   min-width: 100%;
   overflow: hidden;
-}
-.section.has-video .section_wrapper {
-  position: relative;
-  height: 70vh;
-}
-.one.mcb-wrap {
   width: 100%;
-  padding-bottom: 100px;
-  padding-top: 100px;
+}
+.section.has-video .section_video video{
+  
+  width: 100%;
 }
 
+.section.has-video .section_wrapper {
+  position: relative;
+ 
+}
+/* Aplicar height: 70vh; solo en desktop (ancho mínimo de 1024px, por ejemplo) */
+@media only screen and (min-width: 1024px) {
+  .section.has-video .section_wrapper {
+    height: 90vh;
+  }
+}
+.one.mcb-wrap {
+  width: auto; 
+  padding-bottom: 0; 
+  padding-top: 0; 
+}
+@media only screen and (min-width: 1024px) {
+  .one.mcb-wrap {
+    width: 100%;
+    padding-bottom: 100px;
+    padding-top: 100px;
+  }
+}
 .mcb-wrap {
   float: left;
   position: relative;
@@ -291,6 +308,7 @@ svg {
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  height: 20vh;
 }
 .mcb-column,
 .mcb-wrap,
@@ -318,6 +336,9 @@ svg {
 .customs-whatsaap{
   z-index: 999;
   text-align: end;
+}
+.customs-h1{
+  margin-top: 25%;
 }
 /*-------------End section video auto-------------*/
 </style>
