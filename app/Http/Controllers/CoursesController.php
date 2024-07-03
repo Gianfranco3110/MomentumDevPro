@@ -17,7 +17,7 @@ class CoursesController extends Controller
     {
         $this->middleware('auth:api', ['except' => ['login', 'register','forgetPassword','resetPassword','verify']]);
     } */
-    
+
     //FUNCION PARA MOSTRAR LOS CURSOS
     public function index(Request $request)
     {
@@ -123,12 +123,29 @@ class CoursesController extends Controller
             // 'image'             => 'required'
         ]);
 
-        // verifica si hay img o no, si no hay guarda null
+        // // verifica si hay img o no, si no hay guarda null
+        // if ($request->hasFile('image')) {
+        //     $image_path = $request->file('image');
+        //     $image_path_name = time() . $image_path->getClientOriginalName();
+        //     Storage::disk('public')->put('courses/' . $image_path_name, File::get($image_path));
+        // }
+
+        // Verifica si hay una imagen
         if ($request->hasFile('image')) {
             $image_path = $request->file('image');
-            $image_path_name = time() . $image_path->getClientOriginalName();
-            Storage::disk('public')->put('courses/' . $image_path_name, File::get($image_path));
+            // $image_path_name = time() . $image_path->getClientOriginalName();
+            $image_extension = $image_path->getClientOriginalExtension();
+            $image_path_name =  time().Controller::GenerateCodeUnique(32) . '.' . $image_extension; // Genera un nombre único de 32 caracteres
+
+                // Crea la carpeta courses si no existe
+                if (!is_dir(public_path(Controller::FOLDERCOURSE))) {
+                mkdir(public_path(Controller::FOLDERCOURSE), 0755, true); // Crea la carpeta con permisos 0755
+            }
+
+            // Guarda la imagen en la carpeta public
+            $image_path->move(public_path(Controller::FOLDERCOURSE), $image_path_name);
         }
+
         $currentDate = now();
         $user = auth()->userOrFail();
         $query = Course::create([
@@ -171,12 +188,30 @@ class CoursesController extends Controller
         ]);
         $currentDate = now();
         $courses = Course::find($id);
+        // if ($request->hasFile('image')) {
+        //     $image_path = $request->file('image');
+        //     $image_path_name = time() . $image_path->getClientOriginalName();
+        //     Storage::disk('public')->put('courses/' . $image_path_name, File::get($image_path));
+        //     $courses->image = $image_path_name;
+        // }
+
+        // Verifica si hay una imagen
         if ($request->hasFile('image')) {
             $image_path = $request->file('image');
-            $image_path_name = time() . $image_path->getClientOriginalName();
-            Storage::disk('public')->put('courses/' . $image_path_name, File::get($image_path));
+            // $image_path_name = time() . $image_path->getClientOriginalName();
+            $image_extension = $image_path->getClientOriginalExtension();
+            $image_path_name =  time().Controller::GenerateCodeUnique(32) . '.' . $image_extension; // Genera un nombre único de 32 caracteres
+
+            // Crea la carpeta courses si no existe
+            if (!is_dir(public_path(Controller::FOLDERCOURSE))) {
+                mkdir(public_path(Controller::FOLDERCOURSE), 0755, true); // Crea la carpeta con permisos 0755
+            }
+
+            // Guarda la imagen en la carpeta public
+            $image_path->move(public_path(Controller::FOLDERCOURSE), $image_path_name);
             $courses->image = $image_path_name;
         }
+
         $courses->price           = $request->input('price');
         $courses->description     = $request->input('description');
         $courses->status_id       = $request->input('status_id');

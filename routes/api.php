@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,30 @@ Route::group(['middleware' => ['api']], function ($router) {
     Route::resource('courses', 'CoursesController');
     Route::get('courses/details/landig', 'CoursesController@details');
     Route::post('courses/verificarfecha', 'CoursesController@valueDateExpirate');
+
+    //ROUTE PARA OBTENER LAS IMG DE LOS CURSOS
+    Route::get('courses/img/{img}', function ($img)
+    {
+        // dd($img);
+        $path  = public_path(Controller::FOLDERCOURSE.'/'.$img);
+
+        if (!File::exists($path))
+        {
+            abort(404);
+        }
+
+        $file = File::get($path);
+
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+
+        $response->header("Content-Type", $type);
+
+        return $response;
+
+    });
+
 
 
     Route::post('user/forget-password','AuthController@forgetPassword');
