@@ -15,6 +15,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     const LINK_CLIENT = "http://localhost:8080";
+    const FOLDERCOURSE = "imgcourse";
 
 
     public static function formLinkIframeVideo($linkValue)
@@ -78,6 +79,19 @@ class Controller extends BaseController
                 $message->to($value->email)->subject('Notificación de compra');
             });
         }
+    }
+
+    public static function GenerateCodeUnique($longitud = 16) {
+        // Define el conjunto de caracteres permitidos
+        $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $codigo = '';
+
+        // Genera un código aleatorio de la longitud especificada
+        for ($i = 0; $i < $longitud; $i++) {
+            $codigo .= $caracteres[rand(0, strlen($caracteres) - 1)];
+        }
+
+        return $codigo;
     }
 }
 
