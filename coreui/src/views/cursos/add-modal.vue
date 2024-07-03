@@ -84,7 +84,7 @@
         </CCol>
         <CCol sm="3" v-if="actualizar">
           <img
-            :src="this.$apiAdress+'/storage/courses/' + this.curso.image"
+            :src="this.$apiAdress+'/api/courses/img/' + this.curso.image"
             class="bd-placeholder-img card-img-top"
             width="150px"
             height="200px"
@@ -251,6 +251,7 @@ function guardar() {
         self.$emit("child-refresh", true);
       })
       .catch(function(error) {
+        self.Loading = false;
         console.log(error);
         if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
           for (let key in error.response.data.errors) {

@@ -44,7 +44,7 @@
             ></iframe>
             <img
               v-if="item.video_presentation == null"
-              :src="$apiAdress + '/storage/courses/default.jpg'"
+              :src="$apiAdress + '/api/courses/img/default.jpg'"
               class="bd-placeholder-img card-img-top"
               width="100%"
               aria-label="Placeholder: Image cap"
