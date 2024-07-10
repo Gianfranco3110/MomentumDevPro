@@ -165,7 +165,7 @@ ul {
 }
 .div-footer-h ul li {
   padding: 0px 5px !important;
-  margin-bottom: 3px !important;
+  
   border: 1px solid rgba(0, 0, 0, 0.04);
   font-weight: 500 !important;
   text-transform: uppercase !important;
@@ -180,7 +180,7 @@ ul.info-iconos li {
   background-position: top 0px left;
   background-repeat: no-repeat;
   background-size: 30px;
-  margin-bottom: 11px !important;
+ 
   
 }
 

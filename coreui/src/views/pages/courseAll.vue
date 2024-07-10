@@ -300,6 +300,9 @@
   .two-third.column {
     width: 100%;
   }
+  .card-img-top {
+    height: 28vh !important;
+  }
   /*-------------End section video auto-------------*/
   </style>
   
