@@ -36,7 +36,7 @@
                   </li>
                   <li>
                     <a
-                      href="https://api.whatsapp.com/send?phone=+34622341648&amp;text=%C2%A1Hola!"
+                      href="https://api.whatsapp.com/send?phone=+584245124623&amp;text=%C2%A1Hola!"
                       target="_blank"
                       ><img decoding="async" src="../../public/img/whatsapp-1.webp" alt="whatsapp"
                     /></a>
@@ -181,7 +181,7 @@ ul.info-iconos li {
   background-repeat: no-repeat;
   background-size: 30px;
   margin-bottom: 11px !important;
-  height: 51px;
+  
 }
 
 .text-footer-botom {

@@ -315,9 +315,6 @@ function send_url_video(val) {
   this.ur_video_curso = val;
   this.show_curso = true;
   this.show_task = false;
- 
-    this.contentDocument.querySelector('iframe').classList.remove('vp-center');
-
 }
 
 export default {
@@ -377,9 +374,9 @@ export default {
 svg {
   color: white !important;
 }
-iframe.vp-center {
-    display: block !important; /* Cambiar display flex por display block */
-    justify-content: initial !important; /* Cambiar la justificación inicial */
-    align-items: initial !important; /* Cambiar la alineación inicial */
+@media only screen and (max-width: 1400px) {
+  iframe {
+    height: 28vh !important;
+  }
 }
 </style>
