@@ -223,6 +223,7 @@ export default {
             self.$router.push({ path: "dashboard" });
           }else{
             await self.AssignCourse();
+            localStorage.removeItem("comprar");
             
           }
       
