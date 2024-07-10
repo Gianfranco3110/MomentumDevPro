@@ -268,9 +268,10 @@ svg {
   min-width: 100%;
   overflow: hidden;
   width: 100%;
+  height: 100vh;
 }
 .section.has-video .section_video video{
-  
+   height: auto;
   width: 100%;
 }
 
@@ -281,7 +282,7 @@ svg {
 /* Aplicar height: 70vh; solo en desktop (ancho mínimo de 1024px, por ejemplo) */
 @media only screen and (min-width: 1024px) {
   .section.has-video .section_wrapper {
-    height: 90vh;
+    height: 110vh;
   }
 }
 .one.mcb-wrap {

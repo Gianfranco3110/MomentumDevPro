@@ -7,15 +7,15 @@
           <div class="footer-seccion">
             <div class="footer-msj-div">
               <ul class="p-0 mb-0">
-                <li>Expertos en</li>
-                <li>Belleza Natural</li>
+                <li>Expertos en microblading</li>
+                <li> y micropigmentación</li>
               </ul>
 
               <div class="social-links-footer">
                 <ul class="pl-0">
                   <li>
                     <a
-                      href="https://www.instagram.com/teboribrows/"
+                      href="https://www.instagram.com/yariestilospmu?igsh=NWswOWF2cGhteTg4/"
                       target="_blank"
                       ><img decoding="async" src="../../public/img/instagram.webp" alt="instagram"
                     /></a>
@@ -99,7 +99,7 @@
                     href="mailto:@yariestilospmu0@gmail.com"
                     class="text-white"
                     target="_blank"
-                    >Yaretzystilospmu@gmail.com</a
+                    >yare.ocanto.yo@gmail.com</a
                   >
                 </li>
               </ul>
@@ -152,7 +152,10 @@ export default {
     Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   color: #f2e7df !important;
   font-size: 41px;
-  line-height: 54px;
+  
+}
+.footer-msj-div li{
+ font-size:  24px;
 }
 .link-hover-footer:hover {
   cursor: pointer;

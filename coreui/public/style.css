@@ -29,6 +29,7 @@ html,body{
 #seccion-cursos .card .card-img-top {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  height: 30vh;
 }
 
 @media only screen and (max-width:513px){

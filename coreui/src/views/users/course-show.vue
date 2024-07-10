@@ -3,7 +3,7 @@
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <CRow>
       <CRow class="w-100">
-        <CCol v-if="show_curso" sm="6" class="row">
+        <CCol v-if="show_curso" sm="6">
           <iframe
             class="w-100"
             height="415"
@@ -12,18 +12,14 @@
             frameborder="10"
             allowfullscreen
           />
-          <CCol sm="6" class="pl-0 mt-3">
-            <CButton class="botonesCan text-white" @click="move_video(1)">
-              <CIcon name="cil-chevron-circle-left-alt" />&nbsp; Leccion
-              anterior
+          <CCol sm="12" class="d-flex justify-content-between mt-3 mb-3">
+            <CButton class="botonesCan text-white btn-sm" @click="move_video(1)">
+              <CIcon name="cil-chevron-circle-left-alt" />&nbsp; Lección anterior
             </CButton>
-          </CCol>
-          <CCol sm="6" class="text-end pr-0 mt-3">
-            <CButton @click="move_video(2)" id="next" color="dark">
-              <CIcon name="cil-chevron-circle-right-alt" />&nbsp; Leccion
-              siguiente
-            </CButton>
-          </CCol>
+          <CButton class="btn-sm" @click="move_video(2)" id="next" color="dark">
+            Lección siguiente &nbsp;<CIcon name="cil-chevron-circle-right-alt" />
+          </CButton>
+        </CCol>
         </CCol>
         <CCol v-if="show_task" sm="6">
           <Quick
@@ -104,13 +100,12 @@
                       >
                         <CIcon name="cil-task" />&nbsp; Iniciar cuestionario
                       </CButton>
-                      <pre>{{videos[0].question_user[0].user_answered}}</pre>
                     </div>
                   </CCollapse>
                 </li>
               </ol>
             </div>
-            <div class="card-footer text-body-secondary">2 days ago</div>
+            
           </div>
         </CCol>
       </CRow>
@@ -320,6 +315,9 @@ function send_url_video(val) {
   this.ur_video_curso = val;
   this.show_curso = true;
   this.show_task = false;
+ 
+    this.contentDocument.querySelector('iframe').classList.remove('vp-center');
+
 }
 
 export default {
@@ -363,6 +361,7 @@ export default {
     this.$bus.$off("sendanswer");
   },
 };
+
 </script>
 <style scoped>
 .customs-section {
@@ -377,5 +376,10 @@ export default {
 }
 svg {
   color: white !important;
+}
+iframe.vp-center {
+    display: block !important; /* Cambiar display flex por display block */
+    justify-content: initial !important; /* Cambiar la justificación inicial */
+    align-items: initial !important; /* Cambiar la alineación inicial */
 }
 </style>
