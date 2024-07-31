@@ -31,6 +31,9 @@ Route::group(['middleware' => ['api']], function ($router) {
     Route::put('user/password/change','UsersController@updatePassword');
     Route::get('user/logged','UsersController@userLogged');
 
+    //validar sesion
+    Route::get('user/validatesesion','UsersController@index');
+
     Route::resource('notes', 'NotesController');
 
     //RUTA PARA GUARDAR LAS RESPUESTA DE LOS TEST

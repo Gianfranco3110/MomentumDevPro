@@ -32,7 +32,7 @@ class UserCourseController extends Controller
         },'courses.status'])->where('usuario_id', $id)->whereIn('status', ["Pagado","No pagado"])->get();
 
         $userCourses->transform(function ($userCourse) {
-            $userCourse['video_presentation'] = Controller::formLinkIframeVideo($userCourse->courses->coursevideo[0]->url_video ?? null);
+            $userCourse['video_presentation'] = $userCourse->courses->coursevideo[0]->url_video ?? null;
             unset($userCourse->courses->coursevideo);
             return $userCourse;
         });

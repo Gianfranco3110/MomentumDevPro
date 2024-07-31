@@ -123,7 +123,7 @@ class Courses_videoController extends Controller
 
         //return response()->json($id_curso);
         $videos = course_video::where('courses_id', $id_curso)
-            //->where('users_id', $id_user)
+            ->where('status_id', '!=', 2)
             ->with(['courseSection' => function ($query) {
                 $query->select('id', 'name', 'orden')->orderBy('orden');
             }, 'courses:id,courseName'])
@@ -139,6 +139,7 @@ class Courses_videoController extends Controller
             $groupedVideos = $videos->groupBy('courseSection.name')->map(function ($videos) use ($id_curso) {
                 return $videos->sortBy('order')->map(function ($video) use ($id_curso) {
                     $question_user = User_questions::where('courses_id', $id_curso)
+                    ->where('status_id', '!=', 2) // Filtrar status_id distinto de 2
                     ->where('course_section_id', $video->course_section_id)
                     ->select('course_section_id', 'question', 'type_question','id')
                     ->get();
