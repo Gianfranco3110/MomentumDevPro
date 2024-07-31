@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File; //PREGUNTAR SOBRE ESTE USE
 use App\Models\Course;
+use App\Models\course_video;
 use App\Models\Status;
 use App\Models\userCourses;
 
@@ -22,12 +23,21 @@ class CoursesController extends Controller
     public function index(Request $request)
     {
         $optLimit = $request->input('limit');
+        $dataResp=[];
         if ($optLimit) {
+
             $courses = DB::table('courses')->join('users', 'users.id', '=', 'courses.users_id')
             ->join('status', 'status.id', '=', 'courses.status_id')
             ->select('courses.*', 'users.name as author', 'status.name as status', 'status.class as status_class')
             ->where('status_id', '=', [1,3])
             ->get();
+            $p=0;
+            foreach ($courses as $key => $value) {
+                if (count(course_video::where('courses_id',$value->id)->get())) {
+                    $p++;
+                    array_push($dataResp, $value);
+                }
+            }
         }else{
 
             $courses = DB::table('courses')->join('users', 'users.id', '=', 'courses.users_id')
@@ -36,8 +46,15 @@ class CoursesController extends Controller
                 ->where('status_id', '=', [1,3])
                 ->limit(6)
                 ->get();
+            $p=0;
+            foreach ($courses as $key => $value) {
+                if (count(course_video::where('courses_id',$value->id)->get())) {
+                    $p++;
+                    array_push($dataResp, $value);
+                }
+            }
         }
-        return response()->json($courses);
+        return response()->json($dataResp);
     }
 
     public function allCourses()
