@@ -6,7 +6,7 @@
           <div class="card" style="border-radius: 1rem;">
             <div class="row g-0">
               <div class="col-md-6 col-lg-5 d-none d-md-block">
-                <img src="../../../public/register.jpg"
+                <img src="../../../public/login1.jpg"
                   alt="login form" class="img-fluid h-100 img-adapte" style="border-radius: 1rem 0 0 1rem;" />
               </div>
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
@@ -318,8 +318,9 @@ export default {
           self.dataUser.number_document = "";
           self.dataUser.adress = "";
           self.dataUser.street = "";
-          console.log(response);
+          self.$toastr.success("Usuario creado con exito");
           self.$router.push({ path: "/login" });
+          
         })
         .catch(function(error) {
           console.log(error);

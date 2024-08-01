@@ -158,7 +158,7 @@ export default {
           password: self.password,
         })
         .then( async function(response) {
-          console.log(response.data.return);
+          
           if (response.data.return) {
             self.canbioViewsLogin();
             self.$toastr.success(`¡Éxito, ${response.data.message}!`);

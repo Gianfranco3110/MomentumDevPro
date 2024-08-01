@@ -83,7 +83,7 @@
                   25%
                 </div>
               </div>
-              <CCol @click="GetPdf(item.course_id)" sm="12" class="pl-0 mt-4">
+              <CCol v-if="item.certificado === '1'" @click="GetPdf(item.course_id)" sm="12" class="pl-0 mt-4">
                 <CButton class="botonesCan text-white">
                   <CIcon name="cil-education" />
                   Generar Certificado

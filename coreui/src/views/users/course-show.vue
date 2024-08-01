@@ -125,7 +125,7 @@ function selectVideo(url) {
   axios
     .post(
       this.$apiAdress +
-        "/api/position/urlcurso/?token=" +
+        "/api/position/urlcurso?token=" +
         localStorage.getItem("api_token"),
       {
         course_id: this.$route.params.id,
@@ -145,7 +145,7 @@ function selectVideo(url) {
 function move_video(val) {
   let currentSection = null;
   let currentIndex = -1;
-
+ 
   // Encontrar la sección y el índice del video actual
   for (let section of Object.keys(this.Secciones)) {
     let index = this.Secciones[section].findIndex(
@@ -178,10 +178,13 @@ function move_video(val) {
       }
     }
   } else {
+     //console.log('entro aqui',this.ur_video_curso);
     // Video siguiente
     if (currentIndex < this.Secciones[currentSection].length - 1) {
       this.ur_video_curso = this.Secciones[currentSection][currentIndex + 1].url_video;
+     
     } else {
+     
       // Validar si el usuario ha respondido el cuestionario de la sección actual
       if (!this.Secciones[currentSection][0].question_user[0].user_answered) {
         console.log(
@@ -203,7 +206,8 @@ function move_video(val) {
         Object.keys(this.Secciones).indexOf(currentSection) + 1
       ];
       if (nextSection) {
-        this.ur_video_curso =this.Secciones[nextSection][0].url_video;
+        //console.log('entro3',this.Secciones[nextSection][0].url_video);
+        this.ur_video_curso = this.Secciones[nextSection][0].url_video;
       }
     }
   }

@@ -1,7 +1,7 @@
 import { required, maxLength,email,minLength,sameAs,helpers,numeric} from "vuelidate/lib/validators";
 
 
-import {  especiales,SoloEnteros,decimalEspecial } from '@/_validations/ValidacionEspeciales';
+import {  especiales } from '@/_validations/ValidacionEspeciales';
 
 export default () => {
     return {

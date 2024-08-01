@@ -58,7 +58,7 @@
                   </CCol>
                   <CCol md="3">
                     <CButton
-                      v-c-tooltip="'Generar certificado'"
+                      v-c-tooltip="'Liberar certificado'"
                       color="success"
                       @click="GetPdf(item.course_id,item.usuario_id)"
                       ><CIcon name="cil-cloud-download" />

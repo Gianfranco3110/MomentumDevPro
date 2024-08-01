@@ -213,6 +213,7 @@ async function getCourseUserAll(id_user) {
           status_video: muni_resp.courses.status.name,
           status_id_video: muni_resp.courses.status.id,
           status_video_class: muni_resp.courses.status.class,
+          certificado:muni_resp.certificado
         })
       );
       municipality_resp = municipality_resp.concat(municipality_nw);

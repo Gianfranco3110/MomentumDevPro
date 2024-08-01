@@ -249,6 +249,8 @@ export default {
                     : (listado.answerusers[0].answer == listado.valid_option )
                     ? "CORRECTO"
                     : "INCORRECTO"
+                  : (listado.answerusers.length === 0)
+                  ? "NO HAY RESPUESTA"
                   : listado.answerusers[0].status,
               type_question_num: listado.type_question,
               // url_img: listado.type_question === '1' ? listado.answerusers[0]===undefined? null : listado.answerusers[0].path_img : null,
