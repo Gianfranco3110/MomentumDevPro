@@ -17,7 +17,7 @@ class User_questions extends Model
 
     public function courses()
     {
-        return $this->belongsTo('App\Models\course', 'courses_id');
+        return $this->belongsTo('App\Models\Course', 'courses_id');
     }
 
     public function courseSection()

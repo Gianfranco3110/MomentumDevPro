@@ -32,7 +32,7 @@ class userCourses extends Model
 
     public function courses()
     {
-        return $this->belongsTo('App\Models\course', 'curso_id');
+        return $this->belongsTo('App\Models\Course', 'curso_id');
     }
 
     public function coursevideo()
