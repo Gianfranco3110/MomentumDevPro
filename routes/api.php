@@ -157,6 +157,9 @@ Route::group(['middleware' => ['api']], function ($router) {
       //RUTA PARA TRAER LOS ESTADOS Y MUNICIPIOS
     Route::get('states', 'CountriesController@states');
 
+    //RUTA PARA TRAER LOS PAISES
+    Route::get('countries', 'CountriesController@countries');
+
 
 
 

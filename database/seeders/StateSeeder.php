@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Countrie;
 use App\Models\Municipality;
 use App\Models\States;
 use Illuminate\Database\Seeder;
@@ -34,46 +35,48 @@ class StateSeeder extends Seeder
 
             if ($response->successful()) {
                 $countries = $response->json();
+                // $countrie_vnz = collect($countries)->firstWhere('country_phone_code', 58);
+                foreach ($countries as $country) {
+                    $rspCountry = Countrie::create($country);
 
-                $countrie_vnz = collect($countries)->firstWhere('country_phone_code', 58);
+                    $response = Http::withHeaders([
+                        'Authorization' => 'Bearer ' . $auth_token,
+                        'Accept' => 'application/json',
+                    ])->get('https://www.universal-tutorial.com/api/states/' . $country['country_name']);
 
-                $response = Http::withHeaders([
-                    'Authorization' => 'Bearer ' . $auth_token,
-                    'Accept' => 'application/json',
-                ])->get('https://www.universal-tutorial.com/api/states/' . $countrie_vnz['country_name']);
+                    if ($response->successful()) {
+                        $stated_resp = $response->json();
 
-                if ($response->successful()) {
-                    $stated_resp = $response->json();
+                        if (count($stated_resp)) {
 
-                    // Guardar los estados del pais Venezuela aqui
-                    foreach ($stated_resp as $key => $value) {
-                        $rspEstated = States::create($value);
+                            // Guardar los estados del pais Venezuela aqui
+                            foreach ($stated_resp as $key => $value) {
 
-                           $response = Http::withHeaders([
-                            'Authorization' => 'Bearer ' . $auth_token,
-                            'Accept' => 'application/json',
-                        ])->get('https://www.universal-tutorial.com/api/cities/' . $value['state_name']);
+                                $value['countrie_id'] =  $rspCountry->id; // Agrega el id al objeto $value
+                                $rspEstated = States::create($value);
 
-                        if ($response->successful()) {
-                            $city_resp = $response->json();
+                                $response = Http::withHeaders([
+                                    'Authorization' => 'Bearer ' . $auth_token,
+                                    'Accept' => 'application/json',
+                                ])->get('https://www.universal-tutorial.com/api/cities/' . $value['state_name']);
 
-                            if (count($city_resp)) {
-                                foreach ($city_resp as $key => $value_city) {
-                                    Municipality::create([
-                                        'city_name'=> $value_city['city_name'],
-                                        'states_id'=>$rspEstated->id
-                                    ]);
+                                if ($response->successful()) {
+                                    $city_resp = $response->json();
+
+                                    if (count($city_resp)) {
+                                        foreach ($city_resp as $key => $value_city) {
+                                            Municipality::create([
+                                                'city_name' => $value_city['city_name'],
+                                                'states_id' => $rspEstated->id
+                                            ]);
+                                        }
+                                    }
                                 }
                             }
                         }
-
                     }
-
                 }
             }
-
-
         }
-
     }
 }
