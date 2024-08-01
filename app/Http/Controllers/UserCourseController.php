@@ -30,7 +30,7 @@ class UserCourseController extends Controller
         $userCourses = userCourses::with(['courses.coursevideo' => function ($query) {
             $query->where('course_section_id', 1)->where('status_id', 1)->orderBy('created_at', 'desc')->first();
         },'courses.status'])->where('usuario_id', $id)->whereIn('status', ["Pagado","No pagado"])->get();
-
+        return response()->json( $userCourses );
         $userCourses->transform(function ($userCourse) {
             $userCourse['video_presentation'] = $userCourse->courses->coursevideo[0]->url_video ?? null;
             unset($userCourse->courses->coursevideo);

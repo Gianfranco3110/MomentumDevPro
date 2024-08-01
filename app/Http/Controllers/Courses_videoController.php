@@ -64,7 +64,8 @@ class Courses_videoController extends Controller
         $user = auth()->userOrFail();
         $text_op = "";
         if ($request->id == "") {
-            $query = DB::table('course_videos')->insert([
+
+            $query = course_video::create([
                 'description' => $request->input('description'),
                 'url_video' => $request->input('url_video'),
                 'courses_id' => $request->input('courses_id'),
@@ -73,6 +74,15 @@ class Courses_videoController extends Controller
                 'course_section_id' => $request->input('section_id'),
                 'order' => $request->input('order'),
             ]);
+            // $query = DB::table('course_videos')->insert([
+            //     'description' => $request->input('description'),
+            //     'url_video' => $request->input('url_video'),
+            //     'courses_id' => $request->input('courses_id'),
+            //     'status_id' => 1,
+            //     'users_id' => $user->id,
+            //     'course_section_id' => $request->input('section_id'),
+            //     'order' => $request->input('order'),
+            // ]);
             $text_op = "Video creado correctamente";
         } else {
             $query = course_video::where('id', $request->id)->update([
