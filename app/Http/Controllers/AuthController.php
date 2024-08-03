@@ -68,6 +68,7 @@ class AuthController extends Controller
         $user->adress_all = $request->adress_all;
         $user->type_document = $request->type_document;
         $user->number_document = $request->number_document;
+        $user->country = $request->countries;
         $user->stated = $request->stated;
         $user->municipality = $request->municipality;
         $user->street = $request->street;
@@ -295,3 +296,4 @@ class AuthController extends Controller
 
     }
 }
+

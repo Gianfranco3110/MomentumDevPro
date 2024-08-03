@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRelationscountristatesToStates extends Migration
+class AddCountryToUsersTabla extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddRelationscountristatesToStates extends Migration
      */
     public function up()
     {
-        Schema::table('states', function (Blueprint $table) {
-            $table->unsignedBigInteger('countrie_id');
-            $table->foreign('countrie_id')->references('id')->on('countries');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('country')->nullable();
         });
     }
 
@@ -26,8 +25,8 @@ class AddRelationscountristatesToStates extends Migration
      */
     public function down()
     {
-        Schema::table('states', function (Blueprint $table) {
-            
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('country');
         });
     }
 }

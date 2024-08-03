@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\userCourses;
 use App\Models\User;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -49,6 +50,14 @@ class Pdf_CertificadoController extends Controller
         if (!User::where('id', $request->user_id)->exists()) {
             return response()->json(['message' => "Error, El usuario no existe en el sistema."]);
             die;
+        }
+        //Libera el certificado
+        $userCourse = userCourses::where('usuario_id', $request->user_id)->first();
+
+        if ($userCourse) {
+            // Actualizar la columna certificado
+            $userCourse->certificado = 1;
+            $userCourse->save();
         }
 
         /**
