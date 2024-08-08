@@ -14,7 +14,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    const LINK_CLIENT = "https://yariestilospmu.com/";
+    const LINK_CLIENT = "https://yariestilospmu.com";
     const FOLDERCOURSE = "imgcourse";
 
 
