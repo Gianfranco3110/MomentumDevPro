@@ -60,9 +60,9 @@
                 >{{ item.status_video }}</span
               >
               <h5 class="card-title text-white">
-                {{ item.name }}
+                {{ truncateDescription(item.name,50) }}
               </h5>
-              <p class="card-text">{{ item.description }}</p>
+              <p class="card-text">{{ truncateDescription(item.description,100) }}</p>
               <CBadge class="text-white" color="success" v-if="item.status">
                 Pagado</CBadge
               >
@@ -136,7 +136,6 @@ function send_id_curso(curso) {
 }
 
 function GetPdf(course_id) {
-  console.log("Pedro", course_id);
   let self = this;
   self.Loading = true;
   let listado = [];
@@ -159,6 +158,7 @@ function GetPdf(course_id) {
       window.open(response.data.certificado_url, "_blank");
       self.Loading = false;
       self.getCourses();
+      self.$toastr.success("¡Certificado generado con exito!");
     })
     .catch(function (error) {
       console.log(error);
@@ -191,6 +191,12 @@ export default {
     },
   },
   methods: {
+    truncateDescription(text, limit) {
+      if (text.length <= limit) {
+        return text;
+      }
+      return text.substring(0, limit) + "...";
+    },
     send_id_curso,
     GetPdf,
     async getCourses() {

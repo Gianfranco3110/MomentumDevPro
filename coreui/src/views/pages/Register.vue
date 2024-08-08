@@ -1,5 +1,6 @@
 <template>
   <section  style="background-color: #202020;">
+    <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-xl-12">
@@ -85,8 +86,19 @@
                       </CInput>
                     </div>
                     <CRow >
-
-                    <CCol md="6">
+                    <CCol md="4">
+                    <CSelect
+                      addLabelClasses="required"
+                      label="Pais"
+                      :value.sync="dataUser.value_pais"
+                      invalid-feedback="Campo requerido"
+                      :plain="true"
+                      :options="arr_pais"
+                      @change="changeGetPais()"
+                  >
+                  </CSelect>
+                  </CCol>
+                    <CCol md="4">
                       <label class="form-label mb-1 required">Estado</label>
                       <CSelect
                       addLabelClasses="required"
@@ -98,7 +110,7 @@
                     >
                     </CSelect>
                     </CCol>
-                    <CCol md="6">
+                    <CCol md="4">
                       <label class="form-label mb-1 required">Ciudad</label>
                       <CSelect
                       addLabelClasses="required"
@@ -273,12 +285,14 @@ export default {
       type_document: "V",
       number_document: "",
       value_stated: "",
+      value_pais: "",
       value_municipality: "",
     },
+    Loading: false,
     msgErrorEmail:"",
     stated: [],
     municipality: [],
-
+    arr_pais:[],
     };
   },
   name:"Register",
@@ -290,12 +304,13 @@ export default {
   validations() {
     return Registerval()
   },
-  mounted: function() {
-     this.getStateds()
+  mounted: async function() {
+    this.arr_pais = await this.getpais();
   },
   methods: {
     register() {
       var self = this;
+      self.Loading = true;
       axios
         .post(this.$apiAdress + "/api/register", {
           name: self.dataUser.name,
@@ -305,6 +320,7 @@ export default {
           type_document: self.dataUser.type_document,
           number_document: self.dataUser.number_document,
           adress_all: self.dataUser.adress,
+          country: self.dataUser.value_pais,
           stated: self.dataUser.value_stated,
           municipality: self.dataUser.value_municipality,
           street: self.dataUser.street,
@@ -320,10 +336,9 @@ export default {
           self.dataUser.street = "";
           self.$toastr.success("Usuario creado con exito");
           self.$router.push({ path: "/login" });
-          
+          self.Loading = false;
         })
         .catch(function(error) {
-          console.log(error);
           if (error.response) {
             if (error.response.status === 422) {
               console.error('Error:', error.response.data);
@@ -344,6 +359,7 @@ export default {
               }
             }
           }
+          self.Loading = false;
         });
     },
     linkHome() {
@@ -352,8 +368,11 @@ export default {
     goLogin() {
       this.$router.push({ path: "login" });
     },
-    async getStateds() {
-      this.stated = await this.getStated();
+    async getStateds(val) {
+      this.stated = await this.getStated(val);
+    },
+    async changeGetPais(){
+      this.getStateds(this.dataUser.value_pais);
     },
     async changeGetMunici(){
       console.log(this.dataUser.value_stated);
@@ -362,3 +381,4 @@ export default {
   },
 };
 </script>
+

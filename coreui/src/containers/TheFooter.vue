@@ -22,25 +22,26 @@
                   </li>
                   <li>
                     <a
-                      href="https://www.facebook.com/TeboriBrows/"
+                      href="https://www.facebook.com/yaretzi.ocanto?mibextid=LQQJ4d"
                       target="_blank"
                       ><img decoding="async" src="../../public/img/facebook-2.webp" alt="facebook"
                     /></a>
                   </li>
                   <li>
                     <a
-                      href="https://www.youtube.com/channel/UCgFGTGnisVwTTl98JTFH7-w"
+                      href="https://www.youtube.com/@YariestilosMicropigmentacion"
                       target="_blank"
                       ><img decoding="async" src="../../public/img/youtube-1.webp" alt="youtube"
                     /></a>
                   </li>
                   <li>
                     <a
-                      href="https://api.whatsapp.com/send?phone=+584245124623&amp;text=%C2%A1Hola!"
+                      href="https://wa.me/message/SPVSEMNIC5JHN1"
                       target="_blank"
                       ><img decoding="async" src="../../public/img/whatsapp-1.webp" alt="whatsapp"
                     /></a>
                   </li>
+                  
                 </ul>
               </div>
             </div>

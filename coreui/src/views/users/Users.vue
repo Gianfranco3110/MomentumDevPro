@@ -26,7 +26,7 @@
             <CIcon name="cil-playlist-add" />&nbsp; NUEVO USUARIO
           </CButton>
           <CCol sm="12">
-            <CDataTable class="text-center "
+            <CDataTable class="text-left"
             :items="items"
             :fields="fields"
             :items-per-page="10"
@@ -178,7 +178,7 @@ const fields = [
   { key: "status", label: "ESTATUS" },
   {
     key: "DocsRoute",
-    label: "",
+    label: "ACCIONES",
     sorter: false,
     filter: false,
   },
@@ -281,6 +281,7 @@ export default {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Si, Eliminar!",
+        cancelButtonText: "Cancelar",
       })
       .then((result) => {
         if (result.isConfirmed) {

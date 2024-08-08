@@ -90,8 +90,19 @@
                   /></template>
                 </CInput>
                 <CRow >
-
-                  <CCol md="6">
+                  <CCol md="4">
+                    <CSelect
+                      addLabelClasses="required"
+                      label="Pais"
+                      :value.sync="dataUser.value_pais"
+                      invalid-feedback="Campo requerido"
+                      :plain="true"
+                      :options="arr_pais"
+                      @change="changeGetPais()"
+                  >
+                  </CSelect>
+                  </CCol>
+                  <CCol md="4">
                     <CSelect
                     addLabelClasses="required"
                     label="Estado"
@@ -103,7 +114,8 @@
                   >
                   </CSelect>
                   </CCol>
-                  <CCol md="6">
+
+                  <CCol md="4">
                     <CSelect
                     addLabelClasses="required"
                     label="Ciudad"
@@ -211,11 +223,13 @@ export default {
       number_document: "",
       value_stated: "",
       value_municipality: "",
+      value_pais: "",
       number_document: "",
       street:""
     },
     stated: [],
     municipality: [],
+    arr_pais:[],
     showAlerError:0,
     msgError: "",
 
@@ -232,8 +246,8 @@ export default {
   },
   directives: UpperCase,
   validations: Registerval,
-  mounted: function() {
-     this.getStateds()
+  mounted: async function() {
+      this.arr_pais = await this.getpais();
   },
   methods: {
     Sweet,
@@ -249,6 +263,7 @@ export default {
           type_document: self.dataUser.type_document,
           number_document: self.dataUser.number_document,
           adress_all: self.dataUser.adress,
+          countries: self.dataUser.value_pais,
           stated: self.dataUser.value_stated,
           municipality: self.dataUser.value_municipality,
           street: self.dataUser.street,
@@ -298,8 +313,11 @@ export default {
         });
         this.$v.$reset();
     },
-    async getStateds() {
-      this.stated = await this.getStated();
+    async getStateds(val) {
+      this.stated = await this.getStated(val);
+    },
+     async changeGetPais(){
+      this.getStateds(dataUser.value_pais);
     },
     async changeGetMunici(){
       console.log(this.dataUser.value_stated);

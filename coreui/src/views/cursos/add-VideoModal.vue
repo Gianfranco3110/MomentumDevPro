@@ -424,7 +424,7 @@ export default {
           )
           .then(function (response) {
             console.log(response);
-            self.$toastr.success("Video quitado con extio!");
+            self.$toastr.success("Video eliminado con extio!");
             self.ListVideo(self.video.courses_id);
           })
           .catch(function (error) {

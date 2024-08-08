@@ -141,8 +141,7 @@ export default {
         let dataResp = await this.getCourseDetailsLanding(this.modal.id);
         this.course = dataResp.course;
         localStorage.setItem('course', JSON.stringify(this.course));
-        console.log(dataResp.course.video_presentation);
-        this.ur_video_curso = dataResp.course.video_presentation==null? false :this.formLinkIframeVideo(dataResp.course.video_presentation.url_video);
+        this.ur_video_curso = dataResp.course.video_presentation==null? false : dataResp.course.video_presentation.url_video;
         this.Loading= false;
         this.VerModalCourseDetail = true;
         this.$emit("cerrarModal");

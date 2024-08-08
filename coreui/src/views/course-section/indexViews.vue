@@ -94,7 +94,7 @@
     { key: "orden", label: "ORDEN",_style: "width:30%;" },
     {
       key: "Detalle",
-      label: "",
+      label: "ACCIONES",
       sorter: false,
       filter: false,
       _style: "width:6%;"

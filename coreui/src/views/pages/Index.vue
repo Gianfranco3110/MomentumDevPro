@@ -31,8 +31,8 @@
             <div class="column mcb-column mcb-item-video-text two-third">
               <div class="mcb-column-inner mcb-item-column-inner">
                 <div class="column_attr mfn-inline-editor">
-                 <h3 class="d-block d-md-none">La mejor formación en micropigmentacións</h3>
-                  <h1 class="d-none d-md-block customs-h1">La mejor formación en micropigmentación</h1>
+                 <h3 class="d-block d-md-none">LA MEJOR ACADEMIA DE MICROPIGMENTACIÓN</h3>
+                  <h1 class="d-none d-md-block customs-h1">LA MEJOR ACADEMIA DE MICROPIGMENTACIÓN</h1>
                 </div>
               </div>
             </div>

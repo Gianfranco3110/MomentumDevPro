@@ -24,7 +24,7 @@
           >
             <CIcon name="cil-playlist-add" />&nbsp; Nuevo curso
           </CButton>
-          <CCol sm="12">
+          <CCol class="text-left" sm="12">
             <CDataTable
               :items="items"
               :fields="fieldsCourse"
@@ -113,15 +113,16 @@ const fieldsCourse = [
     label: "#",
     _style: "width:1%;",
   },
-  { key: "CourseName", label: "TITULO" },
-  { key: "daysofvalidity", label: "DIAS DE VIGENCIA", _style: "widht:20%" },
-  { key: "price", label: "PRECIO" },
-  { key: "status", label: "STATUS" },
+  { key: "CourseName", label: "TITULO",_style:"text-align:left" },
+  { key: "daysofvalidity", label: "DIAS DE VIGENCIA", _style:"text-align:left" },
+  { key: "price", label: "PRECIO",_style:"text-align:left" },
+  { key: "status", label: "ESTATUS",_style:"text-align:left" },
   {
     key: "Detalle",
-    label: "",
+    label: "ACCIONES",
     sorter: false,
     filter: false,
+    _style:"text-align:left"
   },
 ];
 
@@ -156,10 +157,10 @@ function ListCurso() {
       self.items = listado.map((listado) =>
         Object.assign({}, self.items, {
           id: listado.id,
-          price: listado.price,
+          price: "$"+(listado.price),
           daysofvalidity: listado.daysofvalidity,
           status: listado.status,
-          CourseName: listado.CourseName,
+          CourseName: self.truncateDescription(listado.CourseName,100),
           description: listado.description,
           image: listado.image,
         })
@@ -213,6 +214,12 @@ export default {
     },
   },
   methods: {
+    truncateDescription(text, limit) {
+      if (text.length <= limit) {
+        return text;
+      }
+      return text.substring(0, limit) + "...";
+    },
     ListCurso,
     getBadge(status) {
       return status === "Activo"
@@ -242,5 +249,8 @@ export default {
 <style scoped>
 svg {
   color: white !important;
+}
+tr{
+  text-align: left !important;
 }
 </style>
