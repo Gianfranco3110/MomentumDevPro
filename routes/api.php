@@ -136,7 +136,7 @@ Route::group(['middleware' => ['api']], function ($router) {
     Route::get('coursestest/listfieldsquestion/{id}', 'User_questionController@fieldsquestion');
 
     //RUTA ENVIA LAS OPCIONES DEL TEST CUANDO ES SELECCION SIMPLE
-    Route::get('questionfields/listoptionsquestion/{id_curso}/{id_question}', 'User_questionController@questionfieldsAux');
+    Route::get('questionfields/listoptionsquestion/{id_curso}/{id_question}/{seccionId}', 'User_questionController@questionfieldsAux');
 
 
     //RUTA QUE SE ENCARGA DE IMPRIMIR LOS CERTIFICADOS

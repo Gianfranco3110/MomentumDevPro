@@ -149,11 +149,13 @@ class User_questionController extends Controller
         return response()->json($questions);
     }
 
-    public function questionfieldsAux ($id_curso, $type_question){
+    public function questionfieldsAux ($id_curso, $type_question, $seccionId){
         //return response ($id_question);
 
         $userQuestions = User_questions::where('type_question', $type_question)
             ->where('courses_id', $id_curso)
+            ->where('course_section_id', $seccionId)
+            ->where('status_id', '1')
             ->select('user_questions.id', 'user_questions.valid_option', 'user_questions.question', DB::raw('GROUP_CONCAT(fields_for_simple_selections.options) as options'))
             ->join('fields_for_simple_selections', 'user_questions.id', '=', 'fields_for_simple_selections.id_user_questions')
             ->groupBy('user_questions.id', 'user_questions.valid_option', 'user_questions.question')
