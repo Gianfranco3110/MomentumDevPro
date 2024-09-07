@@ -40,7 +40,6 @@
         </div>
         <div v-if="tipo === '3'">
           <div v-for="(pregunta, index) in data" :key="index" class="mb-5">
-            <pre>{{ pregunta.selectedOption }}</pre>
             <h5 class="mb-2">{{ pregunta.userQuestion }}</h5>
             <div class="row">
               <div
@@ -91,7 +90,6 @@ function updateSelectedOption(pregunta, selectedOption) {
       answer: selectedOption,
     });
   }
-  console.log("answer", this.selectedAnswers);
 }
 //data
 function data() {
@@ -108,7 +106,6 @@ function data() {
 }
 
 function sendAnswer() {
-  console.log('1');
   //return;
   const self = this;
   let data = "";
@@ -139,9 +136,16 @@ function sendAnswer() {
     axios
       .post(self.$apiAdress + '/api/answer/store', formData)
       .then(function (response) {
-        self.$toastr.success('Respuesta enviada con éxito!');
+        //self.$toastr.success('Respuesta enviada con éxito!');
         self.$bus.$emit('sendanswer');
         self.Loading = false;
+        self.$swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Respuesta enviada con éxito!",
+          showConfirmButton: false,
+          timer: 1500
+        });
       })
       .catch(function (error) {
         console.log('error', error);
@@ -150,7 +154,6 @@ function sendAnswer() {
     
       return;
   }
-  console.log("data", data);
   
   //self.dataUser.Loading = true;
   axios
@@ -161,7 +164,14 @@ function sendAnswer() {
     })
     .then(function (response) {
       console.log("response", response);
-      self.$toastr.success("Respuesta enviadas con exito!");
+      //self.$toastr.success("Respuesta enviadas con exito!");
+       self.$swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Respuesta enviadas con exito!",
+          showConfirmButton: false,
+          timer: 1400
+        });
       //self.$v.$reset();
       self.Loading = false;
       /* self.selectedAnswers = "";

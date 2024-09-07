@@ -149,7 +149,13 @@ export default {
         }).catch(function (error) {
             console.log(error);
             // self.$router.push({ path: '/login' });
-            self.$toastr.error("¡Error! Tienes campos vacio");
+            self.$swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: "¡Error! Tienes campos vacio",
+            showConfirmButton: false,
+            timer: 1400,
+          });
         });
     },
     countDownChanged (dismissCountDown) {

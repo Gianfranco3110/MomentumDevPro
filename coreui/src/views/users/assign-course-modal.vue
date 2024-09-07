@@ -23,7 +23,7 @@
             :plain="true"
             :options="statuses"
           >
-          </CSelect>     
+          </CSelect>
         </CCardBody>
       </CCard>
 
@@ -51,11 +51,11 @@ function data() {
     courseData: {
       course_id: 1,
       user_id: 1,
-      status: 'No pagado',
+      status: "No pagado",
     },
     courses: [],
-    statuses: ['Pagado','No pagado'],
-    asignado: false
+    statuses: ["Pagado", "No pagado"],
+    asignado: false,
   };
 }
 export default {
@@ -64,21 +64,20 @@ export default {
   data,
   props: {
     modal: null,
-    refrescarComponente:null
+    refrescarComponente: null,
   },
   watch: {
-    modal: function() {
+    modal: function () {
       if (this.modal) {
         this.AddModal = true;
         if (this.modal != false) {
           this.user_name = this.modal.name;
-          this.courseData.user_id = this.modal.id;  
+          this.courseData.user_id = this.modal.id;
           this.getCourseSelect();
         }
         this.$emit("cerrarModal");
       }
     },
-  
   },
   methods: {
     AssignCourse() {
@@ -91,21 +90,24 @@ export default {
             localStorage.getItem("api_token"),
           self.courseData
         )
-        .then(function(response) {
+        .then(function (response) {
           // Emitir un evento para notificar al componente padre
-          self.$bus.$emit('cursoasignado');
+          self.$bus.$emit("cursoasignado");
           self.Loading = false;
           self.AddModal = false;
-          self.$toastr.success("¡Curso asignado con exito!");
-          self.asignado =true
-          
-          
+          self.$swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "¡Curso asignado con exito!",
+            showConfirmButton: false,
+            timer: 1400,
+          });
+          self.asignado = true;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error.response.data); // Imprimir los errores en formato JSON
           self.Loading = false;
-       
-          
+
           // Obtener los errores específicos
           if (error.response.status === 422) {
             console.log(error.response.data);
@@ -115,39 +117,38 @@ export default {
           } else if (error.response.status === 500) {
             console.log("Error 500: Error interno del servidor");
           }
-          
         });
     },
-    getCourseSelect(){
+    getCourseSelect() {
       let self = this;
       self.Loading = true;
       axios
         .get(
           this.$apiAdress +
-            "/api/courses/list?user_id="+self.courseData.user_id+"&&?token=" +
+            "/api/courses/list?user_id=" +
+            self.courseData.user_id +
+            "&&?token=" +
             localStorage.getItem("api_token")
         )
-        .then(function(response) {
+        .then(function (response) {
           self.courses = response.data;
           console.log(response.data);
           self.$emit("child-refresh", true);
-          self.Loading = false;        
+          self.Loading = false;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
           self.Loading = false;
           //self.$router.push({ path: 'login' });
         });
-    }
+    },
   },
   computed: {},
-  mounted: function() {    
-
-  },
+  mounted: function () {},
 };
 </script>
 <style scoped>
-svg{
+svg {
   color: white !important;
 }
 </style>

@@ -48,7 +48,7 @@
               label="Respuesta"
               class="mt-3"
               v-model="test.valid_option"
-          />
+            />
           </CCol>
           <CCol class="mt-3">
             <CSelect
@@ -169,7 +169,7 @@ function limpiarDatos() {
   this.test.question = "";
   this.test.id = "";
   this.test.section_id = 1;
-  this.test.type_questions_id = 1
+  this.test.type_questions_id = 1;
   this.tags_options = [];
   this.show_section_options = false;
   this.tag = "";
@@ -209,7 +209,7 @@ function guardar() {
   formData.append("type_question", self.test.type_questions_id);
   formData.append("valid_option", self.test.valid_option);
   formData.append("id", self.test.id);
-  self.tags_options.map((item) => (formData.append("options[]", item.text)));
+  self.tags_options.map((item) => formData.append("options[]", item.text));
 
   //return;
   axios
@@ -226,18 +226,32 @@ function guardar() {
     )
     .then(function (response) {
       self.$toastr.success("Cuestionario agregado con extio!");
+      self.$swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Cuestionario agregado con exito!",
+        showConfirmButton: false,
+        timer: 1400,
+      });
       self.limpiarDatos();
       self.ListQuestion(self.test.courses_id);
       console.log(response);
     })
-    .catch(function(error) {
+    .catch(function (error) {
       self.Loading = false;
       console.log(error.response.data);
       if (error.response.data.message) {
         for (let key in error.response.data.errors) {
           if (error.response.data.errors.hasOwnProperty(key)) {
             console.log(error.response.data.errors[key][0]);
-            self.$toastr.error(error.response.data.errors[key][0]);
+            //self.$toastr.error(error.response.data.errors[key][0]);
+            self.$swal.fire({
+              position: "top-end",
+              icon: "error",
+              title: error.response.data.errors[key][0],
+              showConfirmButton: false,
+              timer: 1400,
+            });
             self.message += error.response.data.errors[key][0] + "  ";
           }
         }
@@ -254,10 +268,9 @@ function handler_type_question(id) {
     this.show_section_options = false;
     this.tags_options = [];
   }
-  
 }
 
-function list_Fields(id){
+function list_Fields(id) {
   let self = this;
   self.Loading = true;
   axios
@@ -268,17 +281,15 @@ function list_Fields(id){
         "?token=" +
         localStorage.getItem("api_token")
     )
-    .then(function (response) {   
-      self.tags_options = response.data
+    .then(function (response) {
+      self.tags_options = response.data;
       self.Loading = false;
     })
     .catch(function (error) {
       console.log(error);
       self.Loading = false;
     });
-
 }
-
 
 //LISTAR VIDEOS
 function ListQuestion(id) {
@@ -296,7 +307,7 @@ function ListQuestion(id) {
     )
     .then(function (response) {
       listado = response.data;
-      console.log('listado',listado);
+      console.log("listado", listado);
       let Nro = 1;
       self.items = listado.map((listado) =>
         Object.assign({}, self.items, {
@@ -305,8 +316,13 @@ function ListQuestion(id) {
           question: listado.question,
           seccion: listado.course_section.name,
           seccion_id: listado.course_section.id,
-          type_question : listado.type_question === '1' ?  'Subir img' : listado.type_question === '2' ?  'Escribir respuesta' : 'Selección simple',
-          id_type : Number(listado.type_question)
+          type_question:
+            listado.type_question === "1"
+              ? "Subir img"
+              : listado.type_question === "2"
+              ? "Escribir respuesta"
+              : "Selección simple",
+          id_type: Number(listado.type_question),
         })
       );
       console.log(response);
@@ -329,7 +345,7 @@ function data() {
       courses_id: "",
       section_id: "",
       type_questions_id: "",
-      valid_option: ""
+      valid_option: "",
     },
     // VARIABLES
     tag: "",
@@ -384,45 +400,52 @@ export default {
       console.log(item.id);
       let self = this;
       this.$swal
-      .fire({
-        title: "ELIMINAR TEST",
-        text: "¿ ESTAS SEGURO QUE DECEAS ELIMINAR ESTE TEST ?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Si, Eliminar!",
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          axios
-          .post(
-            this.$apiAdress +
-              "/api/coursestest/updatestatus?token=" +
-              localStorage.getItem("api_token"),{id:item.id}
-          )
-          .then(function(response) {
-            console.log(response);
-            self.$toastr.success("Video eliminado con extio!");
-            self.ListQuestion(self.test.courses_id);
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
-        }
-      });
+        .fire({
+          title: "ELIMINAR TEST",
+          text: "¿ ESTAS SEGURO QUE DECEAS ELIMINAR ESTE TEST ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Si, Eliminar!",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios
+              .post(
+                this.$apiAdress +
+                  "/api/coursestest/updatestatus?token=" +
+                  localStorage.getItem("api_token"),
+                { id: item.id }
+              )
+              .then(function (response) {
+                console.log(response);
+                self.$swal.fire({
+                  position: "top-end",
+                  icon: "fire",
+                  title: "Video eliminado con extio!",
+                  showConfirmButton: false,
+                  timer: 1400,
+                });
+                self.ListQuestion(self.test.courses_id);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          }
+        });
     },
     editTestCourse(item) {
-      console.log('item',item);
+      console.log("item", item);
       console.log("Editar" + item.seccion);
       this.test.id = item.id;
       this.test.question = item.question;
       this.test.section_id = item.seccion_id;
-      this.test.type_questions_id  = item.id_type
-      if(item.id_type == 3 ){
+      this.test.type_questions_id = item.id_type;
+      if (item.id_type == 3) {
         this.show_section_options = true;
         this.list_Fields(item.id);
-      }else{
+      } else {
         this.show_section_options = false;
       }
     },
@@ -441,7 +464,7 @@ export default {
         this.limpiarDatos();
       }
     },
-  }
+  },
 };
 </script>
 <style scoped>

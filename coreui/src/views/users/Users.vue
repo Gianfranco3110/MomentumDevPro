@@ -1,100 +1,93 @@
 <template>
   <div>
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
-    <AgreModal
-  
-    />
+    <AgreModal />
 
     <CCard>
       <AgreModal
-            ref="refModalAsignarCourse"
-            :modal="AddModal"
-            @cerrarModal="AddModal = false"
-            @child-refresh="refrescarComponente = true"
-          />
+        ref="refModalAsignarCourse"
+        :modal="AddModal"
+        @cerrarModal="AddModal = false"
+        @child-refresh="refrescarComponente = true"
+      />
       <CCardHeader class="text-center botonesP text-white">
         <b>LISTADO DE USUARIOS</b>
       </CCardHeader>
       <CCardBody>
-        <CCol sm="12" class="text-right ">
-          <CButton
-            square
-            class="botonesP"
-            color="dark"
-            @click="redirect()"
-          >
+        <CCol sm="12" class="text-right">
+          <CButton square class="botonesP" color="dark" @click="redirect()">
             <CIcon name="cil-playlist-add" />&nbsp; NUEVO USUARIO
           </CButton>
           <CCol sm="12">
-            <CDataTable class="text-left"
-            :items="items"
-            :fields="fields"
-            :items-per-page="10"
-            :noItemsView="tableText.noItemsViewText"
-            :table-filter="tableText.tableFilterText"
-            :items-per-page-select="tableText.itemsPerPageText"
-            hover
-            small
-            sorter
-            pagination
-          >
-          <template #status="{item}">
-            <td>
-              <CBadge class="text-white" :color="getBadge(item.status)">
-                {{item.status}}
-              </CBadge>
-            </td>
-          </template>
-            <template #DocsRoute="{item}">
-              <td class="py-2">
-                <CButton
-                  color="dark"
-                  class="mr-1"
-                  square
-                  size="sm"
-                  v-c-tooltip="'Editar'"
-                  @click="editUser(item.id)"
-                >
-                <CIcon name="cil-pencil" />
-                </CButton>
-                <CButton
-                v-if="you != item.id"
-                  
-                  square
-                  size="sm"
-                  class="mr-1 botonesCan text-white"
-                  v-c-tooltip="'Eliminar'"
-                  @click="deleteUser(item.id)"
-                >
-                  <CIcon name="cil-trash" />
-                </CButton>
+            <CDataTable
+              class="text-left"
+              :items="items"
+              :fields="fields"
+              :items-per-page="10"
+              :noItemsView="tableText.noItemsViewText"
+              :table-filter="tableText.tableFilterText"
+              :items-per-page-select="tableText.itemsPerPageText"
+              hover
+              small
+              sorter
+              pagination
+            >
+              <template #status="{ item }">
+                <td>
+                  <CBadge class="text-white" :color="getBadge(item.status)">
+                    {{ item.status }}
+                  </CBadge>
+                </td>
+              </template>
+              <template #DocsRoute="{ item }">
+                <td class="py-2">
+                  <CButton
+                    color="dark"
+                    class="mr-1"
+                    square
+                    size="sm"
+                    v-c-tooltip="'Editar'"
+                    @click="editUser(item.id)"
+                  >
+                    <CIcon name="cil-pencil" />
+                  </CButton>
+                  <CButton
+                    v-if="you != item.id"
+                    square
+                    size="sm"
+                    class="mr-1 botonesCan text-white"
+                    v-c-tooltip="'Eliminar'"
+                    @click="deleteUser(item.id)"
+                  >
+                    <CIcon name="cil-trash" />
+                  </CButton>
 
-                <CButton
-                  v-if="you != item.id"
-                  color="info"
-                  square
-                  size="sm"
-                  class="mr-1"
-                  v-c-tooltip="'Asignar curso'"
-                  @click="AddModal = item"
-                >
-                  <CIcon name="cil-info" />
-                </CButton>
+                  <CButton
+                    v-if="you != item.id"
+                    color="info"
+                    square
+                    size="sm"
+                    class="mr-1"
+                    v-c-tooltip="'Asignar curso'"
+                    @click="AddModal = item"
+                  >
+                    <CIcon name="cil-info" />
+                  </CButton>
 
-                <CButton
-                  v-if="you != item.id && item.count_cursos > 0"
-                  color="success"
-                  square
-                  size="sm"
-                  class="mr-1"
-                  v-c-tooltip="'Cursos Asignados'"
-                  @click="courseUser(item.id)"
-                >
-                  <CIcon name="cil-list" />
-                </CButton>
-              </td>
-            </template>
-          </CDataTable>
+                  <CButton
+                    v-if="you != item.id && item.count_cursos > 0"
+                    color="success"
+                    square
+                    size="sm"
+                    class="mr-1"
+                    v-c-tooltip="'Cursos Asignados'"
+                    @click="courseUser(item.id)"
+                  >
+                    <CIcon name="cil-list" />
+                  </CButton>
+                </td>
+              </template>
+            </CDataTable>
           </CCol>
         </CCol>
       </CCardBody>
@@ -169,12 +162,12 @@ const fields = [
   {
     key: "id",
     label: "ID",
-    _style: "width:1%;"
+    _style: "width:1%;",
   },
   { key: "cedula", label: "IDENTIFICACIÓN" },
   { key: "name", label: "NOMBRES" },
   { key: "roles", label: "ROL" },
-  { key: "adress_all", label: "DIRECCIÓN",_style: "width:30%;", },
+  { key: "adress_all", label: "DIRECCIÓN", _style: "width:30%;" },
   { key: "status", label: "ESTATUS" },
   {
     key: "DocsRoute",
@@ -270,53 +263,64 @@ export default {
     },
     deleteUser(id) {
       let self = this;
-      
+
       let userId = id;
       this.$swal
-      .fire({
-        title: "ELIMINAR USUARIO",
-        text: "¿ ESTAS SEGURO QUE DECEAS ELIMINAR ESTE USUARIO ?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Si, Eliminar!",
-        cancelButtonText: "Cancelar",
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          self.Loading = true;
-          axios
-          .post(
-            this.$apiAdress +
-              "/api/users/" +
-              id +
-              "?token=" +
-              localStorage.getItem("api_token"),
-            {
-              _method: "DELETE",
-            }
-          )
-          .then(function(response) {
-            self.Loading = false;
-            self.$toastr.success("¡Usuario eliminado con exito!");
-            self.getUsers();
-          })
-          .catch(function(error) {
-            console.log(error);
-            self.Loading = false;
-            self.$toastr.danger("¡Error al eliminar usuario!");
-          });
-        }
-      });
-   
+        .fire({
+          title: "ELIMINAR USUARIO",
+          text: "¿ ESTAS SEGURO QUE DECEAS ELIMINAR ESTE USUARIO ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Si, Eliminar!",
+          cancelButtonText: "Cancelar",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            self.Loading = true;
+            axios
+              .post(
+                this.$apiAdress +
+                  "/api/users/" +
+                  id +
+                  "?token=" +
+                  localStorage.getItem("api_token"),
+                {
+                  _method: "DELETE",
+                }
+              )
+              .then(function (response) {
+                self.Loading = false;
+                self.$swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "¡Usuario eliminado con exito!",
+                  showConfirmButton: false,
+                  timer: 1400,
+                });
+                self.getUsers();
+              })
+              .catch(function (error) {
+                console.log(error);
+                self.Loading = false;
+                self.$swal.fire({
+                  position: "top-end",
+                  icon: "error",
+                  title: "¡Error al eliminar usuario!",
+                  showConfirmButton: false,
+                  timer: 1400,
+                });
+              });
+          }
+        });
     },
-    userCourseLink (id) {
-      return `users/${id.toString()}/courses`
+    userCourseLink(id) {
+      return `users/${id.toString()}/courses`;
     },
-    courseUser ( id ) {
-      const editLink = this.userCourseLink( id );
-      this.$router.push({path: editLink});
+    courseUser(id) {
+      const editLink = this.userCourseLink(id);
+      this.$router.push({ path: editLink });
     },
     getUsers() {
       let self = this;
@@ -328,7 +332,7 @@ export default {
             "/api/users?token=" +
             localStorage.getItem("api_token")
         )
-        .then(function(response) {
+        .then(function (response) {
           listado = response.data.users;
           console.log(listado);
           self.items = listado.map((listado) =>
@@ -341,41 +345,45 @@ export default {
               number_document: listado.number_document,
               count_cursos: listado.user_courses_count,
               type_document: listado.type_document,
-              adress_all: listado.adress_all ==null?"Sín dirección asignado":listado.adress_all,
-              cedula: listado.number_document==null? "--------------------" : listado.type_document+"-"+listado.number_document,
+              adress_all:
+                listado.adress_all == null
+                  ? "Sín dirección asignado"
+                  : listado.adress_all,
+              cedula:
+                listado.number_document == null
+                  ? "--------------------"
+                  : listado.type_document + "-" + listado.number_document,
             })
           );
           self.you = response.data.you;
           self.Loading = false;
         })
-        .catch(function(error) {
-          console.log('error222',error.response.status);
-          if(error.response.status == 401){
+        .catch(function (error) {
+          console.log("error222", error.response.status);
+          if (error.response.status == 401) {
             self.Loading = false;
             self.$router.push({ path: "/login" });
             localStorage.clear();
-
           }
-         
         });
     },
-    redirect(){
+    redirect() {
       this.$router.push({ path: "/Registro" });
     },
   },
   watch: {
-    refrescarComponente: function() {
+    refrescarComponente: function () {
       if (this.refrescarComponente) {
         this.getUsers();
         this.refrescarComponente = false;
       }
     },
   },
-  mounted: function() {
+  mounted: function () {
     this.getUsers();
-    console.log('asd',this.$refs);
-     // Escuchar el evento del hijo para actualizar la lista de usuarios
-    this.$bus.$on('cursoasignado', () => {
+    console.log("asd", this.$refs);
+    // Escuchar el evento del hijo para actualizar la lista de usuarios
+    this.$bus.$on("cursoasignado", () => {
       this.getUsers();
     });
   },
@@ -385,7 +393,7 @@ export default {
 };
 </script>
 <style scoped>
-svg{
+svg {
   color: white !important;
 }
 </style>

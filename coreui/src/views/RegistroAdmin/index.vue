@@ -281,7 +281,13 @@ export default {
           self.dataUser.adress = "";
           self.dataUser.street = "";
           console.log(response);
-          self.$toastr.success("¡Usuario registrado con exito!");
+          self.$swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "¡Usuario registrado con exito!",
+            showConfirmButton: false,
+            timer: 1400,
+          });
           this.$v.$reset();
         })
         .catch(function(error) {

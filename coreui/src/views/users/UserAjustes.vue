@@ -11,7 +11,6 @@
               </CCardHeader>
               <CCardBody class="p-4">
                 <CForm>
-
                   <CInput
                     placeholder="Nueva contraseña"
                     type="password"
@@ -30,14 +29,17 @@
                     prependHtml="<i class='cui-lock-locked'></i>"
                     autocomplete="confirm-password"
                     class="mb-4"
-                     label="Repetir contraseña"
+                    label="Repetir contraseña"
                     v-model="password_confirmation"
                   >
                     <template #prepend-content
                       ><CIcon name="cil-lock-locked"
                     /></template>
                   </CInput>
-                  <CButton class="btn botonesCan text-white" block @click="changePassword()"
+                  <CButton
+                    class="btn botonesCan text-white"
+                    block
+                    @click="changePassword()"
                     >CAMBIAR CONTRASEÑA</CButton
                   >
                 </CForm>
@@ -81,12 +83,18 @@ export default {
             password_confirmation: self.password_confirmation,
           }
         )
-        .then(function(response) {
+        .then(function (response) {
           self.password = "";
           (self.password_confirmation = ""), (self.Loading = false);
-          self.$toastr.success("¡Contraseña actualizada con exito!");
+          self.$swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "¡Contraseña actualizada con exito!",
+            showConfirmButton: false,
+            timer: 1400,
+          });
         })
-        .catch(function(e) {
+        .catch(function (e) {
           self.password = "";
           (self.password_confirmation = ""), (self.Loading = false);
           console.log(e);
@@ -94,7 +102,7 @@ export default {
         });
     },
   },
-  mounted: function() {},
+  mounted: function () {},
 };
 </script>
 <style scoped></style>

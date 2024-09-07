@@ -84,7 +84,7 @@
         </CCol>
         <CCol sm="3" v-if="actualizar">
           <img
-            :src="this.$apiAdress+'/api/courses/img/' + this.curso.image"
+            :src="this.$apiAdress + '/api/courses/img/' + this.curso.image"
             class="bd-placeholder-img card-img-top"
             width="150px"
             height="200px"
@@ -105,7 +105,11 @@
       </CRow>
 
       <template #footer>
-        <CButton class="btn botonesCan text-white" :disabled="isDisabled" @click="evaluaStatus">
+        <CButton
+          class="btn botonesCan text-white"
+          :disabled="isDisabled"
+          @click="evaluaStatus"
+        >
           <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
         </CButton>
         <CButton color="dark" @click="CerrarLimpiar">
@@ -200,16 +204,28 @@ function guardar() {
           },
         }
       )
-      .then(function(response) {
-        self.$toastr.success("¡Curso actualizado con exito!");
+      .then(function (response) {
+        self.$swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "¡Curso actualizado con exito!",
+          showConfirmButton: false,
+          timer: 1400,
+        });
         self.Loading = false;
         self.AddModal = false;
         self.limpiarDatos();
         self.$emit("child-refresh", true);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         self.Loading = false;
-        self.$toastr.warning("¡Error, por favor vuelva intentar!");
+        self.$swal.fire({
+          position: "top-end",
+          icon: "warning",
+          title: "¡Error, por favor vuelva intentar!",
+          showConfirmButton: false,
+          timer: 1400,
+        });
         if (error.response.data.message == "Datos invalidos.") {
           self.message = "";
           for (let key in error.response.data.errors) {
@@ -242,15 +258,21 @@ function guardar() {
           },
         }
       )
-      .then(function(response) {
-        self.$toastr.success("¡Curso creado con exito!");
+      .then(function (response) {
+        self.$swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "¡Curso creado con exito!",
+          showConfirmButton: false,
+          timer: 1400,
+        });
         self.limpiarDatos();
         console.log(response);
         self.Loading = false;
         self.AddModal = false;
         self.$emit("child-refresh", true);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         self.Loading = false;
         console.log(error);
         if (error.response.data.message == "SIN SALIR DE VUE ERROR") {
@@ -310,11 +332,11 @@ function Cstatus() {
         "/api/courses/create?token=" +
         localStorage.getItem("api_token")
     )
-    .then(function(response) {
+    .then(function (response) {
       self.statuses = response.data;
       self.Loading = false;
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.log(error);
       //self.$router.push({ path: 'login' });
     });
@@ -347,7 +369,7 @@ function data() {
     filelist: [],
     imageNueva: null,
     imagenMiniatura: "",
-    imgdefaul: "img_default.webp"
+    imgdefaul: "img_default.webp",
   };
 }
 export default {
@@ -366,7 +388,7 @@ export default {
   directives: UpperCase,
   validations: CursosVal,
   watch: {
-    modal: function() {
+    modal: function () {
       if (this.modal) {
         this.limpiarDatos();
         this.AddModal = true;
@@ -381,8 +403,9 @@ export default {
           this.curso.description = this.modal.description;
           this.curso.daysofvalidity = this.modal.daysofvalidity;
           this.curso.price = this.modal.price;
-          this.curso.image = this.modal.image == null?this.imgdefaul:this.modal.image;
-          
+          this.curso.image =
+            this.modal.image == null ? this.imgdefaul : this.modal.image;
+
           this.curso.status = this.modal.status == "Activo" ? 1 : 2;
 
           console.log(this.modal);
@@ -457,7 +480,7 @@ export default {
       return this.imagenMiniatura;
     },
   },
-  mounted: function() {
+  mounted: function () {
     this.Cstatus();
   },
 };
@@ -493,7 +516,7 @@ export default {
 .block {
   cursor: pointer;
 }
-svg{
+svg {
   color: #b7b3b3 !important;
 }
 </style>

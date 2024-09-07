@@ -1,67 +1,120 @@
 <template>
   <div>
     <loading-overlay :active="Loading" :is-full-page="true" loader="bars" />
-    <section class="vh-100" style="background-color: #202020;">
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col col-xl-12">
-          <div class="card" style="border-radius: 1rem;">
-            <div class="row g-0">
-              <div class="col-md-6 col-lg-5 d-none d-md-block">
-                <img src="../../../public/login1.jpg"
-                  alt="login form" class="img-fluid h-100 img-adapte" style="border-radius: 1rem 0 0 1rem;" />
-              </div>
-              <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                <div class="card-body p-4 p-lg-5 text-black">
-  
-                  <form @submit.prevent="login" method="POST">
-  
-                    <div class="d-flex align-items-center mb-3 pb-1" @click="goHome">
-                      
-                      <img  src="../../../public/logo_alterno/logo alterno color negro.png"
-                  alt="login form" class="img-fluid w-75" style="border-radius: 1rem 0 0 1rem;" />
-                      
-                    </div>
-  
-                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; color:black !important">{{textTitleLogin}}</h5>
-  
-                    <div class="form-outline mb-3">
-                      <label class="form-label" >Correo</label>
-                      <input type="email" placeholder="Ingrese el correo electrónico"  v-model="email" :class="classInvaEmail" class="form-control form-control-lg"   />
-                      <div class="invalid-feedback">
-                        {{ msgErrorEmail }}
+    <section class="vh-100" style="background-color: #202020">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col col-xl-12">
+            <div class="card" style="border-radius: 1rem">
+              <div class="row g-0">
+                <div class="col-md-6 col-lg-5 d-none d-md-block">
+                  <img
+                    src="../../../public/login1.jpg"
+                    alt="login form"
+                    class="img-fluid h-100 img-adapte"
+                    style="border-radius: 1rem 0 0 1rem"
+                  />
+                </div>
+                <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                  <div class="card-body p-4 p-lg-5 text-black">
+                    <form @submit.prevent="login" method="POST">
+                      <div
+                        class="d-flex align-items-center mb-3 pb-1"
+                        @click="goHome"
+                      >
+                        <img
+                          src="../../../public/logo_alterno/logo alterno color negro.png"
+                          alt="login form"
+                          class="img-fluid w-75"
+                          style="border-radius: 1rem 0 0 1rem"
+                        />
                       </div>
-                    </div>
-                    
-                    <div v-if="!cambioPass" class="form-outline mb-4">
-                      <label class="form-label">Contraseña</label>
-                      <input type="password" placeholder="Ingrese su contraseña" v-model="password" :class="classInvaPass" class="form-control form-control-lg" />
-                      <div class="invalid-feedback">
-                        {{ msgErrorPassword }}
-                      </div>
-                    </div>
-  
-                    <div class="pt-1 mb-4">
-                      <button  type="submit" @click.prevent="login" class="btn botonesP btn-lg btn-block text-white">{{textTitlebtn}}</button>
-                    </div>
-  
-                    <a  v-if="!cambioPass" class="small text-muted"  href="#"  @click="canbioViewsPass()">Has olvidado tu contraseña?</a>
-                    <p  v-if="!cambioPass"  class="mb-5 pb-lg-2" style="color:black !important;">No tienes una cuenta? <a href="#"
-                        style="color: #393f81;" @click="goRegister()">Registrar aquí</a></p>
 
-                    <p  v-if="cambioPass" class="mb-5 pb-lg-2" style="color:black !important;">Tienes cuenta? <a href="#"
-                        style="color: #393f81;" @click="canbioViewsLogin()">Inicia aquí</a></p>
-             
-                  </form>
-  
+                      <h5
+                        class="fw-normal mb-3 pb-3"
+                        style="letter-spacing: 1px; color: black !important"
+                      >
+                        {{ textTitleLogin }}
+                      </h5>
+
+                      <div class="form-outline mb-3">
+                        <label class="form-label">Correo</label>
+                        <input
+                          type="email"
+                          placeholder="Ingrese el correo electrónico"
+                          v-model="email"
+                          :class="classInvaEmail"
+                          class="form-control form-control-lg"
+                        />
+                        <div class="invalid-feedback">
+                          {{ msgErrorEmail }}
+                        </div>
+                      </div>
+
+                      <div v-if="!cambioPass" class="form-outline mb-4">
+                        <label class="form-label">Contraseña</label>
+                        <input
+                          type="password"
+                          placeholder="Ingrese su contraseña"
+                          v-model="password"
+                          :class="classInvaPass"
+                          class="form-control form-control-lg"
+                        />
+                        <div class="invalid-feedback">
+                          {{ msgErrorPassword }}
+                        </div>
+                      </div>
+
+                      <div class="pt-1 mb-4">
+                        <button
+                          type="submit"
+                          @click.prevent="login"
+                          class="btn botonesP btn-lg btn-block text-white"
+                        >
+                          {{ textTitlebtn }}
+                        </button>
+                      </div>
+
+                      <a
+                        v-if="!cambioPass"
+                        class="small text-muted"
+                        href="#"
+                        @click="canbioViewsPass()"
+                        >Has olvidado tu contraseña?</a
+                      >
+                      <p
+                        v-if="!cambioPass"
+                        class="mb-5 pb-lg-2"
+                        style="color: black !important"
+                      >
+                        No tienes una cuenta?
+                        <a href="#" style="color: #393f81" @click="goRegister()"
+                          >Registrar aquí</a
+                        >
+                      </p>
+
+                      <p
+                        v-if="cambioPass"
+                        class="mb-5 pb-lg-2"
+                        style="color: black !important"
+                      >
+                        Tienes cuenta?
+                        <a
+                          href="#"
+                          style="color: #393f81"
+                          @click="canbioViewsLogin()"
+                          >Inicia aquí</a
+                        >
+                      </p>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
   </div>
   <!--<div class="img">
     <div class="overlay"></div>
@@ -135,8 +188,8 @@ export default {
       classInvaEmail: "",
       classInvaPass: "",
       msgErrorEmail: "",
-      msgErrorPassword:"",
-      cambioPass:false,
+      msgErrorPassword: "",
+      cambioPass: false,
       textTitleLogin: "",
       textTitlebtn: "",
     };
@@ -151,128 +204,129 @@ export default {
     login() {
       let self = this;
       self.Loading = true;
-      if(this.cambioPass){
+      if (this.cambioPass) {
         axios
-        .post(this.$apiAdress + "/api/user/forget-password", {
-          email: self.email,
-          password: self.password,
-        })
-        .then( async function(response) {
-          
-          if (response.data.return) {
-            self.canbioViewsLogin();
-            self.$toastr.success(`¡Éxito, ${response.data.message}!`);
-            
-          }else{
-            self.$toastr.error(`¡Error, ${response.data.message}!`);
-          }
-          self.Loading = false;
-        })
-        .catch(function(error) {
-          self.Loading = false;
-          if (error.response) {
-            if (error.response.status === 401) {
-              console.error('Error 401: Unauthorized');
-              console.error('Error:', error.response.data.message);
-              self.$toastr.error(`¡Error, ${error.response.data.message}!`);
-              self.classInvaEmail = "is-invalid";
-              self.msgErrorEmail = "";
-
-            } else if (error.response.status === 422) {
-              console.error('Error:', error.response.data);
-
-              if ('email' in error.response.data.errors) {
-                self.classInvaEmail = "is-invalid";
-                self.msgErrorEmail = error.response.data.errors.email[0];
-              }else{
-                self.classInvaEmail = "is-valid";
-              }
-
-              console.error('Error 419: Authentication Timeout');
-            } else if (error.response.status === 500) {
-              console.error('Error 500: Internal Server Error');
-              console.error(error.response.data);
+          .post(this.$apiAdress + "/api/user/forget-password", {
+            email: self.email,
+            password: self.password,
+          })
+          .then(async function (response) {
+            if (response.data.return) {
+              self.canbioViewsLogin();
+              self.$swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `¡Éxito, ${response.data.message}!`,
+                showConfirmButton: false,
+                timer: 1400,
+              });
             } else {
-              console.error('Error:', error.response.data.error);
+              self.$swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: `¡Error, ${response.data.message}!`,
+                showConfirmButton: false,
+                timer: 1400,
+              });
             }
-          } else {
-            console.error('Error:', error.message.error);
-          }
-          
-          
-        });
-      }else{
-        axios
-        .post(this.$apiAdress + "/api/login", {
-          email: self.email,
-          password: self.password,
-        })
-        .then( async function(response) {
-          self.email = "";
-          self.password = "";
-          self.classInvaEmail = "";
-          localStorage.setItem("api_token", response.data.access_token);
-          localStorage.setItem("roles", response.data.roles);
-          localStorage.setItem("email", response.data.email);
-          localStorage.setItem("name", response.data.name);
-          localStorage.setItem("id", response.data.id);
-          console.log(response.data);
-          self.Loading = false;
-          
-          if (localStorage.getItem("course") === null) {
-            self.$router.push({ path: "dashboard" });
-          }else{
-            await self.AssignCourse();
-            localStorage.removeItem("comprar");
-            
-          }
-      
-        })
-        .catch(function(error) {
-          self.Loading = false;
-          if (error.response) {
-            if (error.response.status === 401) {
-              console.error('Error 401: Unauthorized');
-              console.error('Error:', error.response.data.message);
-              self.$toastr.error(`¡Error, ${error.response.data.message}!`);
-              self.classInvaEmail = "is-invalid";
-              self.classInvaPass = "is-invalid";
-              self.msgErrorEmail = "";
-              self.msgErrorPassword = "";
-
-            } else if (error.response.status === 422) {
-              console.error('Error:', error.response.data);
-
-              if ('email' in error.response.data.errors) {
+            self.Loading = false;
+          })
+          .catch(function (error) {
+            self.Loading = false;
+            if (error.response) {
+              if (error.response.status === 401) {
+                console.error("Error 401: Unauthorized");
+                console.error("Error:", error.response.data.message);
+                self.$toastr.error(`¡Error, ${error.response.data.message}!`);
                 self.classInvaEmail = "is-invalid";
-                self.msgErrorEmail = error.response.data.errors.email[0];
-              }else{
-                self.classInvaEmail = "is-valid";
+                self.msgErrorEmail = "";
+              } else if (error.response.status === 422) {
+                console.error("Error:", error.response.data);
+
+                if ("email" in error.response.data.errors) {
+                  self.classInvaEmail = "is-invalid";
+                  self.msgErrorEmail = error.response.data.errors.email[0];
+                } else {
+                  self.classInvaEmail = "is-valid";
+                }
+
+                console.error("Error 419: Authentication Timeout");
+              } else if (error.response.status === 500) {
+                console.error("Error 500: Internal Server Error");
+                console.error(error.response.data);
+              } else {
+                console.error("Error:", error.response.data.error);
               }
+            } else {
+              console.error("Error:", error.message.error);
+            }
+          });
+      } else {
+        axios
+          .post(this.$apiAdress + "/api/login", {
+            email: self.email,
+            password: self.password,
+          })
+          .then(async function (response) {
+            self.email = "";
+            self.password = "";
+            self.classInvaEmail = "";
+            localStorage.setItem("api_token", response.data.access_token);
+            localStorage.setItem("roles", response.data.roles);
+            localStorage.setItem("email", response.data.email);
+            localStorage.setItem("name", response.data.name);
+            localStorage.setItem("id", response.data.id);
+            console.log(response.data);
+            self.Loading = false;
 
-
-              if ('password' in error.response.data.errors) {
+            if (localStorage.getItem("course") === null) {
+              self.$router.push({ path: "dashboard" });
+            } else {
+              await self.AssignCourse();
+              localStorage.removeItem("comprar");
+            }
+          })
+          .catch(function (error) {
+            self.Loading = false;
+            if (error.response) {
+              if (error.response.status === 401) {
+                console.error("Error 401: Unauthorized");
+                console.error("Error:", error.response.data.message);
+                self.$toastr.error(`¡Error, ${error.response.data.message}!`);
+                self.classInvaEmail = "is-invalid";
                 self.classInvaPass = "is-invalid";
-                self.msgErrorPassword = error.response.data.errors.password[0];
-              }else{
-                self.classInvaPass = "is-valid";
+                self.msgErrorEmail = "";
+                self.msgErrorPassword = "";
+              } else if (error.response.status === 422) {
+                console.error("Error:", error.response.data);
+
+                if ("email" in error.response.data.errors) {
+                  self.classInvaEmail = "is-invalid";
+                  self.msgErrorEmail = error.response.data.errors.email[0];
+                } else {
+                  self.classInvaEmail = "is-valid";
+                }
+
+                if ("password" in error.response.data.errors) {
+                  self.classInvaPass = "is-invalid";
+                  self.msgErrorPassword =
+                    error.response.data.errors.password[0];
+                } else {
+                  self.classInvaPass = "is-valid";
+                }
+
+                console.error("Error 419: Authentication Timeout");
+              } else if (error.response.status === 500) {
+                console.error("Error 500: Internal Server Error");
+                self.$toastr.danger(`¡Error, ${error.response.data.message}!`);
+              } else {
+                console.error("Error:", error.response.data);
               }
-
-              console.error('Error 419: Authentication Timeout');
-            } else if (error.response.status === 500) {
-              console.error('Error 500: Internal Server Error');
-              self.$toastr.danger(`¡Error, ${error.response.data.message}!`);
             } else {
-              console.error('Error:', error.response.data);
+              console.error("Error:", error.message);
             }
-          } else {
-            console.error('Error:', error.message);
-          }
-          
-          
-        });
+          });
       }
-
     },
     AssignCourse() {
       let self = this;
@@ -286,20 +340,25 @@ export default {
           {
             course_id: dataCourse.id,
             user_id: localStorage.getItem("id"),
-            status: 'No pagado',
-            notificationAsing:true
+            status: "No pagado",
+            notificationAsing: true,
           }
         )
-        .then(function(response) {
+        .then(function (response) {
           console.log(response.data);
           self.Loading = false;
           self.$router.push({ path: "mis-cursos" });
           // self.AddModal = false;
-          self.$toastr.success("¡Curso asignado con exito!");
-         
+          self.$swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "¡Curso asignado con exito!",
+            showConfirmButton: false,
+            timer: 1400,
+          });
         })
-        .catch(function(error) {
-            // Capturar y manejar los errores
+        .catch(function (error) {
+          // Capturar y manejar los errores
           if (error.response) {
             // Error de respuesta del servidor
             const errorDetails = {
@@ -307,12 +366,12 @@ export default {
               data: error.response.data,
             };
             console.log(errorDetails);
-            
+
             // Manejar errores específicos
             if ([404, 422, 500].includes(error.response.status)) {
               // Manejar errores 404, 422, 500
               // console.log("Error " + error.response.status + ": " + error.response.data);
-              self.$toastr.warning("¡"+error.response.data.message+"!");
+              self.$toastr.warning("¡" + error.response.data.message + "!");
             }
           } else if (error.request) {
             // Error de solicitud (sin respuesta del servidor)
@@ -322,29 +381,27 @@ export default {
             console.log("Error:", error.message);
           }
           self.Loading = false;
-          
         });
     },
-    canbioViewsPass(){
-      this.cambioPass=true;
-      this.textTitleLogin="Recuperar Contraseña";
-      this.textTitlebtn="Enviar";
+    canbioViewsPass() {
+      this.cambioPass = true;
+      this.textTitleLogin = "Recuperar Contraseña";
+      this.textTitlebtn = "Enviar";
     },
-    canbioViewsLogin(){
-      this.cambioPass=false;
-      this.textTitleLogin="Iniciar sesión en su cuenta";
-    this.textTitlebtn="Iniciar";
-    }
+    canbioViewsLogin() {
+      this.cambioPass = false;
+      this.textTitleLogin = "Iniciar sesión en su cuenta";
+      this.textTitlebtn = "Iniciar";
+    },
   },
   mounted: function () {
-    this.textTitleLogin="Iniciar sesión en su cuenta";
-    this.textTitlebtn="Iniciar";
+    this.textTitleLogin = "Iniciar sesión en su cuenta";
+    this.textTitlebtn = "Iniciar";
   },
 };
 </script>
 <style scoped>
 .img {
-  background: url("../../../public/login2.jpg");
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -354,11 +411,16 @@ export default {
   position: relative;
 }
 .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Ajusta el valor 0.5 para la opacidad deseada */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Ajusta el valor 0.5 para la opacidad deseada */
 }
 </style>

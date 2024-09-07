@@ -16,6 +16,7 @@ const courseAll = () => import("@/views/pages/courseAll");
 //CURSO PARA MOSTRAR AL USUARIO MODULO PAPA
 const courseShow = () => import("@/views/users/course-show");
 
+const landing = () => import("@/views/pages/Landing");
 
 
 // Views - Pages
@@ -103,8 +104,13 @@ function configRoutes() {
   return [
     {
       path: "/index",
-      component: Index,
+      component: landing,
       alias: "/",
+    },
+    {
+      path: "/curso-online",
+      component: Index,
+      alias: "/cursos-online",
     },
     {
       path: "/",

@@ -8,9 +8,9 @@
       size="xl"
       :show.sync="AddVideo"
     >
-    <CAlert color="danger" :show="numAlerError" closeButton>
-      {{ msgError }}
-    </CAlert>
+      <CAlert color="danger" :show="numAlerError" closeButton>
+        {{ msgError }}
+      </CAlert>
       <CRow>
         <input type="hidden" v-model="video.id" />
         <CCol sm="4">
@@ -118,7 +118,6 @@
             :items-per-page-select="tableText.itemsPerPageText"
             hover
             small
-            
             pagination
           >
             <template #DocsRoute="{ item }">
@@ -243,14 +242,25 @@ function guardar() {
       }
     )
     .then(function (response) {
-
       if (response.data.status == 200) {
-        self.$toastr.success(response.data.message);
+        self.$swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 1400,
+        });
         self.limpiarDatos();
         self.ListVideo(self.video.courses_id);
         console.log(response.data);
-      }else if(response.data.status == 422){
-        self.$toastr.error(response.data.message);
+      } else if (response.data.status == 422) {
+        self.$swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 1400,
+        });
         // self.limpiarDatos();
         // self.ListVideo(self.video.courses_id);
       }
@@ -260,13 +270,16 @@ function guardar() {
       self.numAlerError = 0;
       self.Loading = false;
       if (error.response.status === 422) {
-        console.error('Error:', error.response.data);
+        console.error("Error:", error.response.data);
 
-        if ('order' in error.response.data.errors) {
-            self.$toastr.error(error.response.data.errors.order[0],"!Upps, Tienes Un Error¡");
-            self.msgError = error.response.data.errors.order[0];
-            self.numAlerError = 10;
-        }else{
+        if ("order" in error.response.data.errors) {
+          self.$toastr.error(
+            error.response.data.errors.order[0],
+            "!Upps, Tienes Un Error¡"
+          );
+          self.msgError = error.response.data.errors.order[0];
+          self.numAlerError = 10;
+        } else {
           self.msgError = "";
         }
       }
@@ -278,7 +291,7 @@ function guardar() {
         }
       }
     });
-    this.$v.$reset();
+  this.$v.$reset();
 }
 
 //LISTAR VIDEOS
@@ -367,8 +380,8 @@ function data() {
     tableText: Object.assign({}, tableTextHelpers),
     items: [],
     sections: [],
-    msgError:"",
-    numAlerError:0
+    msgError: "",
+    numAlerError: 0,
   };
 }
 //COMPUTED
@@ -404,35 +417,40 @@ export default {
       let self = this;
       console.log(iten.id);
       this.$swal
-      .fire({
-        title: "ELIMINAR VIDEO",
-        text: "¿ ESTAS SEGURO QUE DECEAS ELIMINAR ESTE VIDEO ?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Si, Eliminar!",
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          axios
-          .post(
-            this.$apiAdress +
-              "/api/coursesvideos/updatestatus?token=" +
-              localStorage.getItem("api_token"),
-            { id_video: iten.id }
-          )
-          .then(function (response) {
-            console.log(response);
-            self.$toastr.success("Video eliminado con extio!");
-            self.ListVideo(self.video.courses_id);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-        }
-      });
- 
+        .fire({
+          title: "ELIMINAR VIDEO",
+          text: "¿ ESTAS SEGURO QUE DECEAS ELIMINAR ESTE VIDEO ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Si, Eliminar!",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            axios
+              .post(
+                this.$apiAdress +
+                  "/api/coursesvideos/updatestatus?token=" +
+                  localStorage.getItem("api_token"),
+                { id_video: iten.id }
+              )
+              .then(function (response) {
+                console.log(response);
+                self.$swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Video eliminado con extio!",
+                  showConfirmButton: false,
+                  timer: 1400,
+                });
+                self.ListVideo(self.video.courses_id);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          }
+        });
     },
     editVideoCourse(iten) {
       let self = this;

@@ -131,7 +131,13 @@ function guardar() {
     )
     .then(function (response) {
       console.log(response.data);
-      self.$toastr.success("¡Imagen cargado correctamente!");
+      self.$swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "¡Imagen cargado correctamente!",
+          showConfirmButton: false,
+          timer: 1400
+        });
       self.Loading = false;
       self.imagenMiniatura = "";
       this.$forceUpdate();

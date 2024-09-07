@@ -201,7 +201,13 @@ export default {
           console.log(response.data);
           self.Loading = false;
           // self.AddModal = false;
-          self.$toastr.success("¡Curso asignado con exito!");
+          self.$swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "¡Curso asignado con exito!",
+            showConfirmButton: false,
+            timer: 1400,
+          });
           self.$router.push({ path: "mis-cursos" });
         })
         .catch(function(error) {

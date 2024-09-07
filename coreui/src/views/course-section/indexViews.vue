@@ -210,7 +210,13 @@
             )
             .then(function(response) {
                 console.log(response.data);
-                self.$toastr.success("!Sección eliminado con extio!");
+                self.$swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "!Sección eliminado con extio!",
+                  showConfirmButton: false,
+                  timer: 1400,
+              });
                 self.ListSection();
             })
             .catch(function(error) {

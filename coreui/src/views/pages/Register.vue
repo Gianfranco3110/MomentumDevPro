@@ -334,7 +334,13 @@ export default {
           self.dataUser.number_document = "";
           self.dataUser.adress = "";
           self.dataUser.street = "";
-          self.$toastr.success("Usuario creado con exito");
+          self.$swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Usuario creado con exito",
+            showConfirmButton: false,
+            timer: 1400,
+          });
           self.$router.push({ path: "/login" });
           self.Loading = false;
         })

@@ -9,14 +9,14 @@
       :show.sync="AddModal"
     >
       <CCard no-header>
-        <CCardBody>          
+        <CCardBody>
           <CSelect
             label="ESTATUS"
             :value.sync="VinculoData.status"
             :plain="true"
             :options="statuses"
           >
-          </CSelect>  
+          </CSelect>
           <CInput
             type="number"
             placeholder="Dias de vigencia"
@@ -24,7 +24,7 @@
             label="DIAS DE VIGENCIA"
             v-model="VinculoData.daysofvalidity"
             maxlength="10"
-          />   
+          />
         </CCardBody>
       </CCard>
 
@@ -51,11 +51,11 @@ function data() {
     user_name: "",
     VinculoData: {
       id: 1,
-      status: 'Pagado',
-      daysofvalidity: '',
+      status: "Pagado",
+      daysofvalidity: "",
     },
     courses: [],
-    statuses: ['Pagado','No pagado'],
+    statuses: ["Pagado", "No pagado"],
   };
 }
 export default {
@@ -66,13 +66,13 @@ export default {
     modal: null,
   },
   watch: {
-    modal: function() {
+    modal: function () {
       if (this.modal) {
         this.AddModal = true;
         if (this.modal != false) {
           this.VinculoData.id = this.modal.Vinculo;
-          this.VinculoData.status = this.modal.status;    
-          this.VinculoData.daysofvalidity = this.modal.daysofvalidity;    
+          this.VinculoData.status = this.modal.status;
+          this.VinculoData.daysofvalidity = this.modal.daysofvalidity;
           console.log(this.modal);
         }
         this.$emit("cerrarModal");
@@ -86,21 +86,29 @@ export default {
       axios
         .post(
           this.$apiAdress +
-            "/api/usercourses/"+self.VinculoData.id+"/changestatus?token=" +
+            "/api/usercourses/" +
+            self.VinculoData.id +
+            "/changestatus?token=" +
             localStorage.getItem("api_token"),
           {
-            _method: 'PUT',
-            status : self.VinculoData.status,
-            daysofvalidity : self.VinculoData.daysofvalidity
+            _method: "PUT",
+            status: self.VinculoData.status,
+            daysofvalidity: self.VinculoData.daysofvalidity,
           }
         )
-        .then(function(response) {
+        .then(function (response) {
           self.Loading = false;
           self.AddModal = false;
           self.$emit("child-refresh", true);
-          self.$toastr.success("¡Status cambiado con exito!");
+          self.$swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "¡Estatus cambiado con exito!",
+            showConfirmButton: false,
+            timer: 1400,
+          });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
           self.Loading = false;
           self.$toastr.warning("¡Error al cambiar Etatus!");
@@ -108,9 +116,7 @@ export default {
     },
   },
   computed: {},
-  mounted: function() {    
-           
-  },
+  mounted: function () {},
 };
 </script>
 <style scoped></style>

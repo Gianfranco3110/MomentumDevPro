@@ -30,11 +30,14 @@
             :is-valid="hasError($v.section.orden)"
           />
         </CCol>
-       
       </CRow>
 
       <template #footer>
-        <CButton class="btn botonesCan text-white" :disabled="isDisabled" @click="guardar">
+        <CButton
+          class="btn botonesCan text-white"
+          :disabled="isDisabled"
+          @click="guardar"
+        >
           <CIcon name="cil-check-circle" />&nbsp; ACEPTAR
         </CButton>
         <CButton color="dark" @click="CerrarLimpiar">
@@ -59,15 +62,11 @@ function CerrarLimpiar() {
   this.files = "";
 }
 
-
-
-
 //GUARDA Y ACTUALIZA
 function guardar() {
   let self = this;
   self.Loading = true;
   if (self.actualizar) {
-
     axios
       .put(
         this.$apiAdress +
@@ -75,47 +74,60 @@ function guardar() {
           self.section.id +
           "?token=" +
           localStorage.getItem("api_token"),
-          self.section,
+        self.section,
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       )
-      .then(function(response) {
-        self.$toastr.success("Sección actualizado con exito!");
+      .then(function (response) {
+        //self.$toastr.success("Sección actualizado con exito!");
+        self.$swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Sección actualizado con exito!",
+          showConfirmButton: false,
+          timer: 1400,
+        });
         self.Loading = false;
         self.AddModal = false;
         self.limpiarDatos();
         self.$emit("child-refresh", true);
       })
-      .catch(function(error) {
-       // Capturar y manejar los errores
-       if (error.response) {
-            // Error de respuesta del servidor
-            const errorDetails = {
-              status: error.response.status,
-              data: error.response.data,
-            };
-            console.log(errorDetails);
-            
-            // Manejar errores específicos
-            if ([404, 422, 500].includes(error.response.status)) {
-              // Manejar errores 404, 422, 500
-              // console.log("Error " + error.response.status + ": " + error.response.data);
-              self.$toastr.warning("¡"+errorDetails.data.orden[0]+"!");
-            }
-          } else if (error.request) {
-            // Error de solicitud (sin respuesta del servidor)
-            console.log("Error de solicitud:", error.request);
-          } else {
-            // Otros errores
-            console.log("Error:", error.message);
+      .catch(function (error) {
+        // Capturar y manejar los errores
+        if (error.response) {
+          // Error de respuesta del servidor
+          const errorDetails = {
+            status: error.response.status,
+            data: error.response.data,
+          };
+          console.log(errorDetails);
+
+          // Manejar errores específicos
+          if ([404, 422, 500].includes(error.response.status)) {
+            // Manejar errores 404, 422, 500
+            // console.log("Error " + error.response.status + ": " + error.response.data);
+            //self.$toastr.warning("¡"+errorDetails.data.orden[0]+"!");
+            self.$swal.fire({
+              position: "top-end",
+              icon: "warning",
+              title: "¡" + errorDetails.data.orden[0] + "!",
+              showConfirmButton: false,
+              timer: 1400,
+            });
           }
-          self.Loading = false;
+        } else if (error.request) {
+          // Error de solicitud (sin respuesta del servidor)
+          console.log("Error de solicitud:", error.request);
+        } else {
+          // Otros errores
+          console.log("Error:", error.message);
+        }
+        self.Loading = false;
       });
   } else {
-
     axios
       .post(
         this.$apiAdress +
@@ -128,38 +140,51 @@ function guardar() {
           },
         }
       )
-      .then(function(response) {
-        self.$toastr.success("¡"+response.data.message+"!");
+      .then(function (response) {
+        //self.$toastr.success("¡" + response.data.message + "!");
+        self.$swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "¡" + response.data.message + "!",
+          showConfirmButton: false,
+          timer: 1400,
+        });
         self.limpiarDatos();
         console.log(response);
         self.Loading = false;
         self.AddModal = false;
         self.$emit("child-refresh", true);
       })
-      .catch(function(error) {
-       // Capturar y manejar los errores
-       if (error.response) {
-            // Error de respuesta del servidor
-            const errorDetails = {
-              status: error.response.status,
-              data: error.response.data,
-            };
-            console.log(errorDetails);
-            
-            // Manejar errores específicos
-            if ([404, 422, 500].includes(error.response.status)) {
-              // Manejar errores 404, 422, 500
-              // console.log("Error " + error.response.status + ": " + error.response.data);
-              self.$toastr.warning("¡"+errorDetails.data.message+"!");
-            }
-          } else if (error.request) {
-            // Error de solicitud (sin respuesta del servidor)
-            console.log("Error de solicitud:", error.request);
-          } else {
-            // Otros errores
-            console.log("Error:", error.message);
+      .catch(function (error) {
+        // Capturar y manejar los errores
+        if (error.response) {
+          // Error de respuesta del servidor
+          const errorDetails = {
+            status: error.response.status,
+            data: error.response.data,
+          };
+          console.log(errorDetails);
+
+          // Manejar errores específicos
+          if ([404, 422, 500].includes(error.response.status)) {
+            // Manejar errores 404, 422, 500
+            // console.log("Error " + error.response.status + ": " + error.response.data);
+            self.$swal.fire({
+              position: "top-end",
+              icon: "warning",
+              title: "¡" + errorDetails.data.message + "!",
+              showConfirmButton: false,
+              timer: 1400,
+            });
           }
-          self.Loading = false;
+        } else if (error.request) {
+          // Error de solicitud (sin respuesta del servidor)
+          console.log("Error de solicitud:", error.request);
+        } else {
+          // Otros errores
+          console.log("Error:", error.message);
+        }
+        self.Loading = false;
       });
   }
   this.$v.$reset();
@@ -172,8 +197,6 @@ function limpiarDatos() {
   this.AddModal = false;
   this.files = "";
 }
-
-
 
 //COMPUTED
 function isDisabled() {
@@ -211,7 +234,7 @@ export default {
   directives: UpperCase,
   validations: CursosSectionVal,
   watch: {
-    modal: function() {
+    modal: function () {
       if (this.modal) {
         this.limpiarDatos();
         this.AddModal = true;
@@ -238,11 +261,8 @@ export default {
   },
   computed: {
     isDisabled,
- 
   },
-  mounted: function() {
-
-  },
+  mounted: function () {},
 };
 </script>
 <style scoped>

@@ -219,6 +219,7 @@ function show_question(question) {
   vm.show_task = true;
 
   vm.type_question = question[0].type_question;
+  console.log('Seccion',question[0].course_section_id);
   if (vm.type_question === "3") {
     //showQuestionMultiple(question[0].id);
    
@@ -230,6 +231,8 @@ function show_question(question) {
           vm.$route.params.id +
           "/" +
           vm.type_question +
+          "/" +
+          question[0].course_section_id +
           "?token=" +
           localStorage.getItem("api_token")
       )

@@ -60,9 +60,11 @@
                 >{{ item.status_video }}</span
               >
               <h5 class="card-title text-white">
-                {{ truncateDescription(item.name,50) }}
+                {{ truncateDescription(item.name, 50) }}
               </h5>
-              <p class="card-text">{{ truncateDescription(item.description,100) }}</p>
+              <p class="card-text">
+                {{ truncateDescription(item.description, 100) }}
+              </p>
               <CBadge class="text-white" color="success" v-if="item.status">
                 Pagado</CBadge
               >
@@ -83,7 +85,12 @@
                   25%
                 </div>
               </div>
-              <CCol v-if="item.certificado === '1'" @click="GetPdf(item.course_id)" sm="12" class="pl-0 mt-4">
+              <CCol
+                v-if="item.certificado === '1'"
+                @click="GetPdf(item.course_id)"
+                sm="12"
+                class="pl-0 mt-4"
+              >
                 <CButton class="botonesCan text-white">
                   <CIcon name="cil-education" />
                   Generar Certificado
@@ -99,7 +106,6 @@
 <script>
 import General from "@/_mixins/general";
 import axios from "axios";
-
 
 function send_id_curso(curso) {
   if (curso.status) {
@@ -122,15 +128,20 @@ function send_id_curso(curso) {
         "CURSO EXPIRADO",
         "El curso " +
           curso.name +
-          " expiró, debes comunicarte con el administrador."
+          "Expiró, debes comunicarte con el administrador."
       );
     }
   } else {
-    this.alertNotifi(
+    /*this.alertNotifi(
       "CURSO PENDIENTE POR PAGAR",
       "El curso " +
         curso.name +
         ", esta pendiente por cancelar, debes comunicarte con el administrador."
+    );*/
+    window.open(
+      "https://api.whatsapp.com/send?phone=584245124623&text=*Hola Yaritzy*%0A*Información:* Para cancelar la suscripción del curso " +
+        curso.name,
+      "_blank"
     );
   }
 }
@@ -158,7 +169,13 @@ function GetPdf(course_id) {
       window.open(response.data.certificado_url, "_blank");
       self.Loading = false;
       self.getCourses();
-      self.$toastr.success("¡Certificado generado con exito!");
+      self.$swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "¡Certificado generado con exito!",
+        showConfirmButton: false,
+        timer: 1400,
+      });
     })
     .catch(function (error) {
       console.log(error);

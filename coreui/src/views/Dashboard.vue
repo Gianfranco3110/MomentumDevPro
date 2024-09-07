@@ -31,8 +31,16 @@ function validateSesion() {
       if (error.response.status == 401) {
         self.Loading = false;
         self.$router.push({ path: "/login" });
-        self.$toastr.warning('Sesión no activa, inicie nuevamente');
+        //self.$toastr.warning('Sesión no activa, inicie nuevamente');
+        
         localStorage.clear();
+        self.$swal.fire({
+          position: "top-end",
+          icon: "warning",
+          title: "Sesión no activa, inicie nuevamente",
+          showConfirmButton: false,
+          timer: 1400
+        });
       }
     });
 }
