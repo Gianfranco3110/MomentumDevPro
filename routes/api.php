@@ -160,6 +160,9 @@ Route::group(['middleware' => ['api']], function ($router) {
     //RUTA PARA TRAER LOS PAISES
     Route::get('countries', 'CountriesController@countries');
 
+    //RUTAS PARA ACTUALIZACION DE RECURSOS DEL SITIO (GET público)
+    Route::get('site-resources/{section}', 'SiteResourceController@show');
+
 
 
 
@@ -215,5 +218,9 @@ Route::group(['middleware' => ['api']], function ($router) {
         Route::resource('roles',        'RolesController');
         Route::get('/roles/move/move-up',      'RolesController@moveUp')->name('roles.up');
         Route::get('/roles/move/move-down',    'RolesController@moveDown')->name('roles.down');
+
+        //RUTA PARA SUBIR RECURSOS DEL SITIO (POST admin)
+        Route::post('site-resources/upload', 'SiteResourceController@upload');
+        Route::delete('site-resources/{section}', 'SiteResourceController@reset');
     });
 });
