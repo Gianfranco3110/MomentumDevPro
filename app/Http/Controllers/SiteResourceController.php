@@ -11,6 +11,15 @@ class SiteResourceController extends Controller
     const FOLDER = 'site-resources';
 
     /**
+     * Devuelve la ruta física del document root del servidor.
+     * En local (artisan serve) usa public_path(); en Hostinger usa DOCUMENT_ROOT (public_html).
+     */
+    private function resourceFolder(): string
+    {
+        return rtrim($_SERVER['DOCUMENT_ROOT'] ?? public_path(), '/') . '/' . self::FOLDER;
+    }
+
+    /**
      * GET /api/site-resources/{section}
      * Público — retorna la URL del recurso actual para la sección indicada.
      */
@@ -40,7 +49,7 @@ class SiteResourceController extends Controller
 
         $resource = SiteResource::where('section', $request->section)->firstOrFail();
 
-        $folder = public_path(self::FOLDER);
+        $folder = $this->resourceFolder();
         if (!File::isDirectory($folder)) {
             File::makeDirectory($folder, 0755, true);
         }
@@ -79,7 +88,7 @@ class SiteResourceController extends Controller
         $resource = SiteResource::where('section', $section)->firstOrFail();
 
         if ($resource->filename) {
-            $path = public_path(self::FOLDER . '/' . $resource->filename);
+            $path = $this->resourceFolder() . '/' . $resource->filename;
             if (File::exists($path)) {
                 File::delete($path);
             }
