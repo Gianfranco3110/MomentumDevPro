@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL as FacadesURL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -162,6 +163,92 @@ class UsersController extends Controller
         return response()->json( ['status' => 'success'] );
     }
 
+
+    public function getOwnProfile()
+    {
+        $userId = auth()->user()->id;
+        $user = DB::table('users')
+            ->select(
+                'users.id', 'users.name', 'users.email', 'users.country',
+                'users.stated', 'users.municipality', 'users.street',
+                'users.adress_all', 'users.type_document', 'users.number_document',
+                'users.photo'
+            )
+            ->where('users.id', '=', $userId)
+            ->first();
+        return response()->json($user);
+    }
+
+    public function updateOwnProfile(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'name'            => 'required|min:1|max:256',
+            'country'         => 'nullable|max:256',
+            'stated'          => 'nullable|max:256',
+            'municipality'    => 'nullable|max:256',
+            'street'          => 'nullable|max:256',
+            'adress_all'      => 'nullable',
+            'type_document'   => 'nullable|max:1',
+            'number_document' => 'nullable|numeric',
+        ], [], [
+            'name' => 'nombre',
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validate->errors()
+            ], 422);
+        }
+
+        $userId = auth()->user()->id;
+        $user   = User::find($userId);
+
+        $user->name            = $request->input('name');
+        $user->country         = $request->input('country');
+        $user->stated          = $request->input('stated');
+        $user->municipality    = $request->input('municipality');
+        $user->street          = $request->input('street');
+        $user->adress_all      = $request->input('adress_all');
+        $user->type_document   = $request->input('type_document');
+        $user->number_document = $request->input('number_document');
+        $user->save();
+
+        return response()->json(['status' => 'success', 'message' => 'Perfil actualizado correctamente.']);
+    }
+
+    public function uploadPhoto(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validate->errors()
+            ], 422);
+        }
+
+        $userId = auth()->user()->id;
+        $user   = User::find($userId);
+
+        $ext      = $request->file('photo')->getClientOriginalExtension();
+        $fileName = 'user_' . $userId . '.' . $ext;
+        $destDir  = public_path('imgprofile');
+
+        if (!file_exists($destDir)) {
+            mkdir($destDir, 0755, true);
+        }
+
+        $request->file('photo')->move($destDir, $fileName);
+
+        $photoUrl    = '/imgprofile/' . $fileName;
+        $user->photo = $photoUrl;
+        $user->save();
+
+        return response()->json(['status' => 'success', 'photo_url' => $photoUrl]);
+    }
 
     public function forgetPassword(Request $request) {
         return response($request);

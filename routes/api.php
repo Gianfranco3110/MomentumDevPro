@@ -30,6 +30,9 @@ Route::group(['middleware' => ['api']], function ($router) {
 
     Route::put('user/password/change','UsersController@updatePassword');
     Route::get('user/logged','UsersController@userLogged');
+    Route::get('user/profile','UsersController@getOwnProfile');
+    Route::post('user/profile/update','UsersController@updateOwnProfile');
+    Route::post('user/photo/upload','UsersController@uploadPhoto');
 
     //validar sesion
     Route::get('user/validatesesion','UsersController@index');
