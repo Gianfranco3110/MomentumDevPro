@@ -235,7 +235,7 @@ class UsersController extends Controller
 
         $ext      = $request->file('photo')->getClientOriginalExtension();
         $fileName = 'user_' . $userId . '.' . $ext;
-        $destDir  = public_path('imgprofile');
+        $destDir  = rtrim($_SERVER['DOCUMENT_ROOT'] ?? public_path(), '/') . '/imgprofile';
 
         if (!file_exists($destDir)) {
             mkdir($destDir, 0755, true);
