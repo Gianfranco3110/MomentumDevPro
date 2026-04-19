@@ -85,7 +85,7 @@ export default {
         this.description = this.modal.description;
         this.image = this.modal.image == null?this.imgdefaul:this.modal.image;
         this.$emit("cerrarModal");
-        console.log(this.modal);
+        //console.log(this.modal);
       }
     },
   },

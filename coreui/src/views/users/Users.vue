@@ -334,7 +334,7 @@ export default {
         )
         .then(function (response) {
           listado = response.data.users;
-          console.log(listado);
+          console.log(response);
           self.items = listado.map((listado) =>
             Object.assign({}, self.items, {
               id: listado.id,
@@ -359,7 +359,7 @@ export default {
           self.Loading = false;
         })
         .catch(function (error) {
-          console.log("error222", error.response.status);
+          //console.log("error222", error.response.status);
           if (error.response.status == 401) {
             self.Loading = false;
             self.$router.push({ path: "/login" });

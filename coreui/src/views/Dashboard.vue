@@ -2,7 +2,7 @@
   <div class="img-logo-dashboard">
     <CRow class="w-100">
       <img
-        src="../../public/logo_alterno/logo alterno color oro.png"
+        :src="bannerSrc"
         width="100%"
         height="100%"
         alt="logo"
@@ -51,16 +51,31 @@ export default {
     return {
       isAdmin: false,
       collapsedSection: null,
+      bannerSrc: require("../../public/logo_alterno/logo alterno color oro.png"),
     };
   },
   mounted: function () {
     this.validateSesion();
+    this.loadBanner();
     if (localStorage.getItem("roles") == "user,admin") {
       this.isAdmin = true;
     }
   },
   methods: {
     validateSesion,
+    loadBanner() {
+      let self = this;
+      axios
+        .get(this.$apiAdress + "/api/site-resources/dashboard_banner")
+        .then(function (response) {
+          if (response.data.url) {
+            self.bannerSrc = response.data.url;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   },
 };
 </script>

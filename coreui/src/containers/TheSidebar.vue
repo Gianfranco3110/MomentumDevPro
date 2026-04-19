@@ -6,7 +6,7 @@
     :show="show"
     @update:show="(value) => $store.commit('set', ['sidebarShow', value])"
   >
-    <CSidebarBrand class="d-md-down-none" to="/">
+    <CSidebarBrand class="d-md-down-none" to="/curso-online">
       <img  src="../../public/logo_alterno/logo alterno color oro.png"
                   alt="login form" class="img-fluid w-75"  />
     </CSidebarBrand>
@@ -70,6 +70,13 @@
       </li>
       <li class="c-sidebar-nav-item">
         <strong>
+          <a class="c-sidebar-nav-link" href="#/perfil">
+            <CIcon name="cil-user" class="mr-2" /> PERFIL
+          </a>
+        </strong>
+      </li>
+      <li class="c-sidebar-nav-item">
+        <strong>
           <a class="c-sidebar-nav-link" href="#/settings">
             <CIcon name="cil-settings" class="mr-2" /> CAMBIAR CONTRASEÑA
           </a>
@@ -79,6 +86,13 @@
         <strong>
           <a class="c-sidebar-nav-link" href="#/certificado">
             <CIcon size="lg" name="cil-address-card" class="mr-2" /> CERTIFICADO
+          </a>
+        </strong>
+      </li>
+      <li class="c-sidebar-nav-item" v-if="isAdmin">
+        <strong>
+          <a class="c-sidebar-nav-link" href="#/actualizacion-recursos">
+            <CIcon size="lg" name="cil-cloud-upload" class="mr-2" /> ACTUALIZAR RECURSO
           </a>
         </strong>
       </li>

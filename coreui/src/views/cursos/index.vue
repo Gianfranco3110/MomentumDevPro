@@ -165,7 +165,7 @@ function ListCurso() {
           image: listado.image,
         })
       );
-      console.log(response);
+      //console.log(response);
       self.Loading = false;
     })
     .catch(function (error) {
@@ -174,7 +174,7 @@ function ListCurso() {
         self.$router.push({ path: "/login" });
         localStorage.clear();
       }
-      console.log(error);
+      //console.log(error);
       self.$router.push({ path: "/login" });
     });
 }

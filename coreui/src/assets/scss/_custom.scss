@@ -102,12 +102,23 @@ label.required:before {
 #hovers {
   a:hover {
     background-color: #202020 !important;
+    color: #FFC26F !important;
+  }
+  a:hover svg {
+    color: #FFC26F !important;
   }
 }
 
 
-h3,h1,h4,h5,b,span,p{
+h3,h1,h4,h5,b{
   color:  #DCBA0F !important;
+}
+// Excluir toastr y sweetalert de la regla de color dorado
+#toast-container span,
+#toast-container p,
+.swal2-popup span,
+.swal2-popup p {
+  color: inherit !important;
 }
 
 .w-45{
@@ -199,4 +210,30 @@ input[type="checkbox"] {
 
 .c-header-nav p {
   color: black !important;
+}
+
+// ---- Toastr: forzar colores en producción ----
+#toast-container > div {
+  opacity: 1 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+}
+#toast-container > .toast-error {
+  background-color: #BD362F !important;
+  color: #fff !important;
+}
+#toast-container > .toast-success {
+  background-color: #51A351 !important;
+  color: #fff !important;
+}
+#toast-container > .toast-warning {
+  background-color: #F89406 !important;
+  color: #fff !important;
+}
+#toast-container > .toast-info {
+  background-color: #2F96B4 !important;
+  color: #fff !important;
+}
+#toast-container .toast-message {
+  color: #fff !important;
 }

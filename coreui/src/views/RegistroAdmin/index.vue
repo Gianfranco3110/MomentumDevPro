@@ -280,7 +280,7 @@ export default {
           self.dataUser.number_document = "";
           self.dataUser.adress = "";
           self.dataUser.street = "";
-          console.log(response);
+          //console.log(response);
           self.$swal.fire({
             position: "top-end",
             icon: "success",

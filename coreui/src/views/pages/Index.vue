@@ -17,10 +17,11 @@
           loop="true"
           muted="muted"
           playsinline="true"
+          :key="videoSrc"
         >
           <source
             type="video/mp4"
-            src="../../../public/home.mov"
+            :src="videoSrc"
           />
         </video>
       </div>
@@ -98,10 +99,11 @@
       <a
         target="_blank"
         href="https://api.whatsapp.com/send?phone=584245124623&text=*Hola Yaritzy*%0A*Información:* Estoy interesada en adquirir uno de tus cursos"
-        class="btn botonesP"
+        class="btn botonesP d-inline-flex align-items-center"
+        style="color:#ffffff !important; font-weight:600; letter-spacing:0.5px; padding: 10px 18px; border-radius: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"
       >
-        <span class="mr-3">Agenda tu Cita</span>
-        <i class="text-white fab fa-whatsapp w-auto"></i>
+        <span class="mr-2" style="color:#ffffff !important; white-space: nowrap;">Agenda tu Cita</span>
+        <i class="fab fa-whatsapp" style="color:#25D366 !important; font-size:1.3rem;"></i>
       </a>
     </div>
     <!--End Btn whatsapp float off the website-->
@@ -157,6 +159,7 @@ export default {
       user: "",
       logueado: false,
       VerModalCourseDetail: false,
+      videoSrc: require("../../../public/home.mov"),
     };
   },
   methods: {
@@ -208,10 +211,24 @@ export default {
         return text;
       }
       return text.substring(0, limit) + "...";
-    }
+    },
+    loadVideoResource() {
+      let self = this;
+      axios
+        .get(this.$apiAdress + "/api/site-resources/home_video")
+        .then(function (response) {
+          if (response.data.url) {
+            self.videoSrc = response.data.url;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   },
   mounted: function () {
     this.getCourses();
+    this.loadVideoResource();
     localStorage.removeItem("course");
   },
 };

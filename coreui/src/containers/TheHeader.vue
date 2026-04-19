@@ -14,14 +14,15 @@
       <a
         target="_blank"
         href="https://api.whatsapp.com/send?phone=584245124623&text=*Hola Yaritzy*%0A*Información:* Estoy interesada en adquirir uno de tus cursos"
-        class="btn botonesP"
+        class="btn botonesP d-inline-flex align-items-center"
+        style="color:#ffffff !important; font-weight:600; letter-spacing:0.5px; padding: 10px 18px; border-radius: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.5);"
       >
-        <span class="mr-3">Contacto</span>
-        <i class="text-white fab fa-whatsapp w-auto"></i>
+        <span class="mr-2" style="color:#ffffff !important; white-space: nowrap;">Contacto</span>
+        <i class="fab fa-whatsapp" style="color:#25D366 !important; font-size:1.3rem;"></i>
       </a>
     </div>
     <CSidebarBrand style="text-decoration:none;color:black" class="d-md-none d-lg-none" to="/">
-      <h3>YareStylo</h3>
+      <h5>YariEstylosPmu</h5>
     </CSidebarBrand>
 
     <CMenu/>

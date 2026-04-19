@@ -185,14 +185,14 @@ function getSections() {
         localStorage.getItem("api_token")
     )
     .then(function (response) {
-      console.log("Listas de sections");
-      console.log(response.data);
+      //console.log("Listas de sections");
+      //console.log(response.data);
       self.sections = response.data;
       self.$emit("child-refresh", true);
       self.Loading = false;
     })
     .catch(function (error) {
-      console.log(error);
+      //console.log(error);
       self.Loading = false;
       //self.$router.push({ path: 'login' });
     });
@@ -235,15 +235,15 @@ function guardar() {
       });
       self.limpiarDatos();
       self.ListQuestion(self.test.courses_id);
-      console.log(response);
+      //console.log(response);
     })
     .catch(function (error) {
       self.Loading = false;
-      console.log(error.response.data);
+      //console.log(error.response.data);
       if (error.response.data.message) {
         for (let key in error.response.data.errors) {
           if (error.response.data.errors.hasOwnProperty(key)) {
-            console.log(error.response.data.errors[key][0]);
+            //console.log(error.response.data.errors[key][0]);
             //self.$toastr.error(error.response.data.errors[key][0]);
             self.$swal.fire({
               position: "top-end",
@@ -261,7 +261,7 @@ function guardar() {
 
 //Controla el select de tipo de question
 function handler_type_question(id) {
-  console.log("valor", id);
+  //console.log("valor", id);
   if (id == 3) {
     this.show_section_options = true;
   } else {

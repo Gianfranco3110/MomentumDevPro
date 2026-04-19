@@ -10,8 +10,8 @@
         <p class="mt-3">{{ userName }}</p>
         <div class="c-avatar ml-2">
           <img
-            src="img/avatars/icon_user.webp"
-            class="c-avatar-img "
+            :src="userPhoto || 'img/avatars/icon_user.webp'"
+            class="c-avatar-img"
           />
         </div>
       </CHeaderNavLink>
@@ -68,6 +68,7 @@ export default {
       itemsCount: 42,
       userEmail: '',
       userName: '',
+      userPhoto: null,
       isAdmin: false,
     }
   },
@@ -78,8 +79,9 @@ export default {
       .then(function (response) {
         localStorage.setItem('roles', '');
         localStorage.setItem('email', '');
-        localStorage.setItem("name", '');
-        localStorage.setItem("id", '');
+        localStorage.setItem('name', '');
+        localStorage.setItem('id', '');
+        localStorage.removeItem('photo_url');
         localStorage.removeItem("course");
         self.$router.push({ path: '/login' });
       }).catch(function (error) {
@@ -101,10 +103,32 @@ export default {
   mounted: function(){
     let self = this;   
     
-    self.userEmail = localStorage.getItem("email");
-      self.userName = localStorage.getItem("name");
-      if(localStorage.getItem('roles')=='user,admin'){
-        self.isAdmin = true;      }
+    self.userEmail = localStorage.getItem('email');
+    self.userName  = localStorage.getItem('name');
+    self.userPhoto = localStorage.getItem('photo_url') || null;
+
+    self.$bus.$on('photo-updated', function(url) {
+      self.userPhoto = url;
+    });
+
+    self.$bus.$on('name-updated', function(name) {
+      self.userName = name;
+    });
+
+    if (localStorage.getItem('roles') == 'user,admin') {
+      self.isAdmin = true;
+    }
+
+    // Sync photo from API to keep it fresh
+    axios.get(this.$apiAdress + '/api/user/profile?token=' + localStorage.getItem('api_token'))
+      .then(function (response) {
+        if (response.data && response.data.photo) {
+          const fullUrl = self.$apiAdress + response.data.photo;
+          self.userPhoto = fullUrl;
+          localStorage.setItem('photo_url', fullUrl);
+        }
+      })
+      .catch(function () { /* silent */ });
   }
 }
 </script>

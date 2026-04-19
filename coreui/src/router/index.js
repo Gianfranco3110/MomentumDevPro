@@ -36,6 +36,7 @@ const Users = () => import("@/views/users/Users");
 const User = () => import("@/views/users/User");
 const EditUser = () => import("@/views/users/EditUser");
 const UserAjustes = () => import("@/views/users/UserAjustes");
+const UserPerfil = () => import("@/views/users/UserPerfil");
 const MisCursos = () => import("@/views/users/MisCursos");
 const UserCourses = () => import("@/views/users/user-courses");
 const UserCoursesTest = () => import("@/views/users/user-courses-test-validate");
@@ -54,6 +55,9 @@ const registro = () => import("@/views/RegistroAdmin/index");
 
 //configuracion de certificado
 const CertificadoConfig = () => import("@/views/certificado-config/index");
+
+//actualizacion de recursos del sitio
+const ActualizacionRecursos = () => import("@/views/ActualizacionRecursos/index");
 
 //Roles
 const Roles = () => import("@/views/roles/Roles");
@@ -179,6 +183,12 @@ function configRoutes() {
               path: "/settings",
               name: "settings",
               component: UserAjustes,
+            },
+            {
+              path: "/perfil",
+              name: "perfil",
+              component: UserPerfil,
+              meta: { requiresUser: true },
             },
           ],
         },
@@ -327,6 +337,25 @@ function configRoutes() {
               meta: { label: "Edit Role" },
               name: "Edit Role",
               component: EditRole,
+              meta: {
+                requiresAdmin: true,
+              },
+            },
+          ],
+        },
+        {
+          path: "actualizacion-recursos",
+          name: "actualizacion-recursos",
+          meta: { label: "Actualización de Recursos", requiresAdmin: true },
+          component: {
+            render(c) {
+              return c("router-view");
+            },
+          },
+          children: [
+            {
+              path: "",
+              component: ActualizacionRecursos,
               meta: {
                 requiresAdmin: true,
               },

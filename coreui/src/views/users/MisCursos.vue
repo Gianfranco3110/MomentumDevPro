@@ -139,7 +139,7 @@ function send_id_curso(curso) {
         ", esta pendiente por cancelar, debes comunicarte con el administrador."
     );*/
     window.open(
-      "https://api.whatsapp.com/send?phone=584245124623&text=*Hola Yaritzy*%0A*Información:* Para cancelar la suscripción del curso " +
+      "https://api.whatsapp.com/send?phone=584245124623&text=*Hola Yaretzi*%0A*Información:* Para cancelar la suscripción del curso " +
         curso.name,
       "_blank"
     );

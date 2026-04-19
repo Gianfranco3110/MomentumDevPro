@@ -82,7 +82,7 @@ async function getpais() {
       "Accept": "application/json",
     }
   }).then(async function (response) {
-      console.log('pais',response);
+      //console.log('pais',response);
       let muni_resp = response.data;
       let municipality_nw = muni_resp.map((muni_resp) =>
         Object.assign({}, municipality_nw, {

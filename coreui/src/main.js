@@ -13,7 +13,7 @@ import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import VueToastr2 from 'vue-toastr-2'
 import 'vue-toastr-2/dist/vue-toastr-2.min.css'
- 
+ import 'toastr/build/toastr.min.css'
 
 window.toastr = require('toastr')
 export const EventBus = new Vue();
@@ -23,7 +23,7 @@ Vue.prototype.$bus = new Vue();
 //Local
 //Vue.prototype.$apiAdress = 'http://127.0.0.1:8000'
 
-//QA
+//PRD
 Vue.prototype.$apiAdress = 'https://yari.yariestilospmu.com'
 
 Vue.config.performance = true

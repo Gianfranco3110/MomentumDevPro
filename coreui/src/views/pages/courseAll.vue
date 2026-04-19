@@ -99,7 +99,7 @@
   import modalCourseDetails from "./modalCourseDetails";
   
   function detail_curso(id) {
-    console.log(id);
+    //console.log(id);
     // this.$router.push({
     //   name: "singleCourse",
     //   params: {

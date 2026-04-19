@@ -70,8 +70,8 @@
             <div class="div-footer-h">
               <h4>Horarios</h4>
               <ul class="pl-0">
-                <li>LUN - VIE: 10AM - 20PM</li>
-                <li>SÁBADOS: 11AM - 15PM</li>
+                <li>LUN - VIE: 10AM - 2PM</li>
+                <li>SÁBADOS: 11AM - 5PM</li>
                 <li>DÓMINGOS: CERRADO</li>
               </ul>
             </div>
@@ -113,7 +113,7 @@
       <div class="pt-4 m-auto mt-1 p-2">
         <div class="container">
           <p class="text-footer-botom">
-            © 2021 YareStylo, Todos los derechos reservados.
+            © 2021 YariEstylosPmu, Todos los derechos reservados.
           </p>
         </div>
       </div>

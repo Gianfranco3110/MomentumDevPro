@@ -6,9 +6,9 @@
         <div class="col col-xl-12">
           <div class="card" style="border-radius: 1rem;">
             <div class="row g-0">
-              <div class="col-md-6 col-lg-5 d-none d-md-block">
-                <img src="../../../public/login1.jpg"
-                  alt="login form" class="img-fluid h-100 img-adapte" style="border-radius: 1rem 0 0 1rem;" />
+              <div class="col-md-6 col-lg-5 d-none d-md-block" style="position: relative; overflow: hidden; min-height: 500px; border-radius: 1rem 0 0 1rem;">
+                <img :src="registerImageSrc"
+                  alt="login form" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 1rem 0 0 1rem;" />
               </div>
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 
@@ -293,6 +293,7 @@ export default {
     stated: [],
     municipality: [],
     arr_pais:[],
+    registerImageSrc: require("../../../public/login1.jpg"),
     };
   },
   name:"Register",
@@ -306,8 +307,22 @@ export default {
   },
   mounted: async function() {
     this.arr_pais = await this.getpais();
+    this.loadRegisterImage();
   },
   methods: {
+    loadRegisterImage() {
+      let self = this;
+      axios
+        .get(this.$apiAdress + "/api/site-resources/register_image")
+        .then(function (response) {
+          if (response.data.url) {
+            self.registerImageSrc = response.data.url;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     register() {
       var self = this;
       self.Loading = true;
@@ -369,7 +384,7 @@ export default {
         });
     },
     linkHome() {
-      this.$router.push({ path: "/" });
+      this.$router.push({ path: "/curso-online" });
     },
     goLogin() {
       this.$router.push({ path: "login" });
@@ -381,7 +396,7 @@ export default {
       this.getStateds(this.dataUser.value_pais);
     },
     async changeGetMunici(){
-      console.log(this.dataUser.value_stated);
+      //console.log(this.dataUser.value_stated);
       this.municipality = await this.getMunicipality(this.dataUser.value_stated);
     }
   },

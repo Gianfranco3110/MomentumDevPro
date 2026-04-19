@@ -9,7 +9,7 @@
               <div class="row g-0">
                 <div class="col-md-6 col-lg-5 d-none d-md-block">
                   <img
-                    src="../../../public/login1.jpg"
+                    :src="loginImageSrc"
                     alt="login form"
                     class="img-fluid h-100 img-adapte"
                     style="border-radius: 1rem 0 0 1rem"
@@ -52,18 +52,25 @@
                       </div>
 
                       <div v-if="!cambioPass" class="form-outline mb-4">
-                        <label class="form-label">Contraseña</label>
-                        <input
-                          type="password"
-                          placeholder="Ingrese su contraseña"
-                          v-model="password"
-                          :class="classInvaPass"
-                          class="form-control form-control-lg"
-                        />
-                        <div class="invalid-feedback">
-                          {{ msgErrorPassword }}
-                        </div>
-                      </div>
+  <label class="form-label">Contraseña</label>
+  
+  <div class="input-group">
+    <input
+      :type="isPasswordVisible ? 'text' : 'password'"
+      placeholder="Ingrese su contraseña"
+      v-model="password"
+      :class="classInvaPass"
+      class="form-control form-control-lg"
+    />
+    <span class="input-group-text password-toggle-icon" @click="togglePasswordVisibility" style="cursor: pointer;">
+      <i :class="isPasswordVisible ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i>
+    </span>
+  </div>
+
+  <div :class="{ 'd-block': msgErrorPassword }" class="invalid-feedback">
+    {{ msgErrorPassword }}
+  </div>
+</div>
 
                       <div class="pt-1 mb-4">
                         <button
@@ -192,14 +199,19 @@ export default {
       cambioPass: false,
       textTitleLogin: "",
       textTitlebtn: "",
+      isPasswordVisible: false,
+      loginImageSrc: require("../../../public/login1.jpg"),
     };
   },
   methods: {
+    togglePasswordVisibility() {
+      this.isPasswordVisible = !this.isPasswordVisible;
+    },
     goRegister() {
       this.$router.push({ path: "register" });
     },
     goHome() {
-      this.$router.push({ path: "/" });
+      this.$router.push({ path: "/curso-online" });
     },
     login() {
       let self = this;
@@ -393,10 +405,24 @@ export default {
       this.textTitleLogin = "Iniciar sesión en su cuenta";
       this.textTitlebtn = "Iniciar";
     },
+    loadLoginImage() {
+      let self = this;
+      axios
+        .get(this.$apiAdress + "/api/site-resources/login_image")
+        .then(function (response) {
+          if (response.data.url) {
+            self.loginImageSrc = response.data.url;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   },
   mounted: function () {
     this.textTitleLogin = "Iniciar sesión en su cuenta";
     this.textTitlebtn = "Iniciar";
+    this.loadLoginImage();
   },
 };
 </script>
@@ -421,6 +447,28 @@ export default {
     0,
     0,
     0.5
-  ); /* Ajusta el valor 0.5 para la opacidad deseada */
+  );
+}
+.password-toggle-icon {
+  background-color: transparent; 
+  
+
+  
+  padding-right: 1rem;
+}
+
+
+.password-toggle-icon i {
+  color: #000; /* ¡Aquí está! Cambiamos el color del ícono a negro */
+  font-size: 1.2rem; /* Opcional: ajusta el tamaño del ícono si quieres */
+}
+
+
+.form-control:focus + .password-toggle-icon i {
+   color: #555; /* Un gris oscuro cuando está enfocado */
+}
+
+.password-toggle-icon {
+  cursor: pointer;
 }
 </style>

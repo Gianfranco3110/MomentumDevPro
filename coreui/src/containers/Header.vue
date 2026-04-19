@@ -6,7 +6,7 @@
       class="w-100 row ml-0 mr-0 d-flex justify-content-between align-items-center"
     >
       <div class="col-md-2 col-sm-6 col-6">
-        <!--<a class="text-white navbar-brand" href="#">YareStylo</a>-->
+        <!--<a class="text-white navbar-brand" href="#">YariEtylo PMU</a>-->
         <a class="text-white navbar-brand w-auto" href="#">
           <div>
             <img
@@ -110,7 +110,9 @@ export default {
       this.$router.push({ path: "courseall" });
     },
     goHome() {
-      this.$router.push({ path: "/" });
+      if (this.$route.path !== "/curso-online") {
+      this.$router.push({ path: "/curso-online" });
+  }
     },
   },
   mounted() {
