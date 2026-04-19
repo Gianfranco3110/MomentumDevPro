@@ -166,6 +166,14 @@ Route::group(['middleware' => ['api']], function ($router) {
     //RUTAS PARA ACTUALIZACION DE RECURSOS DEL SITIO (GET público)
     Route::get('site-resources/{section}', 'SiteResourceController@show');
 
+    // RUTAS DE MENSAJERÍA
+    Route::get('messages/unread-count',        'MessagesController@unreadCount');
+    Route::get('messages/conversations',        'MessagesController@conversations');
+    Route::get('messages/admin-id',             'MessagesController@adminId');
+    Route::get('messages/{userId}',             'MessagesController@history');
+    Route::post('messages',                     'MessagesController@store');
+    Route::put('messages/{userId}/read',        'MessagesController@markRead');
+
 
 
 
