@@ -96,7 +96,31 @@ label.required:before {
 }
 
 .botonesCan {
-  background-color:  #202020 !important;
+  background-color: #202020 !important;
+  border: none;
+  border-radius: 8px !important;
+  min-width: 110px;
+  min-height: 48px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-align: center;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.botonesCan:active,
+.botonesCan:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 2px #DCBA0F55;
+}
+.botonesCan:hover:not(:disabled) {
+  background-color: #DCBA0F !important;
+  color: #202020 !important;
+  box-shadow: 0 4px 16px rgba(220,186,15,0.12);
+  cursor: pointer;
 }
 
 #hovers {

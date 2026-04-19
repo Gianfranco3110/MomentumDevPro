@@ -113,7 +113,7 @@
       <div class="pt-4 m-auto mt-1 p-2">
         <div class="container">
           <p class="text-footer-botom">
-            © 2021 YariEstylosPmu, Todos los derechos reservados.
+            © 2021 YARIESTILOS PMU, Todos los derechos reservados.
           </p>
         </div>
       </div>

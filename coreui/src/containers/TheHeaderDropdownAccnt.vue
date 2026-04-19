@@ -6,11 +6,11 @@
     add-menu-classes="pt-0"
   >
     <template #toggler>
-      <CHeaderNavLink>
-        <p class="mt-3">{{ userName }}</p>
+      <CHeaderNavLink style="display: flex; align-items: center; gap: 10px;">
+        <p class="mt-3 mb-0">{{ userName }}</p>
         <div class="c-avatar ml-2">
           <img
-            :src="userPhoto || 'img/avatars/icon_user.webp'"
+            :src="userPhoto || 'img/avatars/icon_user.png'"
             class="c-avatar-img"
           />
         </div>
@@ -101,19 +101,11 @@ export default {
   },
 
   mounted: function(){
-    let self = this;   
-    
+    let self = this;
+
     self.userEmail = localStorage.getItem('email');
     self.userName  = localStorage.getItem('name');
     self.userPhoto = localStorage.getItem('photo_url') || null;
-
-    self.$bus.$on('photo-updated', function(url) {
-      self.userPhoto = url;
-    });
-
-    self.$bus.$on('name-updated', function(name) {
-      self.userName = name;
-    });
 
     if (localStorage.getItem('roles') == 'user,admin') {
       self.isAdmin = true;
@@ -129,6 +121,7 @@ export default {
         }
       })
       .catch(function () { /* silent */ });
+
   }
 }
 </script>

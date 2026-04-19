@@ -70,6 +70,43 @@
                   </CInput>
 
                   <CInput
+                    label="País"
+                    placeholder="País"
+                    v-model="form.country"
+                  >
+                    <template #prepend-content><CIcon name="cil-globe-alt" /></template>
+                  </CInput>
+
+                  <CRow>
+                    <CCol md="6">
+                      <CInput
+                        label="Estado / Provincia"
+                        placeholder="Estado o provincia"
+                        v-model="form.stated"
+                      >
+                        <template #prepend-content><CIcon name="cil-location-pin" /></template>
+                      </CInput>
+                    </CCol>
+                    <CCol md="6">
+                      <CInput
+                        label="Municipio"
+                        placeholder="Municipio"
+                        v-model="form.municipality"
+                      >
+                        <template #prepend-content><CIcon name="cil-location-pin" /></template>
+                      </CInput>
+                    </CCol>
+                  </CRow>
+
+                  <CInput
+                    label="Calle"
+                    placeholder="Calle"
+                    v-model="form.street"
+                  >
+                    <template #prepend-content><CIcon name="cil-home" /></template>
+                  </CInput>
+
+                  <CInput
                     label="Dirección completa"
                     placeholder="Dirección de referencia completa"
                     v-model="form.adress_all"
@@ -131,7 +168,7 @@ export default {
       uploadingPhoto: false,
       selectedPhoto: null,
       photoPreview: null,
-      defaultAvatar: 'img/avatars/icon_user.webp',
+      defaultAvatar: 'img/avatars/icon_user.png',
       form: {
         email: '',
         name: '',
@@ -166,7 +203,7 @@ export default {
           self.form.number_document = data.number_document || '';
 
           if (data.photo) {
-            self.photoPreview = self.$apiAdress + data.photo + '?t=' + Date.now();
+            self.photoPreview = self.$apiAdress + data.photo;
             localStorage.setItem('photo_url', self.photoPreview);
           } else {
             self.photoPreview = null;
@@ -200,7 +237,6 @@ export default {
         .then(function () {
           self.Loading = false;
           localStorage.setItem('name', self.form.name);
-          self.$bus.$emit('name-updated', self.form.name);
           self.$swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -238,10 +274,9 @@ export default {
         .then(function (response) {
           self.uploadingPhoto = false;
           self.selectedPhoto = null;
-          const fullUrl = self.$apiAdress + response.data.photo_url + '?t=' + Date.now();
+          const fullUrl = self.$apiAdress + response.data.photo_url;
           self.photoPreview = fullUrl;
           localStorage.setItem('photo_url', fullUrl);
-          self.$bus.$emit('photo-updated', fullUrl);
           self.$swal.fire({
             position: 'top-end',
             icon: 'success',
